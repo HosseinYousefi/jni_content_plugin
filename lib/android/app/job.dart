@@ -9,6 +9,11 @@
 import "dart:ffi" as ffi;
 
 import "package:jni/jni.dart" as jni;
+import "package:content_plugin/android/os.dart" as os;
+
+import "package:content_plugin/android/content.dart" as content;
+
+import "package:content_plugin/android/app.dart" as app;
 import "../../init.dart" show jlookup;
 
 class JobInfo extends jni.JlObject {
@@ -25,7 +30,8 @@ class JobInfo extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_job_JobInfo_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final long DEFAULT_INITIAL_BACKOFF_MILLIS
   static const DEFAULT_INITIAL_BACKOFF_MILLIS = 30000;
@@ -61,7 +67,7 @@ class JobInfo extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: void <init>(android.os.Parcel in)
-  JobInfo(jni.JlObject in_) : super.fromRef(_ctor(in_.reference));
+  JobInfo(os.Parcel in_) : super.fromRef(_ctor(in_.reference));
 
   static final _getMinPeriodMillis =
       jlookup<ffi.NativeFunction<ffi.Int64 Function()>>(
@@ -94,7 +100,8 @@ class JobInfo extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.PersistableBundle getExtras()
-  jni.JlObject getExtras() => jni.JlObject.fromRef(_getExtras(reference));
+  os.PersistableBundle getExtras() =>
+      os.PersistableBundle.fromRef(_getExtras(reference));
 
   static final _getTransientExtras = jlookup<
               ffi.NativeFunction<
@@ -103,8 +110,8 @@ class JobInfo extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle getTransientExtras()
-  jni.JlObject getTransientExtras() =>
-      jni.JlObject.fromRef(_getTransientExtras(reference));
+  os.Bundle getTransientExtras() =>
+      os.Bundle.fromRef(_getTransientExtras(reference));
 
   static final _getClipData = jlookup<
               ffi.NativeFunction<
@@ -113,7 +120,8 @@ class JobInfo extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.ClipData getClipData()
-  jni.JlObject getClipData() => jni.JlObject.fromRef(_getClipData(reference));
+  content.ClipData getClipData() =>
+      content.ClipData.fromRef(_getClipData(reference));
 
   static final _getClipGrantFlags =
       jlookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
@@ -130,7 +138,8 @@ class JobInfo extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.ComponentName getService()
-  jni.JlObject getService() => jni.JlObject.fromRef(_getService(reference));
+  content.ComponentName getService() =>
+      content.ComponentName.fromRef(_getService(reference));
 
   static final _isRequireCharging =
       jlookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
@@ -341,7 +350,7 @@ class JobInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel out, int flags)
-  void writeToParcel(jni.JlObject out, int flags) =>
+  void writeToParcel(os.Parcel out, int flags) =>
       _writeToParcel(reference, out.reference, flags);
 
   static final _toString_1 = jlookup<
@@ -363,7 +372,8 @@ class JobInfo_TriggerContentUri extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_job_JobInfo__TriggerContentUri_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final int FLAG_NOTIFY_FOR_DESCENDANTS
   static const FLAG_NOTIFY_FOR_DESCENDANTS = 1;
@@ -430,7 +440,7 @@ class JobInfo_TriggerContentUri extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel out, int flags)
-  void writeToParcel(jni.JlObject out, int flags) =>
+  void writeToParcel(os.Parcel out, int flags) =>
       _writeToParcel(reference, out.reference, flags);
 }
 
@@ -445,7 +455,7 @@ class JobInfo_Builder extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(int jobId, android.content.ComponentName jobService)
-  JobInfo_Builder(int jobId, jni.JlObject jobService)
+  JobInfo_Builder(int jobId, content.ComponentName jobService)
       : super.fromRef(_ctor(jobId, jobService.reference));
 
   static final _setExtras = jlookup<
@@ -458,7 +468,7 @@ class JobInfo_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.job.JobInfo.Builder setExtras(android.os.PersistableBundle extras)
-  JobInfo_Builder setExtras(jni.JlObject extras) =>
+  JobInfo_Builder setExtras(os.PersistableBundle extras) =>
       JobInfo_Builder.fromRef(_setExtras(reference, extras.reference));
 
   static final _setTransientExtras = jlookup<
@@ -471,7 +481,7 @@ class JobInfo_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.job.JobInfo.Builder setTransientExtras(android.os.Bundle extras)
-  JobInfo_Builder setTransientExtras(jni.JlObject extras) =>
+  JobInfo_Builder setTransientExtras(os.Bundle extras) =>
       JobInfo_Builder.fromRef(_setTransientExtras(reference, extras.reference));
 
   static final _setClipData = jlookup<
@@ -485,7 +495,7 @@ class JobInfo_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.app.job.JobInfo.Builder setClipData(android.content.ClipData clip, int grantFlags)
-  JobInfo_Builder setClipData(jni.JlObject clip, int grantFlags) =>
+  JobInfo_Builder setClipData(content.ClipData clip, int grantFlags) =>
       JobInfo_Builder.fromRef(
           _setClipData(reference, clip.reference, grantFlags));
 
@@ -722,7 +732,8 @@ class JobParameters extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_job_JobParameters_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
           ffi.NativeFunction<
@@ -731,7 +742,7 @@ class JobParameters extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: void <init>(android.os.Parcel in)
-  JobParameters(jni.JlObject in_) : super.fromRef(_ctor(in_.reference));
+  JobParameters(os.Parcel in_) : super.fromRef(_ctor(in_.reference));
 
   static final _getJobId =
       jlookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
@@ -748,7 +759,8 @@ class JobParameters extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.PersistableBundle getExtras()
-  jni.JlObject getExtras() => jni.JlObject.fromRef(_getExtras(reference));
+  os.PersistableBundle getExtras() =>
+      os.PersistableBundle.fromRef(_getExtras(reference));
 
   static final _getTransientExtras = jlookup<
               ffi.NativeFunction<
@@ -757,8 +769,8 @@ class JobParameters extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle getTransientExtras()
-  jni.JlObject getTransientExtras() =>
-      jni.JlObject.fromRef(_getTransientExtras(reference));
+  os.Bundle getTransientExtras() =>
+      os.Bundle.fromRef(_getTransientExtras(reference));
 
   static final _getClipData = jlookup<
               ffi.NativeFunction<
@@ -767,7 +779,8 @@ class JobParameters extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.ClipData getClipData()
-  jni.JlObject getClipData() => jni.JlObject.fromRef(_getClipData(reference));
+  content.ClipData getClipData() =>
+      content.ClipData.fromRef(_getClipData(reference));
 
   static final _getClipGrantFlags =
       jlookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
@@ -852,7 +865,7 @@ class JobParameters extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 }
 
@@ -864,7 +877,8 @@ class JobWorkItem extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_job_JobWorkItem_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
           ffi.NativeFunction<
@@ -873,7 +887,7 @@ class JobWorkItem extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.content.Intent intent)
-  JobWorkItem(jni.JlObject intent) : super.fromRef(_ctor(intent.reference));
+  JobWorkItem(content.Intent intent) : super.fromRef(_ctor(intent.reference));
 
   static final _ctor_1 = jlookup<
           ffi.NativeFunction<
@@ -883,7 +897,7 @@ class JobWorkItem extends jni.JlObject {
           ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int, int)>();
 
   /// from: public void <init>(android.content.Intent intent, long downloadBytes, long uploadBytes)
-  JobWorkItem.ctor_1(jni.JlObject intent, int downloadBytes, int uploadBytes)
+  JobWorkItem.ctor_1(content.Intent intent, int downloadBytes, int uploadBytes)
       : super.fromRef(_ctor_1(intent.reference, downloadBytes, uploadBytes));
 
   static final _getIntent = jlookup<
@@ -893,7 +907,7 @@ class JobWorkItem extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.Intent getIntent()
-  jni.JlObject getIntent() => jni.JlObject.fromRef(_getIntent(reference));
+  content.Intent getIntent() => content.Intent.fromRef(_getIntent(reference));
 
   static final _getEstimatedNetworkDownloadBytes =
       jlookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
@@ -946,7 +960,7 @@ class JobWorkItem extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel out, int flags)
-  void writeToParcel(jni.JlObject out, int flags) =>
+  void writeToParcel(os.Parcel out, int flags) =>
       _writeToParcel(reference, out.reference, flags);
 }
 
@@ -1028,7 +1042,7 @@ class JobScheduler extends jni.JlObject {
       JobInfo.fromRef(_getPendingJob(reference, jobId));
 }
 
-class JobService extends jni.JlObject {
+class JobService extends app.Service {
   JobService.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   /// from: static public final java.lang.String PERMISSION_BIND
@@ -1051,8 +1065,8 @@ class JobService extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public final android.os.IBinder onBind(android.content.Intent intent)
-  jni.JlObject onBind(jni.JlObject intent) =>
-      jni.JlObject.fromRef(_onBind(reference, intent.reference));
+  os.IBinder onBind(content.Intent intent) =>
+      os.IBinder.fromRef(_onBind(reference, intent.reference));
 
   static final _jobFinished = jlookup<
           ffi.NativeFunction<
@@ -1098,7 +1112,7 @@ class JobServiceEngine extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.app.Service service)
-  JobServiceEngine(jni.JlObject service)
+  JobServiceEngine(app.Service service)
       : super.fromRef(_ctor(service.reference));
 
   static final _getBinder = jlookup<
@@ -1108,7 +1122,7 @@ class JobServiceEngine extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public final android.os.IBinder getBinder()
-  jni.JlObject getBinder() => jni.JlObject.fromRef(_getBinder(reference));
+  os.IBinder getBinder() => os.IBinder.fromRef(_getBinder(reference));
 
   static final _onStartJob = jlookup<
               ffi.NativeFunction<

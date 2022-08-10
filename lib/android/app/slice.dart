@@ -9,6 +9,13 @@
 import "dart:ffi" as ffi;
 
 import "package:jni/jni.dart" as jni;
+import "package:content_plugin/android/content.dart" as content;
+
+import "package:content_plugin/android/os.dart" as os;
+
+import "package:content_plugin/android/app.dart" as app;
+
+import "package:content_plugin/android/content/pm.dart" as pm;
 import "../../init.dart" show jlookup;
 
 class SliceManager extends jni.JlObject {
@@ -112,7 +119,7 @@ class SliceManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.net.Uri mapIntentToUri(android.content.Intent intent)
-  jni.JlObject mapIntentToUri(jni.JlObject intent) =>
+  jni.JlObject mapIntentToUri(content.Intent intent) =>
       jni.JlObject.fromRef(_mapIntentToUri(reference, intent.reference));
 
   static final _bindSlice_1 = jlookup<
@@ -125,7 +132,7 @@ class SliceManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.slice.Slice bindSlice(android.content.Intent intent, java.util.Set<android.app.slice.SliceSpec> supportedSpecs)
-  Slice bindSlice_1(jni.JlObject intent, jni.JlObject supportedSpecs) =>
+  Slice bindSlice_1(content.Intent intent, jni.JlObject supportedSpecs) =>
       Slice.fromRef(
           _bindSlice_1(reference, intent.reference, supportedSpecs.reference));
 
@@ -181,7 +188,7 @@ class SliceMetrics extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.content.Context context, android.net.Uri uri)
-  SliceMetrics(jni.JlObject context, jni.JlObject uri)
+  SliceMetrics(content.Context context, jni.JlObject uri)
       : super.fromRef(_ctor(context.reference, uri.reference));
 
   static final _logVisible =
@@ -221,7 +228,8 @@ class SliceItem extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_slice_SliceItem_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final java.lang.String FORMAT_ACTION
   static const FORMAT_ACTION = "action";
@@ -254,7 +262,7 @@ class SliceItem extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: void <init>(android.os.Parcel in)
-  SliceItem(jni.JlObject in_) : super.fromRef(_ctor(in_.reference));
+  SliceItem(os.Parcel in_) : super.fromRef(_ctor(in_.reference));
 
   static final _getHints = jlookup<
               ffi.NativeFunction<
@@ -299,7 +307,7 @@ class SliceItem extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle getBundle()
-  jni.JlObject getBundle() => jni.JlObject.fromRef(_getBundle(reference));
+  os.Bundle getBundle() => os.Bundle.fromRef(_getBundle(reference));
 
   static final _getIcon = jlookup<
               ffi.NativeFunction<
@@ -317,7 +325,8 @@ class SliceItem extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.PendingIntent getAction()
-  jni.JlObject getAction() => jni.JlObject.fromRef(_getAction(reference));
+  app.PendingIntent getAction() =>
+      app.PendingIntent.fromRef(_getAction(reference));
 
   static final _getRemoteInput = jlookup<
               ffi.NativeFunction<
@@ -326,8 +335,8 @@ class SliceItem extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.RemoteInput getRemoteInput()
-  jni.JlObject getRemoteInput() =>
-      jni.JlObject.fromRef(_getRemoteInput(reference));
+  app.RemoteInput getRemoteInput() =>
+      app.RemoteInput.fromRef(_getRemoteInput(reference));
 
   static final _getInt =
       jlookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
@@ -380,11 +389,11 @@ class SliceItem extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 }
 
-class SliceProvider extends jni.JlObject {
+class SliceProvider extends content.ContentProvider {
   SliceProvider.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   /// from: static public final java.lang.String SLICE_TYPE
@@ -418,7 +427,7 @@ class SliceProvider extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void attachInfo(android.content.Context context, android.content.pm.ProviderInfo info)
-  void attachInfo(jni.JlObject context, jni.JlObject info) =>
+  void attachInfo(content.Context context, pm.ProviderInfo info) =>
       _attachInfo(reference, context.reference, info.reference);
 
   static final _onBindSlice = jlookup<
@@ -482,7 +491,7 @@ class SliceProvider extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.net.Uri onMapIntentToUri(android.content.Intent intent)
-  jni.JlObject onMapIntentToUri(jni.JlObject intent) =>
+  jni.JlObject onMapIntentToUri(content.Intent intent) =>
       jni.JlObject.fromRef(_onMapIntentToUri(reference, intent.reference));
 
   static final _onCreatePermissionRequest = jlookup<
@@ -495,8 +504,8 @@ class SliceProvider extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.PendingIntent onCreatePermissionRequest(android.net.Uri sliceUri)
-  jni.JlObject onCreatePermissionRequest(jni.JlObject sliceUri) =>
-      jni.JlObject.fromRef(
+  app.PendingIntent onCreatePermissionRequest(jni.JlObject sliceUri) =>
+      app.PendingIntent.fromRef(
           _onCreatePermissionRequest(reference, sliceUri.reference));
 
   static final _update = jlookup<
@@ -517,8 +526,8 @@ class SliceProvider extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public final int update(android.net.Uri uri, android.content.ContentValues values, java.lang.String selection, java.lang.String[] selectionArgs)
-  int update(jni.JlObject uri, jni.JlObject values, jni.JlString selection,
-          jni.JlObject selectionArgs) =>
+  int update(jni.JlObject uri, content.ContentValues values,
+          jni.JlString selection, jni.JlObject selectionArgs) =>
       _update(reference, uri.reference, values.reference, selection.reference,
           selectionArgs.reference);
 
@@ -602,7 +611,7 @@ class SliceProvider extends jni.JlObject {
           jni.JlString selection,
           jni.JlObject selectionArgs,
           jni.JlString sortOrder,
-          jni.JlObject cancellationSignal) =>
+          os.CancellationSignal cancellationSignal) =>
       jni.JlObject.fromRef(_query_1(
           reference,
           uri.reference,
@@ -631,7 +640,7 @@ class SliceProvider extends jni.JlObject {
 
   /// from: public final android.database.Cursor query(android.net.Uri uri, java.lang.String[] projection, android.os.Bundle queryArgs, android.os.CancellationSignal cancellationSignal)
   jni.JlObject query_2(jni.JlObject uri, jni.JlObject projection,
-          jni.JlObject queryArgs, jni.JlObject cancellationSignal) =>
+          os.Bundle queryArgs, os.CancellationSignal cancellationSignal) =>
       jni.JlObject.fromRef(_query_2(
           reference,
           uri.reference,
@@ -649,7 +658,7 @@ class SliceProvider extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public final android.net.Uri insert(android.net.Uri uri, android.content.ContentValues values)
-  jni.JlObject insert(jni.JlObject uri, jni.JlObject values) =>
+  jni.JlObject insert(jni.JlObject uri, content.ContentValues values) =>
       jni.JlObject.fromRef(_insert(reference, uri.reference, values.reference));
 
   static final _getType = jlookup<
@@ -681,9 +690,8 @@ class SliceProvider extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle call(java.lang.String method, java.lang.String arg, android.os.Bundle extras)
-  jni.JlObject call(
-          jni.JlString method, jni.JlString arg, jni.JlObject extras) =>
-      jni.JlObject.fromRef(
+  os.Bundle call(jni.JlString method, jni.JlString arg, os.Bundle extras) =>
+      os.Bundle.fromRef(
           _call(reference, method.reference, arg.reference, extras.reference));
 }
 
@@ -695,7 +703,8 @@ class SliceSpec extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_slice_SliceSpec_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
           ffi.NativeFunction<
@@ -723,7 +732,7 @@ class SliceSpec extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 
   static final _getType = jlookup<
@@ -782,7 +791,8 @@ class Slice extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_slice_Slice_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final java.lang.String EXTRA_RANGE_VALUE
   static const EXTRA_RANGE_VALUE = "android.app.slice.extra.RANGE_VALUE";
@@ -881,7 +891,7 @@ class Slice extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void <init>(android.os.Parcel in)
-  Slice(jni.JlObject in_) : super.fromRef(_ctor(in_.reference));
+  Slice(os.Parcel in_) : super.fromRef(_ctor(in_.reference));
 
   static final _getSpec = jlookup<
           ffi.NativeFunction<
@@ -927,7 +937,7 @@ class Slice extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 
   static final _describeContents =
@@ -1036,7 +1046,8 @@ class Slice_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.slice.Slice.Builder addAction(android.app.PendingIntent action, android.app.slice.Slice s, java.lang.String subType)
-  Slice_Builder addAction(jni.JlObject action, Slice s, jni.JlString subType) =>
+  Slice_Builder addAction(
+          app.PendingIntent action, Slice s, jni.JlString subType) =>
       Slice_Builder.fromRef(_addAction(
           reference, action.reference, s.reference, subType.reference));
 
@@ -1098,8 +1109,8 @@ class Slice_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.slice.Slice.Builder addRemoteInput(android.app.RemoteInput remoteInput, java.lang.String subType, java.util.List<java.lang.String> hints)
-  Slice_Builder addRemoteInput(
-          jni.JlObject remoteInput, jni.JlString subType, jni.JlObject hints) =>
+  Slice_Builder addRemoteInput(app.RemoteInput remoteInput,
+          jni.JlString subType, jni.JlObject hints) =>
       Slice_Builder.fromRef(_addRemoteInput(reference, remoteInput.reference,
           subType.reference, hints.reference));
 
@@ -1154,7 +1165,7 @@ class Slice_Builder extends jni.JlObject {
 
   /// from: public android.app.slice.Slice.Builder addBundle(android.os.Bundle bundle, java.lang.String subType, java.util.List<java.lang.String> hints)
   Slice_Builder addBundle(
-          jni.JlObject bundle, jni.JlString subType, jni.JlObject hints) =>
+          os.Bundle bundle, jni.JlString subType, jni.JlObject hints) =>
       Slice_Builder.fromRef(_addBundle(
           reference, bundle.reference, subType.reference, hints.reference));
 

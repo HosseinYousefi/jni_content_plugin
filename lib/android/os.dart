@@ -10,6 +10,8 @@ import "dart:ffi" as ffi;
 
 import "package:jni/jni.dart" as jni;
 import "os/strictmode.dart" as strictmode;
+
+import "package:content_plugin/android/content.dart" as content;
 import "../init.dart" show jlookup;
 
 class WorkSource extends jni.JlObject {
@@ -1499,7 +1501,8 @@ class RecoverySystem extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: static public void installPackage(android.content.Context context, java.io.File packageFile)
-  static void installPackage(jni.JlObject context, jni.JlObject packageFile) =>
+  static void installPackage(
+          content.Context context, jni.JlObject packageFile) =>
       _installPackage(context.reference, packageFile.reference);
 
   static final _rebootWipeUserData =
@@ -1508,7 +1511,7 @@ class RecoverySystem extends jni.JlObject {
           .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public void rebootWipeUserData(android.content.Context context)
-  static void rebootWipeUserData(jni.JlObject context) =>
+  static void rebootWipeUserData(content.Context context) =>
       _rebootWipeUserData(context.reference);
 
   static final _rebootWipeCache =
@@ -1517,7 +1520,7 @@ class RecoverySystem extends jni.JlObject {
           .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public void rebootWipeCache(android.content.Context context)
-  static void rebootWipeCache(jni.JlObject context) =>
+  static void rebootWipeCache(content.Context context) =>
       _rebootWipeCache(context.reference);
 }
 
@@ -2290,37 +2293,6 @@ class ParcelFileDescriptor_AutoCloseInputStream extends jni.JlObject {
 
   /// from: public void close()
   void close() => _close(reference);
-
-  static final _read =
-      jlookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_os_ParcelFileDescriptor__AutoCloseInputStream_read")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int read()
-  int read() => _read(reference);
-
-  static final _read_1 = jlookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_os_ParcelFileDescriptor__AutoCloseInputStream_read_1")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int read(byte[] b)
-  int read_1(jni.JlObject b) => _read_1(reference, b.reference);
-
-  static final _read_2 = jlookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32, ffi.Int32)>>(
-          "android_os_ParcelFileDescriptor__AutoCloseInputStream_read_2")
-      .asFunction<
-          int Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int, int)>();
-
-  /// from: public int read(byte[] b, int off, int len)
-  int read_2(jni.JlObject b, int off, int len) =>
-      _read_2(reference, b.reference, off, len);
 }
 
 class DeadSystemException extends DeadObjectException {
@@ -9558,12 +9530,12 @@ class UserManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: static public android.content.Intent createUserCreationIntent(java.lang.String userName, java.lang.String accountName, java.lang.String accountType, android.os.PersistableBundle accountOptions)
-  static jni.JlObject createUserCreationIntent(
+  static content.Intent createUserCreationIntent(
           jni.JlString userName,
           jni.JlString accountName,
           jni.JlString accountType,
           PersistableBundle accountOptions) =>
-      jni.JlObject.fromRef(_createUserCreationIntent(
+      content.Intent.fromRef(_createUserCreationIntent(
           userName.reference,
           accountName.reference,
           accountType.reference,

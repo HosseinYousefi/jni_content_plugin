@@ -9,6 +9,9 @@
 import "dart:ffi" as ffi;
 
 import "package:jni/jni.dart" as jni;
+import "package:content_plugin/android/os.dart" as os;
+
+import "package:content_plugin/android/content/res.dart" as res;
 import "../../init.dart" show jlookup;
 
 class UsageStatsManager extends jni.JlObject {
@@ -328,7 +331,7 @@ class NetworkStatsManager extends jni.JlObject {
           jni.JlString subscriberId,
           int thresholdBytes,
           NetworkStatsManager_UsageCallback callback,
-          jni.JlObject handler) =>
+          os.Handler handler) =>
       _registerUsageCallback_1(reference, networkType, subscriberId.reference,
           thresholdBytes, callback.reference, handler.reference);
 
@@ -420,7 +423,7 @@ class StorageStatsManager extends jni.JlObject {
 
   /// from: public android.app.usage.StorageStats queryStatsForPackage(java.util.UUID storageUuid, java.lang.String packageName, android.os.UserHandle user)
   StorageStats queryStatsForPackage(jni.JlObject storageUuid,
-          jni.JlString packageName, jni.JlObject user) =>
+          jni.JlString packageName, os.UserHandle user) =>
       StorageStats.fromRef(_queryStatsForPackage(reference,
           storageUuid.reference, packageName.reference, user.reference));
 
@@ -448,7 +451,8 @@ class StorageStatsManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.usage.StorageStats queryStatsForUser(java.util.UUID storageUuid, android.os.UserHandle user)
-  StorageStats queryStatsForUser(jni.JlObject storageUuid, jni.JlObject user) =>
+  StorageStats queryStatsForUser(
+          jni.JlObject storageUuid, os.UserHandle user) =>
       StorageStats.fromRef(
           _queryStatsForUser(reference, storageUuid.reference, user.reference));
 
@@ -463,7 +467,7 @@ class StorageStatsManager extends jni.JlObject {
 
   /// from: public android.app.usage.ExternalStorageStats queryExternalStatsForUser(java.util.UUID storageUuid, android.os.UserHandle user)
   ExternalStorageStats queryExternalStatsForUser(
-          jni.JlObject storageUuid, jni.JlObject user) =>
+          jni.JlObject storageUuid, os.UserHandle user) =>
       ExternalStorageStats.fromRef(_queryExternalStatsForUser(
           reference, storageUuid.reference, user.reference));
 }
@@ -476,7 +480,8 @@ class UsageStats extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_usage_UsageStats_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
           ffi.NativeFunction<
@@ -555,7 +560,7 @@ class UsageStats extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 }
 
@@ -567,7 +572,8 @@ class UsageEvents extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_usage_UsageEvents_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor =
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
@@ -612,7 +618,7 @@ class UsageEvents extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 }
 
@@ -702,8 +708,8 @@ class UsageEvents_Event extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.res.Configuration getConfiguration()
-  jni.JlObject getConfiguration() =>
-      jni.JlObject.fromRef(_getConfiguration(reference));
+  res.Configuration getConfiguration() =>
+      res.Configuration.fromRef(_getConfiguration(reference));
 
   static final _getShortcutId = jlookup<
               ffi.NativeFunction<
@@ -732,7 +738,8 @@ class EventStats extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_usage_EventStats_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
           ffi.NativeFunction<
@@ -817,7 +824,7 @@ class EventStats extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 }
 
@@ -829,7 +836,8 @@ class StorageStats extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_usage_StorageStats_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor =
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
@@ -879,7 +887,7 @@ class StorageStats extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 }
 
@@ -891,7 +899,8 @@ class ExternalStorageStats extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_usage_ExternalStorageStats_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor =
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
@@ -958,7 +967,7 @@ class ExternalStorageStats extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 }
 
@@ -1173,7 +1182,8 @@ class ConfigurationStats extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_usage_ConfigurationStats_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
               ffi.NativeFunction<
@@ -1192,8 +1202,8 @@ class ConfigurationStats extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.res.Configuration getConfiguration()
-  jni.JlObject getConfiguration() =>
-      jni.JlObject.fromRef(_getConfiguration(reference));
+  res.Configuration getConfiguration() =>
+      res.Configuration.fromRef(_getConfiguration(reference));
 
   static final _getFirstTimeStamp =
       jlookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
@@ -1252,6 +1262,6 @@ class ConfigurationStats extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 }

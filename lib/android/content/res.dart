@@ -9,6 +9,7 @@
 import "dart:ffi" as ffi;
 
 import "package:jni/jni.dart" as jni;
+import "package:content_plugin/android/os.dart" as os;
 import "../../init.dart" show jlookup;
 
 class ObbInfo extends jni.JlObject {
@@ -19,7 +20,8 @@ class ObbInfo extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_res_ObbInfo_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final int OBB_OVERLAY
   static const OBB_OVERLAY = 1;
@@ -135,7 +137,7 @@ class ObbInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int parcelableFlags)
-  void writeToParcel(jni.JlObject dest, int parcelableFlags) =>
+  void writeToParcel(os.Parcel dest, int parcelableFlags) =>
       _writeToParcel(reference, dest.reference, parcelableFlags);
 }
 
@@ -147,7 +149,8 @@ class ColorStateList extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_res_ColorStateList_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
               ffi.NativeFunction<
@@ -279,7 +282,7 @@ class ColorStateList extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 }
 
@@ -553,7 +556,8 @@ class AssetFileDescriptor extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_res_AssetFileDescriptor_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final long UNKNOWN_LENGTH
   static const UNKNOWN_LENGTH = -1;
@@ -566,7 +570,7 @@ class AssetFileDescriptor extends jni.JlObject {
           ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int, int)>();
 
   /// from: public void <init>(android.os.ParcelFileDescriptor fd, long startOffset, long length)
-  AssetFileDescriptor(jni.JlObject fd, int startOffset, int length)
+  AssetFileDescriptor(os.ParcelFileDescriptor fd, int startOffset, int length)
       : super.fromRef(_ctor(fd.reference, startOffset, length));
 
   static final _ctor_1 = jlookup<
@@ -580,7 +584,7 @@ class AssetFileDescriptor extends jni.JlObject {
 
   /// from: public void <init>(android.os.ParcelFileDescriptor fd, long startOffset, long length, android.os.Bundle extras)
   AssetFileDescriptor.ctor_1(
-      jni.JlObject fd, int startOffset, int length, jni.JlObject extras)
+      os.ParcelFileDescriptor fd, int startOffset, int length, os.Bundle extras)
       : super.fromRef(
             _ctor_1(fd.reference, startOffset, length, extras.reference));
 
@@ -591,8 +595,8 @@ class AssetFileDescriptor extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.ParcelFileDescriptor getParcelFileDescriptor()
-  jni.JlObject getParcelFileDescriptor() =>
-      jni.JlObject.fromRef(_getParcelFileDescriptor(reference));
+  os.ParcelFileDescriptor getParcelFileDescriptor() =>
+      os.ParcelFileDescriptor.fromRef(_getParcelFileDescriptor(reference));
 
   static final _getFileDescriptor = jlookup<
               ffi.NativeFunction<
@@ -619,7 +623,7 @@ class AssetFileDescriptor extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle getExtras()
-  jni.JlObject getExtras() => jni.JlObject.fromRef(_getExtras(reference));
+  os.Bundle getExtras() => os.Bundle.fromRef(_getExtras(reference));
 
   static final _getLength =
       jlookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
@@ -691,11 +695,12 @@ class AssetFileDescriptor extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel out, int flags)
-  void writeToParcel(jni.JlObject out, int flags) =>
+  void writeToParcel(os.Parcel out, int flags) =>
       _writeToParcel(reference, out.reference, flags);
 }
 
-class AssetFileDescriptor_AutoCloseOutputStream extends jni.JlObject {
+class AssetFileDescriptor_AutoCloseOutputStream
+    extends os.ParcelFileDescriptor_AutoCloseOutputStream {
   AssetFileDescriptor_AutoCloseOutputStream.fromRef(ffi.Pointer<ffi.Void> ref)
       : super.fromRef(ref);
 
@@ -743,7 +748,8 @@ class AssetFileDescriptor_AutoCloseOutputStream extends jni.JlObject {
   void write_2(int oneByte) => _write_2(reference, oneByte);
 }
 
-class AssetFileDescriptor_AutoCloseInputStream extends jni.JlObject {
+class AssetFileDescriptor_AutoCloseInputStream
+    extends os.ParcelFileDescriptor_AutoCloseInputStream {
   AssetFileDescriptor_AutoCloseInputStream.fromRef(ffi.Pointer<ffi.Void> ref)
       : super.fromRef(ref);
 
@@ -869,7 +875,8 @@ class Configuration extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_res_Configuration_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final int DENSITY_DPI_UNDEFINED
   static const DENSITY_DPI_UNDEFINED = 0;
@@ -1492,7 +1499,7 @@ class Configuration extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 
   static final _readFromParcel = jlookup<
@@ -1504,7 +1511,7 @@ class Configuration extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void readFromParcel(android.os.Parcel source)
-  void readFromParcel(jni.JlObject source) =>
+  void readFromParcel(os.Parcel source) =>
       _readFromParcel(reference, source.reference);
 
   static final _compareTo = jlookup<
@@ -1553,7 +1560,7 @@ class Configuration extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.LocaleList getLocales()
-  jni.JlObject getLocales() => jni.JlObject.fromRef(_getLocales(reference));
+  os.LocaleList getLocales() => os.LocaleList.fromRef(_getLocales(reference));
 
   static final _setLocales = jlookup<
               ffi.NativeFunction<
@@ -1564,7 +1571,7 @@ class Configuration extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setLocales(android.os.LocaleList locales)
-  void setLocales(jni.JlObject locales) =>
+  void setLocales(os.LocaleList locales) =>
       _setLocales(reference, locales.reference);
 
   static final _setLocale = jlookup<
@@ -2534,7 +2541,7 @@ class Resources extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void parseBundleExtras(android.content.res.XmlResourceParser parser, android.os.Bundle outBundle)
-  void parseBundleExtras(XmlResourceParser parser, jni.JlObject outBundle) =>
+  void parseBundleExtras(XmlResourceParser parser, os.Bundle outBundle) =>
       _parseBundleExtras(reference, parser.reference, outBundle.reference);
 
   static final _parseBundleExtra = jlookup<
@@ -2551,7 +2558,7 @@ class Resources extends jni.JlObject {
 
   /// from: public void parseBundleExtra(java.lang.String tagName, android.util.AttributeSet attrs, android.os.Bundle outBundle)
   void parseBundleExtra(
-          jni.JlString tagName, jni.JlObject attrs, jni.JlObject outBundle) =>
+          jni.JlString tagName, jni.JlObject attrs, os.Bundle outBundle) =>
       _parseBundleExtra(
           reference, tagName.reference, attrs.reference, outBundle.reference);
 

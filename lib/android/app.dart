@@ -9,7 +9,15 @@
 import "dart:ffi" as ffi;
 
 import "package:jni/jni.dart" as jni;
+import "package:content_plugin/android/content.dart" as content;
+
+import "package:content_plugin/android/os.dart" as os;
+
 import "app/assist.dart" as assist;
+
+import "package:content_plugin/android/content/res.dart" as res;
+
+import "package:content_plugin/android/content/pm.dart" as pm;
 import "../init.dart" show jlookup;
 
 class Activity extends jni.JlObject {
@@ -62,7 +70,7 @@ class Activity extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.Intent getIntent()
-  jni.JlObject getIntent() => jni.JlObject.fromRef(_getIntent(reference));
+  content.Intent getIntent() => content.Intent.fromRef(_getIntent(reference));
 
   static final _setIntent = jlookup<
           ffi.NativeFunction<
@@ -72,7 +80,7 @@ class Activity extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setIntent(android.content.Intent newIntent)
-  void setIntent(jni.JlObject newIntent) =>
+  void setIntent(content.Intent newIntent) =>
       _setIntent(reference, newIntent.reference);
 
   static final _getApplication = jlookup<
@@ -150,7 +158,7 @@ class Activity extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void attachBaseContext(android.content.Context newBase)
-  void attachBaseContext(jni.JlObject newBase) =>
+  void attachBaseContext(content.Context newBase) =>
       _attachBaseContext(reference, newBase.reference);
 
   static final _onCreate = jlookup<
@@ -161,7 +169,7 @@ class Activity extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void onCreate(android.os.Bundle savedInstanceState)
-  void onCreate(jni.JlObject savedInstanceState) =>
+  void onCreate(os.Bundle savedInstanceState) =>
       _onCreate(reference, savedInstanceState.reference);
 
   static final _onCreate_1 = jlookup<
@@ -174,7 +182,7 @@ class Activity extends jni.JlObject {
 
   /// from: public void onCreate(android.os.Bundle savedInstanceState, android.os.PersistableBundle persistentState)
   void onCreate_1(
-          jni.JlObject savedInstanceState, jni.JlObject persistentState) =>
+          os.Bundle savedInstanceState, os.PersistableBundle persistentState) =>
       _onCreate_1(
           reference, savedInstanceState.reference, persistentState.reference);
 
@@ -187,7 +195,7 @@ class Activity extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void onRestoreInstanceState(android.os.Bundle savedInstanceState)
-  void onRestoreInstanceState(jni.JlObject savedInstanceState) =>
+  void onRestoreInstanceState(os.Bundle savedInstanceState) =>
       _onRestoreInstanceState(reference, savedInstanceState.reference);
 
   static final _onRestoreInstanceState_1 = jlookup<
@@ -201,7 +209,7 @@ class Activity extends jni.JlObject {
 
   /// from: public void onRestoreInstanceState(android.os.Bundle savedInstanceState, android.os.PersistableBundle persistentState)
   void onRestoreInstanceState_1(
-          jni.JlObject savedInstanceState, jni.JlObject persistentState) =>
+          os.Bundle savedInstanceState, os.PersistableBundle persistentState) =>
       _onRestoreInstanceState_1(
           reference, savedInstanceState.reference, persistentState.reference);
 
@@ -213,7 +221,7 @@ class Activity extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void onPostCreate(android.os.Bundle savedInstanceState)
-  void onPostCreate(jni.JlObject savedInstanceState) =>
+  void onPostCreate(os.Bundle savedInstanceState) =>
       _onPostCreate(reference, savedInstanceState.reference);
 
   static final _onPostCreate_1 = jlookup<
@@ -227,7 +235,7 @@ class Activity extends jni.JlObject {
 
   /// from: public void onPostCreate(android.os.Bundle savedInstanceState, android.os.PersistableBundle persistentState)
   void onPostCreate_1(
-          jni.JlObject savedInstanceState, jni.JlObject persistentState) =>
+          os.Bundle savedInstanceState, os.PersistableBundle persistentState) =>
       _onPostCreate_1(
           reference, savedInstanceState.reference, persistentState.reference);
 
@@ -315,7 +323,7 @@ class Activity extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void startLocalVoiceInteraction(android.os.Bundle privateOptions)
-  void startLocalVoiceInteraction(jni.JlObject privateOptions) =>
+  void startLocalVoiceInteraction(os.Bundle privateOptions) =>
       _startLocalVoiceInteraction(reference, privateOptions.reference);
 
   static final _onLocalVoiceInteractionStarted =
@@ -352,7 +360,7 @@ class Activity extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void onNewIntent(android.content.Intent intent)
-  void onNewIntent(jni.JlObject intent) =>
+  void onNewIntent(content.Intent intent) =>
       _onNewIntent(reference, intent.reference);
 
   static final _onSaveInstanceState = jlookup<
@@ -364,7 +372,7 @@ class Activity extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void onSaveInstanceState(android.os.Bundle outState)
-  void onSaveInstanceState(jni.JlObject outState) =>
+  void onSaveInstanceState(os.Bundle outState) =>
       _onSaveInstanceState(reference, outState.reference);
 
   static final _onSaveInstanceState_1 = jlookup<
@@ -378,7 +386,7 @@ class Activity extends jni.JlObject {
 
   /// from: public void onSaveInstanceState(android.os.Bundle outState, android.os.PersistableBundle outPersistentState)
   void onSaveInstanceState_1(
-          jni.JlObject outState, jni.JlObject outPersistentState) =>
+          os.Bundle outState, os.PersistableBundle outPersistentState) =>
       _onSaveInstanceState_1(
           reference, outState.reference, outPersistentState.reference);
 
@@ -430,7 +438,7 @@ class Activity extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onProvideAssistData(android.os.Bundle data)
-  void onProvideAssistData(jni.JlObject data) =>
+  void onProvideAssistData(os.Bundle data) =>
       _onProvideAssistData(reference, data.reference);
 
   static final _onProvideAssistContent = jlookup<
@@ -488,7 +496,7 @@ class Activity extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean showAssist(android.os.Bundle args)
-  bool showAssist(jni.JlObject args) =>
+  bool showAssist(os.Bundle args) =>
       _showAssist(reference, args.reference) != 0;
 
   static final _onStop =
@@ -525,7 +533,7 @@ class Activity extends jni.JlObject {
 
   /// from: public void onMultiWindowModeChanged(boolean isInMultiWindowMode, android.content.res.Configuration newConfig)
   void onMultiWindowModeChanged(
-          bool isInMultiWindowMode, jni.JlObject newConfig) =>
+          bool isInMultiWindowMode, res.Configuration newConfig) =>
       _onMultiWindowModeChanged(
           reference, isInMultiWindowMode ? 1 : 0, newConfig.reference);
 
@@ -557,7 +565,7 @@ class Activity extends jni.JlObject {
 
   /// from: public void onPictureInPictureModeChanged(boolean isInPictureInPictureMode, android.content.res.Configuration newConfig)
   void onPictureInPictureModeChanged(
-          bool isInPictureInPictureMode, jni.JlObject newConfig) =>
+          bool isInPictureInPictureMode, res.Configuration newConfig) =>
       _onPictureInPictureModeChanged(
           reference, isInPictureInPictureMode ? 1 : 0, newConfig.reference);
 
@@ -629,7 +637,7 @@ class Activity extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onConfigurationChanged(android.content.res.Configuration newConfig)
-  void onConfigurationChanged(jni.JlObject newConfig) =>
+  void onConfigurationChanged(res.Configuration newConfig) =>
       _onConfigurationChanged(reference, newConfig.reference);
 
   static final _getChangingConfigurations =
@@ -1387,7 +1395,7 @@ class Activity extends jni.JlObject {
               ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected android.app.Dialog onCreateDialog(int id, android.os.Bundle args)
-  Dialog onCreateDialog_1(int id, jni.JlObject args) =>
+  Dialog onCreateDialog_1(int id, os.Bundle args) =>
       Dialog.fromRef(_onCreateDialog_1(reference, id, args.reference));
 
   static final _onPrepareDialog = jlookup<
@@ -1412,7 +1420,7 @@ class Activity extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void onPrepareDialog(int id, android.app.Dialog dialog, android.os.Bundle args)
-  void onPrepareDialog_1(int id, Dialog dialog, jni.JlObject args) =>
+  void onPrepareDialog_1(int id, Dialog dialog, os.Bundle args) =>
       _onPrepareDialog_1(reference, id, dialog.reference, args.reference);
 
   static final _showDialog = jlookup<
@@ -1432,7 +1440,7 @@ class Activity extends jni.JlObject {
           int Function(ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public final boolean showDialog(int id, android.os.Bundle args)
-  bool showDialog_1(int id, jni.JlObject args) =>
+  bool showDialog_1(int id, os.Bundle args) =>
       _showDialog_1(reference, id, args.reference) != 0;
 
   static final _dismissDialog = jlookup<
@@ -1496,7 +1504,7 @@ class Activity extends jni.JlObject {
 
   /// from: public void startSearch(java.lang.String initialQuery, boolean selectInitialQuery, android.os.Bundle appSearchData, boolean globalSearch)
   void startSearch(jni.JlString initialQuery, bool selectInitialQuery,
-          jni.JlObject appSearchData, bool globalSearch) =>
+          os.Bundle appSearchData, bool globalSearch) =>
       _startSearch(
           reference,
           initialQuery.reference,
@@ -1513,7 +1521,7 @@ class Activity extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void triggerSearch(java.lang.String query, android.os.Bundle appSearchData)
-  void triggerSearch(jni.JlString query, jni.JlObject appSearchData) =>
+  void triggerSearch(jni.JlString query, os.Bundle appSearchData) =>
       _triggerSearch(reference, query.reference, appSearchData.reference);
 
   static final _takeKeyEvents = jlookup<
@@ -1621,7 +1629,7 @@ class Activity extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int, int)>();
 
   /// from: protected void onApplyThemeResource(android.content.res.Resources.Theme theme, int resid, boolean first)
-  void onApplyThemeResource(jni.JlObject theme, int resid, bool first) =>
+  void onApplyThemeResource(res.Resources_Theme theme, int resid, bool first) =>
       _onApplyThemeResource(reference, theme.reference, resid, first ? 1 : 0);
 
   static final _requestPermissions = jlookup<
@@ -1670,7 +1678,7 @@ class Activity extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void startActivityForResult(android.content.Intent intent, int requestCode)
-  void startActivityForResult(jni.JlObject intent, int requestCode) =>
+  void startActivityForResult(content.Intent intent, int requestCode) =>
       _startActivityForResult(reference, intent.reference, requestCode);
 
   static final _startActivityForResult_1 = jlookup<
@@ -1687,7 +1695,7 @@ class Activity extends jni.JlObject {
 
   /// from: public void startActivityForResult(android.content.Intent intent, int requestCode, android.os.Bundle options)
   void startActivityForResult_1(
-          jni.JlObject intent, int requestCode, jni.JlObject options) =>
+          content.Intent intent, int requestCode, os.Bundle options) =>
       _startActivityForResult_1(
           reference, intent.reference, requestCode, options.reference);
 
@@ -1717,9 +1725,9 @@ class Activity extends jni.JlObject {
 
   /// from: public void startIntentSenderForResult(android.content.IntentSender intent, int requestCode, android.content.Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags)
   void startIntentSenderForResult(
-          jni.JlObject intent,
+          content.IntentSender intent,
           int requestCode,
-          jni.JlObject fillInIntent,
+          content.Intent fillInIntent,
           int flagsMask,
           int flagsValues,
           int extraFlags) =>
@@ -1744,13 +1752,13 @@ class Activity extends jni.JlObject {
 
   /// from: public void startIntentSenderForResult(android.content.IntentSender intent, int requestCode, android.content.Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags, android.os.Bundle options)
   void startIntentSenderForResult_1(
-          jni.JlObject intent,
+          content.IntentSender intent,
           int requestCode,
-          jni.JlObject fillInIntent,
+          content.Intent fillInIntent,
           int flagsMask,
           int flagsValues,
           int extraFlags,
-          jni.JlObject options) =>
+          os.Bundle options) =>
       _startIntentSenderForResult_1(
           reference,
           intent.reference,
@@ -1769,7 +1777,7 @@ class Activity extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void startActivity(android.content.Intent intent)
-  void startActivity(jni.JlObject intent) =>
+  void startActivity(content.Intent intent) =>
       _startActivity(reference, intent.reference);
 
   static final _startActivity_1 = jlookup<
@@ -1782,7 +1790,7 @@ class Activity extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void startActivity(android.content.Intent intent, android.os.Bundle options)
-  void startActivity_1(jni.JlObject intent, jni.JlObject options) =>
+  void startActivity_1(content.Intent intent, os.Bundle options) =>
       _startActivity_1(reference, intent.reference, options.reference);
 
   static final _startActivities = jlookup<
@@ -1807,7 +1815,7 @@ class Activity extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void startActivities(android.content.Intent[] intents, android.os.Bundle options)
-  void startActivities_1(jni.JlObject intents, jni.JlObject options) =>
+  void startActivities_1(jni.JlObject intents, os.Bundle options) =>
       _startActivities_1(reference, intents.reference, options.reference);
 
   static final _startIntentSender = jlookup<
@@ -1824,8 +1832,12 @@ class Activity extends jni.JlObject {
               ffi.Pointer<ffi.Void>, int, int, int)>();
 
   /// from: public void startIntentSender(android.content.IntentSender intent, android.content.Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags)
-  void startIntentSender(jni.JlObject intent, jni.JlObject fillInIntent,
-          int flagsMask, int flagsValues, int extraFlags) =>
+  void startIntentSender(
+          content.IntentSender intent,
+          content.Intent fillInIntent,
+          int flagsMask,
+          int flagsValues,
+          int extraFlags) =>
       _startIntentSender(reference, intent.reference, fillInIntent.reference,
           flagsMask, flagsValues, extraFlags);
 
@@ -1846,12 +1858,12 @@ class Activity extends jni.JlObject {
 
   /// from: public void startIntentSender(android.content.IntentSender intent, android.content.Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags, android.os.Bundle options)
   void startIntentSender_1(
-          jni.JlObject intent,
-          jni.JlObject fillInIntent,
+          content.IntentSender intent,
+          content.Intent fillInIntent,
           int flagsMask,
           int flagsValues,
           int extraFlags,
-          jni.JlObject options) =>
+          os.Bundle options) =>
       _startIntentSender_1(reference, intent.reference, fillInIntent.reference,
           flagsMask, flagsValues, extraFlags, options.reference);
 
@@ -1863,7 +1875,7 @@ class Activity extends jni.JlObject {
           int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public boolean startActivityIfNeeded(android.content.Intent intent, int requestCode)
-  bool startActivityIfNeeded(jni.JlObject intent, int requestCode) =>
+  bool startActivityIfNeeded(content.Intent intent, int requestCode) =>
       _startActivityIfNeeded(reference, intent.reference, requestCode) != 0;
 
   static final _startActivityIfNeeded_1 = jlookup<
@@ -1880,7 +1892,7 @@ class Activity extends jni.JlObject {
 
   /// from: public boolean startActivityIfNeeded(android.content.Intent intent, int requestCode, android.os.Bundle options)
   bool startActivityIfNeeded_1(
-          jni.JlObject intent, int requestCode, jni.JlObject options) =>
+          content.Intent intent, int requestCode, os.Bundle options) =>
       _startActivityIfNeeded_1(
           reference, intent.reference, requestCode, options.reference) !=
       0;
@@ -1893,7 +1905,7 @@ class Activity extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean startNextMatchingActivity(android.content.Intent intent)
-  bool startNextMatchingActivity(jni.JlObject intent) =>
+  bool startNextMatchingActivity(content.Intent intent) =>
       _startNextMatchingActivity(reference, intent.reference) != 0;
 
   static final _startNextMatchingActivity_1 = jlookup<
@@ -1906,7 +1918,7 @@ class Activity extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean startNextMatchingActivity(android.content.Intent intent, android.os.Bundle options)
-  bool startNextMatchingActivity_1(jni.JlObject intent, jni.JlObject options) =>
+  bool startNextMatchingActivity_1(content.Intent intent, os.Bundle options) =>
       _startNextMatchingActivity_1(
           reference, intent.reference, options.reference) !=
       0;
@@ -1924,7 +1936,7 @@ class Activity extends jni.JlObject {
 
   /// from: public void startActivityFromChild(android.app.Activity child, android.content.Intent intent, int requestCode)
   void startActivityFromChild(
-          Activity child, jni.JlObject intent, int requestCode) =>
+          Activity child, content.Intent intent, int requestCode) =>
       _startActivityFromChild(
           reference, child.reference, intent.reference, requestCode);
 
@@ -1942,8 +1954,8 @@ class Activity extends jni.JlObject {
               ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void startActivityFromChild(android.app.Activity child, android.content.Intent intent, int requestCode, android.os.Bundle options)
-  void startActivityFromChild_1(Activity child, jni.JlObject intent,
-          int requestCode, jni.JlObject options) =>
+  void startActivityFromChild_1(Activity child, content.Intent intent,
+          int requestCode, os.Bundle options) =>
       _startActivityFromChild_1(reference, child.reference, intent.reference,
           requestCode, options.reference);
 
@@ -1960,7 +1972,7 @@ class Activity extends jni.JlObject {
 
   /// from: public void startActivityFromFragment(android.app.Fragment fragment, android.content.Intent intent, int requestCode)
   void startActivityFromFragment(
-          Fragment fragment, jni.JlObject intent, int requestCode) =>
+          Fragment fragment, content.Intent intent, int requestCode) =>
       _startActivityFromFragment(
           reference, fragment.reference, intent.reference, requestCode);
 
@@ -1978,8 +1990,8 @@ class Activity extends jni.JlObject {
               ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void startActivityFromFragment(android.app.Fragment fragment, android.content.Intent intent, int requestCode, android.os.Bundle options)
-  void startActivityFromFragment_1(Fragment fragment, jni.JlObject intent,
-          int requestCode, jni.JlObject options) =>
+  void startActivityFromFragment_1(Fragment fragment, content.Intent intent,
+          int requestCode, os.Bundle options) =>
       _startActivityFromFragment_1(reference, fragment.reference,
           intent.reference, requestCode, options.reference);
 
@@ -2009,9 +2021,9 @@ class Activity extends jni.JlObject {
   /// from: public void startIntentSenderFromChild(android.app.Activity child, android.content.IntentSender intent, int requestCode, android.content.Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags)
   void startIntentSenderFromChild(
           Activity child,
-          jni.JlObject intent,
+          content.IntentSender intent,
           int requestCode,
-          jni.JlObject fillInIntent,
+          content.Intent fillInIntent,
           int flagsMask,
           int flagsValues,
           int extraFlags) =>
@@ -2053,13 +2065,13 @@ class Activity extends jni.JlObject {
   /// from: public void startIntentSenderFromChild(android.app.Activity child, android.content.IntentSender intent, int requestCode, android.content.Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags, android.os.Bundle options)
   void startIntentSenderFromChild_1(
           Activity child,
-          jni.JlObject intent,
+          content.IntentSender intent,
           int requestCode,
-          jni.JlObject fillInIntent,
+          content.Intent fillInIntent,
           int flagsMask,
           int flagsValues,
           int extraFlags,
-          jni.JlObject options) =>
+          os.Bundle options) =>
       _startIntentSenderFromChild_1(
           reference,
           child.reference,
@@ -2098,7 +2110,7 @@ class Activity extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public final void setResult(int resultCode, android.content.Intent data)
-  void setResult_1(int resultCode, jni.JlObject data) =>
+  void setResult_1(int resultCode, content.Intent data) =>
       _setResult_1(reference, resultCode, data.reference);
 
   static final _getReferrer = jlookup<
@@ -2137,8 +2149,8 @@ class Activity extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.ComponentName getCallingActivity()
-  jni.JlObject getCallingActivity() =>
-      jni.JlObject.fromRef(_getCallingActivity(reference));
+  content.ComponentName getCallingActivity() =>
+      content.ComponentName.fromRef(_getCallingActivity(reference));
 
   static final _setVisible = jlookup<
           ffi.NativeFunction<
@@ -2264,7 +2276,7 @@ class Activity extends jni.JlObject {
               ffi.Pointer<ffi.Void>, int, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void onActivityResult(int requestCode, int resultCode, android.content.Intent data)
-  void onActivityResult(int requestCode, int resultCode, jni.JlObject data) =>
+  void onActivityResult(int requestCode, int resultCode, content.Intent data) =>
       _onActivityResult(reference, requestCode, resultCode, data.reference);
 
   static final _onActivityReenter = jlookup<
@@ -2276,7 +2288,7 @@ class Activity extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onActivityReenter(int resultCode, android.content.Intent data)
-  void onActivityReenter(int resultCode, jni.JlObject data) =>
+  void onActivityReenter(int resultCode, content.Intent data) =>
       _onActivityReenter(reference, resultCode, data.reference);
 
   static final _createPendingResult = jlookup<
@@ -2292,7 +2304,7 @@ class Activity extends jni.JlObject {
 
   /// from: public android.app.PendingIntent createPendingResult(int requestCode, android.content.Intent data, int flags)
   PendingIntent createPendingResult(
-          int requestCode, jni.JlObject data, int flags) =>
+          int requestCode, content.Intent data, int flags) =>
       PendingIntent.fromRef(
           _createPendingResult(reference, requestCode, data.reference, flags));
 
@@ -2357,8 +2369,8 @@ class Activity extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.ComponentName getComponentName()
-  jni.JlObject getComponentName() =>
-      jni.JlObject.fromRef(_getComponentName(reference));
+  content.ComponentName getComponentName() =>
+      content.ComponentName.fromRef(_getComponentName(reference));
 
   static final _getPreferences = jlookup<
           ffi.NativeFunction<
@@ -2367,8 +2379,8 @@ class Activity extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.content.SharedPreferences getPreferences(int mode)
-  jni.JlObject getPreferences(int mode) =>
-      jni.JlObject.fromRef(_getPreferences(reference, mode));
+  content.SharedPreferences getPreferences(int mode) =>
+      content.SharedPreferences.fromRef(_getPreferences(reference, mode));
 
   static final _getSystemService = jlookup<
               ffi.NativeFunction<
@@ -2580,7 +2592,7 @@ class Activity extends jni.JlObject {
 
   /// from: public android.view.View onCreateView(java.lang.String name, android.content.Context context, android.util.AttributeSet attrs)
   jni.JlObject onCreateView(
-          jni.JlString name, jni.JlObject context, jni.JlObject attrs) =>
+          jni.JlString name, content.Context context, jni.JlObject attrs) =>
       jni.JlObject.fromRef(_onCreateView(
           reference, name.reference, context.reference, attrs.reference));
 
@@ -2603,7 +2615,7 @@ class Activity extends jni.JlObject {
 
   /// from: public android.view.View onCreateView(android.view.View parent, java.lang.String name, android.content.Context context, android.util.AttributeSet attrs)
   jni.JlObject onCreateView_1(jni.JlObject parent, jni.JlString name,
-          jni.JlObject context, jni.JlObject attrs) =>
+          content.Context context, jni.JlObject attrs) =>
       jni.JlObject.fromRef(_onCreateView_1(reference, parent.reference,
           name.reference, context.reference, attrs.reference));
 
@@ -2681,7 +2693,8 @@ class Activity extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setVrModeEnabled(boolean enabled, android.content.ComponentName requestedComponent)
-  void setVrModeEnabled(bool enabled, jni.JlObject requestedComponent) =>
+  void setVrModeEnabled(
+          bool enabled, content.ComponentName requestedComponent) =>
       _setVrModeEnabled(
           reference, enabled ? 1 : 0, requestedComponent.reference);
 
@@ -2773,7 +2786,7 @@ class Activity extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean shouldUpRecreateTask(android.content.Intent targetIntent)
-  bool shouldUpRecreateTask(jni.JlObject targetIntent) =>
+  bool shouldUpRecreateTask(content.Intent targetIntent) =>
       _shouldUpRecreateTask(reference, targetIntent.reference) != 0;
 
   static final _navigateUpTo = jlookup<
@@ -2783,7 +2796,7 @@ class Activity extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean navigateUpTo(android.content.Intent upIntent)
-  bool navigateUpTo(jni.JlObject upIntent) =>
+  bool navigateUpTo(content.Intent upIntent) =>
       _navigateUpTo(reference, upIntent.reference) != 0;
 
   static final _navigateUpToFromChild = jlookup<
@@ -2796,7 +2809,7 @@ class Activity extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean navigateUpToFromChild(android.app.Activity child, android.content.Intent upIntent)
-  bool navigateUpToFromChild(Activity child, jni.JlObject upIntent) =>
+  bool navigateUpToFromChild(Activity child, content.Intent upIntent) =>
       _navigateUpToFromChild(reference, child.reference, upIntent.reference) !=
       0;
 
@@ -2807,8 +2820,8 @@ class Activity extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.Intent getParentActivityIntent()
-  jni.JlObject getParentActivityIntent() =>
-      jni.JlObject.fromRef(_getParentActivityIntent(reference));
+  content.Intent getParentActivityIntent() =>
+      content.Intent.fromRef(_getParentActivityIntent(reference));
 
   static final _setEnterSharedElementCallback = jlookup<
               ffi.NativeFunction<
@@ -2930,7 +2943,7 @@ class LauncherActivity extends ListActivity {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void onCreate(android.os.Bundle icicle)
-  void onCreate(jni.JlObject icicle) => _onCreate(reference, icicle.reference);
+  void onCreate(os.Bundle icicle) => _onCreate(reference, icicle.reference);
 
   static final _setTitle = jlookup<
               ffi.NativeFunction<
@@ -2983,8 +2996,8 @@ class LauncherActivity extends ListActivity {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: protected android.content.Intent intentForPosition(int position)
-  jni.JlObject intentForPosition(int position) =>
-      jni.JlObject.fromRef(_intentForPosition(reference, position));
+  content.Intent intentForPosition(int position) =>
+      content.Intent.fromRef(_intentForPosition(reference, position));
 
   static final _itemForPosition = jlookup<
           ffi.NativeFunction<
@@ -3003,8 +3016,8 @@ class LauncherActivity extends ListActivity {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: protected android.content.Intent getTargetIntent()
-  jni.JlObject getTargetIntent() =>
-      jni.JlObject.fromRef(_getTargetIntent(reference));
+  content.Intent getTargetIntent() =>
+      content.Intent.fromRef(_getTargetIntent(reference));
 
   static final _onQueryPackageManager = jlookup<
               ffi.NativeFunction<
@@ -3016,7 +3029,7 @@ class LauncherActivity extends ListActivity {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected java.util.List<android.content.pm.ResolveInfo> onQueryPackageManager(android.content.Intent queryIntent)
-  jni.JlObject onQueryPackageManager(jni.JlObject queryIntent) =>
+  jni.JlObject onQueryPackageManager(content.Intent queryIntent) =>
       jni.JlObject.fromRef(
           _onQueryPackageManager(reference, queryIntent.reference));
 
@@ -3066,7 +3079,7 @@ class LauncherActivity_ListItem extends jni.JlObject {
           ffi.Pointer<ffi.Void> Function(
     ffi.Pointer<ffi.Void>,
   )>();
-  jni.JlObject get extras => jni.JlObject.fromRef(_getextras(reference));
+  os.Bundle get extras => os.Bundle.fromRef(_getextras(reference));
   static final _setextras = jlookup<
               ffi.NativeFunction<
                   ffi.Void Function(
@@ -3074,7 +3087,7 @@ class LauncherActivity_ListItem extends jni.JlObject {
           "set_android_app_LauncherActivity__ListItem_extras")
       .asFunction<
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-  set extras(jni.JlObject value) => _setextras(reference, value.reference);
+  set extras(os.Bundle value) => _setextras(reference, value.reference);
 
   /// from: public android.graphics.drawable.Drawable icon
   static final _geticon = jlookup<
@@ -3148,8 +3161,8 @@ class LauncherActivity_ListItem extends jni.JlObject {
           ffi.Pointer<ffi.Void> Function(
     ffi.Pointer<ffi.Void>,
   )>();
-  jni.JlObject get resolveInfo =>
-      jni.JlObject.fromRef(_getresolveInfo(reference));
+  pm.ResolveInfo get resolveInfo =>
+      pm.ResolveInfo.fromRef(_getresolveInfo(reference));
   static final _setresolveInfo = jlookup<
               ffi.NativeFunction<
                   ffi.Void Function(
@@ -3157,7 +3170,7 @@ class LauncherActivity_ListItem extends jni.JlObject {
           "set_android_app_LauncherActivity__ListItem_resolveInfo")
       .asFunction<
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-  set resolveInfo(jni.JlObject value) =>
+  set resolveInfo(pm.ResolveInfo value) =>
       _setresolveInfo(reference, value.reference);
 
   static final _ctor =
@@ -3271,7 +3284,8 @@ class Notification extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_Notification_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final int DEFAULT_ALL
   static const DEFAULT_ALL = -1;
@@ -3683,7 +3697,7 @@ class Notification extends jni.JlObject {
           ffi.Pointer<ffi.Void> Function(
     ffi.Pointer<ffi.Void>,
   )>();
-  jni.JlObject get extras => jni.JlObject.fromRef(_getextras(reference));
+  os.Bundle get extras => os.Bundle.fromRef(_getextras(reference));
   static final _setextras = jlookup<
               ffi.NativeFunction<
                   ffi.Void Function(
@@ -3691,7 +3705,7 @@ class Notification extends jni.JlObject {
           "set_android_app_Notification_extras")
       .asFunction<
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-  set extras(jni.JlObject value) => _setextras(reference, value.reference);
+  set extras(os.Bundle value) => _setextras(reference, value.reference);
 
   /// from: public int flags
   static final _getflags = jlookup<
@@ -4069,7 +4083,7 @@ class Notification extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.os.Parcel parcel)
-  Notification.ctor_2(jni.JlObject parcel)
+  Notification.ctor_2(os.Parcel parcel)
       : super.fromRef(_ctor_2(parcel.reference));
 
   static final _getGroup = jlookup<
@@ -4115,7 +4129,7 @@ class Notification extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel parcel, int flags)
-  void writeToParcel(jni.JlObject parcel, int flags) =>
+  void writeToParcel(os.Parcel parcel, int flags) =>
       _writeToParcel(reference, parcel.reference, flags);
 
   static final _toString_1 = jlookup<
@@ -5095,7 +5109,7 @@ class Notification_MessagingStyle_Message extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle getExtras()
-  jni.JlObject getExtras() => jni.JlObject.fromRef(_getExtras(reference));
+  os.Bundle getExtras() => os.Bundle.fromRef(_getExtras(reference));
 
   static final _getSender = jlookup<
               ffi.NativeFunction<
@@ -5597,7 +5611,7 @@ class Notification_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.content.Context context, java.lang.String channelId)
-  Notification_Builder(jni.JlObject context, jni.JlString channelId)
+  Notification_Builder(content.Context context, jni.JlString channelId)
       : super.fromRef(_ctor(context.reference, channelId.reference));
 
   static final _ctor_1 = jlookup<
@@ -5607,7 +5621,7 @@ class Notification_Builder extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.content.Context context)
-  Notification_Builder.ctor_1(jni.JlObject context)
+  Notification_Builder.ctor_1(content.Context context)
       : super.fromRef(_ctor_1(context.reference));
 
   static final _setShortcutId = jlookup<
@@ -6240,7 +6254,7 @@ class Notification_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.Notification.Builder addExtras(android.os.Bundle extras)
-  Notification_Builder addExtras(jni.JlObject extras) =>
+  Notification_Builder addExtras(os.Bundle extras) =>
       Notification_Builder.fromRef(_addExtras(reference, extras.reference));
 
   static final _setExtras = jlookup<
@@ -6253,7 +6267,7 @@ class Notification_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.Notification.Builder setExtras(android.os.Bundle extras)
-  Notification_Builder setExtras(jni.JlObject extras) =>
+  Notification_Builder setExtras(os.Bundle extras) =>
       Notification_Builder.fromRef(_setExtras(reference, extras.reference));
 
   static final _getExtras = jlookup<
@@ -6263,7 +6277,7 @@ class Notification_Builder extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle getExtras()
-  jni.JlObject getExtras() => jni.JlObject.fromRef(_getExtras(reference));
+  os.Bundle getExtras() => os.Bundle.fromRef(_getExtras(reference));
 
   static final _addAction = jlookup<
               ffi.NativeFunction<
@@ -6420,7 +6434,7 @@ class Notification_Builder extends jni.JlObject {
 
   /// from: static public android.app.Notification.Builder recoverBuilder(android.content.Context context, android.app.Notification n)
   static Notification_Builder recoverBuilder(
-          jni.JlObject context, Notification n) =>
+          content.Context context, Notification n) =>
       Notification_Builder.fromRef(
           _recoverBuilder(context.reference, n.reference));
 
@@ -6608,7 +6622,8 @@ class Notification_Action extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_Notification__Action_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final int SEMANTIC_ACTION_ARCHIVE
   static const SEMANTIC_ACTION_ARCHIVE = 5;
@@ -6732,7 +6747,7 @@ class Notification_Action extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle getExtras()
-  jni.JlObject getExtras() => jni.JlObject.fromRef(_getExtras(reference));
+  os.Bundle getExtras() => os.Bundle.fromRef(_getExtras(reference));
 
   static final _getAllowGeneratedReplies =
       jlookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
@@ -6795,7 +6810,7 @@ class Notification_Action extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel out, int flags)
-  void writeToParcel(jni.JlObject out, int flags) =>
+  void writeToParcel(os.Parcel out, int flags) =>
       _writeToParcel(reference, out.reference, flags);
 }
 
@@ -7054,7 +7069,7 @@ class Notification_Action_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.Notification.Action.Builder addExtras(android.os.Bundle extras)
-  Notification_Action_Builder addExtras(jni.JlObject extras) =>
+  Notification_Action_Builder addExtras(os.Bundle extras) =>
       Notification_Action_Builder.fromRef(
           _addExtras(reference, extras.reference));
 
@@ -7065,7 +7080,7 @@ class Notification_Action_Builder extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle getExtras()
-  jni.JlObject getExtras() => jni.JlObject.fromRef(_getExtras(reference));
+  os.Bundle getExtras() => os.Bundle.fromRef(_getExtras(reference));
 
   static final _addRemoteInput = jlookup<
               ffi.NativeFunction<
@@ -7139,7 +7154,8 @@ class PictureInPictureParams extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_PictureInPictureParams_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor =
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
@@ -7166,7 +7182,7 @@ class PictureInPictureParams extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel out, int flags)
-  void writeToParcel(jni.JlObject out, int flags) =>
+  void writeToParcel(os.Parcel out, int flags) =>
       _writeToParcel(reference, out.reference, flags);
 }
 
@@ -7255,7 +7271,7 @@ class Fragment extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: static public android.app.Fragment instantiate(android.content.Context context, java.lang.String fname)
-  static Fragment instantiate(jni.JlObject context, jni.JlString fname) =>
+  static Fragment instantiate(content.Context context, jni.JlString fname) =>
       Fragment.fromRef(_instantiate(context.reference, fname.reference));
 
   static final _instantiate_1 = jlookup<
@@ -7270,7 +7286,7 @@ class Fragment extends jni.JlObject {
 
   /// from: static public android.app.Fragment instantiate(android.content.Context context, java.lang.String fname, android.os.Bundle args)
   static Fragment instantiate_1(
-          jni.JlObject context, jni.JlString fname, jni.JlObject args) =>
+          content.Context context, jni.JlString fname, os.Bundle args) =>
       Fragment.fromRef(
           _instantiate_1(context.reference, fname.reference, args.reference));
 
@@ -7325,8 +7341,7 @@ class Fragment extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setArguments(android.os.Bundle args)
-  void setArguments(jni.JlObject args) =>
-      _setArguments(reference, args.reference);
+  void setArguments(os.Bundle args) => _setArguments(reference, args.reference);
 
   static final _getArguments = jlookup<
           ffi.NativeFunction<
@@ -7335,7 +7350,7 @@ class Fragment extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public final android.os.Bundle getArguments()
-  jni.JlObject getArguments() => jni.JlObject.fromRef(_getArguments(reference));
+  os.Bundle getArguments() => os.Bundle.fromRef(_getArguments(reference));
 
   static final _isStateSaved =
       jlookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
@@ -7393,7 +7408,8 @@ class Fragment extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.Context getContext()
-  jni.JlObject getContext() => jni.JlObject.fromRef(_getContext(reference));
+  content.Context getContext() =>
+      content.Context.fromRef(_getContext(reference));
 
   static final _getActivity = jlookup<
           ffi.NativeFunction<
@@ -7420,7 +7436,8 @@ class Fragment extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public final android.content.res.Resources getResources()
-  jni.JlObject getResources() => jni.JlObject.fromRef(_getResources(reference));
+  res.Resources getResources() =>
+      res.Resources.fromRef(_getResources(reference));
 
   static final _getText = jlookup<
           ffi.NativeFunction<
@@ -7625,7 +7642,7 @@ class Fragment extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void startActivity(android.content.Intent intent)
-  void startActivity(jni.JlObject intent) =>
+  void startActivity(content.Intent intent) =>
       _startActivity(reference, intent.reference);
 
   static final _startActivity_1 = jlookup<
@@ -7638,7 +7655,7 @@ class Fragment extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void startActivity(android.content.Intent intent, android.os.Bundle options)
-  void startActivity_1(jni.JlObject intent, jni.JlObject options) =>
+  void startActivity_1(content.Intent intent, os.Bundle options) =>
       _startActivity_1(reference, intent.reference, options.reference);
 
   static final _startActivityForResult = jlookup<
@@ -7649,7 +7666,7 @@ class Fragment extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void startActivityForResult(android.content.Intent intent, int requestCode)
-  void startActivityForResult(jni.JlObject intent, int requestCode) =>
+  void startActivityForResult(content.Intent intent, int requestCode) =>
       _startActivityForResult(reference, intent.reference, requestCode);
 
   static final _startActivityForResult_1 = jlookup<
@@ -7666,7 +7683,7 @@ class Fragment extends jni.JlObject {
 
   /// from: public void startActivityForResult(android.content.Intent intent, int requestCode, android.os.Bundle options)
   void startActivityForResult_1(
-          jni.JlObject intent, int requestCode, jni.JlObject options) =>
+          content.Intent intent, int requestCode, os.Bundle options) =>
       _startActivityForResult_1(
           reference, intent.reference, requestCode, options.reference);
 
@@ -7688,13 +7705,13 @@ class Fragment extends jni.JlObject {
 
   /// from: public void startIntentSenderForResult(android.content.IntentSender intent, int requestCode, android.content.Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags, android.os.Bundle options)
   void startIntentSenderForResult(
-          jni.JlObject intent,
+          content.IntentSender intent,
           int requestCode,
-          jni.JlObject fillInIntent,
+          content.Intent fillInIntent,
           int flagsMask,
           int flagsValues,
           int extraFlags,
-          jni.JlObject options) =>
+          os.Bundle options) =>
       _startIntentSenderForResult(
           reference,
           intent.reference,
@@ -7715,7 +7732,7 @@ class Fragment extends jni.JlObject {
               ffi.Pointer<ffi.Void>, int, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onActivityResult(int requestCode, int resultCode, android.content.Intent data)
-  void onActivityResult(int requestCode, int resultCode, jni.JlObject data) =>
+  void onActivityResult(int requestCode, int resultCode, content.Intent data) =>
       _onActivityResult(reference, requestCode, resultCode, data.reference);
 
   static final _requestPermissions = jlookup<
@@ -7766,7 +7783,7 @@ class Fragment extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.view.LayoutInflater onGetLayoutInflater(android.os.Bundle savedInstanceState)
-  jni.JlObject onGetLayoutInflater(jni.JlObject savedInstanceState) =>
+  jni.JlObject onGetLayoutInflater(os.Bundle savedInstanceState) =>
       jni.JlObject.fromRef(
           _onGetLayoutInflater(reference, savedInstanceState.reference));
 
@@ -7789,7 +7806,7 @@ class Fragment extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onInflate(android.util.AttributeSet attrs, android.os.Bundle savedInstanceState)
-  void onInflate(jni.JlObject attrs, jni.JlObject savedInstanceState) =>
+  void onInflate(jni.JlObject attrs, os.Bundle savedInstanceState) =>
       _onInflate(reference, attrs.reference, savedInstanceState.reference);
 
   static final _onInflate_1 = jlookup<
@@ -7804,8 +7821,8 @@ class Fragment extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onInflate(android.content.Context context, android.util.AttributeSet attrs, android.os.Bundle savedInstanceState)
-  void onInflate_1(jni.JlObject context, jni.JlObject attrs,
-          jni.JlObject savedInstanceState) =>
+  void onInflate_1(content.Context context, jni.JlObject attrs,
+          os.Bundle savedInstanceState) =>
       _onInflate_1(reference, context.reference, attrs.reference,
           savedInstanceState.reference);
 
@@ -7822,7 +7839,7 @@ class Fragment extends jni.JlObject {
 
   /// from: public void onInflate(android.app.Activity activity, android.util.AttributeSet attrs, android.os.Bundle savedInstanceState)
   void onInflate_2(Activity activity, jni.JlObject attrs,
-          jni.JlObject savedInstanceState) =>
+          os.Bundle savedInstanceState) =>
       _onInflate_2(reference, activity.reference, attrs.reference,
           savedInstanceState.reference);
 
@@ -7846,7 +7863,7 @@ class Fragment extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onAttach(android.content.Context context)
-  void onAttach(jni.JlObject context) =>
+  void onAttach(content.Context context) =>
       _onAttach(reference, context.reference);
 
   static final _onAttach_1 = jlookup<
@@ -7884,7 +7901,7 @@ class Fragment extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onCreate(android.os.Bundle savedInstanceState)
-  void onCreate(jni.JlObject savedInstanceState) =>
+  void onCreate(os.Bundle savedInstanceState) =>
       _onCreate(reference, savedInstanceState.reference);
 
   static final _onCreateView = jlookup<
@@ -7903,7 +7920,7 @@ class Fragment extends jni.JlObject {
 
   /// from: public android.view.View onCreateView(android.view.LayoutInflater inflater, android.view.ViewGroup container, android.os.Bundle savedInstanceState)
   jni.JlObject onCreateView(jni.JlObject inflater, jni.JlObject container,
-          jni.JlObject savedInstanceState) =>
+          os.Bundle savedInstanceState) =>
       jni.JlObject.fromRef(_onCreateView(reference, inflater.reference,
           container.reference, savedInstanceState.reference));
 
@@ -7916,7 +7933,7 @@ class Fragment extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onViewCreated(android.view.View view, android.os.Bundle savedInstanceState)
-  void onViewCreated(jni.JlObject view, jni.JlObject savedInstanceState) =>
+  void onViewCreated(jni.JlObject view, os.Bundle savedInstanceState) =>
       _onViewCreated(reference, view.reference, savedInstanceState.reference);
 
   static final _getView = jlookup<
@@ -7937,7 +7954,7 @@ class Fragment extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onActivityCreated(android.os.Bundle savedInstanceState)
-  void onActivityCreated(jni.JlObject savedInstanceState) =>
+  void onActivityCreated(os.Bundle savedInstanceState) =>
       _onActivityCreated(reference, savedInstanceState.reference);
 
   static final _onViewStateRestored = jlookup<
@@ -7949,7 +7966,7 @@ class Fragment extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onViewStateRestored(android.os.Bundle savedInstanceState)
-  void onViewStateRestored(jni.JlObject savedInstanceState) =>
+  void onViewStateRestored(os.Bundle savedInstanceState) =>
       _onViewStateRestored(reference, savedInstanceState.reference);
 
   static final _onStart =
@@ -7977,7 +7994,7 @@ class Fragment extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onSaveInstanceState(android.os.Bundle outState)
-  void onSaveInstanceState(jni.JlObject outState) =>
+  void onSaveInstanceState(os.Bundle outState) =>
       _onSaveInstanceState(reference, outState.reference);
 
   static final _onMultiWindowModeChanged = jlookup<
@@ -7990,7 +8007,7 @@ class Fragment extends jni.JlObject {
 
   /// from: public void onMultiWindowModeChanged(boolean isInMultiWindowMode, android.content.res.Configuration newConfig)
   void onMultiWindowModeChanged(
-          bool isInMultiWindowMode, jni.JlObject newConfig) =>
+          bool isInMultiWindowMode, res.Configuration newConfig) =>
       _onMultiWindowModeChanged(
           reference, isInMultiWindowMode ? 1 : 0, newConfig.reference);
 
@@ -8014,7 +8031,7 @@ class Fragment extends jni.JlObject {
 
   /// from: public void onPictureInPictureModeChanged(boolean isInPictureInPictureMode, android.content.res.Configuration newConfig)
   void onPictureInPictureModeChanged(
-          bool isInPictureInPictureMode, jni.JlObject newConfig) =>
+          bool isInPictureInPictureMode, res.Configuration newConfig) =>
       _onPictureInPictureModeChanged(
           reference, isInPictureInPictureMode ? 1 : 0, newConfig.reference);
 
@@ -8038,7 +8055,7 @@ class Fragment extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onConfigurationChanged(android.content.res.Configuration newConfig)
-  void onConfigurationChanged(jni.JlObject newConfig) =>
+  void onConfigurationChanged(res.Configuration newConfig) =>
       _onConfigurationChanged(reference, newConfig.reference);
 
   static final _onPause =
@@ -8449,7 +8466,8 @@ class Fragment_SavedState extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_Fragment__SavedState_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_ClassLoaderCreator get CREATOR =>
+      os.Parcelable_ClassLoaderCreator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
               ffi.NativeFunction<
@@ -8458,8 +8476,7 @@ class Fragment_SavedState extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: void <init>(android.os.Bundle state)
-  Fragment_SavedState(jni.JlObject state)
-      : super.fromRef(_ctor(state.reference));
+  Fragment_SavedState(os.Bundle state) : super.fromRef(_ctor(state.reference));
 
   static final _describeContents =
       jlookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
@@ -8477,7 +8494,7 @@ class Fragment_SavedState extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 }
 
@@ -8524,7 +8541,8 @@ class AlertDialog extends Dialog {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void <init>(android.content.Context context)
-  AlertDialog(jni.JlObject context) : super.fromRef(_ctor(context.reference));
+  AlertDialog(content.Context context)
+      : super.fromRef(_ctor(context.reference));
 
   static final _ctor_1 = jlookup<
           ffi.NativeFunction<
@@ -8535,8 +8553,8 @@ class AlertDialog extends Dialog {
               ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void <init>(android.content.Context context, boolean cancelable, android.content.DialogInterface.OnCancelListener cancelListener)
-  AlertDialog.ctor_1(
-      jni.JlObject context, bool cancelable, jni.JlObject cancelListener)
+  AlertDialog.ctor_1(content.Context context, bool cancelable,
+      content.DialogInterface_OnCancelListener cancelListener)
       : super.fromRef(_ctor_1(
             context.reference, cancelable ? 1 : 0, cancelListener.reference));
 
@@ -8547,7 +8565,7 @@ class AlertDialog extends Dialog {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: protected void <init>(android.content.Context context, int themeResId)
-  AlertDialog.ctor_2(jni.JlObject context, int themeResId)
+  AlertDialog.ctor_2(content.Context context, int themeResId)
       : super.fromRef(_ctor_2(context.reference, themeResId));
 
   static final _getButton = jlookup<
@@ -8643,7 +8661,7 @@ class AlertDialog extends Dialog {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setButton(int whichButton, java.lang.CharSequence text, android.os.Message msg)
-  void setButton(int whichButton, jni.JlObject text, jni.JlObject msg) =>
+  void setButton(int whichButton, jni.JlObject text, os.Message msg) =>
       _setButton(reference, whichButton, text.reference, msg.reference);
 
   static final _setButton_1 = jlookup<
@@ -8656,7 +8674,8 @@ class AlertDialog extends Dialog {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setButton(int whichButton, java.lang.CharSequence text, android.content.DialogInterface.OnClickListener listener)
-  void setButton_1(int whichButton, jni.JlObject text, jni.JlObject listener) =>
+  void setButton_1(int whichButton, jni.JlObject text,
+          content.DialogInterface_OnClickListener listener) =>
       _setButton_1(reference, whichButton, text.reference, listener.reference);
 
   static final _setButton_2 = jlookup<
@@ -8669,7 +8688,7 @@ class AlertDialog extends Dialog {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setButton(java.lang.CharSequence text, android.os.Message msg)
-  void setButton_2(jni.JlObject text, jni.JlObject msg) =>
+  void setButton_2(jni.JlObject text, os.Message msg) =>
       _setButton_2(reference, text.reference, msg.reference);
 
   static final _setButton2 = jlookup<
@@ -8681,7 +8700,7 @@ class AlertDialog extends Dialog {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setButton2(java.lang.CharSequence text, android.os.Message msg)
-  void setButton2(jni.JlObject text, jni.JlObject msg) =>
+  void setButton2(jni.JlObject text, os.Message msg) =>
       _setButton2(reference, text.reference, msg.reference);
 
   static final _setButton3 = jlookup<
@@ -8693,7 +8712,7 @@ class AlertDialog extends Dialog {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setButton3(java.lang.CharSequence text, android.os.Message msg)
-  void setButton3(jni.JlObject text, jni.JlObject msg) =>
+  void setButton3(jni.JlObject text, os.Message msg) =>
       _setButton3(reference, text.reference, msg.reference);
 
   static final _setButton_3 = jlookup<
@@ -8706,7 +8725,8 @@ class AlertDialog extends Dialog {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setButton(java.lang.CharSequence text, android.content.DialogInterface.OnClickListener listener)
-  void setButton_3(jni.JlObject text, jni.JlObject listener) =>
+  void setButton_3(jni.JlObject text,
+          content.DialogInterface_OnClickListener listener) =>
       _setButton_3(reference, text.reference, listener.reference);
 
   static final _setButton2_1 = jlookup<
@@ -8719,7 +8739,8 @@ class AlertDialog extends Dialog {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setButton2(java.lang.CharSequence text, android.content.DialogInterface.OnClickListener listener)
-  void setButton2_1(jni.JlObject text, jni.JlObject listener) =>
+  void setButton2_1(jni.JlObject text,
+          content.DialogInterface_OnClickListener listener) =>
       _setButton2_1(reference, text.reference, listener.reference);
 
   static final _setButton3_1 = jlookup<
@@ -8732,7 +8753,8 @@ class AlertDialog extends Dialog {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setButton3(java.lang.CharSequence text, android.content.DialogInterface.OnClickListener listener)
-  void setButton3_1(jni.JlObject text, jni.JlObject listener) =>
+  void setButton3_1(jni.JlObject text,
+          content.DialogInterface_OnClickListener listener) =>
       _setButton3_1(reference, text.reference, listener.reference);
 
   static final _setIcon = jlookup<
@@ -8781,7 +8803,7 @@ class AlertDialog extends Dialog {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void onCreate(android.os.Bundle savedInstanceState)
-  void onCreate(jni.JlObject savedInstanceState) =>
+  void onCreate(os.Bundle savedInstanceState) =>
       _onCreate(reference, savedInstanceState.reference);
 
   static final _onKeyDown = jlookup<
@@ -8817,7 +8839,7 @@ class AlertDialog_Builder extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.content.Context context)
-  AlertDialog_Builder(jni.JlObject context)
+  AlertDialog_Builder(content.Context context)
       : super.fromRef(_ctor(context.reference));
 
   static final _ctor_1 = jlookup<
@@ -8827,7 +8849,7 @@ class AlertDialog_Builder extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void <init>(android.content.Context context, int themeResId)
-  AlertDialog_Builder.ctor_1(jni.JlObject context, int themeResId)
+  AlertDialog_Builder.ctor_1(content.Context context, int themeResId)
       : super.fromRef(_ctor_1(context.reference, themeResId));
 
   static final _getContext = jlookup<
@@ -8837,7 +8859,8 @@ class AlertDialog_Builder extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.Context getContext()
-  jni.JlObject getContext() => jni.JlObject.fromRef(_getContext(reference));
+  content.Context getContext() =>
+      content.Context.fromRef(_getContext(reference));
 
   static final _setTitle = jlookup<
           ffi.NativeFunction<
@@ -8943,7 +8966,8 @@ class AlertDialog_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.AlertDialog.Builder setPositiveButton(int textId, android.content.DialogInterface.OnClickListener listener)
-  AlertDialog_Builder setPositiveButton(int textId, jni.JlObject listener) =>
+  AlertDialog_Builder setPositiveButton(
+          int textId, content.DialogInterface_OnClickListener listener) =>
       AlertDialog_Builder.fromRef(
           _setPositiveButton(reference, textId, listener.reference));
 
@@ -8957,8 +8981,8 @@ class AlertDialog_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.AlertDialog.Builder setPositiveButton(java.lang.CharSequence text, android.content.DialogInterface.OnClickListener listener)
-  AlertDialog_Builder setPositiveButton_1(
-          jni.JlObject text, jni.JlObject listener) =>
+  AlertDialog_Builder setPositiveButton_1(jni.JlObject text,
+          content.DialogInterface_OnClickListener listener) =>
       AlertDialog_Builder.fromRef(
           _setPositiveButton_1(reference, text.reference, listener.reference));
 
@@ -8972,7 +8996,8 @@ class AlertDialog_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.AlertDialog.Builder setNegativeButton(int textId, android.content.DialogInterface.OnClickListener listener)
-  AlertDialog_Builder setNegativeButton(int textId, jni.JlObject listener) =>
+  AlertDialog_Builder setNegativeButton(
+          int textId, content.DialogInterface_OnClickListener listener) =>
       AlertDialog_Builder.fromRef(
           _setNegativeButton(reference, textId, listener.reference));
 
@@ -8986,8 +9011,8 @@ class AlertDialog_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.AlertDialog.Builder setNegativeButton(java.lang.CharSequence text, android.content.DialogInterface.OnClickListener listener)
-  AlertDialog_Builder setNegativeButton_1(
-          jni.JlObject text, jni.JlObject listener) =>
+  AlertDialog_Builder setNegativeButton_1(jni.JlObject text,
+          content.DialogInterface_OnClickListener listener) =>
       AlertDialog_Builder.fromRef(
           _setNegativeButton_1(reference, text.reference, listener.reference));
 
@@ -9001,7 +9026,8 @@ class AlertDialog_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.AlertDialog.Builder setNeutralButton(int textId, android.content.DialogInterface.OnClickListener listener)
-  AlertDialog_Builder setNeutralButton(int textId, jni.JlObject listener) =>
+  AlertDialog_Builder setNeutralButton(
+          int textId, content.DialogInterface_OnClickListener listener) =>
       AlertDialog_Builder.fromRef(
           _setNeutralButton(reference, textId, listener.reference));
 
@@ -9015,8 +9041,8 @@ class AlertDialog_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.AlertDialog.Builder setNeutralButton(java.lang.CharSequence text, android.content.DialogInterface.OnClickListener listener)
-  AlertDialog_Builder setNeutralButton_1(
-          jni.JlObject text, jni.JlObject listener) =>
+  AlertDialog_Builder setNeutralButton_1(jni.JlObject text,
+          content.DialogInterface_OnClickListener listener) =>
       AlertDialog_Builder.fromRef(
           _setNeutralButton_1(reference, text.reference, listener.reference));
 
@@ -9041,7 +9067,8 @@ class AlertDialog_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.AlertDialog.Builder setOnCancelListener(android.content.DialogInterface.OnCancelListener onCancelListener)
-  AlertDialog_Builder setOnCancelListener(jni.JlObject onCancelListener) =>
+  AlertDialog_Builder setOnCancelListener(
+          content.DialogInterface_OnCancelListener onCancelListener) =>
       AlertDialog_Builder.fromRef(
           _setOnCancelListener(reference, onCancelListener.reference));
 
@@ -9055,7 +9082,8 @@ class AlertDialog_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.AlertDialog.Builder setOnDismissListener(android.content.DialogInterface.OnDismissListener onDismissListener)
-  AlertDialog_Builder setOnDismissListener(jni.JlObject onDismissListener) =>
+  AlertDialog_Builder setOnDismissListener(
+          content.DialogInterface_OnDismissListener onDismissListener) =>
       AlertDialog_Builder.fromRef(
           _setOnDismissListener(reference, onDismissListener.reference));
 
@@ -9069,7 +9097,8 @@ class AlertDialog_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.AlertDialog.Builder setOnKeyListener(android.content.DialogInterface.OnKeyListener onKeyListener)
-  AlertDialog_Builder setOnKeyListener(jni.JlObject onKeyListener) =>
+  AlertDialog_Builder setOnKeyListener(
+          content.DialogInterface_OnKeyListener onKeyListener) =>
       AlertDialog_Builder.fromRef(
           _setOnKeyListener(reference, onKeyListener.reference));
 
@@ -9083,7 +9112,8 @@ class AlertDialog_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.AlertDialog.Builder setItems(int itemsId, android.content.DialogInterface.OnClickListener listener)
-  AlertDialog_Builder setItems(int itemsId, jni.JlObject listener) =>
+  AlertDialog_Builder setItems(
+          int itemsId, content.DialogInterface_OnClickListener listener) =>
       AlertDialog_Builder.fromRef(
           _setItems(reference, itemsId, listener.reference));
 
@@ -9097,7 +9127,8 @@ class AlertDialog_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.AlertDialog.Builder setItems(java.lang.CharSequence[] items, android.content.DialogInterface.OnClickListener listener)
-  AlertDialog_Builder setItems_1(jni.JlObject items, jni.JlObject listener) =>
+  AlertDialog_Builder setItems_1(jni.JlObject items,
+          content.DialogInterface_OnClickListener listener) =>
       AlertDialog_Builder.fromRef(
           _setItems_1(reference, items.reference, listener.reference));
 
@@ -9111,7 +9142,8 @@ class AlertDialog_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.AlertDialog.Builder setAdapter(android.widget.ListAdapter adapter, android.content.DialogInterface.OnClickListener listener)
-  AlertDialog_Builder setAdapter(jni.JlObject adapter, jni.JlObject listener) =>
+  AlertDialog_Builder setAdapter(jni.JlObject adapter,
+          content.DialogInterface_OnClickListener listener) =>
       AlertDialog_Builder.fromRef(
           _setAdapter(reference, adapter.reference, listener.reference));
 
@@ -9131,7 +9163,9 @@ class AlertDialog_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.AlertDialog.Builder setCursor(android.database.Cursor cursor, android.content.DialogInterface.OnClickListener listener, java.lang.String labelColumn)
-  AlertDialog_Builder setCursor(jni.JlObject cursor, jni.JlObject listener,
+  AlertDialog_Builder setCursor(
+          jni.JlObject cursor,
+          content.DialogInterface_OnClickListener listener,
           jni.JlString labelColumn) =>
       AlertDialog_Builder.fromRef(_setCursor(reference, cursor.reference,
           listener.reference, labelColumn.reference));
@@ -9150,7 +9184,9 @@ class AlertDialog_Builder extends jni.JlObject {
 
   /// from: public android.app.AlertDialog.Builder setMultiChoiceItems(int itemsId, boolean[] checkedItems, android.content.DialogInterface.OnMultiChoiceClickListener listener)
   AlertDialog_Builder setMultiChoiceItems(
-          int itemsId, jni.JlObject checkedItems, jni.JlObject listener) =>
+          int itemsId,
+          jni.JlObject checkedItems,
+          content.DialogInterface_OnMultiChoiceClickListener listener) =>
       AlertDialog_Builder.fromRef(_setMultiChoiceItems(
           reference, itemsId, checkedItems.reference, listener.reference));
 
@@ -9170,8 +9206,10 @@ class AlertDialog_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.AlertDialog.Builder setMultiChoiceItems(java.lang.CharSequence[] items, boolean[] checkedItems, android.content.DialogInterface.OnMultiChoiceClickListener listener)
-  AlertDialog_Builder setMultiChoiceItems_1(jni.JlObject items,
-          jni.JlObject checkedItems, jni.JlObject listener) =>
+  AlertDialog_Builder setMultiChoiceItems_1(
+          jni.JlObject items,
+          jni.JlObject checkedItems,
+          content.DialogInterface_OnMultiChoiceClickListener listener) =>
       AlertDialog_Builder.fromRef(_setMultiChoiceItems_1(reference,
           items.reference, checkedItems.reference, listener.reference));
 
@@ -9197,7 +9235,7 @@ class AlertDialog_Builder extends jni.JlObject {
           jni.JlObject cursor,
           jni.JlString isCheckedColumn,
           jni.JlString labelColumn,
-          jni.JlObject listener) =>
+          content.DialogInterface_OnMultiChoiceClickListener listener) =>
       AlertDialog_Builder.fromRef(_setMultiChoiceItems_2(
           reference,
           cursor.reference,
@@ -9215,8 +9253,8 @@ class AlertDialog_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>, int, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.AlertDialog.Builder setSingleChoiceItems(int itemsId, int checkedItem, android.content.DialogInterface.OnClickListener listener)
-  AlertDialog_Builder setSingleChoiceItems(
-          int itemsId, int checkedItem, jni.JlObject listener) =>
+  AlertDialog_Builder setSingleChoiceItems(int itemsId, int checkedItem,
+          content.DialogInterface_OnClickListener listener) =>
       AlertDialog_Builder.fromRef(_setSingleChoiceItems(
           reference, itemsId, checkedItem, listener.reference));
 
@@ -9238,8 +9276,11 @@ class AlertDialog_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.AlertDialog.Builder setSingleChoiceItems(android.database.Cursor cursor, int checkedItem, java.lang.String labelColumn, android.content.DialogInterface.OnClickListener listener)
-  AlertDialog_Builder setSingleChoiceItems_1(jni.JlObject cursor,
-          int checkedItem, jni.JlString labelColumn, jni.JlObject listener) =>
+  AlertDialog_Builder setSingleChoiceItems_1(
+          jni.JlObject cursor,
+          int checkedItem,
+          jni.JlString labelColumn,
+          content.DialogInterface_OnClickListener listener) =>
       AlertDialog_Builder.fromRef(_setSingleChoiceItems_1(
           reference,
           cursor.reference,
@@ -9260,8 +9301,8 @@ class AlertDialog_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.AlertDialog.Builder setSingleChoiceItems(java.lang.CharSequence[] items, int checkedItem, android.content.DialogInterface.OnClickListener listener)
-  AlertDialog_Builder setSingleChoiceItems_2(
-          jni.JlObject items, int checkedItem, jni.JlObject listener) =>
+  AlertDialog_Builder setSingleChoiceItems_2(jni.JlObject items,
+          int checkedItem, content.DialogInterface_OnClickListener listener) =>
       AlertDialog_Builder.fromRef(_setSingleChoiceItems_2(
           reference, items.reference, checkedItem, listener.reference));
 
@@ -9278,8 +9319,8 @@ class AlertDialog_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.AlertDialog.Builder setSingleChoiceItems(android.widget.ListAdapter adapter, int checkedItem, android.content.DialogInterface.OnClickListener listener)
-  AlertDialog_Builder setSingleChoiceItems_3(
-          jni.JlObject adapter, int checkedItem, jni.JlObject listener) =>
+  AlertDialog_Builder setSingleChoiceItems_3(jni.JlObject adapter,
+          int checkedItem, content.DialogInterface_OnClickListener listener) =>
       AlertDialog_Builder.fromRef(_setSingleChoiceItems_3(
           reference, adapter.reference, checkedItem, listener.reference));
 
@@ -9392,7 +9433,7 @@ class TabActivity extends ActivityGroup {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void onRestoreInstanceState(android.os.Bundle state)
-  void onRestoreInstanceState(jni.JlObject state) =>
+  void onRestoreInstanceState(os.Bundle state) =>
       _onRestoreInstanceState(reference, state.reference);
 
   static final _onPostCreate = jlookup<
@@ -9404,7 +9445,7 @@ class TabActivity extends ActivityGroup {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void onPostCreate(android.os.Bundle icicle)
-  void onPostCreate(jni.JlObject icicle) =>
+  void onPostCreate(os.Bundle icicle) =>
       _onPostCreate(reference, icicle.reference);
 
   static final _onSaveInstanceState = jlookup<
@@ -9416,7 +9457,7 @@ class TabActivity extends ActivityGroup {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void onSaveInstanceState(android.os.Bundle outState)
-  void onSaveInstanceState(jni.JlObject outState) =>
+  void onSaveInstanceState(os.Bundle outState) =>
       _onSaveInstanceState(reference, outState.reference);
 
   static final _onContentChanged =
@@ -9467,7 +9508,8 @@ class RemoteInput extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_RemoteInput_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final java.lang.String EXTRA_RESULTS_DATA
   static const EXTRA_RESULTS_DATA = "android.remoteinput.resultsData";
@@ -9488,7 +9530,7 @@ class RemoteInput extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: void <init>(android.os.Parcel in)
-  RemoteInput(jni.JlObject in_) : super.fromRef(_ctor(in_.reference));
+  RemoteInput(os.Parcel in_) : super.fromRef(_ctor(in_.reference));
 
   static final _getResultKey = jlookup<
               ffi.NativeFunction<
@@ -9550,7 +9592,7 @@ class RemoteInput extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle getExtras()
-  jni.JlObject getExtras() => jni.JlObject.fromRef(_getExtras(reference));
+  os.Bundle getExtras() => os.Bundle.fromRef(_getExtras(reference));
 
   static final _getDataResultsFromIntent = jlookup<
               ffi.NativeFunction<
@@ -9563,7 +9605,7 @@ class RemoteInput extends jni.JlObject {
 
   /// from: static public java.util.Map<java.lang.String,android.net.Uri> getDataResultsFromIntent(android.content.Intent intent, java.lang.String remoteInputResultKey)
   static jni.JlObject getDataResultsFromIntent(
-          jni.JlObject intent, jni.JlString remoteInputResultKey) =>
+          content.Intent intent, jni.JlString remoteInputResultKey) =>
       jni.JlObject.fromRef(_getDataResultsFromIntent(
           intent.reference, remoteInputResultKey.reference));
 
@@ -9574,8 +9616,8 @@ class RemoteInput extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public android.os.Bundle getResultsFromIntent(android.content.Intent intent)
-  static jni.JlObject getResultsFromIntent(jni.JlObject intent) =>
-      jni.JlObject.fromRef(_getResultsFromIntent(intent.reference));
+  static os.Bundle getResultsFromIntent(content.Intent intent) =>
+      os.Bundle.fromRef(_getResultsFromIntent(intent.reference));
 
   static final _addResultsToIntent = jlookup<
               ffi.NativeFunction<
@@ -9587,8 +9629,8 @@ class RemoteInput extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: static public void addResultsToIntent(android.app.RemoteInput[] remoteInputs, android.content.Intent intent, android.os.Bundle results)
-  static void addResultsToIntent(jni.JlObject remoteInputs, jni.JlObject intent,
-          jni.JlObject results) =>
+  static void addResultsToIntent(jni.JlObject remoteInputs,
+          content.Intent intent, os.Bundle results) =>
       _addResultsToIntent(
           remoteInputs.reference, intent.reference, results.reference);
 
@@ -9602,8 +9644,8 @@ class RemoteInput extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: static public void addDataResultToIntent(android.app.RemoteInput remoteInput, android.content.Intent intent, java.util.Map<java.lang.String,android.net.Uri> results)
-  static void addDataResultToIntent(
-          RemoteInput remoteInput, jni.JlObject intent, jni.JlObject results) =>
+  static void addDataResultToIntent(RemoteInput remoteInput,
+          content.Intent intent, jni.JlObject results) =>
       _addDataResultToIntent(
           remoteInput.reference, intent.reference, results.reference);
 
@@ -9614,7 +9656,7 @@ class RemoteInput extends jni.JlObject {
       .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: static public void setResultsSource(android.content.Intent intent, int source)
-  static void setResultsSource(jni.JlObject intent, int source) =>
+  static void setResultsSource(content.Intent intent, int source) =>
       _setResultsSource(intent.reference, source);
 
   static final _getResultsSource =
@@ -9623,7 +9665,7 @@ class RemoteInput extends jni.JlObject {
           .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public int getResultsSource(android.content.Intent intent)
-  static int getResultsSource(jni.JlObject intent) =>
+  static int getResultsSource(content.Intent intent) =>
       _getResultsSource(intent.reference);
 
   static final _describeContents =
@@ -9642,7 +9684,7 @@ class RemoteInput extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel out, int flags)
-  void writeToParcel(jni.JlObject out, int flags) =>
+  void writeToParcel(os.Parcel out, int flags) =>
       _writeToParcel(reference, out.reference, flags);
 }
 
@@ -9721,7 +9763,7 @@ class RemoteInput_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.RemoteInput.Builder addExtras(android.os.Bundle extras)
-  RemoteInput_Builder addExtras(jni.JlObject extras) =>
+  RemoteInput_Builder addExtras(os.Bundle extras) =>
       RemoteInput_Builder.fromRef(_addExtras(reference, extras.reference));
 
   static final _getExtras = jlookup<
@@ -9731,7 +9773,7 @@ class RemoteInput_Builder extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle getExtras()
-  jni.JlObject getExtras() => jni.JlObject.fromRef(_getExtras(reference));
+  os.Bundle getExtras() => os.Bundle.fromRef(_getExtras(reference));
 
   static final _build = jlookup<
               ffi.NativeFunction<
@@ -10282,8 +10324,8 @@ class ActionBar extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.Context getThemedContext()
-  jni.JlObject getThemedContext() =>
-      jni.JlObject.fromRef(_getThemedContext(reference));
+  content.Context getThemedContext() =>
+      content.Context.fromRef(_getThemedContext(reference));
 
   static final _setHomeAsUpIndicator = jlookup<
               ffi.NativeFunction<
@@ -10684,7 +10726,7 @@ class ActionBar_LayoutParams extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.content.Context c, android.util.AttributeSet attrs)
-  ActionBar_LayoutParams(jni.JlObject c, jni.JlObject attrs)
+  ActionBar_LayoutParams(content.Context c, jni.JlObject attrs)
       : super.fromRef(_ctor(c.reference, attrs.reference));
 
   static final _ctor_1 = jlookup<
@@ -10752,7 +10794,7 @@ class ProgressDialog extends AlertDialog {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.content.Context context)
-  ProgressDialog(jni.JlObject context)
+  ProgressDialog(content.Context context)
       : super.fromRef(_ctor(context.reference));
 
   static final _ctor_1 = jlookup<
@@ -10762,7 +10804,7 @@ class ProgressDialog extends AlertDialog {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void <init>(android.content.Context context, int theme)
-  ProgressDialog.ctor_1(jni.JlObject context, int theme)
+  ProgressDialog.ctor_1(content.Context context, int theme)
       : super.fromRef(_ctor_1(context.reference, theme));
 
   static final _onCreate = jlookup<
@@ -10774,7 +10816,7 @@ class ProgressDialog extends AlertDialog {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void onCreate(android.os.Bundle savedInstanceState)
-  void onCreate(jni.JlObject savedInstanceState) =>
+  void onCreate(os.Bundle savedInstanceState) =>
       _onCreate(reference, savedInstanceState.reference);
 
   static final _onStart =
@@ -10980,7 +11022,7 @@ class ActivityGroup extends Activity {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void onCreate(android.os.Bundle savedInstanceState)
-  void onCreate(jni.JlObject savedInstanceState) =>
+  void onCreate(os.Bundle savedInstanceState) =>
       _onCreate(reference, savedInstanceState.reference);
 
   static final _onResume =
@@ -11000,7 +11042,7 @@ class ActivityGroup extends Activity {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void onSaveInstanceState(android.os.Bundle outState)
-  void onSaveInstanceState(jni.JlObject outState) =>
+  void onSaveInstanceState(os.Bundle outState) =>
       _onSaveInstanceState(reference, outState.reference);
 
   static final _onPause =
@@ -11137,9 +11179,9 @@ class SharedElementCallback extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Parcelable onCaptureSharedElementSnapshot(android.view.View sharedElement, android.graphics.Matrix viewToGlobalMatrix, android.graphics.RectF screenBounds)
-  jni.JlObject onCaptureSharedElementSnapshot(jni.JlObject sharedElement,
+  os.Parcelable onCaptureSharedElementSnapshot(jni.JlObject sharedElement,
           jni.JlObject viewToGlobalMatrix, jni.JlObject screenBounds) =>
-      jni.JlObject.fromRef(_onCaptureSharedElementSnapshot(
+      os.Parcelable.fromRef(_onCaptureSharedElementSnapshot(
           reference,
           sharedElement.reference,
           viewToGlobalMatrix.reference,
@@ -11156,7 +11198,7 @@ class SharedElementCallback extends jni.JlObject {
 
   /// from: public android.view.View onCreateSnapshotView(android.content.Context context, android.os.Parcelable snapshot)
   jni.JlObject onCreateSnapshotView(
-          jni.JlObject context, jni.JlObject snapshot) =>
+          content.Context context, os.Parcelable snapshot) =>
       jni.JlObject.fromRef(_onCreateSnapshotView(
           reference, context.reference, snapshot.reference));
 
@@ -11247,7 +11289,7 @@ class WallpaperManager extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public android.app.WallpaperManager getInstance(android.content.Context context)
-  static WallpaperManager getInstance(jni.JlObject context) =>
+  static WallpaperManager getInstance(content.Context context) =>
       WallpaperManager.fromRef(_getInstance(context.reference));
 
   static final _getDrawable = jlookup<
@@ -11361,8 +11403,8 @@ class WallpaperManager extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.os.ParcelFileDescriptor getWallpaperFile(int which)
-  jni.JlObject getWallpaperFile(int which) =>
-      jni.JlObject.fromRef(_getWallpaperFile(reference, which));
+  os.ParcelFileDescriptor getWallpaperFile(int which) =>
+      os.ParcelFileDescriptor.fromRef(_getWallpaperFile(reference, which));
 
   static final _addOnColorsChangedListener = jlookup<
               ffi.NativeFunction<
@@ -11376,7 +11418,7 @@ class WallpaperManager extends jni.JlObject {
   /// from: public void addOnColorsChangedListener(android.app.WallpaperManager.OnColorsChangedListener listener, android.os.Handler handler)
   void addOnColorsChangedListener(
           WallpaperManager_OnColorsChangedListener listener,
-          jni.JlObject handler) =>
+          os.Handler handler) =>
       _addOnColorsChangedListener(
           reference, listener.reference, handler.reference);
 
@@ -11441,8 +11483,8 @@ class WallpaperManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.Intent getCropAndSetWallpaperIntent(android.net.Uri imageUri)
-  jni.JlObject getCropAndSetWallpaperIntent(jni.JlObject imageUri) =>
-      jni.JlObject.fromRef(
+  content.Intent getCropAndSetWallpaperIntent(jni.JlObject imageUri) =>
+      content.Intent.fromRef(
           _getCropAndSetWallpaperIntent(reference, imageUri.reference));
 
   static final _setResource = jlookup<
@@ -11626,7 +11668,7 @@ class WallpaperManager extends jni.JlObject {
 
   /// from: public void setWallpaperOffsets(android.os.IBinder windowToken, float xOffset, float yOffset)
   void setWallpaperOffsets(
-          jni.JlObject windowToken, double xOffset, double yOffset) =>
+          os.IBinder windowToken, double xOffset, double yOffset) =>
       _setWallpaperOffsets(reference, windowToken.reference, xOffset, yOffset);
 
   static final _setWallpaperOffsetSteps = jlookup<
@@ -11656,8 +11698,8 @@ class WallpaperManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, int, int, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void sendWallpaperCommand(android.os.IBinder windowToken, java.lang.String action, int x, int y, int z, android.os.Bundle extras)
-  void sendWallpaperCommand(jni.JlObject windowToken, jni.JlString action,
-          int x, int y, int z, jni.JlObject extras) =>
+  void sendWallpaperCommand(os.IBinder windowToken, jni.JlString action, int x,
+          int y, int z, os.Bundle extras) =>
       _sendWallpaperCommand(reference, windowToken.reference, action.reference,
           x, y, z, extras.reference);
 
@@ -11686,7 +11728,7 @@ class WallpaperManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void clearWallpaperOffsets(android.os.IBinder windowToken)
-  void clearWallpaperOffsets(jni.JlObject windowToken) =>
+  void clearWallpaperOffsets(os.IBinder windowToken) =>
       _clearWallpaperOffsets(reference, windowToken.reference);
 
   static final _clear =
@@ -11734,7 +11776,7 @@ class Dialog extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.content.Context context)
-  Dialog(jni.JlObject context) : super.fromRef(_ctor(context.reference));
+  Dialog(content.Context context) : super.fromRef(_ctor(context.reference));
 
   static final _ctor_1 = jlookup<
           ffi.NativeFunction<
@@ -11743,7 +11785,7 @@ class Dialog extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void <init>(android.content.Context context, int themeResId)
-  Dialog.ctor_1(jni.JlObject context, int themeResId)
+  Dialog.ctor_1(content.Context context, int themeResId)
       : super.fromRef(_ctor_1(context.reference, themeResId));
 
   static final _ctor_2 = jlookup<
@@ -11755,8 +11797,8 @@ class Dialog extends jni.JlObject {
               ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void <init>(android.content.Context context, boolean cancelable, android.content.DialogInterface.OnCancelListener cancelListener)
-  Dialog.ctor_2(
-      jni.JlObject context, bool cancelable, jni.JlObject cancelListener)
+  Dialog.ctor_2(content.Context context, bool cancelable,
+      content.DialogInterface_OnCancelListener cancelListener)
       : super.fromRef(_ctor_2(
             context.reference, cancelable ? 1 : 0, cancelListener.reference));
 
@@ -11767,7 +11809,8 @@ class Dialog extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public final android.content.Context getContext()
-  jni.JlObject getContext() => jni.JlObject.fromRef(_getContext(reference));
+  content.Context getContext() =>
+      content.Context.fromRef(_getContext(reference));
 
   static final _getActionBar = jlookup<
           ffi.NativeFunction<
@@ -11847,7 +11890,7 @@ class Dialog extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void onCreate(android.os.Bundle savedInstanceState)
-  void onCreate(jni.JlObject savedInstanceState) =>
+  void onCreate(os.Bundle savedInstanceState) =>
       _onCreate(reference, savedInstanceState.reference);
 
   static final _onStart =
@@ -11873,8 +11916,8 @@ class Dialog extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle onSaveInstanceState()
-  jni.JlObject onSaveInstanceState() =>
-      jni.JlObject.fromRef(_onSaveInstanceState(reference));
+  os.Bundle onSaveInstanceState() =>
+      os.Bundle.fromRef(_onSaveInstanceState(reference));
 
   static final _onRestoreInstanceState = jlookup<
               ffi.NativeFunction<
@@ -11885,7 +11928,7 @@ class Dialog extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onRestoreInstanceState(android.os.Bundle savedInstanceState)
-  void onRestoreInstanceState(jni.JlObject savedInstanceState) =>
+  void onRestoreInstanceState(os.Bundle savedInstanceState) =>
       _onRestoreInstanceState(reference, savedInstanceState.reference);
 
   static final _getWindow = jlookup<
@@ -12588,7 +12631,7 @@ class Dialog extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setOnCancelListener(android.content.DialogInterface.OnCancelListener listener)
-  void setOnCancelListener(jni.JlObject listener) =>
+  void setOnCancelListener(content.DialogInterface_OnCancelListener listener) =>
       _setOnCancelListener(reference, listener.reference);
 
   static final _setCancelMessage = jlookup<
@@ -12600,7 +12643,7 @@ class Dialog extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setCancelMessage(android.os.Message msg)
-  void setCancelMessage(jni.JlObject msg) =>
+  void setCancelMessage(os.Message msg) =>
       _setCancelMessage(reference, msg.reference);
 
   static final _setOnDismissListener = jlookup<
@@ -12612,7 +12655,8 @@ class Dialog extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setOnDismissListener(android.content.DialogInterface.OnDismissListener listener)
-  void setOnDismissListener(jni.JlObject listener) =>
+  void setOnDismissListener(
+          content.DialogInterface_OnDismissListener listener) =>
       _setOnDismissListener(reference, listener.reference);
 
   static final _setOnShowListener = jlookup<
@@ -12624,7 +12668,7 @@ class Dialog extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setOnShowListener(android.content.DialogInterface.OnShowListener listener)
-  void setOnShowListener(jni.JlObject listener) =>
+  void setOnShowListener(content.DialogInterface_OnShowListener listener) =>
       _setOnShowListener(reference, listener.reference);
 
   static final _setDismissMessage = jlookup<
@@ -12636,7 +12680,7 @@ class Dialog extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setDismissMessage(android.os.Message msg)
-  void setDismissMessage(jni.JlObject msg) =>
+  void setDismissMessage(os.Message msg) =>
       _setDismissMessage(reference, msg.reference);
 
   static final _setVolumeControlStream = jlookup<
@@ -12666,7 +12710,7 @@ class Dialog extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setOnKeyListener(android.content.DialogInterface.OnKeyListener onKeyListener)
-  void setOnKeyListener(jni.JlObject onKeyListener) =>
+  void setOnKeyListener(content.DialogInterface_OnKeyListener onKeyListener) =>
       _setOnKeyListener(reference, onKeyListener.reference);
 }
 
@@ -12691,9 +12735,9 @@ class KeyguardManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.Intent createConfirmDeviceCredentialIntent(java.lang.CharSequence title, java.lang.CharSequence description)
-  jni.JlObject createConfirmDeviceCredentialIntent(
+  content.Intent createConfirmDeviceCredentialIntent(
           jni.JlObject title, jni.JlObject description) =>
-      jni.JlObject.fromRef(_createConfirmDeviceCredentialIntent(
+      content.Intent.fromRef(_createConfirmDeviceCredentialIntent(
           reference, title.reference, description.reference));
 
   static final _newKeyguardLock = jlookup<
@@ -12870,7 +12914,8 @@ class WallpaperColors extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_WallpaperColors_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
           ffi.NativeFunction<
@@ -12879,7 +12924,7 @@ class WallpaperColors extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.os.Parcel parcel)
-  WallpaperColors(jni.JlObject parcel) : super.fromRef(_ctor(parcel.reference));
+  WallpaperColors(os.Parcel parcel) : super.fromRef(_ctor(parcel.reference));
 
   static final _ctor_1 = jlookup<
           ffi.NativeFunction<
@@ -12933,7 +12978,7 @@ class WallpaperColors extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 
   static final _getPrimaryColor = jlookup<
@@ -13004,7 +13049,7 @@ class TaskStackBuilder extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: void <init>(android.content.Context a)
-  TaskStackBuilder(jni.JlObject a) : super.fromRef(_ctor(a.reference));
+  TaskStackBuilder(content.Context a) : super.fromRef(_ctor(a.reference));
 
   static final _create = jlookup<
               ffi.NativeFunction<
@@ -13013,7 +13058,7 @@ class TaskStackBuilder extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public android.app.TaskStackBuilder create(android.content.Context context)
-  static TaskStackBuilder create(jni.JlObject context) =>
+  static TaskStackBuilder create(content.Context context) =>
       TaskStackBuilder.fromRef(_create(context.reference));
 
   static final _addNextIntent = jlookup<
@@ -13026,7 +13071,7 @@ class TaskStackBuilder extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.TaskStackBuilder addNextIntent(android.content.Intent nextIntent)
-  TaskStackBuilder addNextIntent(jni.JlObject nextIntent) =>
+  TaskStackBuilder addNextIntent(content.Intent nextIntent) =>
       TaskStackBuilder.fromRef(_addNextIntent(reference, nextIntent.reference));
 
   static final _addNextIntentWithParentStack = jlookup<
@@ -13039,7 +13084,7 @@ class TaskStackBuilder extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.TaskStackBuilder addNextIntentWithParentStack(android.content.Intent nextIntent)
-  TaskStackBuilder addNextIntentWithParentStack(jni.JlObject nextIntent) =>
+  TaskStackBuilder addNextIntentWithParentStack(content.Intent nextIntent) =>
       TaskStackBuilder.fromRef(
           _addNextIntentWithParentStack(reference, nextIntent.reference));
 
@@ -13081,7 +13126,7 @@ class TaskStackBuilder extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.TaskStackBuilder addParentStack(android.content.ComponentName sourceActivityName)
-  TaskStackBuilder addParentStack_2(jni.JlObject sourceActivityName) =>
+  TaskStackBuilder addParentStack_2(content.ComponentName sourceActivityName) =>
       TaskStackBuilder.fromRef(
           _addParentStack_2(reference, sourceActivityName.reference));
 
@@ -13100,8 +13145,8 @@ class TaskStackBuilder extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.content.Intent editIntentAt(int index)
-  jni.JlObject editIntentAt(int index) =>
-      jni.JlObject.fromRef(_editIntentAt(reference, index));
+  content.Intent editIntentAt(int index) =>
+      content.Intent.fromRef(_editIntentAt(reference, index));
 
   static final _startActivities =
       jlookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
@@ -13120,7 +13165,7 @@ class TaskStackBuilder extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void startActivities(android.os.Bundle options)
-  void startActivities_1(jni.JlObject options) =>
+  void startActivities_1(os.Bundle options) =>
       _startActivities_1(reference, options.reference);
 
   static final _getPendingIntent = jlookup<
@@ -13145,7 +13190,7 @@ class TaskStackBuilder extends jni.JlObject {
 
   /// from: public android.app.PendingIntent getPendingIntent(int requestCode, int flags, android.os.Bundle options)
   PendingIntent getPendingIntent_1(
-          int requestCode, int flags, jni.JlObject options) =>
+          int requestCode, int flags, os.Bundle options) =>
       PendingIntent.fromRef(_getPendingIntent_1(
           reference, requestCode, flags, options.reference));
 
@@ -13402,7 +13447,7 @@ class UiAutomation extends jni.JlObject {
 
   /// from: public void grantRuntimePermissionAsUser(java.lang.String packageName, java.lang.String permission, android.os.UserHandle userHandle)
   void grantRuntimePermissionAsUser(jni.JlString packageName,
-          jni.JlString permission, jni.JlObject userHandle) =>
+          jni.JlString permission, os.UserHandle userHandle) =>
       _grantRuntimePermissionAsUser(reference, packageName.reference,
           permission.reference, userHandle.reference);
 
@@ -13435,7 +13480,7 @@ class UiAutomation extends jni.JlObject {
 
   /// from: public void revokeRuntimePermissionAsUser(java.lang.String packageName, java.lang.String permission, android.os.UserHandle userHandle)
   void revokeRuntimePermissionAsUser(jni.JlString packageName,
-          jni.JlString permission, jni.JlObject userHandle) =>
+          jni.JlString permission, os.UserHandle userHandle) =>
       _revokeRuntimePermissionAsUser(reference, packageName.reference,
           permission.reference, userHandle.reference);
 
@@ -13449,8 +13494,9 @@ class UiAutomation extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.ParcelFileDescriptor executeShellCommand(java.lang.String command)
-  jni.JlObject executeShellCommand(jni.JlString command) =>
-      jni.JlObject.fromRef(_executeShellCommand(reference, command.reference));
+  os.ParcelFileDescriptor executeShellCommand(jni.JlString command) =>
+      os.ParcelFileDescriptor.fromRef(
+          _executeShellCommand(reference, command.reference));
 }
 
 class UiAutomation_OnAccessibilityEventListener extends jni.JlObject {
@@ -13495,7 +13541,7 @@ class FragmentBreadCrumbs extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.content.Context context)
-  FragmentBreadCrumbs(jni.JlObject context)
+  FragmentBreadCrumbs(content.Context context)
       : super.fromRef(_ctor(context.reference));
 
   static final _ctor_1 = jlookup<
@@ -13508,7 +13554,7 @@ class FragmentBreadCrumbs extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.content.Context context, android.util.AttributeSet attrs)
-  FragmentBreadCrumbs.ctor_1(jni.JlObject context, jni.JlObject attrs)
+  FragmentBreadCrumbs.ctor_1(content.Context context, jni.JlObject attrs)
       : super.fromRef(_ctor_1(context.reference, attrs.reference));
 
   static final _ctor_2 = jlookup<
@@ -13523,7 +13569,7 @@ class FragmentBreadCrumbs extends jni.JlObject {
 
   /// from: public void <init>(android.content.Context context, android.util.AttributeSet attrs, int defStyleAttr)
   FragmentBreadCrumbs.ctor_2(
-      jni.JlObject context, jni.JlObject attrs, int defStyleAttr)
+      content.Context context, jni.JlObject attrs, int defStyleAttr)
       : super.fromRef(
             _ctor_2(context.reference, attrs.reference, defStyleAttr));
 
@@ -13668,7 +13714,7 @@ class LocalActivityManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.view.Window startActivity(java.lang.String id, android.content.Intent intent)
-  jni.JlObject startActivity(jni.JlString id, jni.JlObject intent) =>
+  jni.JlObject startActivity(jni.JlString id, content.Intent intent) =>
       jni.JlObject.fromRef(
           _startActivity(reference, id.reference, intent.reference));
 
@@ -13727,7 +13773,7 @@ class LocalActivityManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void dispatchCreate(android.os.Bundle state)
-  void dispatchCreate(jni.JlObject state) =>
+  void dispatchCreate(os.Bundle state) =>
       _dispatchCreate(reference, state.reference);
 
   static final _saveInstanceState = jlookup<
@@ -13737,8 +13783,8 @@ class LocalActivityManager extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle saveInstanceState()
-  jni.JlObject saveInstanceState() =>
-      jni.JlObject.fromRef(_saveInstanceState(reference));
+  os.Bundle saveInstanceState() =>
+      os.Bundle.fromRef(_saveInstanceState(reference));
 
   static final _dispatchResume =
       jlookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
@@ -13811,7 +13857,7 @@ class NativeActivity extends Activity {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void onCreate(android.os.Bundle savedInstanceState)
-  void onCreate(jni.JlObject savedInstanceState) =>
+  void onCreate(os.Bundle savedInstanceState) =>
       _onCreate(reference, savedInstanceState.reference);
 
   static final _onDestroy =
@@ -13847,7 +13893,7 @@ class NativeActivity extends Activity {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void onSaveInstanceState(android.os.Bundle outState)
-  void onSaveInstanceState(jni.JlObject outState) =>
+  void onSaveInstanceState(os.Bundle outState) =>
       _onSaveInstanceState(reference, outState.reference);
 
   static final _onStart =
@@ -13875,7 +13921,7 @@ class NativeActivity extends Activity {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onConfigurationChanged(android.content.res.Configuration newConfig)
-  void onConfigurationChanged(jni.JlObject newConfig) =>
+  void onConfigurationChanged(res.Configuration newConfig) =>
       _onConfigurationChanged(reference, newConfig.reference);
 
   static final _onLowMemory =
@@ -14023,7 +14069,7 @@ class AppComponentFactory extends jni.JlObject {
 
   /// from: public android.app.Activity instantiateActivity(java.lang.ClassLoader cl, java.lang.String className, android.content.Intent intent)
   Activity instantiateActivity(
-          jni.JlObject cl, jni.JlString className, jni.JlObject intent) =>
+          jni.JlObject cl, jni.JlString className, content.Intent intent) =>
       Activity.fromRef(_instantiateActivity(
           reference, cl.reference, className.reference, intent.reference));
 
@@ -14043,9 +14089,9 @@ class AppComponentFactory extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.BroadcastReceiver instantiateReceiver(java.lang.ClassLoader cl, java.lang.String className, android.content.Intent intent)
-  jni.JlObject instantiateReceiver(
-          jni.JlObject cl, jni.JlString className, jni.JlObject intent) =>
-      jni.JlObject.fromRef(_instantiateReceiver(
+  content.BroadcastReceiver instantiateReceiver(
+          jni.JlObject cl, jni.JlString className, content.Intent intent) =>
+      content.BroadcastReceiver.fromRef(_instantiateReceiver(
           reference, cl.reference, className.reference, intent.reference));
 
   static final _instantiateService = jlookup<
@@ -14065,7 +14111,7 @@ class AppComponentFactory extends jni.JlObject {
 
   /// from: public android.app.Service instantiateService(java.lang.ClassLoader cl, java.lang.String className, android.content.Intent intent)
   Service instantiateService(
-          jni.JlObject cl, jni.JlString className, jni.JlObject intent) =>
+          jni.JlObject cl, jni.JlString className, content.Intent intent) =>
       Service.fromRef(_instantiateService(
           reference, cl.reference, className.reference, intent.reference));
 
@@ -14079,8 +14125,9 @@ class AppComponentFactory extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.ContentProvider instantiateProvider(java.lang.ClassLoader cl, java.lang.String className)
-  jni.JlObject instantiateProvider(jni.JlObject cl, jni.JlString className) =>
-      jni.JlObject.fromRef(
+  content.ContentProvider instantiateProvider(
+          jni.JlObject cl, jni.JlString className) =>
+      content.ContentProvider.fromRef(
           _instantiateProvider(reference, cl.reference, className.reference));
 }
 
@@ -14111,7 +14158,8 @@ class ApplicationErrorReport extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_ApplicationErrorReport_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final int TYPE_ANR
   static const TYPE_ANR = 2;
@@ -14355,9 +14403,9 @@ class ApplicationErrorReport extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: static public android.content.ComponentName getErrorReportReceiver(android.content.Context context, java.lang.String packageName, int appFlags)
-  static jni.JlObject getErrorReportReceiver(
-          jni.JlObject context, jni.JlString packageName, int appFlags) =>
-      jni.JlObject.fromRef(_getErrorReportReceiver(
+  static content.ComponentName getErrorReportReceiver(
+          content.Context context, jni.JlString packageName, int appFlags) =>
+      content.ComponentName.fromRef(_getErrorReportReceiver(
           context.reference, packageName.reference, appFlags));
 
   static final _writeToParcel = jlookup<
@@ -14369,7 +14417,7 @@ class ApplicationErrorReport extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 
   static final _readFromParcel = jlookup<
@@ -14381,7 +14429,7 @@ class ApplicationErrorReport extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void readFromParcel(android.os.Parcel in)
-  void readFromParcel(jni.JlObject in_) =>
+  void readFromParcel(os.Parcel in_) =>
       _readFromParcel(reference, in_.reference);
 
   static final _describeContents =
@@ -14465,7 +14513,7 @@ class ApplicationErrorReport_RunningServiceInfo extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.os.Parcel in)
-  ApplicationErrorReport_RunningServiceInfo.ctor_1(jni.JlObject in_)
+  ApplicationErrorReport_RunningServiceInfo.ctor_1(os.Parcel in_)
       : super.fromRef(_ctor_1(in_.reference));
 
   static final _writeToParcel = jlookup<
@@ -14477,7 +14525,7 @@ class ApplicationErrorReport_RunningServiceInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 
   static final _dump = jlookup<
@@ -14673,7 +14721,7 @@ class ApplicationErrorReport_CrashInfo extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.os.Parcel in)
-  ApplicationErrorReport_CrashInfo.ctor_2(jni.JlObject in_)
+  ApplicationErrorReport_CrashInfo.ctor_2(os.Parcel in_)
       : super.fromRef(_ctor_2(in_.reference));
 
   static final _writeToParcel = jlookup<
@@ -14685,7 +14733,7 @@ class ApplicationErrorReport_CrashInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 
   static final _dump = jlookup<
@@ -14801,7 +14849,7 @@ class ApplicationErrorReport_BatteryInfo extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.os.Parcel in)
-  ApplicationErrorReport_BatteryInfo.ctor_1(jni.JlObject in_)
+  ApplicationErrorReport_BatteryInfo.ctor_1(os.Parcel in_)
       : super.fromRef(_ctor_1(in_.reference));
 
   static final _writeToParcel = jlookup<
@@ -14813,7 +14861,7 @@ class ApplicationErrorReport_BatteryInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 
   static final _dump = jlookup<
@@ -14909,7 +14957,7 @@ class ApplicationErrorReport_AnrInfo extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.os.Parcel in)
-  ApplicationErrorReport_AnrInfo.ctor_1(jni.JlObject in_)
+  ApplicationErrorReport_AnrInfo.ctor_1(os.Parcel in_)
       : super.fromRef(_ctor_1(in_.reference));
 
   static final _writeToParcel = jlookup<
@@ -14921,7 +14969,7 @@ class ApplicationErrorReport_AnrInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 
   static final _dump = jlookup<
@@ -14948,7 +14996,7 @@ class MediaRouteButton extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.content.Context context)
-  MediaRouteButton(jni.JlObject context)
+  MediaRouteButton(content.Context context)
       : super.fromRef(_ctor(context.reference));
 
   static final _ctor_1 = jlookup<
@@ -14960,7 +15008,7 @@ class MediaRouteButton extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.content.Context context, android.util.AttributeSet attrs)
-  MediaRouteButton.ctor_1(jni.JlObject context, jni.JlObject attrs)
+  MediaRouteButton.ctor_1(content.Context context, jni.JlObject attrs)
       : super.fromRef(_ctor_1(context.reference, attrs.reference));
 
   static final _ctor_2 = jlookup<
@@ -14975,7 +15023,7 @@ class MediaRouteButton extends jni.JlObject {
 
   /// from: public void <init>(android.content.Context context, android.util.AttributeSet attrs, int defStyleAttr)
   MediaRouteButton.ctor_2(
-      jni.JlObject context, jni.JlObject attrs, int defStyleAttr)
+      content.Context context, jni.JlObject attrs, int defStyleAttr)
       : super.fromRef(
             _ctor_2(context.reference, attrs.reference, defStyleAttr));
 
@@ -14991,7 +15039,7 @@ class MediaRouteButton extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int, int)>();
 
   /// from: public void <init>(android.content.Context context, android.util.AttributeSet attrs, int defStyleAttr, int defStyleRes)
-  MediaRouteButton.ctor_3(jni.JlObject context, jni.JlObject attrs,
+  MediaRouteButton.ctor_3(content.Context context, jni.JlObject attrs,
       int defStyleAttr, int defStyleRes)
       : super.fromRef(_ctor_3(
             context.reference, attrs.reference, defStyleAttr, defStyleRes));
@@ -15149,7 +15197,7 @@ class MediaRouteActionProvider extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.content.Context context)
-  MediaRouteActionProvider(jni.JlObject context)
+  MediaRouteActionProvider(content.Context context)
       : super.fromRef(_ctor(context.reference));
 
   static final _setRouteTypes = jlookup<
@@ -15415,8 +15463,8 @@ class SearchManager extends jni.JlObject {
   void startSearch(
           jni.JlString initialQuery,
           bool selectInitialQuery,
-          jni.JlObject launchActivity,
-          jni.JlObject appSearchData,
+          content.ComponentName launchActivity,
+          os.Bundle appSearchData,
           bool globalSearch) =>
       _startSearch(
           reference,
@@ -15433,8 +15481,8 @@ class SearchManager extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.ComponentName getGlobalSearchActivity()
-  jni.JlObject getGlobalSearchActivity() =>
-      jni.JlObject.fromRef(_getGlobalSearchActivity(reference));
+  content.ComponentName getGlobalSearchActivity() =>
+      content.ComponentName.fromRef(_getGlobalSearchActivity(reference));
 
   static final _triggerSearch = jlookup<
               ffi.NativeFunction<
@@ -15449,8 +15497,8 @@ class SearchManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void triggerSearch(java.lang.String query, android.content.ComponentName launchActivity, android.os.Bundle appSearchData)
-  void triggerSearch(jni.JlString query, jni.JlObject launchActivity,
-          jni.JlObject appSearchData) =>
+  void triggerSearch(jni.JlString query, content.ComponentName launchActivity,
+          os.Bundle appSearchData) =>
       _triggerSearch(reference, query.reference, launchActivity.reference,
           appSearchData.reference);
 
@@ -15494,7 +15542,8 @@ class SearchManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onCancel(android.content.DialogInterface dialog)
-  void onCancel(jni.JlObject dialog) => _onCancel(reference, dialog.reference);
+  void onCancel(content.DialogInterface dialog) =>
+      _onCancel(reference, dialog.reference);
 
   static final _onDismiss = jlookup<
               ffi.NativeFunction<
@@ -15505,7 +15554,7 @@ class SearchManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onDismiss(android.content.DialogInterface dialog)
-  void onDismiss(jni.JlObject dialog) =>
+  void onDismiss(content.DialogInterface dialog) =>
       _onDismiss(reference, dialog.reference);
 
   static final _getSearchableInfo = jlookup<
@@ -15518,7 +15567,7 @@ class SearchManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.SearchableInfo getSearchableInfo(android.content.ComponentName componentName)
-  SearchableInfo getSearchableInfo(jni.JlObject componentName) =>
+  SearchableInfo getSearchableInfo(content.ComponentName componentName) =>
       SearchableInfo.fromRef(
           _getSearchableInfo(reference, componentName.reference));
 
@@ -15567,7 +15616,8 @@ class AutomaticZenRule extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_AutomaticZenRule_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
           ffi.NativeFunction<
@@ -15582,7 +15632,7 @@ class AutomaticZenRule extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int, int)>();
 
   /// from: public void <init>(java.lang.String name, android.content.ComponentName owner, android.net.Uri conditionId, int interruptionFilter, boolean enabled)
-  AutomaticZenRule(jni.JlString name, jni.JlObject owner,
+  AutomaticZenRule(jni.JlString name, content.ComponentName owner,
       jni.JlObject conditionId, int interruptionFilter, bool enabled)
       : super.fromRef(_ctor(name.reference, owner.reference,
             conditionId.reference, interruptionFilter, enabled ? 1 : 0));
@@ -15594,7 +15644,7 @@ class AutomaticZenRule extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.os.Parcel source)
-  AutomaticZenRule.ctor_1(jni.JlObject source)
+  AutomaticZenRule.ctor_1(os.Parcel source)
       : super.fromRef(_ctor_1(source.reference));
 
   static final _getOwner = jlookup<
@@ -15604,7 +15654,8 @@ class AutomaticZenRule extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.ComponentName getOwner()
-  jni.JlObject getOwner() => jni.JlObject.fromRef(_getOwner(reference));
+  content.ComponentName getOwner() =>
+      content.ComponentName.fromRef(_getOwner(reference));
 
   static final _getConditionId = jlookup<
               ffi.NativeFunction<
@@ -15707,7 +15758,7 @@ class AutomaticZenRule extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 
   static final _toString_1 = jlookup<
@@ -15738,7 +15789,7 @@ class AutomaticZenRule extends jni.JlObject {
   int hashCode_1() => _hashCode_1(reference);
 }
 
-class Service extends jni.JlObject {
+class Service extends content.ContextWrapper {
   Service.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   /// from: static public final int START_CONTINUATION_MASK
@@ -15802,7 +15853,7 @@ class Service extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void onStart(android.content.Intent intent, int startId)
-  void onStart(jni.JlObject intent, int startId) =>
+  void onStart(content.Intent intent, int startId) =>
       _onStart(reference, intent.reference, startId);
 
   static final _onStartCommand = jlookup<
@@ -15814,7 +15865,7 @@ class Service extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int, int)>();
 
   /// from: public int onStartCommand(android.content.Intent intent, int flags, int startId)
-  int onStartCommand(jni.JlObject intent, int flags, int startId) =>
+  int onStartCommand(content.Intent intent, int flags, int startId) =>
       _onStartCommand(reference, intent.reference, flags, startId);
 
   static final _onDestroy =
@@ -15834,7 +15885,7 @@ class Service extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onConfigurationChanged(android.content.res.Configuration newConfig)
-  void onConfigurationChanged(jni.JlObject newConfig) =>
+  void onConfigurationChanged(res.Configuration newConfig) =>
       _onConfigurationChanged(reference, newConfig.reference);
 
   static final _onLowMemory =
@@ -15863,8 +15914,8 @@ class Service extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract android.os.IBinder onBind(android.content.Intent intent)
-  jni.JlObject onBind(jni.JlObject intent) =>
-      jni.JlObject.fromRef(_onBind(reference, intent.reference));
+  os.IBinder onBind(content.Intent intent) =>
+      os.IBinder.fromRef(_onBind(reference, intent.reference));
 
   static final _onUnbind = jlookup<
           ffi.NativeFunction<
@@ -15873,7 +15924,7 @@ class Service extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean onUnbind(android.content.Intent intent)
-  bool onUnbind(jni.JlObject intent) =>
+  bool onUnbind(content.Intent intent) =>
       _onUnbind(reference, intent.reference) != 0;
 
   static final _onRebind = jlookup<
@@ -15884,7 +15935,8 @@ class Service extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onRebind(android.content.Intent intent)
-  void onRebind(jni.JlObject intent) => _onRebind(reference, intent.reference);
+  void onRebind(content.Intent intent) =>
+      _onRebind(reference, intent.reference);
 
   static final _onTaskRemoved = jlookup<
           ffi.NativeFunction<
@@ -15894,7 +15946,7 @@ class Service extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onTaskRemoved(android.content.Intent rootIntent)
-  void onTaskRemoved(jni.JlObject rootIntent) =>
+  void onTaskRemoved(content.Intent rootIntent) =>
       _onTaskRemoved(reference, rootIntent.reference);
 
   static final _stopSelf =
@@ -16326,9 +16378,9 @@ class LoaderManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract android.content.Loader<D> initLoader(int id, android.os.Bundle args, android.app.LoaderManager.LoaderCallbacks<D> callback)
-  jni.JlObject initLoader(
-          int id, jni.JlObject args, LoaderManager_LoaderCallbacks callback) =>
-      jni.JlObject.fromRef(
+  content.Loader initLoader(
+          int id, os.Bundle args, LoaderManager_LoaderCallbacks callback) =>
+      content.Loader.fromRef(
           _initLoader(reference, id, args.reference, callback.reference));
 
   static final _restartLoader = jlookup<
@@ -16344,9 +16396,9 @@ class LoaderManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract android.content.Loader<D> restartLoader(int id, android.os.Bundle args, android.app.LoaderManager.LoaderCallbacks<D> callback)
-  jni.JlObject restartLoader(
-          int id, jni.JlObject args, LoaderManager_LoaderCallbacks callback) =>
-      jni.JlObject.fromRef(
+  content.Loader restartLoader(
+          int id, os.Bundle args, LoaderManager_LoaderCallbacks callback) =>
+      content.Loader.fromRef(
           _restartLoader(reference, id, args.reference, callback.reference));
 
   static final _destroyLoader = jlookup<
@@ -16365,8 +16417,8 @@ class LoaderManager extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public abstract android.content.Loader<D> getLoader(int id)
-  jni.JlObject getLoader(int id) =>
-      jni.JlObject.fromRef(_getLoader(reference, id));
+  content.Loader getLoader(int id) =>
+      content.Loader.fromRef(_getLoader(reference, id));
 
   static final _dump = jlookup<
           ffi.NativeFunction<
@@ -16414,8 +16466,8 @@ class LoaderManager_LoaderCallbacks extends jni.JlObject {
               ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract android.content.Loader<D> onCreateLoader(int id, android.os.Bundle args)
-  jni.JlObject onCreateLoader(int id, jni.JlObject args) =>
-      jni.JlObject.fromRef(_onCreateLoader(reference, id, args.reference));
+  content.Loader onCreateLoader(int id, os.Bundle args) =>
+      content.Loader.fromRef(_onCreateLoader(reference, id, args.reference));
 
   static final _onLoaderReset = jlookup<
               ffi.NativeFunction<
@@ -16426,7 +16478,7 @@ class LoaderManager_LoaderCallbacks extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract void onLoaderReset(android.content.Loader<D> loader)
-  void onLoaderReset(jni.JlObject loader) =>
+  void onLoaderReset(content.Loader loader) =>
       _onLoaderReset(reference, loader.reference);
 }
 
@@ -16605,7 +16657,7 @@ class FragmentManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract void putFragment(android.os.Bundle bundle, java.lang.String key, android.app.Fragment fragment)
-  void putFragment(jni.JlObject bundle, jni.JlString key, Fragment fragment) =>
+  void putFragment(os.Bundle bundle, jni.JlString key, Fragment fragment) =>
       _putFragment(
           reference, bundle.reference, key.reference, fragment.reference);
 
@@ -16619,9 +16671,8 @@ class FragmentManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract android.app.Fragment getFragment(android.os.Bundle bundle, java.lang.String key)
-  Fragment getFragment(jni.JlObject bundle, jni.JlString key) =>
-      Fragment.fromRef(
-          _getFragment(reference, bundle.reference, key.reference));
+  Fragment getFragment(os.Bundle bundle, jni.JlString key) => Fragment.fromRef(
+      _getFragment(reference, bundle.reference, key.reference));
 
   static final _getFragments = jlookup<
               ffi.NativeFunction<
@@ -16778,7 +16829,7 @@ class FragmentManager_FragmentLifecycleCallbacks extends jni.JlObject {
 
   /// from: public void onFragmentPreAttached(android.app.FragmentManager fm, android.app.Fragment f, android.content.Context context)
   void onFragmentPreAttached(
-          FragmentManager fm, Fragment f, jni.JlObject context) =>
+          FragmentManager fm, Fragment f, content.Context context) =>
       _onFragmentPreAttached(
           reference, fm.reference, f.reference, context.reference);
 
@@ -16796,7 +16847,7 @@ class FragmentManager_FragmentLifecycleCallbacks extends jni.JlObject {
 
   /// from: public void onFragmentAttached(android.app.FragmentManager fm, android.app.Fragment f, android.content.Context context)
   void onFragmentAttached(
-          FragmentManager fm, Fragment f, jni.JlObject context) =>
+          FragmentManager fm, Fragment f, content.Context context) =>
       _onFragmentAttached(
           reference, fm.reference, f.reference, context.reference);
 
@@ -16814,7 +16865,7 @@ class FragmentManager_FragmentLifecycleCallbacks extends jni.JlObject {
 
   /// from: public void onFragmentPreCreated(android.app.FragmentManager fm, android.app.Fragment f, android.os.Bundle savedInstanceState)
   void onFragmentPreCreated(
-          FragmentManager fm, Fragment f, jni.JlObject savedInstanceState) =>
+          FragmentManager fm, Fragment f, os.Bundle savedInstanceState) =>
       _onFragmentPreCreated(
           reference, fm.reference, f.reference, savedInstanceState.reference);
 
@@ -16832,7 +16883,7 @@ class FragmentManager_FragmentLifecycleCallbacks extends jni.JlObject {
 
   /// from: public void onFragmentCreated(android.app.FragmentManager fm, android.app.Fragment f, android.os.Bundle savedInstanceState)
   void onFragmentCreated(
-          FragmentManager fm, Fragment f, jni.JlObject savedInstanceState) =>
+          FragmentManager fm, Fragment f, os.Bundle savedInstanceState) =>
       _onFragmentCreated(
           reference, fm.reference, f.reference, savedInstanceState.reference);
 
@@ -16850,7 +16901,7 @@ class FragmentManager_FragmentLifecycleCallbacks extends jni.JlObject {
 
   /// from: public void onFragmentActivityCreated(android.app.FragmentManager fm, android.app.Fragment f, android.os.Bundle savedInstanceState)
   void onFragmentActivityCreated(
-          FragmentManager fm, Fragment f, jni.JlObject savedInstanceState) =>
+          FragmentManager fm, Fragment f, os.Bundle savedInstanceState) =>
       _onFragmentActivityCreated(
           reference, fm.reference, f.reference, savedInstanceState.reference);
 
@@ -16873,7 +16924,7 @@ class FragmentManager_FragmentLifecycleCallbacks extends jni.JlObject {
 
   /// from: public void onFragmentViewCreated(android.app.FragmentManager fm, android.app.Fragment f, android.view.View v, android.os.Bundle savedInstanceState)
   void onFragmentViewCreated(FragmentManager fm, Fragment f, jni.JlObject v,
-          jni.JlObject savedInstanceState) =>
+          os.Bundle savedInstanceState) =>
       _onFragmentViewCreated(reference, fm.reference, f.reference, v.reference,
           savedInstanceState.reference);
 
@@ -16943,7 +16994,7 @@ class FragmentManager_FragmentLifecycleCallbacks extends jni.JlObject {
 
   /// from: public void onFragmentSaveInstanceState(android.app.FragmentManager fm, android.app.Fragment f, android.os.Bundle outState)
   void onFragmentSaveInstanceState(
-          FragmentManager fm, Fragment f, jni.JlObject outState) =>
+          FragmentManager fm, Fragment f, os.Bundle outState) =>
       _onFragmentSaveInstanceState(
           reference, fm.reference, f.reference, outState.reference);
 
@@ -17170,7 +17221,7 @@ class DownloadManager extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: void <init>(android.content.Context context)
-  DownloadManager(jni.JlObject context)
+  DownloadManager(content.Context context)
       : super.fromRef(_ctor(context.reference));
 
   static final _enqueue = jlookup<
@@ -17212,8 +17263,8 @@ class DownloadManager extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.os.ParcelFileDescriptor openDownloadedFile(long id)
-  jni.JlObject openDownloadedFile(int id) =>
-      jni.JlObject.fromRef(_openDownloadedFile(reference, id));
+  os.ParcelFileDescriptor openDownloadedFile(int id) =>
+      os.ParcelFileDescriptor.fromRef(_openDownloadedFile(reference, id));
 
   static final _getUriForDownloadedFile = jlookup<
               ffi.NativeFunction<
@@ -17244,7 +17295,7 @@ class DownloadManager extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public java.lang.Long getMaxBytesOverMobile(android.content.Context context)
-  static jni.JlObject getMaxBytesOverMobile(jni.JlObject context) =>
+  static jni.JlObject getMaxBytesOverMobile(content.Context context) =>
       jni.JlObject.fromRef(_getMaxBytesOverMobile(context.reference));
 
   static final _getRecommendedMaxBytesOverMobile = jlookup<
@@ -17254,7 +17305,8 @@ class DownloadManager extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public java.lang.Long getRecommendedMaxBytesOverMobile(android.content.Context context)
-  static jni.JlObject getRecommendedMaxBytesOverMobile(jni.JlObject context) =>
+  static jni.JlObject getRecommendedMaxBytesOverMobile(
+          content.Context context) =>
       jni.JlObject.fromRef(
           _getRecommendedMaxBytesOverMobile(context.reference));
 
@@ -17414,7 +17466,9 @@ class DownloadManager_Request extends jni.JlObject {
 
   /// from: public android.app.DownloadManager.Request setDestinationInExternalFilesDir(android.content.Context context, java.lang.String dirType, java.lang.String subPath)
   DownloadManager_Request setDestinationInExternalFilesDir(
-          jni.JlObject context, jni.JlString dirType, jni.JlString subPath) =>
+          content.Context context,
+          jni.JlString dirType,
+          jni.JlString subPath) =>
       DownloadManager_Request.fromRef(_setDestinationInExternalFilesDir(
           reference, context.reference, dirType.reference, subPath.reference));
 
@@ -17666,7 +17720,7 @@ class ListActivity extends Activity {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void onRestoreInstanceState(android.os.Bundle state)
-  void onRestoreInstanceState(jni.JlObject state) =>
+  void onRestoreInstanceState(os.Bundle state) =>
       _onRestoreInstanceState(reference, state.reference);
 
   static final _onDestroy =
@@ -17770,7 +17824,8 @@ class Person extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_Person_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
           ffi.NativeFunction<
@@ -17779,7 +17834,7 @@ class Person extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: void <init>(android.os.Parcel in)
-  Person(jni.JlObject in_) : super.fromRef(_ctor(in_.reference));
+  Person(os.Parcel in_) : super.fromRef(_ctor(in_.reference));
 
   static final _toBuilder = jlookup<
           ffi.NativeFunction<
@@ -17858,7 +17913,7 @@ class Person extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 }
 
@@ -18062,7 +18117,8 @@ class VoiceInteractor_Request extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.Context getContext()
-  jni.JlObject getContext() => jni.JlObject.fromRef(_getContext(reference));
+  content.Context getContext() =>
+      content.Context.fromRef(_getContext(reference));
 
   static final _getActivity = jlookup<
               ffi.NativeFunction<
@@ -18120,7 +18176,8 @@ class VoiceInteractor_Prompt extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_VoiceInteractor__Prompt_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
               ffi.NativeFunction<
@@ -18200,7 +18257,7 @@ class VoiceInteractor_Prompt extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 }
 
@@ -18219,7 +18276,7 @@ class VoiceInteractor_PickOptionRequest extends VoiceInteractor_Request {
 
   /// from: public void <init>(android.app.VoiceInteractor.Prompt prompt, android.app.VoiceInteractor.PickOptionRequest.Option[] options, android.os.Bundle extras)
   VoiceInteractor_PickOptionRequest(
-      VoiceInteractor_Prompt prompt, jni.JlObject options, jni.JlObject extras)
+      VoiceInteractor_Prompt prompt, jni.JlObject options, os.Bundle extras)
       : super.fromRef(
             _ctor(prompt.reference, options.reference, extras.reference));
 
@@ -18234,7 +18291,7 @@ class VoiceInteractor_PickOptionRequest extends VoiceInteractor_Request {
 
   /// from: public void onPickOptionResult(boolean finished, android.app.VoiceInteractor.PickOptionRequest.Option[] selections, android.os.Bundle result)
   void onPickOptionResult(
-          bool finished, jni.JlObject selections, jni.JlObject result) =>
+          bool finished, jni.JlObject selections, os.Bundle result) =>
       _onPickOptionResult(
           reference, finished ? 1 : 0, selections.reference, result.reference);
 }
@@ -18248,7 +18305,8 @@ class VoiceInteractor_PickOptionRequest_Option extends jni.JlObject {
               ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
           "get_android_app_VoiceInteractor__PickOptionRequest__Option_CREATOR")
       .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
               ffi.NativeFunction<
@@ -18320,8 +18378,7 @@ class VoiceInteractor_PickOptionRequest_Option extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setExtras(android.os.Bundle extras)
-  void setExtras(jni.JlObject extras) =>
-      _setExtras(reference, extras.reference);
+  void setExtras(os.Bundle extras) => _setExtras(reference, extras.reference);
 
   static final _getExtras = jlookup<
               ffi.NativeFunction<
@@ -18330,7 +18387,7 @@ class VoiceInteractor_PickOptionRequest_Option extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle getExtras()
-  jni.JlObject getExtras() => jni.JlObject.fromRef(_getExtras(reference));
+  os.Bundle getExtras() => os.Bundle.fromRef(_getExtras(reference));
 
   static final _describeContents = jlookup<
               ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
@@ -18349,7 +18406,7 @@ class VoiceInteractor_PickOptionRequest_Option extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 }
 
@@ -18368,7 +18425,7 @@ class VoiceInteractor_ConfirmationRequest extends VoiceInteractor_Request {
 
   /// from: public void <init>(android.app.VoiceInteractor.Prompt prompt, android.os.Bundle extras)
   VoiceInteractor_ConfirmationRequest(
-      VoiceInteractor_Prompt prompt, jni.JlObject extras)
+      VoiceInteractor_Prompt prompt, os.Bundle extras)
       : super.fromRef(_ctor(prompt.reference, extras.reference));
 
   static final _onConfirmationResult = jlookup<
@@ -18380,7 +18437,7 @@ class VoiceInteractor_ConfirmationRequest extends VoiceInteractor_Request {
           void Function(ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onConfirmationResult(boolean confirmed, android.os.Bundle result)
-  void onConfirmationResult(bool confirmed, jni.JlObject result) =>
+  void onConfirmationResult(bool confirmed, os.Bundle result) =>
       _onConfirmationResult(reference, confirmed ? 1 : 0, result.reference);
 }
 
@@ -18399,7 +18456,7 @@ class VoiceInteractor_CompleteVoiceRequest extends VoiceInteractor_Request {
 
   /// from: public void <init>(android.app.VoiceInteractor.Prompt prompt, android.os.Bundle extras)
   VoiceInteractor_CompleteVoiceRequest(
-      VoiceInteractor_Prompt prompt, jni.JlObject extras)
+      VoiceInteractor_Prompt prompt, os.Bundle extras)
       : super.fromRef(_ctor(prompt.reference, extras.reference));
 
   static final _onCompleteResult = jlookup<
@@ -18411,7 +18468,7 @@ class VoiceInteractor_CompleteVoiceRequest extends VoiceInteractor_Request {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onCompleteResult(android.os.Bundle result)
-  void onCompleteResult(jni.JlObject result) =>
+  void onCompleteResult(os.Bundle result) =>
       _onCompleteResult(reference, result.reference);
 }
 
@@ -18429,7 +18486,7 @@ class VoiceInteractor_CommandRequest extends VoiceInteractor_Request {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(java.lang.String command, android.os.Bundle args)
-  VoiceInteractor_CommandRequest(jni.JlString command, jni.JlObject args)
+  VoiceInteractor_CommandRequest(jni.JlString command, os.Bundle args)
       : super.fromRef(_ctor(command.reference, args.reference));
 
   static final _onCommandResult = jlookup<
@@ -18441,7 +18498,7 @@ class VoiceInteractor_CommandRequest extends VoiceInteractor_Request {
           void Function(ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onCommandResult(boolean isCompleted, android.os.Bundle result)
-  void onCommandResult(bool isCompleted, jni.JlObject result) =>
+  void onCommandResult(bool isCompleted, os.Bundle result) =>
       _onCommandResult(reference, isCompleted ? 1 : 0, result.reference);
 }
 
@@ -18460,7 +18517,7 @@ class VoiceInteractor_AbortVoiceRequest extends VoiceInteractor_Request {
 
   /// from: public void <init>(android.app.VoiceInteractor.Prompt prompt, android.os.Bundle extras)
   VoiceInteractor_AbortVoiceRequest(
-      VoiceInteractor_Prompt prompt, jni.JlObject extras)
+      VoiceInteractor_Prompt prompt, os.Bundle extras)
       : super.fromRef(_ctor(prompt.reference, extras.reference));
 
   static final _onAbortResult = jlookup<
@@ -18472,7 +18529,7 @@ class VoiceInteractor_AbortVoiceRequest extends VoiceInteractor_Request {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onAbortResult(android.os.Bundle result)
-  void onAbortResult(jni.JlObject result) =>
+  void onAbortResult(os.Bundle result) =>
       _onAbortResult(reference, result.reference);
 }
 
@@ -18545,7 +18602,7 @@ class AlarmManager extends jni.JlObject {
 
   /// from: public void set(int type, long triggerAtMillis, java.lang.String tag, android.app.AlarmManager.OnAlarmListener listener, android.os.Handler targetHandler)
   void set__1(int type, int triggerAtMillis, jni.JlString tag,
-          AlarmManager_OnAlarmListener listener, jni.JlObject targetHandler) =>
+          AlarmManager_OnAlarmListener listener, os.Handler targetHandler) =>
       _set__1(reference, type, triggerAtMillis, tag.reference,
           listener.reference, targetHandler.reference);
 
@@ -18610,7 +18667,7 @@ class AlarmManager extends jni.JlObject {
           int windowLengthMillis,
           jni.JlString tag,
           AlarmManager_OnAlarmListener listener,
-          jni.JlObject targetHandler) =>
+          os.Handler targetHandler) =>
       _setWindow_1(reference, type, windowStartMillis, windowLengthMillis,
           tag.reference, listener.reference, targetHandler.reference);
 
@@ -18642,7 +18699,7 @@ class AlarmManager extends jni.JlObject {
 
   /// from: public void setExact(int type, long triggerAtMillis, java.lang.String tag, android.app.AlarmManager.OnAlarmListener listener, android.os.Handler targetHandler)
   void setExact_1(int type, int triggerAtMillis, jni.JlString tag,
-          AlarmManager_OnAlarmListener listener, jni.JlObject targetHandler) =>
+          AlarmManager_OnAlarmListener listener, os.Handler targetHandler) =>
       _setExact_1(reference, type, triggerAtMillis, tag.reference,
           listener.reference, targetHandler.reference);
 
@@ -18781,7 +18838,8 @@ class AlarmManager_AlarmClockInfo extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_AlarmManager__AlarmClockInfo_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
               ffi.NativeFunction<
@@ -18829,7 +18887,7 @@ class AlarmManager_AlarmClockInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 }
 
@@ -18852,7 +18910,7 @@ class AliasActivity extends Activity {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void onCreate(android.os.Bundle savedInstanceState)
-  void onCreate(jni.JlObject savedInstanceState) =>
+  void onCreate(os.Bundle savedInstanceState) =>
       _onCreate(reference, savedInstanceState.reference);
 }
 
@@ -18940,7 +18998,7 @@ class NotificationManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: void <init>(android.content.Context context, android.os.Handler handler)
-  NotificationManager(jni.JlObject context, jni.JlObject handler)
+  NotificationManager(content.Context context, os.Handler handler)
       : super.fromRef(_ctor(context.reference, handler.reference));
 
   static final _notify = jlookup<
@@ -19217,7 +19275,7 @@ class NotificationManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isNotificationListenerAccessGranted(android.content.ComponentName listener)
-  bool isNotificationListenerAccessGranted(jni.JlObject listener) =>
+  bool isNotificationListenerAccessGranted(content.ComponentName listener) =>
       _isNotificationListenerAccessGranted(reference, listener.reference) != 0;
 
   static final _getNotificationPolicy = jlookup<
@@ -19281,7 +19339,8 @@ class NotificationManager_Policy extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_NotificationManager__Policy_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final int PRIORITY_CATEGORY_ALARMS
   static const PRIORITY_CATEGORY_ALARMS = 32;
@@ -19427,7 +19486,7 @@ class NotificationManager_Policy extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 
   static final _describeContents =
@@ -19505,7 +19564,7 @@ class Presentation extends Dialog {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.content.Context outerContext, android.view.Display display)
-  Presentation(jni.JlObject outerContext, jni.JlObject display)
+  Presentation(content.Context outerContext, jni.JlObject display)
       : super.fromRef(_ctor(outerContext.reference, display.reference));
 
   static final _ctor_1 = jlookup<
@@ -19520,7 +19579,7 @@ class Presentation extends Dialog {
 
   /// from: public void <init>(android.content.Context outerContext, android.view.Display display, int theme)
   Presentation.ctor_1(
-      jni.JlObject outerContext, jni.JlObject display, int theme)
+      content.Context outerContext, jni.JlObject display, int theme)
       : super.fromRef(
             _ctor_1(outerContext.reference, display.reference, theme));
 
@@ -19540,7 +19599,8 @@ class Presentation extends Dialog {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.res.Resources getResources()
-  jni.JlObject getResources() => jni.JlObject.fromRef(_getResources(reference));
+  res.Resources getResources() =>
+      res.Resources.fromRef(_getResources(reference));
 
   static final _onStart =
       jlookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
@@ -19592,7 +19652,8 @@ class AuthenticationRequiredException extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_AuthenticationRequiredException_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
               ffi.NativeFunction<
@@ -19634,7 +19695,7 @@ class AuthenticationRequiredException extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 }
 
@@ -19776,7 +19837,8 @@ class NotificationChannelGroup extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_NotificationChannelGroup_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
               ffi.NativeFunction<
@@ -19800,7 +19862,7 @@ class NotificationChannelGroup extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 
   static final _getId = jlookup<
@@ -19916,7 +19978,7 @@ class DatePickerDialog extends AlertDialog {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.content.Context context)
-  DatePickerDialog(jni.JlObject context)
+  DatePickerDialog(content.Context context)
       : super.fromRef(_ctor(context.reference));
 
   static final _ctor_1 = jlookup<
@@ -19926,7 +19988,7 @@ class DatePickerDialog extends AlertDialog {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void <init>(android.content.Context context, int themeResId)
-  DatePickerDialog.ctor_1(jni.JlObject context, int themeResId)
+  DatePickerDialog.ctor_1(content.Context context, int themeResId)
       : super.fromRef(_ctor_1(context.reference, themeResId));
 
   static final _ctor_2 = jlookup<
@@ -19943,7 +20005,7 @@ class DatePickerDialog extends AlertDialog {
 
   /// from: public void <init>(android.content.Context context, android.app.DatePickerDialog.OnDateSetListener listener, int year, int month, int dayOfMonth)
   DatePickerDialog.ctor_2(
-      jni.JlObject context,
+      content.Context context,
       DatePickerDialog_OnDateSetListener listener,
       int year,
       int month,
@@ -19966,7 +20028,7 @@ class DatePickerDialog extends AlertDialog {
 
   /// from: public void <init>(android.content.Context context, int themeResId, android.app.DatePickerDialog.OnDateSetListener listener, int year, int monthOfYear, int dayOfMonth)
   DatePickerDialog.ctor_3(
-      jni.JlObject context,
+      content.Context context,
       int themeResId,
       DatePickerDialog_OnDateSetListener listener,
       int year,
@@ -20011,7 +20073,7 @@ class DatePickerDialog extends AlertDialog {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void onClick(android.content.DialogInterface dialog, int which)
-  void onClick(jni.JlObject dialog, int which) =>
+  void onClick(content.DialogInterface dialog, int which) =>
       _onClick(reference, dialog.reference, which);
 
   static final _getDatePicker = jlookup<
@@ -20041,8 +20103,8 @@ class DatePickerDialog extends AlertDialog {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle onSaveInstanceState()
-  jni.JlObject onSaveInstanceState() =>
-      jni.JlObject.fromRef(_onSaveInstanceState(reference));
+  os.Bundle onSaveInstanceState() =>
+      os.Bundle.fromRef(_onSaveInstanceState(reference));
 
   static final _onRestoreInstanceState = jlookup<
               ffi.NativeFunction<
@@ -20053,7 +20115,7 @@ class DatePickerDialog extends AlertDialog {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onRestoreInstanceState(android.os.Bundle savedInstanceState)
-  void onRestoreInstanceState(jni.JlObject savedInstanceState) =>
+  void onRestoreInstanceState(os.Bundle savedInstanceState) =>
       _onRestoreInstanceState(reference, savedInstanceState.reference);
 }
 
@@ -20092,7 +20154,7 @@ class TimePickerDialog extends AlertDialog {
 
   /// from: public void <init>(android.content.Context context, android.app.TimePickerDialog.OnTimeSetListener listener, int hourOfDay, int minute, boolean is24HourView)
   TimePickerDialog(
-      jni.JlObject context,
+      content.Context context,
       TimePickerDialog_OnTimeSetListener listener,
       int hourOfDay,
       int minute,
@@ -20115,7 +20177,7 @@ class TimePickerDialog extends AlertDialog {
 
   /// from: public void <init>(android.content.Context context, int themeResId, android.app.TimePickerDialog.OnTimeSetListener listener, int hourOfDay, int minute, boolean is24HourView)
   TimePickerDialog.ctor_1(
-      jni.JlObject context,
+      content.Context context,
       int themeResId,
       TimePickerDialog_OnTimeSetListener listener,
       int hourOfDay,
@@ -20155,7 +20217,7 @@ class TimePickerDialog extends AlertDialog {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void onClick(android.content.DialogInterface dialog, int which)
-  void onClick(jni.JlObject dialog, int which) =>
+  void onClick(content.DialogInterface dialog, int which) =>
       _onClick(reference, dialog.reference, which);
 
   static final _updateTime = jlookup<
@@ -20175,8 +20237,8 @@ class TimePickerDialog extends AlertDialog {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle onSaveInstanceState()
-  jni.JlObject onSaveInstanceState() =>
-      jni.JlObject.fromRef(_onSaveInstanceState(reference));
+  os.Bundle onSaveInstanceState() =>
+      os.Bundle.fromRef(_onSaveInstanceState(reference));
 
   static final _onRestoreInstanceState = jlookup<
               ffi.NativeFunction<
@@ -20187,7 +20249,7 @@ class TimePickerDialog extends AlertDialog {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onRestoreInstanceState(android.os.Bundle savedInstanceState)
-  void onRestoreInstanceState(jni.JlObject savedInstanceState) =>
+  void onRestoreInstanceState(os.Bundle savedInstanceState) =>
       _onRestoreInstanceState(reference, savedInstanceState.reference);
 }
 
@@ -20343,7 +20405,7 @@ class DialogFragment extends Fragment {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onAttach(android.content.Context context)
-  void onAttach(jni.JlObject context) =>
+  void onAttach(content.Context context) =>
       _onAttach(reference, context.reference);
 
   static final _onDetach =
@@ -20363,7 +20425,7 @@ class DialogFragment extends Fragment {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onCreate(android.os.Bundle savedInstanceState)
-  void onCreate(jni.JlObject savedInstanceState) =>
+  void onCreate(os.Bundle savedInstanceState) =>
       _onCreate(reference, savedInstanceState.reference);
 
   static final _onGetLayoutInflater = jlookup<
@@ -20376,7 +20438,7 @@ class DialogFragment extends Fragment {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.view.LayoutInflater onGetLayoutInflater(android.os.Bundle savedInstanceState)
-  jni.JlObject onGetLayoutInflater(jni.JlObject savedInstanceState) =>
+  jni.JlObject onGetLayoutInflater(os.Bundle savedInstanceState) =>
       jni.JlObject.fromRef(
           _onGetLayoutInflater(reference, savedInstanceState.reference));
 
@@ -20390,7 +20452,7 @@ class DialogFragment extends Fragment {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.Dialog onCreateDialog(android.os.Bundle savedInstanceState)
-  Dialog onCreateDialog(jni.JlObject savedInstanceState) =>
+  Dialog onCreateDialog(os.Bundle savedInstanceState) =>
       Dialog.fromRef(_onCreateDialog(reference, savedInstanceState.reference));
 
   static final _onCancel = jlookup<
@@ -20402,7 +20464,8 @@ class DialogFragment extends Fragment {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onCancel(android.content.DialogInterface dialog)
-  void onCancel(jni.JlObject dialog) => _onCancel(reference, dialog.reference);
+  void onCancel(content.DialogInterface dialog) =>
+      _onCancel(reference, dialog.reference);
 
   static final _onDismiss = jlookup<
               ffi.NativeFunction<
@@ -20413,7 +20476,7 @@ class DialogFragment extends Fragment {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onDismiss(android.content.DialogInterface dialog)
-  void onDismiss(jni.JlObject dialog) =>
+  void onDismiss(content.DialogInterface dialog) =>
       _onDismiss(reference, dialog.reference);
 
   static final _onActivityCreated = jlookup<
@@ -20425,7 +20488,7 @@ class DialogFragment extends Fragment {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onActivityCreated(android.os.Bundle savedInstanceState)
-  void onActivityCreated(jni.JlObject savedInstanceState) =>
+  void onActivityCreated(os.Bundle savedInstanceState) =>
       _onActivityCreated(reference, savedInstanceState.reference);
 
   static final _onStart =
@@ -20445,7 +20508,7 @@ class DialogFragment extends Fragment {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onSaveInstanceState(android.os.Bundle outState)
-  void onSaveInstanceState(jni.JlObject outState) =>
+  void onSaveInstanceState(os.Bundle outState) =>
       _onSaveInstanceState(reference, outState.reference);
 
   static final _onStop =
@@ -20495,7 +20558,8 @@ class RemoteAction extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_RemoteAction_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
           ffi.NativeFunction<
@@ -20615,7 +20679,7 @@ class RemoteAction extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel out, int flags)
-  void writeToParcel(jni.JlObject out, int flags) =>
+  void writeToParcel(os.Parcel out, int flags) =>
       _writeToParcel(reference, out.reference, flags);
 
   static final _dump = jlookup<
@@ -20717,7 +20781,7 @@ class FragmentController extends jni.JlObject {
 
   /// from: public android.view.View onCreateView(android.view.View parent, java.lang.String name, android.content.Context context, android.util.AttributeSet attrs)
   jni.JlObject onCreateView(jni.JlObject parent, jni.JlString name,
-          jni.JlObject context, jni.JlObject attrs) =>
+          content.Context context, jni.JlObject attrs) =>
       jni.JlObject.fromRef(_onCreateView(reference, parent.reference,
           name.reference, context.reference, attrs.reference));
 
@@ -20736,7 +20800,8 @@ class FragmentController extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Parcelable saveAllState()
-  jni.JlObject saveAllState() => jni.JlObject.fromRef(_saveAllState(reference));
+  os.Parcelable saveAllState() =>
+      os.Parcelable.fromRef(_saveAllState(reference));
 
   static final _restoreAllState = jlookup<
               ffi.NativeFunction<
@@ -20748,7 +20813,7 @@ class FragmentController extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void restoreAllState(android.os.Parcelable state, java.util.List<android.app.Fragment> nonConfigList)
-  void restoreAllState(jni.JlObject state, jni.JlObject nonConfigList) =>
+  void restoreAllState(os.Parcelable state, jni.JlObject nonConfigList) =>
       _restoreAllState(reference, state.reference, nonConfigList.reference);
 
   static final _restoreAllState_1 = jlookup<
@@ -20762,7 +20827,7 @@ class FragmentController extends jni.JlObject {
 
   /// from: public void restoreAllState(android.os.Parcelable state, android.app.FragmentManagerNonConfig nonConfig)
   void restoreAllState_1(
-          jni.JlObject state, FragmentManagerNonConfig nonConfig) =>
+          os.Parcelable state, FragmentManagerNonConfig nonConfig) =>
       _restoreAllState_1(reference, state.reference, nonConfig.reference);
 
   static final _retainNonConfig = jlookup<
@@ -20869,7 +20934,7 @@ class FragmentController extends jni.JlObject {
 
   /// from: public void dispatchMultiWindowModeChanged(boolean isInMultiWindowMode, android.content.res.Configuration newConfig)
   void dispatchMultiWindowModeChanged_1(
-          bool isInMultiWindowMode, jni.JlObject newConfig) =>
+          bool isInMultiWindowMode, res.Configuration newConfig) =>
       _dispatchMultiWindowModeChanged_1(
           reference, isInMultiWindowMode ? 1 : 0, newConfig.reference);
 
@@ -20894,7 +20959,7 @@ class FragmentController extends jni.JlObject {
 
   /// from: public void dispatchPictureInPictureModeChanged(boolean isInPictureInPictureMode, android.content.res.Configuration newConfig)
   void dispatchPictureInPictureModeChanged_1(
-          bool isInPictureInPictureMode, jni.JlObject newConfig) =>
+          bool isInPictureInPictureMode, res.Configuration newConfig) =>
       _dispatchPictureInPictureModeChanged_1(
           reference, isInPictureInPictureMode ? 1 : 0, newConfig.reference);
 
@@ -20907,7 +20972,7 @@ class FragmentController extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void dispatchConfigurationChanged(android.content.res.Configuration newConfig)
-  void dispatchConfigurationChanged(jni.JlObject newConfig) =>
+  void dispatchConfigurationChanged(res.Configuration newConfig) =>
       _dispatchConfigurationChanged(reference, newConfig.reference);
 
   static final _dispatchLowMemory =
@@ -21089,7 +21154,7 @@ class FragmentHostCallback extends FragmentContainer {
 
   /// from: public void <init>(android.content.Context context, android.os.Handler handler, int windowAnimations)
   FragmentHostCallback(
-      jni.JlObject context, jni.JlObject handler, int windowAnimations)
+      content.Context context, os.Handler handler, int windowAnimations)
       : super.fromRef(
             _ctor(context.reference, handler.reference, windowAnimations));
 
@@ -21168,8 +21233,8 @@ class FragmentHostCallback extends FragmentContainer {
               ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onStartActivityFromFragment(android.app.Fragment fragment, android.content.Intent intent, int requestCode, android.os.Bundle options)
-  void onStartActivityFromFragment(Fragment fragment, jni.JlObject intent,
-          int requestCode, jni.JlObject options) =>
+  void onStartActivityFromFragment(Fragment fragment, content.Intent intent,
+          int requestCode, os.Bundle options) =>
       _onStartActivityFromFragment(reference, fragment.reference,
           intent.reference, requestCode, options.reference);
 
@@ -21201,13 +21266,13 @@ class FragmentHostCallback extends FragmentContainer {
   /// from: public void onStartIntentSenderFromFragment(android.app.Fragment fragment, android.content.IntentSender intent, int requestCode, android.content.Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags, android.os.Bundle options)
   void onStartIntentSenderFromFragment(
           Fragment fragment,
-          jni.JlObject intent,
+          content.IntentSender intent,
           int requestCode,
-          jni.JlObject fillInIntent,
+          content.Intent fillInIntent,
           int flagsMask,
           int flagsValues,
           int extraFlags,
-          jni.JlObject options) =>
+          os.Bundle options) =>
       _onStartIntentSenderFromFragment(
           reference,
           fragment.reference,
@@ -21573,8 +21638,8 @@ class FragmentTransaction extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public abstract android.app.FragmentTransaction setBreadCrumbTitle(int res)
-  FragmentTransaction setBreadCrumbTitle(int res) =>
-      FragmentTransaction.fromRef(_setBreadCrumbTitle(reference, res));
+  FragmentTransaction setBreadCrumbTitle(int res_) =>
+      FragmentTransaction.fromRef(_setBreadCrumbTitle(reference, res_));
 
   static final _setBreadCrumbTitle_1 = jlookup<
               ffi.NativeFunction<
@@ -21598,8 +21663,8 @@ class FragmentTransaction extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public abstract android.app.FragmentTransaction setBreadCrumbShortTitle(int res)
-  FragmentTransaction setBreadCrumbShortTitle(int res) =>
-      FragmentTransaction.fromRef(_setBreadCrumbShortTitle(reference, res));
+  FragmentTransaction setBreadCrumbShortTitle(int res_) =>
+      FragmentTransaction.fromRef(_setBreadCrumbShortTitle(reference, res_));
 
   static final _setBreadCrumbShortTitle_1 = jlookup<
               ffi.NativeFunction<
@@ -21700,7 +21765,7 @@ class ActivityOptions extends jni.JlObject {
 
   /// from: static public android.app.ActivityOptions makeCustomAnimation(android.content.Context context, int enterResId, int exitResId)
   static ActivityOptions makeCustomAnimation(
-          jni.JlObject context, int enterResId, int exitResId) =>
+          content.Context context, int enterResId, int exitResId) =>
       ActivityOptions.fromRef(
           _makeCustomAnimation(context.reference, enterResId, exitResId));
 
@@ -21875,7 +21940,7 @@ class ActivityOptions extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle toBundle()
-  jni.JlObject toBundle() => jni.JlObject.fromRef(_toBundle(reference));
+  os.Bundle toBundle() => os.Bundle.fromRef(_toBundle(reference));
 
   static final _requestUsageTimeReport = jlookup<
               ffi.NativeFunction<
@@ -21899,7 +21964,7 @@ class ActivityOptions extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.ActivityOptions setAppVerificationBundle(android.os.Bundle bundle)
-  ActivityOptions setAppVerificationBundle(jni.JlObject bundle) =>
+  ActivityOptions setAppVerificationBundle(os.Bundle bundle) =>
       ActivityOptions.fromRef(
           _setAppVerificationBundle(reference, bundle.reference));
 
@@ -21939,7 +22004,7 @@ class Instrumentation extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onCreate(android.os.Bundle arguments)
-  void onCreate(jni.JlObject arguments) =>
+  void onCreate(os.Bundle arguments) =>
       _onCreate(reference, arguments.reference);
 
   static final _start =
@@ -21980,7 +22045,7 @@ class Instrumentation extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void sendStatus(int resultCode, android.os.Bundle results)
-  void sendStatus(int resultCode, jni.JlObject results) =>
+  void sendStatus(int resultCode, os.Bundle results) =>
       _sendStatus(reference, resultCode, results.reference);
 
   static final _addResults = jlookup<
@@ -21992,7 +22057,7 @@ class Instrumentation extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void addResults(android.os.Bundle results)
-  void addResults(jni.JlObject results) =>
+  void addResults(os.Bundle results) =>
       _addResults(reference, results.reference);
 
   static final _finish = jlookup<
@@ -22003,7 +22068,7 @@ class Instrumentation extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void finish(int resultCode, android.os.Bundle results)
-  void finish(int resultCode, jni.JlObject results) =>
+  void finish(int resultCode, os.Bundle results) =>
       _finish(reference, resultCode, results.reference);
 
   static final _setAutomaticPerformanceSnapshots =
@@ -22046,7 +22111,8 @@ class Instrumentation extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.Context getContext()
-  jni.JlObject getContext() => jni.JlObject.fromRef(_getContext(reference));
+  content.Context getContext() =>
+      content.Context.fromRef(_getContext(reference));
 
   static final _getComponentName = jlookup<
               ffi.NativeFunction<
@@ -22055,8 +22121,8 @@ class Instrumentation extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.ComponentName getComponentName()
-  jni.JlObject getComponentName() =>
-      jni.JlObject.fromRef(_getComponentName(reference));
+  content.ComponentName getComponentName() =>
+      content.ComponentName.fromRef(_getComponentName(reference));
 
   static final _getTargetContext = jlookup<
               ffi.NativeFunction<
@@ -22065,8 +22131,8 @@ class Instrumentation extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.Context getTargetContext()
-  jni.JlObject getTargetContext() =>
-      jni.JlObject.fromRef(_getTargetContext(reference));
+  content.Context getTargetContext() =>
+      content.Context.fromRef(_getTargetContext(reference));
 
   static final _getProcessName = jlookup<
               ffi.NativeFunction<
@@ -22154,7 +22220,7 @@ class Instrumentation extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.Activity startActivitySync(android.content.Intent intent)
-  Activity startActivitySync(jni.JlObject intent) =>
+  Activity startActivitySync(content.Intent intent) =>
       Activity.fromRef(_startActivitySync(reference, intent.reference));
 
   static final _startActivitySync_1 = jlookup<
@@ -22167,7 +22233,7 @@ class Instrumentation extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.Activity startActivitySync(android.content.Intent intent, android.os.Bundle options)
-  Activity startActivitySync_1(jni.JlObject intent, jni.JlObject options) =>
+  Activity startActivitySync_1(content.Intent intent, os.Bundle options) =>
       Activity.fromRef(
           _startActivitySync_1(reference, intent.reference, options.reference));
 
@@ -22195,7 +22261,7 @@ class Instrumentation extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.app.Instrumentation.ActivityMonitor addMonitor(android.content.IntentFilter filter, android.app.Instrumentation.ActivityResult result, boolean block)
-  Instrumentation_ActivityMonitor addMonitor_1(jni.JlObject filter,
+  Instrumentation_ActivityMonitor addMonitor_1(content.IntentFilter filter,
           Instrumentation_ActivityResult result, bool block) =>
       Instrumentation_ActivityMonitor.fromRef(_addMonitor_1(
           reference, filter.reference, result.reference, block ? 1 : 0));
@@ -22378,7 +22444,7 @@ class Instrumentation extends jni.JlObject {
 
   /// from: public android.app.Application newApplication(java.lang.ClassLoader cl, java.lang.String className, android.content.Context context)
   Application newApplication(
-          jni.JlObject cl, jni.JlString className, jni.JlObject context) =>
+          jni.JlObject cl, jni.JlString className, content.Context context) =>
       Application.fromRef(_newApplication(
           reference, cl.reference, className.reference, context.reference));
 
@@ -22393,7 +22459,7 @@ class Instrumentation extends jni.JlObject {
 
   /// from: static public android.app.Application newApplication(java.lang.Class<?> clazz, android.content.Context context)
   static Application newApplication_1(
-          jni.JlObject clazz, jni.JlObject context) =>
+          jni.JlObject clazz, content.Context context) =>
       Application.fromRef(
           _newApplication_1(clazz.reference, context.reference));
 
@@ -22441,11 +22507,11 @@ class Instrumentation extends jni.JlObject {
   /// from: public android.app.Activity newActivity(java.lang.Class<?> clazz, android.content.Context context, android.os.IBinder token, android.app.Application application, android.content.Intent intent, android.content.pm.ActivityInfo info, java.lang.CharSequence title, android.app.Activity parent, java.lang.String id, java.lang.Object lastNonConfigurationInstance)
   Activity newActivity(
           jni.JlObject clazz,
-          jni.JlObject context,
-          jni.JlObject token,
+          content.Context context,
+          os.IBinder token,
           Application application,
-          jni.JlObject intent,
-          jni.JlObject info,
+          content.Intent intent,
+          pm.ActivityInfo info,
           jni.JlObject title,
           Activity parent,
           jni.JlString id,
@@ -22480,7 +22546,7 @@ class Instrumentation extends jni.JlObject {
 
   /// from: public android.app.Activity newActivity(java.lang.ClassLoader cl, java.lang.String className, android.content.Intent intent)
   Activity newActivity_1(
-          jni.JlObject cl, jni.JlString className, jni.JlObject intent) =>
+          jni.JlObject cl, jni.JlString className, content.Intent intent) =>
       Activity.fromRef(_newActivity_1(
           reference, cl.reference, className.reference, intent.reference));
 
@@ -22494,7 +22560,7 @@ class Instrumentation extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void callActivityOnCreate(android.app.Activity activity, android.os.Bundle icicle)
-  void callActivityOnCreate(Activity activity, jni.JlObject icicle) =>
+  void callActivityOnCreate(Activity activity, os.Bundle icicle) =>
       _callActivityOnCreate(reference, activity.reference, icicle.reference);
 
   static final _callActivityOnCreate_1 = jlookup<
@@ -22510,8 +22576,8 @@ class Instrumentation extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void callActivityOnCreate(android.app.Activity activity, android.os.Bundle icicle, android.os.PersistableBundle persistentState)
-  void callActivityOnCreate_1(Activity activity, jni.JlObject icicle,
-          jni.JlObject persistentState) =>
+  void callActivityOnCreate_1(Activity activity, os.Bundle icicle,
+          os.PersistableBundle persistentState) =>
       _callActivityOnCreate_1(reference, activity.reference, icicle.reference,
           persistentState.reference);
 
@@ -22538,7 +22604,7 @@ class Instrumentation extends jni.JlObject {
 
   /// from: public void callActivityOnRestoreInstanceState(android.app.Activity activity, android.os.Bundle savedInstanceState)
   void callActivityOnRestoreInstanceState(
-          Activity activity, jni.JlObject savedInstanceState) =>
+          Activity activity, os.Bundle savedInstanceState) =>
       _callActivityOnRestoreInstanceState(
           reference, activity.reference, savedInstanceState.reference);
 
@@ -22556,7 +22622,7 @@ class Instrumentation extends jni.JlObject {
 
   /// from: public void callActivityOnRestoreInstanceState(android.app.Activity activity, android.os.Bundle savedInstanceState, android.os.PersistableBundle persistentState)
   void callActivityOnRestoreInstanceState_1(Activity activity,
-          jni.JlObject savedInstanceState, jni.JlObject persistentState) =>
+          os.Bundle savedInstanceState, os.PersistableBundle persistentState) =>
       _callActivityOnRestoreInstanceState_1(reference, activity.reference,
           savedInstanceState.reference, persistentState.reference);
 
@@ -22570,7 +22636,7 @@ class Instrumentation extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void callActivityOnPostCreate(android.app.Activity activity, android.os.Bundle icicle)
-  void callActivityOnPostCreate(Activity activity, jni.JlObject icicle) =>
+  void callActivityOnPostCreate(Activity activity, os.Bundle icicle) =>
       _callActivityOnPostCreate(
           reference, activity.reference, icicle.reference);
 
@@ -22587,8 +22653,8 @@ class Instrumentation extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void callActivityOnPostCreate(android.app.Activity activity, android.os.Bundle icicle, android.os.PersistableBundle persistentState)
-  void callActivityOnPostCreate_1(Activity activity, jni.JlObject icicle,
-          jni.JlObject persistentState) =>
+  void callActivityOnPostCreate_1(Activity activity, os.Bundle icicle,
+          os.PersistableBundle persistentState) =>
       _callActivityOnPostCreate_1(reference, activity.reference,
           icicle.reference, persistentState.reference);
 
@@ -22602,7 +22668,7 @@ class Instrumentation extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void callActivityOnNewIntent(android.app.Activity activity, android.content.Intent intent)
-  void callActivityOnNewIntent(Activity activity, jni.JlObject intent) =>
+  void callActivityOnNewIntent(Activity activity, content.Intent intent) =>
       _callActivityOnNewIntent(reference, activity.reference, intent.reference);
 
   static final _callActivityOnStart = jlookup<
@@ -22663,8 +22729,7 @@ class Instrumentation extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void callActivityOnSaveInstanceState(android.app.Activity activity, android.os.Bundle outState)
-  void callActivityOnSaveInstanceState(
-          Activity activity, jni.JlObject outState) =>
+  void callActivityOnSaveInstanceState(Activity activity, os.Bundle outState) =>
       _callActivityOnSaveInstanceState(
           reference, activity.reference, outState.reference);
 
@@ -22681,8 +22746,8 @@ class Instrumentation extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void callActivityOnSaveInstanceState(android.app.Activity activity, android.os.Bundle outState, android.os.PersistableBundle outPersistentState)
-  void callActivityOnSaveInstanceState_1(Activity activity,
-          jni.JlObject outState, jni.JlObject outPersistentState) =>
+  void callActivityOnSaveInstanceState_1(Activity activity, os.Bundle outState,
+          os.PersistableBundle outPersistentState) =>
       _callActivityOnSaveInstanceState_1(reference, activity.reference,
           outState.reference, outPersistentState.reference);
 
@@ -22733,8 +22798,7 @@ class Instrumentation extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle getAllocCounts()
-  jni.JlObject getAllocCounts() =>
-      jni.JlObject.fromRef(_getAllocCounts(reference));
+  os.Bundle getAllocCounts() => os.Bundle.fromRef(_getAllocCounts(reference));
 
   static final _getBinderCounts = jlookup<
               ffi.NativeFunction<
@@ -22743,8 +22807,7 @@ class Instrumentation extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle getBinderCounts()
-  jni.JlObject getBinderCounts() =>
-      jni.JlObject.fromRef(_getBinderCounts(reference));
+  os.Bundle getBinderCounts() => os.Bundle.fromRef(_getBinderCounts(reference));
 
   static final _getUiAutomation = jlookup<
               ffi.NativeFunction<
@@ -22776,8 +22839,9 @@ class Instrumentation extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.TestLooperManager acquireLooperManager(android.os.Looper looper)
-  jni.JlObject acquireLooperManager(jni.JlObject looper) =>
-      jni.JlObject.fromRef(_acquireLooperManager(reference, looper.reference));
+  os.TestLooperManager acquireLooperManager(os.Looper looper) =>
+      os.TestLooperManager.fromRef(
+          _acquireLooperManager(reference, looper.reference));
 }
 
 class Instrumentation_ActivityResult extends jni.JlObject {
@@ -22792,7 +22856,7 @@ class Instrumentation_ActivityResult extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(int resultCode, android.content.Intent resultData)
-  Instrumentation_ActivityResult(int resultCode, jni.JlObject resultData)
+  Instrumentation_ActivityResult(int resultCode, content.Intent resultData)
       : super.fromRef(_ctor(resultCode, resultData.reference));
 
   static final _getResultCode =
@@ -22810,8 +22874,8 @@ class Instrumentation_ActivityResult extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.Intent getResultData()
-  jni.JlObject getResultData() =>
-      jni.JlObject.fromRef(_getResultData(reference));
+  content.Intent getResultData() =>
+      content.Intent.fromRef(_getResultData(reference));
 }
 
 class Instrumentation_ActivityMonitor extends jni.JlObject {
@@ -22828,8 +22892,8 @@ class Instrumentation_ActivityMonitor extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void <init>(android.content.IntentFilter which, android.app.Instrumentation.ActivityResult result, boolean block)
-  Instrumentation_ActivityMonitor(
-      jni.JlObject which, Instrumentation_ActivityResult result, bool block)
+  Instrumentation_ActivityMonitor(content.IntentFilter which,
+      Instrumentation_ActivityResult result, bool block)
       : super.fromRef(_ctor(which.reference, result.reference, block ? 1 : 0));
 
   static final _ctor_1 = jlookup<
@@ -22861,7 +22925,8 @@ class Instrumentation_ActivityMonitor extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public final android.content.IntentFilter getFilter()
-  jni.JlObject getFilter() => jni.JlObject.fromRef(_getFilter(reference));
+  content.IntentFilter getFilter() =>
+      content.IntentFilter.fromRef(_getFilter(reference));
 
   static final _getResult = jlookup<
               ffi.NativeFunction<
@@ -22928,7 +22993,7 @@ class Instrumentation_ActivityMonitor extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.Instrumentation.ActivityResult onStartActivity(android.content.Intent intent)
-  Instrumentation_ActivityResult onStartActivity(jni.JlObject intent) =>
+  Instrumentation_ActivityResult onStartActivity(content.Intent intent) =>
       Instrumentation_ActivityResult.fromRef(
           _onStartActivity(reference, intent.reference));
 }
@@ -22971,7 +23036,7 @@ class IntentService extends Service {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void onStart(android.content.Intent intent, int startId)
-  void onStart(jni.JlObject intent, int startId) =>
+  void onStart(content.Intent intent, int startId) =>
       _onStart(reference, intent.reference, startId);
 
   static final _onStartCommand = jlookup<
@@ -22986,7 +23051,7 @@ class IntentService extends Service {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int, int)>();
 
   /// from: public int onStartCommand(android.content.Intent intent, int flags, int startId)
-  int onStartCommand(jni.JlObject intent, int flags, int startId) =>
+  int onStartCommand(content.Intent intent, int flags, int startId) =>
       _onStartCommand(reference, intent.reference, flags, startId);
 
   static final _onDestroy =
@@ -23006,8 +23071,8 @@ class IntentService extends Service {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.IBinder onBind(android.content.Intent intent)
-  jni.JlObject onBind(jni.JlObject intent) =>
-      jni.JlObject.fromRef(_onBind(reference, intent.reference));
+  os.IBinder onBind(content.Intent intent) =>
+      os.IBinder.fromRef(_onBind(reference, intent.reference));
 
   static final _onHandleIntent = jlookup<
               ffi.NativeFunction<
@@ -23018,7 +23083,7 @@ class IntentService extends Service {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected abstract void onHandleIntent(android.content.Intent intent)
-  void onHandleIntent(jni.JlObject intent) =>
+  void onHandleIntent(content.Intent intent) =>
       _onHandleIntent(reference, intent.reference);
 }
 
@@ -23030,7 +23095,8 @@ class NotificationChannel extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_NotificationChannel_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final java.lang.String DEFAULT_CHANNEL_ID
   static const DEFAULT_CHANNEL_ID = "miscellaneous";
@@ -23057,7 +23123,7 @@ class NotificationChannel extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 
   static final _setName = jlookup<
@@ -23373,7 +23439,7 @@ class ListFragment extends Fragment {
 
   /// from: public android.view.View onCreateView(android.view.LayoutInflater inflater, android.view.ViewGroup container, android.os.Bundle savedInstanceState)
   jni.JlObject onCreateView(jni.JlObject inflater, jni.JlObject container,
-          jni.JlObject savedInstanceState) =>
+          os.Bundle savedInstanceState) =>
       jni.JlObject.fromRef(_onCreateView(reference, inflater.reference,
           container.reference, savedInstanceState.reference));
 
@@ -23387,7 +23453,7 @@ class ListFragment extends Fragment {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onViewCreated(android.view.View view, android.os.Bundle savedInstanceState)
-  void onViewCreated(jni.JlObject view, jni.JlObject savedInstanceState) =>
+  void onViewCreated(jni.JlObject view, os.Bundle savedInstanceState) =>
       _onViewCreated(reference, view.reference, savedInstanceState.reference);
 
   static final _onDestroyView =
@@ -23510,7 +23576,8 @@ class SearchableInfo extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_SearchableInfo_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
           ffi.NativeFunction<
@@ -23519,7 +23586,7 @@ class SearchableInfo extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: void <init>(android.os.Parcel in)
-  SearchableInfo(jni.JlObject in_) : super.fromRef(_ctor(in_.reference));
+  SearchableInfo(os.Parcel in_) : super.fromRef(_ctor(in_.reference));
 
   static final _getSuggestAuthority = jlookup<
               ffi.NativeFunction<
@@ -23548,8 +23615,8 @@ class SearchableInfo extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.ComponentName getSearchActivity()
-  jni.JlObject getSearchActivity() =>
-      jni.JlObject.fromRef(_getSearchActivity(reference));
+  content.ComponentName getSearchActivity() =>
+      content.ComponentName.fromRef(_getSearchActivity(reference));
 
   static final _shouldRewriteQueryFromData =
       jlookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
@@ -23748,7 +23815,7 @@ class SearchableInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 }
 
@@ -23832,7 +23899,7 @@ class ExpandableListActivity extends Activity {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void onRestoreInstanceState(android.os.Bundle state)
-  void onRestoreInstanceState(jni.JlObject state) =>
+  void onRestoreInstanceState(os.Bundle state) =>
       _onRestoreInstanceState(reference, state.reference);
 
   static final _onContentChanged =
@@ -23916,7 +23983,7 @@ class ExpandableListActivity extends Activity {
       _setSelectedGroup(reference, groupPosition);
 }
 
-class Application extends jni.JlObject {
+class Application extends content.ContextWrapper {
   Application.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   static final _ctor =
@@ -23952,7 +24019,7 @@ class Application extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onConfigurationChanged(android.content.res.Configuration newConfig)
-  void onConfigurationChanged(jni.JlObject newConfig) =>
+  void onConfigurationChanged(res.Configuration newConfig) =>
       _onConfigurationChanged(reference, newConfig.reference);
 
   static final _onLowMemory =
@@ -23981,7 +24048,7 @@ class Application extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void registerComponentCallbacks(android.content.ComponentCallbacks callback)
-  void registerComponentCallbacks(jni.JlObject callback) =>
+  void registerComponentCallbacks(content.ComponentCallbacks callback) =>
       _registerComponentCallbacks(reference, callback.reference);
 
   static final _unregisterComponentCallbacks = jlookup<
@@ -23993,7 +24060,7 @@ class Application extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void unregisterComponentCallbacks(android.content.ComponentCallbacks callback)
-  void unregisterComponentCallbacks(jni.JlObject callback) =>
+  void unregisterComponentCallbacks(content.ComponentCallbacks callback) =>
       _unregisterComponentCallbacks(reference, callback.reference);
 
   static final _registerActivityLifecycleCallbacks = jlookup<
@@ -24072,7 +24139,7 @@ class Application_OnProvideAssistDataListener extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract void onProvideAssistData(android.app.Activity activity, android.os.Bundle data)
-  void onProvideAssistData(Activity activity, jni.JlObject data) =>
+  void onProvideAssistData(Activity activity, os.Bundle data) =>
       _onProvideAssistData(reference, activity.reference, data.reference);
 }
 
@@ -24090,7 +24157,7 @@ class Application_ActivityLifecycleCallbacks extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract void onActivityCreated(android.app.Activity activity, android.os.Bundle savedInstanceState)
-  void onActivityCreated(Activity activity, jni.JlObject savedInstanceState) =>
+  void onActivityCreated(Activity activity, os.Bundle savedInstanceState) =>
       _onActivityCreated(
           reference, activity.reference, savedInstanceState.reference);
 
@@ -24152,7 +24219,7 @@ class Application_ActivityLifecycleCallbacks extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract void onActivitySaveInstanceState(android.app.Activity activity, android.os.Bundle outState)
-  void onActivitySaveInstanceState(Activity activity, jni.JlObject outState) =>
+  void onActivitySaveInstanceState(Activity activity, os.Bundle outState) =>
       _onActivitySaveInstanceState(
           reference, activity.reference, outState.reference);
 
@@ -24209,7 +24276,7 @@ class ActivityManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: void <init>(android.content.Context context, android.os.Handler handler)
-  ActivityManager(jni.JlObject context, jni.JlObject handler)
+  ActivityManager(content.Context context, os.Handler handler)
       : super.fromRef(_ctor(context.reference, handler.reference));
 
   static final _getMemoryClass =
@@ -24286,7 +24353,7 @@ class ActivityManager extends jni.JlObject {
   /// from: public int addAppTask(android.app.Activity activity, android.content.Intent intent, android.app.ActivityManager.TaskDescription description, android.graphics.Bitmap thumbnail)
   int addAppTask(
           Activity activity,
-          jni.JlObject intent,
+          content.Intent intent,
           ActivityManager_TaskDescription description,
           jni.JlObject thumbnail) =>
       _addAppTask(reference, activity.reference, intent.reference,
@@ -24322,7 +24389,7 @@ class ActivityManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, int, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void moveTaskToFront(int taskId, int flags, android.os.Bundle options)
-  void moveTaskToFront_1(int taskId, int flags, jni.JlObject options) =>
+  void moveTaskToFront_1(int taskId, int flags, os.Bundle options) =>
       _moveTaskToFront_1(reference, taskId, flags, options.reference);
 
   static final _getRunningServices = jlookup<
@@ -24345,7 +24412,7 @@ class ActivityManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.PendingIntent getRunningServiceControlPanel(android.content.ComponentName service)
-  PendingIntent getRunningServiceControlPanel(jni.JlObject service) =>
+  PendingIntent getRunningServiceControlPanel(content.ComponentName service) =>
       PendingIntent.fromRef(
           _getRunningServiceControlPanel(reference, service.reference));
 
@@ -24451,8 +24518,8 @@ class ActivityManager extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.pm.ConfigurationInfo getDeviceConfigurationInfo()
-  jni.JlObject getDeviceConfigurationInfo() =>
-      jni.JlObject.fromRef(_getDeviceConfigurationInfo(reference));
+  pm.ConfigurationInfo getDeviceConfigurationInfo() =>
+      pm.ConfigurationInfo.fromRef(_getDeviceConfigurationInfo(reference));
 
   static final _getLauncherLargeIconDensity =
       jlookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
@@ -24550,7 +24617,8 @@ class ActivityManager_TaskDescription extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_ActivityManager__TaskDescription_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
               ffi.NativeFunction<
@@ -24674,7 +24742,7 @@ class ActivityManager_TaskDescription extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 
   static final _readFromParcel = jlookup<
@@ -24686,7 +24754,7 @@ class ActivityManager_TaskDescription extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void readFromParcel(android.os.Parcel source)
-  void readFromParcel(jni.JlObject source) =>
+  void readFromParcel(os.Parcel source) =>
       _readFromParcel(reference, source.reference);
 
   static final _toString_1 = jlookup<
@@ -24708,7 +24776,8 @@ class ActivityManager_RunningTaskInfo extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_ActivityManager__RunningTaskInfo_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: public android.content.ComponentName baseActivity
   static final _getbaseActivity = jlookup<
@@ -24720,8 +24789,8 @@ class ActivityManager_RunningTaskInfo extends jni.JlObject {
           ffi.Pointer<ffi.Void> Function(
     ffi.Pointer<ffi.Void>,
   )>();
-  jni.JlObject get baseActivity =>
-      jni.JlObject.fromRef(_getbaseActivity(reference));
+  content.ComponentName get baseActivity =>
+      content.ComponentName.fromRef(_getbaseActivity(reference));
   static final _setbaseActivity = jlookup<
               ffi.NativeFunction<
                   ffi.Void Function(
@@ -24729,7 +24798,7 @@ class ActivityManager_RunningTaskInfo extends jni.JlObject {
           "set_android_app_ActivityManager__RunningTaskInfo_baseActivity")
       .asFunction<
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-  set baseActivity(jni.JlObject value) =>
+  set baseActivity(content.ComponentName value) =>
       _setbaseActivity(reference, value.reference);
 
   /// from: public java.lang.CharSequence description
@@ -24839,8 +24908,8 @@ class ActivityManager_RunningTaskInfo extends jni.JlObject {
           ffi.Pointer<ffi.Void> Function(
     ffi.Pointer<ffi.Void>,
   )>();
-  jni.JlObject get topActivity =>
-      jni.JlObject.fromRef(_gettopActivity(reference));
+  content.ComponentName get topActivity =>
+      content.ComponentName.fromRef(_gettopActivity(reference));
   static final _settopActivity = jlookup<
               ffi.NativeFunction<
                   ffi.Void Function(
@@ -24848,7 +24917,7 @@ class ActivityManager_RunningTaskInfo extends jni.JlObject {
           "set_android_app_ActivityManager__RunningTaskInfo_topActivity")
       .asFunction<
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-  set topActivity(jni.JlObject value) =>
+  set topActivity(content.ComponentName value) =>
       _settopActivity(reference, value.reference);
 
   static final _ctor =
@@ -24876,7 +24945,7 @@ class ActivityManager_RunningTaskInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 
   static final _readFromParcel = jlookup<
@@ -24888,7 +24957,7 @@ class ActivityManager_RunningTaskInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void readFromParcel(android.os.Parcel source)
-  void readFromParcel(jni.JlObject source) =>
+  void readFromParcel(os.Parcel source) =>
       _readFromParcel(reference, source.reference);
 }
 
@@ -24901,7 +24970,8 @@ class ActivityManager_RunningServiceInfo extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_ActivityManager__RunningServiceInfo_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final int FLAG_FOREGROUND
   static const FLAG_FOREGROUND = 2;
@@ -25129,7 +25199,8 @@ class ActivityManager_RunningServiceInfo extends jni.JlObject {
           ffi.Pointer<ffi.Void> Function(
     ffi.Pointer<ffi.Void>,
   )>();
-  jni.JlObject get service => jni.JlObject.fromRef(_getservice(reference));
+  content.ComponentName get service =>
+      content.ComponentName.fromRef(_getservice(reference));
   static final _setservice = jlookup<
               ffi.NativeFunction<
                   ffi.Void Function(
@@ -25137,7 +25208,8 @@ class ActivityManager_RunningServiceInfo extends jni.JlObject {
           "set_android_app_ActivityManager__RunningServiceInfo_service")
       .asFunction<
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-  set service(jni.JlObject value) => _setservice(reference, value.reference);
+  set service(content.ComponentName value) =>
+      _setservice(reference, value.reference);
 
   /// from: public boolean started
   static final _getstarted = jlookup<
@@ -25200,7 +25272,7 @@ class ActivityManager_RunningServiceInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 
   static final _readFromParcel = jlookup<
@@ -25212,7 +25284,7 @@ class ActivityManager_RunningServiceInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void readFromParcel(android.os.Parcel source)
-  void readFromParcel(jni.JlObject source) =>
+  void readFromParcel(os.Parcel source) =>
       _readFromParcel(reference, source.reference);
 }
 
@@ -25225,7 +25297,8 @@ class ActivityManager_RunningAppProcessInfo extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_ActivityManager__RunningAppProcessInfo_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final int IMPORTANCE_BACKGROUND
   static const IMPORTANCE_BACKGROUND = 400;
@@ -25322,8 +25395,8 @@ class ActivityManager_RunningAppProcessInfo extends jni.JlObject {
           ffi.Pointer<ffi.Void> Function(
     ffi.Pointer<ffi.Void>,
   )>();
-  jni.JlObject get importanceReasonComponent =>
-      jni.JlObject.fromRef(_getimportanceReasonComponent(reference));
+  content.ComponentName get importanceReasonComponent =>
+      content.ComponentName.fromRef(_getimportanceReasonComponent(reference));
   static final _setimportanceReasonComponent = jlookup<
               ffi.NativeFunction<
                   ffi.Void Function(
@@ -25331,7 +25404,7 @@ class ActivityManager_RunningAppProcessInfo extends jni.JlObject {
           "set_android_app_ActivityManager__RunningAppProcessInfo_importanceReasonComponent")
       .asFunction<
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-  set importanceReasonComponent(jni.JlObject value) =>
+  set importanceReasonComponent(content.ComponentName value) =>
       _setimportanceReasonComponent(reference, value.reference);
 
   /// from: public int importanceReasonPid
@@ -25506,7 +25579,7 @@ class ActivityManager_RunningAppProcessInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 
   static final _readFromParcel = jlookup<
@@ -25518,7 +25591,7 @@ class ActivityManager_RunningAppProcessInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void readFromParcel(android.os.Parcel source)
-  void readFromParcel(jni.JlObject source) =>
+  void readFromParcel(os.Parcel source) =>
       _readFromParcel(reference, source.reference);
 }
 
@@ -25531,7 +25604,8 @@ class ActivityManager_RecentTaskInfo extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_ActivityManager__RecentTaskInfo_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: public int affiliatedTaskId
   static final _getaffiliatedTaskId = jlookup<
@@ -25561,8 +25635,8 @@ class ActivityManager_RecentTaskInfo extends jni.JlObject {
           ffi.Pointer<ffi.Void> Function(
     ffi.Pointer<ffi.Void>,
   )>();
-  jni.JlObject get baseActivity =>
-      jni.JlObject.fromRef(_getbaseActivity(reference));
+  content.ComponentName get baseActivity =>
+      content.ComponentName.fromRef(_getbaseActivity(reference));
   static final _setbaseActivity = jlookup<
               ffi.NativeFunction<
                   ffi.Void Function(
@@ -25570,7 +25644,7 @@ class ActivityManager_RecentTaskInfo extends jni.JlObject {
           "set_android_app_ActivityManager__RecentTaskInfo_baseActivity")
       .asFunction<
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-  set baseActivity(jni.JlObject value) =>
+  set baseActivity(content.ComponentName value) =>
       _setbaseActivity(reference, value.reference);
 
   /// from: public android.content.Intent baseIntent
@@ -25583,8 +25657,8 @@ class ActivityManager_RecentTaskInfo extends jni.JlObject {
           ffi.Pointer<ffi.Void> Function(
     ffi.Pointer<ffi.Void>,
   )>();
-  jni.JlObject get baseIntent =>
-      jni.JlObject.fromRef(_getbaseIntent(reference));
+  content.Intent get baseIntent =>
+      content.Intent.fromRef(_getbaseIntent(reference));
   static final _setbaseIntent = jlookup<
               ffi.NativeFunction<
                   ffi.Void Function(
@@ -25592,7 +25666,7 @@ class ActivityManager_RecentTaskInfo extends jni.JlObject {
           "set_android_app_ActivityManager__RecentTaskInfo_baseIntent")
       .asFunction<
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-  set baseIntent(jni.JlObject value) =>
+  set baseIntent(content.Intent value) =>
       _setbaseIntent(reference, value.reference);
 
   /// from: public java.lang.CharSequence description
@@ -25663,8 +25737,8 @@ class ActivityManager_RecentTaskInfo extends jni.JlObject {
           ffi.Pointer<ffi.Void> Function(
     ffi.Pointer<ffi.Void>,
   )>();
-  jni.JlObject get origActivity =>
-      jni.JlObject.fromRef(_getorigActivity(reference));
+  content.ComponentName get origActivity =>
+      content.ComponentName.fromRef(_getorigActivity(reference));
   static final _setorigActivity = jlookup<
               ffi.NativeFunction<
                   ffi.Void Function(
@@ -25672,7 +25746,7 @@ class ActivityManager_RecentTaskInfo extends jni.JlObject {
           "set_android_app_ActivityManager__RecentTaskInfo_origActivity")
       .asFunction<
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-  set origActivity(jni.JlObject value) =>
+  set origActivity(content.ComponentName value) =>
       _setorigActivity(reference, value.reference);
 
   /// from: public int persistentId
@@ -25725,8 +25799,8 @@ class ActivityManager_RecentTaskInfo extends jni.JlObject {
           ffi.Pointer<ffi.Void> Function(
     ffi.Pointer<ffi.Void>,
   )>();
-  jni.JlObject get topActivity =>
-      jni.JlObject.fromRef(_gettopActivity(reference));
+  content.ComponentName get topActivity =>
+      content.ComponentName.fromRef(_gettopActivity(reference));
   static final _settopActivity = jlookup<
               ffi.NativeFunction<
                   ffi.Void Function(
@@ -25734,7 +25808,7 @@ class ActivityManager_RecentTaskInfo extends jni.JlObject {
           "set_android_app_ActivityManager__RecentTaskInfo_topActivity")
       .asFunction<
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-  set topActivity(jni.JlObject value) =>
+  set topActivity(content.ComponentName value) =>
       _settopActivity(reference, value.reference);
 
   static final _ctor =
@@ -25762,7 +25836,7 @@ class ActivityManager_RecentTaskInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 
   static final _readFromParcel = jlookup<
@@ -25774,7 +25848,7 @@ class ActivityManager_RecentTaskInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void readFromParcel(android.os.Parcel source)
-  void readFromParcel(jni.JlObject source) =>
+  void readFromParcel(os.Parcel source) =>
       _readFromParcel(reference, source.reference);
 }
 
@@ -25790,7 +25864,8 @@ class ActivityManager_ProcessErrorStateInfo extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_ActivityManager__ProcessErrorStateInfo_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final int NOT_RESPONDING
   static const NOT_RESPONDING = 2;
@@ -26002,7 +26077,7 @@ class ActivityManager_ProcessErrorStateInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 
   static final _readFromParcel = jlookup<
@@ -26014,7 +26089,7 @@ class ActivityManager_ProcessErrorStateInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void readFromParcel(android.os.Parcel source)
-  void readFromParcel(jni.JlObject source) =>
+  void readFromParcel(os.Parcel source) =>
       _readFromParcel(reference, source.reference);
 }
 
@@ -26027,7 +26102,8 @@ class ActivityManager_MemoryInfo extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_ActivityManager__MemoryInfo_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: public long availMem
   static final _getavailMem = jlookup<
@@ -26126,7 +26202,7 @@ class ActivityManager_MemoryInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 
   static final _readFromParcel = jlookup<
@@ -26138,7 +26214,7 @@ class ActivityManager_MemoryInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void readFromParcel(android.os.Parcel source)
-  void readFromParcel(jni.JlObject source) =>
+  void readFromParcel(os.Parcel source) =>
       _readFromParcel(reference, source.reference);
 }
 
@@ -26194,7 +26270,7 @@ class ActivityManager_AppTask extends jni.JlObject {
 
   /// from: public void startActivity(android.content.Context context, android.content.Intent intent, android.os.Bundle options)
   void startActivity(
-          jni.JlObject context, jni.JlObject intent, jni.JlObject options) =>
+          content.Context context, content.Intent intent, os.Bundle options) =>
       _startActivity(
           reference, context.reference, intent.reference, options.reference);
 
@@ -26217,7 +26293,8 @@ class PendingIntent extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_PendingIntent_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final int FLAG_CANCEL_CURRENT
   static const FLAG_CANCEL_CURRENT = 268435456;
@@ -26243,7 +26320,7 @@ class PendingIntent extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: void <init>(android.os.IBinder target, java.lang.Object cookie)
-  PendingIntent(jni.JlObject target, jni.JlObject cookie)
+  PendingIntent(os.IBinder target, jni.JlObject cookie)
       : super.fromRef(_ctor(target.reference, cookie.reference));
 
   static final _getActivity = jlookup<
@@ -26258,8 +26335,8 @@ class PendingIntent extends jni.JlObject {
               ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: static public android.app.PendingIntent getActivity(android.content.Context context, int requestCode, android.content.Intent intent, int flags)
-  static PendingIntent getActivity(jni.JlObject context, int requestCode,
-          jni.JlObject intent, int flags) =>
+  static PendingIntent getActivity(content.Context context, int requestCode,
+          content.Intent intent, int flags) =>
       PendingIntent.fromRef(_getActivity(
           context.reference, requestCode, intent.reference, flags));
 
@@ -26277,8 +26354,8 @@ class PendingIntent extends jni.JlObject {
               ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: static public android.app.PendingIntent getActivity(android.content.Context context, int requestCode, android.content.Intent intent, int flags, android.os.Bundle options)
-  static PendingIntent getActivity_1(jni.JlObject context, int requestCode,
-          jni.JlObject intent, int flags, jni.JlObject options) =>
+  static PendingIntent getActivity_1(content.Context context, int requestCode,
+          content.Intent intent, int flags, os.Bundle options) =>
       PendingIntent.fromRef(_getActivity_1(context.reference, requestCode,
           intent.reference, flags, options.reference));
 
@@ -26294,7 +26371,7 @@ class PendingIntent extends jni.JlObject {
               ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: static public android.app.PendingIntent getActivities(android.content.Context context, int requestCode, android.content.Intent[] intents, int flags)
-  static PendingIntent getActivities(jni.JlObject context, int requestCode,
+  static PendingIntent getActivities(content.Context context, int requestCode,
           jni.JlObject intents, int flags) =>
       PendingIntent.fromRef(_getActivities(
           context.reference, requestCode, intents.reference, flags));
@@ -26313,8 +26390,8 @@ class PendingIntent extends jni.JlObject {
               ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: static public android.app.PendingIntent getActivities(android.content.Context context, int requestCode, android.content.Intent[] intents, int flags, android.os.Bundle options)
-  static PendingIntent getActivities_1(jni.JlObject context, int requestCode,
-          jni.JlObject intents, int flags, jni.JlObject options) =>
+  static PendingIntent getActivities_1(content.Context context, int requestCode,
+          jni.JlObject intents, int flags, os.Bundle options) =>
       PendingIntent.fromRef(_getActivities_1(context.reference, requestCode,
           intents.reference, flags, options.reference));
 
@@ -26330,8 +26407,8 @@ class PendingIntent extends jni.JlObject {
               ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: static public android.app.PendingIntent getBroadcast(android.content.Context context, int requestCode, android.content.Intent intent, int flags)
-  static PendingIntent getBroadcast(jni.JlObject context, int requestCode,
-          jni.JlObject intent, int flags) =>
+  static PendingIntent getBroadcast(content.Context context, int requestCode,
+          content.Intent intent, int flags) =>
       PendingIntent.fromRef(_getBroadcast(
           context.reference, requestCode, intent.reference, flags));
 
@@ -26347,8 +26424,8 @@ class PendingIntent extends jni.JlObject {
               ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: static public android.app.PendingIntent getService(android.content.Context context, int requestCode, android.content.Intent intent, int flags)
-  static PendingIntent getService(jni.JlObject context, int requestCode,
-          jni.JlObject intent, int flags) =>
+  static PendingIntent getService(content.Context context, int requestCode,
+          content.Intent intent, int flags) =>
       PendingIntent.fromRef(
           _getService(context.reference, requestCode, intent.reference, flags));
 
@@ -26364,8 +26441,8 @@ class PendingIntent extends jni.JlObject {
               ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: static public android.app.PendingIntent getForegroundService(android.content.Context context, int requestCode, android.content.Intent intent, int flags)
-  static PendingIntent getForegroundService(jni.JlObject context,
-          int requestCode, jni.JlObject intent, int flags) =>
+  static PendingIntent getForegroundService(content.Context context,
+          int requestCode, content.Intent intent, int flags) =>
       PendingIntent.fromRef(_getForegroundService(
           context.reference, requestCode, intent.reference, flags));
 
@@ -26376,8 +26453,8 @@ class PendingIntent extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.IntentSender getIntentSender()
-  jni.JlObject getIntentSender() =>
-      jni.JlObject.fromRef(_getIntentSender(reference));
+  content.IntentSender getIntentSender() =>
+      content.IntentSender.fromRef(_getIntentSender(reference));
 
   static final _cancel =
       jlookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
@@ -26416,7 +26493,7 @@ class PendingIntent extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void send(android.content.Context context, int code, android.content.Intent intent)
-  void send_2(jni.JlObject context, int code, jni.JlObject intent) =>
+  void send_2(content.Context context, int code, content.Intent intent) =>
       _send_2(reference, context.reference, code, intent.reference);
 
   static final _send_3 = jlookup<
@@ -26431,8 +26508,8 @@ class PendingIntent extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void send(int code, android.app.PendingIntent.OnFinished onFinished, android.os.Handler handler)
-  void send_3(int code, PendingIntent_OnFinished onFinished,
-          jni.JlObject handler) =>
+  void send_3(
+          int code, PendingIntent_OnFinished onFinished, os.Handler handler) =>
       _send_3(reference, code, onFinished.reference, handler.reference);
 
   static final _send_4 = jlookup<
@@ -26454,8 +26531,8 @@ class PendingIntent extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void send(android.content.Context context, int code, android.content.Intent intent, android.app.PendingIntent.OnFinished onFinished, android.os.Handler handler)
-  void send_4(jni.JlObject context, int code, jni.JlObject intent,
-          PendingIntent_OnFinished onFinished, jni.JlObject handler) =>
+  void send_4(content.Context context, int code, content.Intent intent,
+          PendingIntent_OnFinished onFinished, os.Handler handler) =>
       _send_4(reference, context.reference, code, intent.reference,
           onFinished.reference, handler.reference);
 
@@ -26481,11 +26558,11 @@ class PendingIntent extends jni.JlObject {
 
   /// from: public void send(android.content.Context context, int code, android.content.Intent intent, android.app.PendingIntent.OnFinished onFinished, android.os.Handler handler, java.lang.String requiredPermission)
   void send_5(
-          jni.JlObject context,
+          content.Context context,
           int code,
-          jni.JlObject intent,
+          content.Intent intent,
           PendingIntent_OnFinished onFinished,
-          jni.JlObject handler,
+          os.Handler handler,
           jni.JlString requiredPermission) =>
       _send_5(
           reference,
@@ -26520,13 +26597,13 @@ class PendingIntent extends jni.JlObject {
 
   /// from: public void send(android.content.Context context, int code, android.content.Intent intent, android.app.PendingIntent.OnFinished onFinished, android.os.Handler handler, java.lang.String requiredPermission, android.os.Bundle options)
   void send_6(
-          jni.JlObject context,
+          content.Context context,
           int code,
-          jni.JlObject intent,
+          content.Intent intent,
           PendingIntent_OnFinished onFinished,
-          jni.JlObject handler,
+          os.Handler handler,
           jni.JlString requiredPermission,
-          jni.JlObject options) =>
+          os.Bundle options) =>
       _send_6(
           reference,
           context.reference,
@@ -26572,8 +26649,8 @@ class PendingIntent extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.UserHandle getCreatorUserHandle()
-  jni.JlObject getCreatorUserHandle() =>
-      jni.JlObject.fromRef(_getCreatorUserHandle(reference));
+  os.UserHandle getCreatorUserHandle() =>
+      os.UserHandle.fromRef(_getCreatorUserHandle(reference));
 
   static final _equals_1 = jlookup<
           ffi.NativeFunction<
@@ -26618,7 +26695,7 @@ class PendingIntent extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel out, int flags)
-  void writeToParcel(jni.JlObject out, int flags) =>
+  void writeToParcel(os.Parcel out, int flags) =>
       _writeToParcel(reference, out.reference, flags);
 
   static final _writePendingIntentOrNullToParcel = jlookup<
@@ -26631,7 +26708,7 @@ class PendingIntent extends jni.JlObject {
 
   /// from: static public void writePendingIntentOrNullToParcel(android.app.PendingIntent sender, android.os.Parcel out)
   static void writePendingIntentOrNullToParcel(
-          PendingIntent sender, jni.JlObject out) =>
+          PendingIntent sender, os.Parcel out) =>
       _writePendingIntentOrNullToParcel(sender.reference, out.reference);
 
   static final _readPendingIntentOrNullFromParcel = jlookup<
@@ -26641,7 +26718,7 @@ class PendingIntent extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public android.app.PendingIntent readPendingIntentOrNullFromParcel(android.os.Parcel in)
-  static PendingIntent readPendingIntentOrNullFromParcel(jni.JlObject in_) =>
+  static PendingIntent readPendingIntentOrNullFromParcel(os.Parcel in_) =>
       PendingIntent.fromRef(_readPendingIntentOrNullFromParcel(in_.reference));
 }
 
@@ -26669,8 +26746,8 @@ class PendingIntent_OnFinished extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract void onSendFinished(android.app.PendingIntent pendingIntent, android.content.Intent intent, int resultCode, java.lang.String resultData, android.os.Bundle resultExtras)
-  void onSendFinished(PendingIntent pendingIntent, jni.JlObject intent,
-          int resultCode, jni.JlString resultData, jni.JlObject resultExtras) =>
+  void onSendFinished(PendingIntent pendingIntent, content.Intent intent,
+          int resultCode, jni.JlString resultData, os.Bundle resultExtras) =>
       _onSendFinished(reference, pendingIntent.reference, intent.reference,
           resultCode, resultData.reference, resultExtras.reference);
 }
@@ -26716,7 +26793,8 @@ class WallpaperInfo extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_WallpaperInfo_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
           ffi.NativeFunction<
@@ -26727,7 +26805,7 @@ class WallpaperInfo extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.content.Context context, android.content.pm.ResolveInfo service)
-  WallpaperInfo(jni.JlObject context, jni.JlObject service)
+  WallpaperInfo(content.Context context, pm.ResolveInfo service)
       : super.fromRef(_ctor(context.reference, service.reference));
 
   static final _getPackageName = jlookup<
@@ -26757,8 +26835,8 @@ class WallpaperInfo extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.pm.ServiceInfo getServiceInfo()
-  jni.JlObject getServiceInfo() =>
-      jni.JlObject.fromRef(_getServiceInfo(reference));
+  pm.ServiceInfo getServiceInfo() =>
+      pm.ServiceInfo.fromRef(_getServiceInfo(reference));
 
   static final _getComponent = jlookup<
               ffi.NativeFunction<
@@ -26767,7 +26845,8 @@ class WallpaperInfo extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.ComponentName getComponent()
-  jni.JlObject getComponent() => jni.JlObject.fromRef(_getComponent(reference));
+  content.ComponentName getComponent() =>
+      content.ComponentName.fromRef(_getComponent(reference));
 
   static final _loadLabel = jlookup<
               ffi.NativeFunction<
@@ -26779,8 +26858,8 @@ class WallpaperInfo extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.CharSequence loadLabel(android.content.pm.PackageManager pm)
-  jni.JlObject loadLabel(jni.JlObject pm) =>
-      jni.JlObject.fromRef(_loadLabel(reference, pm.reference));
+  jni.JlObject loadLabel(pm.PackageManager pm_) =>
+      jni.JlObject.fromRef(_loadLabel(reference, pm_.reference));
 
   static final _loadIcon = jlookup<
           ffi.NativeFunction<
@@ -26791,8 +26870,8 @@ class WallpaperInfo extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.graphics.drawable.Drawable loadIcon(android.content.pm.PackageManager pm)
-  jni.JlObject loadIcon(jni.JlObject pm) =>
-      jni.JlObject.fromRef(_loadIcon(reference, pm.reference));
+  jni.JlObject loadIcon(pm.PackageManager pm_) =>
+      jni.JlObject.fromRef(_loadIcon(reference, pm_.reference));
 
   static final _loadThumbnail = jlookup<
               ffi.NativeFunction<
@@ -26804,8 +26883,8 @@ class WallpaperInfo extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.graphics.drawable.Drawable loadThumbnail(android.content.pm.PackageManager pm)
-  jni.JlObject loadThumbnail(jni.JlObject pm) =>
-      jni.JlObject.fromRef(_loadThumbnail(reference, pm.reference));
+  jni.JlObject loadThumbnail(pm.PackageManager pm_) =>
+      jni.JlObject.fromRef(_loadThumbnail(reference, pm_.reference));
 
   static final _loadAuthor = jlookup<
               ffi.NativeFunction<
@@ -26817,8 +26896,8 @@ class WallpaperInfo extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.CharSequence loadAuthor(android.content.pm.PackageManager pm)
-  jni.JlObject loadAuthor(jni.JlObject pm) =>
-      jni.JlObject.fromRef(_loadAuthor(reference, pm.reference));
+  jni.JlObject loadAuthor(pm.PackageManager pm_) =>
+      jni.JlObject.fromRef(_loadAuthor(reference, pm_.reference));
 
   static final _loadDescription = jlookup<
               ffi.NativeFunction<
@@ -26830,8 +26909,8 @@ class WallpaperInfo extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.CharSequence loadDescription(android.content.pm.PackageManager pm)
-  jni.JlObject loadDescription(jni.JlObject pm) =>
-      jni.JlObject.fromRef(_loadDescription(reference, pm.reference));
+  jni.JlObject loadDescription(pm.PackageManager pm_) =>
+      jni.JlObject.fromRef(_loadDescription(reference, pm_.reference));
 
   static final _loadContextUri = jlookup<
               ffi.NativeFunction<
@@ -26843,8 +26922,8 @@ class WallpaperInfo extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.net.Uri loadContextUri(android.content.pm.PackageManager pm)
-  jni.JlObject loadContextUri(jni.JlObject pm) =>
-      jni.JlObject.fromRef(_loadContextUri(reference, pm.reference));
+  jni.JlObject loadContextUri(pm.PackageManager pm_) =>
+      jni.JlObject.fromRef(_loadContextUri(reference, pm_.reference));
 
   static final _loadContextDescription = jlookup<
               ffi.NativeFunction<
@@ -26856,8 +26935,8 @@ class WallpaperInfo extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.CharSequence loadContextDescription(android.content.pm.PackageManager pm)
-  jni.JlObject loadContextDescription(jni.JlObject pm) =>
-      jni.JlObject.fromRef(_loadContextDescription(reference, pm.reference));
+  jni.JlObject loadContextDescription(pm.PackageManager pm_) =>
+      jni.JlObject.fromRef(_loadContextDescription(reference, pm_.reference));
 
   static final _getShowMetadataInPreview =
       jlookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
@@ -26906,7 +26985,7 @@ class WallpaperInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 
   static final _describeContents =

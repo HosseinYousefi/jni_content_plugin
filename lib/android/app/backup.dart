@@ -9,6 +9,9 @@
 import "dart:ffi" as ffi;
 
 import "package:jni/jni.dart" as jni;
+import "package:content_plugin/android/os.dart" as os;
+
+import "package:content_plugin/android/content.dart" as content;
 import "../../init.dart" show jlookup;
 
 class BackupDataInputStream extends jni.JlObject {
@@ -89,8 +92,8 @@ class BackupHelper extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract void performBackup(android.os.ParcelFileDescriptor oldState, android.app.backup.BackupDataOutput data, android.os.ParcelFileDescriptor newState)
-  void performBackup(jni.JlObject oldState, BackupDataOutput data,
-          jni.JlObject newState) =>
+  void performBackup(os.ParcelFileDescriptor oldState, BackupDataOutput data,
+          os.ParcelFileDescriptor newState) =>
       _performBackup(
           reference, oldState.reference, data.reference, newState.reference);
 
@@ -115,7 +118,7 @@ class BackupHelper extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract void writeNewStateDescription(android.os.ParcelFileDescriptor newState)
-  void writeNewStateDescription(jni.JlObject newState) =>
+  void writeNewStateDescription(os.ParcelFileDescriptor newState) =>
       _writeNewStateDescription(reference, newState.reference);
 }
 
@@ -129,7 +132,8 @@ class BackupManager extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.content.Context context)
-  BackupManager(jni.JlObject context) : super.fromRef(_ctor(context.reference));
+  BackupManager(content.Context context)
+      : super.fromRef(_ctor(context.reference));
 
   static final _dataChanged =
       jlookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
@@ -173,7 +177,7 @@ class FileBackupHelper extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.content.Context context, java.lang.String[] files)
-  FileBackupHelper(jni.JlObject context, jni.JlObject files)
+  FileBackupHelper(content.Context context, jni.JlObject files)
       : super.fromRef(_ctor(context.reference, files.reference));
 
   static final _performBackup = jlookup<
@@ -189,8 +193,8 @@ class FileBackupHelper extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void performBackup(android.os.ParcelFileDescriptor oldState, android.app.backup.BackupDataOutput data, android.os.ParcelFileDescriptor newState)
-  void performBackup(jni.JlObject oldState, BackupDataOutput data,
-          jni.JlObject newState) =>
+  void performBackup(os.ParcelFileDescriptor oldState, BackupDataOutput data,
+          os.ParcelFileDescriptor newState) =>
       _performBackup(
           reference, oldState.reference, data.reference, newState.reference);
 
@@ -215,7 +219,7 @@ class FileBackupHelper extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void writeNewStateDescription(android.os.ParcelFileDescriptor fd)
-  void writeNewStateDescription(jni.JlObject fd) =>
+  void writeNewStateDescription(os.ParcelFileDescriptor fd) =>
       _writeNewStateDescription(reference, fd.reference);
 
   static final _finalize =
@@ -241,7 +245,8 @@ class SharedPreferencesBackupHelper extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.content.Context context, java.lang.String[] prefGroups)
-  SharedPreferencesBackupHelper(jni.JlObject context, jni.JlObject prefGroups)
+  SharedPreferencesBackupHelper(
+      content.Context context, jni.JlObject prefGroups)
       : super.fromRef(_ctor(context.reference, prefGroups.reference));
 
   static final _performBackup = jlookup<
@@ -257,8 +262,8 @@ class SharedPreferencesBackupHelper extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void performBackup(android.os.ParcelFileDescriptor oldState, android.app.backup.BackupDataOutput data, android.os.ParcelFileDescriptor newState)
-  void performBackup(jni.JlObject oldState, BackupDataOutput data,
-          jni.JlObject newState) =>
+  void performBackup(os.ParcelFileDescriptor oldState, BackupDataOutput data,
+          os.ParcelFileDescriptor newState) =>
       _performBackup(
           reference, oldState.reference, data.reference, newState.reference);
 
@@ -283,7 +288,7 @@ class SharedPreferencesBackupHelper extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void writeNewStateDescription(android.os.ParcelFileDescriptor fd)
-  void writeNewStateDescription(jni.JlObject fd) =>
+  void writeNewStateDescription(os.ParcelFileDescriptor fd) =>
       _writeNewStateDescription(reference, fd.reference);
 
   static final _finalize =
@@ -295,7 +300,7 @@ class SharedPreferencesBackupHelper extends jni.JlObject {
   void finalize() => _finalize(reference);
 }
 
-class BackupAgent extends jni.JlObject {
+class BackupAgent extends content.ContextWrapper {
   BackupAgent.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   /// from: static public final int FLAG_CLIENT_SIDE_ENCRYPTION_ENABLED
@@ -347,8 +352,8 @@ class BackupAgent extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract void onBackup(android.os.ParcelFileDescriptor oldState, android.app.backup.BackupDataOutput data, android.os.ParcelFileDescriptor newState)
-  void onBackup(jni.JlObject oldState, BackupDataOutput data,
-          jni.JlObject newState) =>
+  void onBackup(os.ParcelFileDescriptor oldState, BackupDataOutput data,
+          os.ParcelFileDescriptor newState) =>
       _onBackup(
           reference, oldState.reference, data.reference, newState.reference);
 
@@ -365,8 +370,8 @@ class BackupAgent extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract void onRestore(android.app.backup.BackupDataInput data, int appVersionCode, android.os.ParcelFileDescriptor newState)
-  void onRestore(
-          BackupDataInput data, int appVersionCode, jni.JlObject newState) =>
+  void onRestore(BackupDataInput data, int appVersionCode,
+          os.ParcelFileDescriptor newState) =>
       _onRestore(reference, data.reference, appVersionCode, newState.reference);
 
   static final _onRestore_1 = jlookup<
@@ -382,8 +387,8 @@ class BackupAgent extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onRestore(android.app.backup.BackupDataInput data, long appVersionCode, android.os.ParcelFileDescriptor newState)
-  void onRestore_1(
-          BackupDataInput data, int appVersionCode, jni.JlObject newState) =>
+  void onRestore_1(BackupDataInput data, int appVersionCode,
+          os.ParcelFileDescriptor newState) =>
       _onRestore_1(
           reference, data.reference, appVersionCode, newState.reference);
 
@@ -437,8 +442,8 @@ class BackupAgent extends jni.JlObject {
               ffi.Pointer<ffi.Void>, int, int, int)>();
 
   /// from: public void onRestoreFile(android.os.ParcelFileDescriptor data, long size, java.io.File destination, int type, long mode, long mtime)
-  void onRestoreFile(jni.JlObject data, int size, jni.JlObject destination,
-          int type, int mode, int mtime) =>
+  void onRestoreFile(os.ParcelFileDescriptor data, int size,
+          jni.JlObject destination, int type, int mode, int mtime) =>
       _onRestoreFile(reference, data.reference, size, destination.reference,
           type, mode, mtime);
 
@@ -607,8 +612,8 @@ class BackupAgentHelper extends BackupAgent {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onBackup(android.os.ParcelFileDescriptor oldState, android.app.backup.BackupDataOutput data, android.os.ParcelFileDescriptor newState)
-  void onBackup(jni.JlObject oldState, BackupDataOutput data,
-          jni.JlObject newState) =>
+  void onBackup(os.ParcelFileDescriptor oldState, BackupDataOutput data,
+          os.ParcelFileDescriptor newState) =>
       _onBackup(
           reference, oldState.reference, data.reference, newState.reference);
 
@@ -625,8 +630,8 @@ class BackupAgentHelper extends BackupAgent {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onRestore(android.app.backup.BackupDataInput data, int appVersionCode, android.os.ParcelFileDescriptor newState)
-  void onRestore(
-          BackupDataInput data, int appVersionCode, jni.JlObject newState) =>
+  void onRestore(BackupDataInput data, int appVersionCode,
+          os.ParcelFileDescriptor newState) =>
       _onRestore(reference, data.reference, appVersionCode, newState.reference);
 
   static final _addHelper = jlookup<

@@ -18,8 +18,10 @@ void main() {
   jni = Jni.getInstance();
   final context = Context.fromRef(jni.getCachedApplicationContext());
   final activity = app.Activity.fromRef(jni.getCurrentActivity());
+  // obviously, this terse code will leak a few references.
   final examples = [
     Example('package name', () => context.getPackageName().toDartString()),
+    Example('intent', () => activity.getIntent().getAction().toDartString()),
     Example('share some text', () {
       final intent = Intent.ctor_2(JlString.fromString(Intent.ACTION_SEND));
       intent.setType(JlString.fromString('text/plain'));

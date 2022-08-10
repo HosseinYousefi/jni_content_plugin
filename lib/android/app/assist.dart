@@ -9,6 +9,9 @@
 import "dart:ffi" as ffi;
 
 import "package:jni/jni.dart" as jni;
+import "package:content_plugin/android/os.dart" as os;
+
+import "package:content_plugin/android/content.dart" as content;
 import "../../init.dart" show jlookup;
 
 class AssistStructure extends jni.JlObject {
@@ -19,7 +22,8 @@ class AssistStructure extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_assist_AssistStructure_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor =
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
@@ -52,8 +56,8 @@ class AssistStructure extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.ComponentName getActivityComponent()
-  jni.JlObject getActivityComponent() =>
-      jni.JlObject.fromRef(_getActivityComponent(reference));
+  content.ComponentName getActivityComponent() =>
+      content.ComponentName.fromRef(_getActivityComponent(reference));
 
   static final _isHomeActivity =
       jlookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
@@ -99,7 +103,7 @@ class AssistStructure extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel out, int flags)
-  void writeToParcel(jni.JlObject out, int flags) =>
+  void writeToParcel(os.Parcel out, int flags) =>
       _writeToParcel(reference, out.reference, flags);
 }
 
@@ -532,8 +536,8 @@ class AssistStructure_ViewNode extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.LocaleList getLocaleList()
-  jni.JlObject getLocaleList() =>
-      jni.JlObject.fromRef(_getLocaleList(reference));
+  os.LocaleList getLocaleList() =>
+      os.LocaleList.fromRef(_getLocaleList(reference));
 
   static final _getText = jlookup<
               ffi.NativeFunction<
@@ -638,7 +642,7 @@ class AssistStructure_ViewNode extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle getExtras()
-  jni.JlObject getExtras() => jni.JlObject.fromRef(_getExtras(reference));
+  os.Bundle getExtras() => os.Bundle.fromRef(_getExtras(reference));
 
   static final _getChildCount =
       jlookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
@@ -700,7 +704,8 @@ class AssistContent extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_assist_AssistContent_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor =
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
@@ -719,7 +724,7 @@ class AssistContent extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setIntent(android.content.Intent intent)
-  void setIntent(jni.JlObject intent) =>
+  void setIntent(content.Intent intent) =>
       _setIntent(reference, intent.reference);
 
   static final _getIntent = jlookup<
@@ -729,7 +734,7 @@ class AssistContent extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.Intent getIntent()
-  jni.JlObject getIntent() => jni.JlObject.fromRef(_getIntent(reference));
+  content.Intent getIntent() => content.Intent.fromRef(_getIntent(reference));
 
   static final _isAppProvidedIntent =
       jlookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
@@ -748,7 +753,7 @@ class AssistContent extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setClipData(android.content.ClipData clip)
-  void setClipData(jni.JlObject clip) =>
+  void setClipData(content.ClipData clip) =>
       _setClipData(reference, clip.reference);
 
   static final _getClipData = jlookup<
@@ -758,7 +763,8 @@ class AssistContent extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.ClipData getClipData()
-  jni.JlObject getClipData() => jni.JlObject.fromRef(_getClipData(reference));
+  content.ClipData getClipData() =>
+      content.ClipData.fromRef(_getClipData(reference));
 
   static final _setStructuredData = jlookup<
               ffi.NativeFunction<
@@ -817,7 +823,7 @@ class AssistContent extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle getExtras()
-  jni.JlObject getExtras() => jni.JlObject.fromRef(_getExtras(reference));
+  os.Bundle getExtras() => os.Bundle.fromRef(_getExtras(reference));
 
   static final _describeContents =
       jlookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
@@ -835,6 +841,6 @@ class AssistContent extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 }

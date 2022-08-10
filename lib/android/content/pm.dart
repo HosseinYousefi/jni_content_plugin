@@ -9,6 +9,11 @@
 import "dart:ffi" as ffi;
 
 import "package:jni/jni.dart" as jni;
+import "package:content_plugin/android/os.dart" as os;
+
+import "package:content_plugin/android/content.dart" as content;
+
+import "package:content_plugin/android/content/res.dart" as res;
 import "../../init.dart" show jlookup;
 
 class VersionedPackage extends jni.JlObject {
@@ -19,7 +24,8 @@ class VersionedPackage extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_pm_VersionedPackage_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
           ffi.NativeFunction<
@@ -93,7 +99,7 @@ class VersionedPackage extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel parcel, int flags)
-  void writeToParcel(jni.JlObject parcel, int flags) =>
+  void writeToParcel(os.Parcel parcel, int flags) =>
       _writeToParcel(reference, parcel.reference, flags);
 }
 
@@ -105,7 +111,8 @@ class ConfigurationInfo extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_pm_ConfigurationInfo_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final int GL_ES_VERSION_UNDEFINED
   static const GL_ES_VERSION_UNDEFINED = 0;
@@ -250,7 +257,7 @@ class ConfigurationInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int parcelableFlags)
-  void writeToParcel(jni.JlObject dest, int parcelableFlags) =>
+  void writeToParcel(os.Parcel dest, int parcelableFlags) =>
       _writeToParcel(reference, dest.reference, parcelableFlags);
 
   static final _getGlEsVersion = jlookup<
@@ -329,7 +336,8 @@ class ActivityInfo extends ComponentInfo {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_pm_ActivityInfo_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final int DOCUMENT_LAUNCH_ALWAYS
   static const DOCUMENT_LAUNCH_ALWAYS = 2;
@@ -835,7 +843,7 @@ class ActivityInfo extends ComponentInfo {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int parcelableFlags)
-  void writeToParcel(jni.JlObject dest, int parcelableFlags) =>
+  void writeToParcel(os.Parcel dest, int parcelableFlags) =>
       _writeToParcel(reference, dest.reference, parcelableFlags);
 }
 
@@ -965,7 +973,8 @@ class LauncherApps extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: void <init>(android.content.Context context)
-  LauncherApps(jni.JlObject context) : super.fromRef(_ctor(context.reference));
+  LauncherApps(content.Context context)
+      : super.fromRef(_ctor(context.reference));
 
   static final _getProfiles = jlookup<
               ffi.NativeFunction<
@@ -986,7 +995,7 @@ class LauncherApps extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<android.content.pm.LauncherActivityInfo> getActivityList(java.lang.String packageName, android.os.UserHandle user)
-  jni.JlObject getActivityList(jni.JlString packageName, jni.JlObject user) =>
+  jni.JlObject getActivityList(jni.JlString packageName, os.UserHandle user) =>
       jni.JlObject.fromRef(
           _getActivityList(reference, packageName.reference, user.reference));
 
@@ -1001,7 +1010,7 @@ class LauncherApps extends jni.JlObject {
 
   /// from: public android.content.pm.LauncherActivityInfo resolveActivity(android.content.Intent intent, android.os.UserHandle user)
   LauncherActivityInfo resolveActivity(
-          jni.JlObject intent, jni.JlObject user) =>
+          content.Intent intent, os.UserHandle user) =>
       LauncherActivityInfo.fromRef(
           _resolveActivity(reference, intent.reference, user.reference));
 
@@ -1023,8 +1032,8 @@ class LauncherApps extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void startMainActivity(android.content.ComponentName component, android.os.UserHandle user, android.graphics.Rect sourceBounds, android.os.Bundle opts)
-  void startMainActivity(jni.JlObject component, jni.JlObject user,
-          jni.JlObject sourceBounds, jni.JlObject opts) =>
+  void startMainActivity(content.ComponentName component, os.UserHandle user,
+          jni.JlObject sourceBounds, os.Bundle opts) =>
       _startMainActivity(reference, component.reference, user.reference,
           sourceBounds.reference, opts.reference);
 
@@ -1046,8 +1055,8 @@ class LauncherApps extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void startAppDetailsActivity(android.content.ComponentName component, android.os.UserHandle user, android.graphics.Rect sourceBounds, android.os.Bundle opts)
-  void startAppDetailsActivity(jni.JlObject component, jni.JlObject user,
-          jni.JlObject sourceBounds, jni.JlObject opts) =>
+  void startAppDetailsActivity(content.ComponentName component,
+          os.UserHandle user, jni.JlObject sourceBounds, os.Bundle opts) =>
       _startAppDetailsActivity(reference, component.reference, user.reference,
           sourceBounds.reference, opts.reference);
 
@@ -1062,7 +1071,7 @@ class LauncherApps extends jni.JlObject {
 
   /// from: public java.util.List<android.content.pm.LauncherActivityInfo> getShortcutConfigActivityList(java.lang.String packageName, android.os.UserHandle user)
   jni.JlObject getShortcutConfigActivityList(
-          jni.JlString packageName, jni.JlObject user) =>
+          jni.JlString packageName, os.UserHandle user) =>
       jni.JlObject.fromRef(_getShortcutConfigActivityList(
           reference, packageName.reference, user.reference));
 
@@ -1076,8 +1085,9 @@ class LauncherApps extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.IntentSender getShortcutConfigActivityIntent(android.content.pm.LauncherActivityInfo info)
-  jni.JlObject getShortcutConfigActivityIntent(LauncherActivityInfo info) =>
-      jni.JlObject.fromRef(
+  content.IntentSender getShortcutConfigActivityIntent(
+          LauncherActivityInfo info) =>
+      content.IntentSender.fromRef(
           _getShortcutConfigActivityIntent(reference, info.reference));
 
   static final _isPackageEnabled = jlookup<
@@ -1090,7 +1100,7 @@ class LauncherApps extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isPackageEnabled(java.lang.String packageName, android.os.UserHandle user)
-  bool isPackageEnabled(jni.JlString packageName, jni.JlObject user) =>
+  bool isPackageEnabled(jni.JlString packageName, os.UserHandle user) =>
       _isPackageEnabled(reference, packageName.reference, user.reference) != 0;
 
   static final _getSuspendedPackageLauncherExtras = jlookup<
@@ -1103,9 +1113,9 @@ class LauncherApps extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle getSuspendedPackageLauncherExtras(java.lang.String packageName, android.os.UserHandle user)
-  jni.JlObject getSuspendedPackageLauncherExtras(
-          jni.JlString packageName, jni.JlObject user) =>
-      jni.JlObject.fromRef(_getSuspendedPackageLauncherExtras(
+  os.Bundle getSuspendedPackageLauncherExtras(
+          jni.JlString packageName, os.UserHandle user) =>
+      os.Bundle.fromRef(_getSuspendedPackageLauncherExtras(
           reference, packageName.reference, user.reference));
 
   static final _getApplicationInfo = jlookup<
@@ -1122,7 +1132,7 @@ class LauncherApps extends jni.JlObject {
 
   /// from: public android.content.pm.ApplicationInfo getApplicationInfo(java.lang.String packageName, int flags, android.os.UserHandle user)
   ApplicationInfo getApplicationInfo(
-          jni.JlString packageName, int flags, jni.JlObject user) =>
+          jni.JlString packageName, int flags, os.UserHandle user) =>
       ApplicationInfo.fromRef(_getApplicationInfo(
           reference, packageName.reference, flags, user.reference));
 
@@ -1136,7 +1146,7 @@ class LauncherApps extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isActivityEnabled(android.content.ComponentName component, android.os.UserHandle user)
-  bool isActivityEnabled(jni.JlObject component, jni.JlObject user) =>
+  bool isActivityEnabled(content.ComponentName component, os.UserHandle user) =>
       _isActivityEnabled(reference, component.reference, user.reference) != 0;
 
   static final _hasShortcutHostPermission =
@@ -1159,7 +1169,7 @@ class LauncherApps extends jni.JlObject {
 
   /// from: public java.util.List<android.content.pm.ShortcutInfo> getShortcuts(android.content.pm.LauncherApps.ShortcutQuery query, android.os.UserHandle user)
   jni.JlObject getShortcuts(
-          LauncherApps_ShortcutQuery query, jni.JlObject user) =>
+          LauncherApps_ShortcutQuery query, os.UserHandle user) =>
       jni.JlObject.fromRef(
           _getShortcuts(reference, query.reference, user.reference));
 
@@ -1177,7 +1187,7 @@ class LauncherApps extends jni.JlObject {
 
   /// from: public void pinShortcuts(java.lang.String packageName, java.util.List<java.lang.String> shortcutIds, android.os.UserHandle user)
   void pinShortcuts(jni.JlString packageName, jni.JlObject shortcutIds,
-          jni.JlObject user) =>
+          os.UserHandle user) =>
       _pinShortcuts(reference, packageName.reference, shortcutIds.reference,
           user.reference);
 
@@ -1234,8 +1244,8 @@ class LauncherApps extends jni.JlObject {
           jni.JlString packageName,
           jni.JlString shortcutId,
           jni.JlObject sourceBounds,
-          jni.JlObject startActivityOptions,
-          jni.JlObject user) =>
+          os.Bundle startActivityOptions,
+          os.UserHandle user) =>
       _startShortcut(
           reference,
           packageName.reference,
@@ -1258,7 +1268,7 @@ class LauncherApps extends jni.JlObject {
 
   /// from: public void startShortcut(android.content.pm.ShortcutInfo shortcut, android.graphics.Rect sourceBounds, android.os.Bundle startActivityOptions)
   void startShortcut_1(ShortcutInfo shortcut, jni.JlObject sourceBounds,
-          jni.JlObject startActivityOptions) =>
+          os.Bundle startActivityOptions) =>
       _startShortcut_1(reference, shortcut.reference, sourceBounds.reference,
           startActivityOptions.reference);
 
@@ -1284,8 +1294,7 @@ class LauncherApps extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void registerCallback(android.content.pm.LauncherApps.Callback callback, android.os.Handler handler)
-  void registerCallback_1(
-          LauncherApps_Callback callback, jni.JlObject handler) =>
+  void registerCallback_1(LauncherApps_Callback callback, os.Handler handler) =>
       _registerCallback_1(reference, callback.reference, handler.reference);
 
   static final _unregisterCallback = jlookup<
@@ -1310,7 +1319,7 @@ class LauncherApps extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.pm.LauncherApps.PinItemRequest getPinItemRequest(android.content.Intent intent)
-  LauncherApps_PinItemRequest getPinItemRequest(jni.JlObject intent) =>
+  LauncherApps_PinItemRequest getPinItemRequest(content.Intent intent) =>
       LauncherApps_PinItemRequest.fromRef(
           _getPinItemRequest(reference, intent.reference));
 }
@@ -1392,7 +1401,7 @@ class LauncherApps_ShortcutQuery extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.pm.LauncherApps.ShortcutQuery setActivity(android.content.ComponentName activity)
-  LauncherApps_ShortcutQuery setActivity(jni.JlObject activity) =>
+  LauncherApps_ShortcutQuery setActivity(content.ComponentName activity) =>
       LauncherApps_ShortcutQuery.fromRef(
           _setActivity(reference, activity.reference));
 
@@ -1417,7 +1426,8 @@ class LauncherApps_PinItemRequest extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_pm_LauncherApps__PinItemRequest_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final int REQUEST_TYPE_APPWIDGET
   static const REQUEST_TYPE_APPWIDGET = 2;
@@ -1432,7 +1442,7 @@ class LauncherApps_PinItemRequest extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: void <init>(android.os.Parcel source)
-  LauncherApps_PinItemRequest(jni.JlObject source)
+  LauncherApps_PinItemRequest(os.Parcel source)
       : super.fromRef(_ctor(source.reference));
 
   static final _getRequestType =
@@ -1463,7 +1473,7 @@ class LauncherApps_PinItemRequest extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.appwidget.AppWidgetProviderInfo getAppWidgetProviderInfo(android.content.Context context)
-  jni.JlObject getAppWidgetProviderInfo(jni.JlObject context) =>
+  jni.JlObject getAppWidgetProviderInfo(content.Context context) =>
       jni.JlObject.fromRef(
           _getAppWidgetProviderInfo(reference, context.reference));
 
@@ -1474,7 +1484,7 @@ class LauncherApps_PinItemRequest extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle getExtras()
-  jni.JlObject getExtras() => jni.JlObject.fromRef(_getExtras(reference));
+  os.Bundle getExtras() => os.Bundle.fromRef(_getExtras(reference));
 
   static final _isValid =
       jlookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
@@ -1492,8 +1502,7 @@ class LauncherApps_PinItemRequest extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean accept(android.os.Bundle options)
-  bool accept(jni.JlObject options) =>
-      _accept(reference, options.reference) != 0;
+  bool accept(os.Bundle options) => _accept(reference, options.reference) != 0;
 
   static final _accept_1 =
       jlookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
@@ -1512,7 +1521,7 @@ class LauncherApps_PinItemRequest extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 
   static final _describeContents = jlookup<
@@ -1545,7 +1554,7 @@ class LauncherApps_Callback extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract void onPackageRemoved(java.lang.String packageName, android.os.UserHandle user)
-  void onPackageRemoved(jni.JlString packageName, jni.JlObject user) =>
+  void onPackageRemoved(jni.JlString packageName, os.UserHandle user) =>
       _onPackageRemoved(reference, packageName.reference, user.reference);
 
   static final _onPackageAdded = jlookup<
@@ -1558,7 +1567,7 @@ class LauncherApps_Callback extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract void onPackageAdded(java.lang.String packageName, android.os.UserHandle user)
-  void onPackageAdded(jni.JlString packageName, jni.JlObject user) =>
+  void onPackageAdded(jni.JlString packageName, os.UserHandle user) =>
       _onPackageAdded(reference, packageName.reference, user.reference);
 
   static final _onPackageChanged = jlookup<
@@ -1571,7 +1580,7 @@ class LauncherApps_Callback extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract void onPackageChanged(java.lang.String packageName, android.os.UserHandle user)
-  void onPackageChanged(jni.JlString packageName, jni.JlObject user) =>
+  void onPackageChanged(jni.JlString packageName, os.UserHandle user) =>
       _onPackageChanged(reference, packageName.reference, user.reference);
 
   static final _onPackagesAvailable = jlookup<
@@ -1588,7 +1597,7 @@ class LauncherApps_Callback extends jni.JlObject {
 
   /// from: public abstract void onPackagesAvailable(java.lang.String[] packageNames, android.os.UserHandle user, boolean replacing)
   void onPackagesAvailable(
-          jni.JlObject packageNames, jni.JlObject user, bool replacing) =>
+          jni.JlObject packageNames, os.UserHandle user, bool replacing) =>
       _onPackagesAvailable(
           reference, packageNames.reference, user.reference, replacing ? 1 : 0);
 
@@ -1606,7 +1615,7 @@ class LauncherApps_Callback extends jni.JlObject {
 
   /// from: public abstract void onPackagesUnavailable(java.lang.String[] packageNames, android.os.UserHandle user, boolean replacing)
   void onPackagesUnavailable(
-          jni.JlObject packageNames, jni.JlObject user, bool replacing) =>
+          jni.JlObject packageNames, os.UserHandle user, bool replacing) =>
       _onPackagesUnavailable(
           reference, packageNames.reference, user.reference, replacing ? 1 : 0);
 
@@ -1620,7 +1629,7 @@ class LauncherApps_Callback extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onPackagesSuspended(java.lang.String[] packageNames, android.os.UserHandle user)
-  void onPackagesSuspended(jni.JlObject packageNames, jni.JlObject user) =>
+  void onPackagesSuspended(jni.JlObject packageNames, os.UserHandle user) =>
       _onPackagesSuspended(reference, packageNames.reference, user.reference);
 
   static final _onPackagesSuspended_1 = jlookup<
@@ -1636,8 +1645,8 @@ class LauncherApps_Callback extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onPackagesSuspended(java.lang.String[] packageNames, android.os.UserHandle user, android.os.Bundle launcherExtras)
-  void onPackagesSuspended_1(jni.JlObject packageNames, jni.JlObject user,
-          jni.JlObject launcherExtras) =>
+  void onPackagesSuspended_1(jni.JlObject packageNames, os.UserHandle user,
+          os.Bundle launcherExtras) =>
       _onPackagesSuspended_1(reference, packageNames.reference, user.reference,
           launcherExtras.reference);
 
@@ -1651,7 +1660,7 @@ class LauncherApps_Callback extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onPackagesUnsuspended(java.lang.String[] packageNames, android.os.UserHandle user)
-  void onPackagesUnsuspended(jni.JlObject packageNames, jni.JlObject user) =>
+  void onPackagesUnsuspended(jni.JlObject packageNames, os.UserHandle user) =>
       _onPackagesUnsuspended(reference, packageNames.reference, user.reference);
 
   static final _onShortcutsChanged = jlookup<
@@ -1668,7 +1677,7 @@ class LauncherApps_Callback extends jni.JlObject {
 
   /// from: public void onShortcutsChanged(java.lang.String packageName, java.util.List<android.content.pm.ShortcutInfo> shortcuts, android.os.UserHandle user)
   void onShortcutsChanged(jni.JlString packageName, jni.JlObject shortcuts,
-          jni.JlObject user) =>
+          os.UserHandle user) =>
       _onShortcutsChanged(reference, packageName.reference, shortcuts.reference,
           user.reference);
 }
@@ -1681,7 +1690,8 @@ class FeatureGroupInfo extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_pm_FeatureGroupInfo_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: public android.content.pm.FeatureInfo[] features
   static final _getfeatures = jlookup<
@@ -1738,7 +1748,7 @@ class FeatureGroupInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 }
 
@@ -1750,7 +1760,8 @@ class SigningInfo extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_pm_SigningInfo_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor =
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
@@ -1822,7 +1833,7 @@ class SigningInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int parcelableFlags)
-  void writeToParcel(jni.JlObject dest, int parcelableFlags) =>
+  void writeToParcel(os.Parcel dest, int parcelableFlags) =>
       _writeToParcel(reference, dest.reference, parcelableFlags);
 }
 
@@ -1834,7 +1845,8 @@ class PermissionInfo extends PackageItemInfo {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_pm_PermissionInfo_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final int FLAG_COSTS_MONEY
   static const FLAG_COSTS_MONEY = 1;
@@ -2062,7 +2074,7 @@ class PermissionInfo extends PackageItemInfo {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int parcelableFlags)
-  void writeToParcel(jni.JlObject dest, int parcelableFlags) =>
+  void writeToParcel(os.Parcel dest, int parcelableFlags) =>
       _writeToParcel(reference, dest.reference, parcelableFlags);
 }
 
@@ -2074,7 +2086,8 @@ class ServiceInfo extends ComponentInfo {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_pm_ServiceInfo_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final int FLAG_EXTERNAL_SERVICE
   static const FLAG_EXTERNAL_SERVICE = 4;
@@ -2183,7 +2196,7 @@ class ServiceInfo extends ComponentInfo {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int parcelableFlags)
-  void writeToParcel(jni.JlObject dest, int parcelableFlags) =>
+  void writeToParcel(os.Parcel dest, int parcelableFlags) =>
       _writeToParcel(reference, dest.reference, parcelableFlags);
 }
 
@@ -2195,7 +2208,8 @@ class SharedLibraryInfo extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_pm_SharedLibraryInfo_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final int TYPE_BUILTIN
   static const TYPE_BUILTIN = 0;
@@ -2216,8 +2230,7 @@ class SharedLibraryInfo extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: void <init>(android.os.Parcel parcel)
-  SharedLibraryInfo(jni.JlObject parcel)
-      : super.fromRef(_ctor(parcel.reference));
+  SharedLibraryInfo(os.Parcel parcel) : super.fromRef(_ctor(parcel.reference));
 
   static final _getType =
       jlookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
@@ -2298,7 +2311,7 @@ class SharedLibraryInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel parcel, int flags)
-  void writeToParcel(jni.JlObject parcel, int flags) =>
+  void writeToParcel(os.Parcel parcel, int flags) =>
       _writeToParcel(reference, parcel.reference, flags);
 }
 
@@ -2323,7 +2336,8 @@ class CrossProfileApps extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void startMainActivity(android.content.ComponentName component, android.os.UserHandle targetUser)
-  void startMainActivity(jni.JlObject component, jni.JlObject targetUser) =>
+  void startMainActivity(
+          content.ComponentName component, os.UserHandle targetUser) =>
       _startMainActivity(reference, component.reference, targetUser.reference);
 
   static final _getTargetUserProfiles = jlookup<
@@ -2346,7 +2360,7 @@ class CrossProfileApps extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.CharSequence getProfileSwitchingLabel(android.os.UserHandle userHandle)
-  jni.JlObject getProfileSwitchingLabel(jni.JlObject userHandle) =>
+  jni.JlObject getProfileSwitchingLabel(os.UserHandle userHandle) =>
       jni.JlObject.fromRef(
           _getProfileSwitchingLabel(reference, userHandle.reference));
 
@@ -2360,7 +2374,7 @@ class CrossProfileApps extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.graphics.drawable.Drawable getProfileSwitchingIconDrawable(android.os.UserHandle userHandle)
-  jni.JlObject getProfileSwitchingIconDrawable(jni.JlObject userHandle) =>
+  jni.JlObject getProfileSwitchingIconDrawable(os.UserHandle userHandle) =>
       jni.JlObject.fromRef(
           _getProfileSwitchingIconDrawable(reference, userHandle.reference));
 }
@@ -2373,7 +2387,8 @@ class ShortcutInfo extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_pm_ShortcutInfo_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final int DISABLED_REASON_APP_CHANGED
   static const DISABLED_REASON_APP_CHANGED = 2;
@@ -2436,7 +2451,8 @@ class ShortcutInfo extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.ComponentName getActivity()
-  jni.JlObject getActivity() => jni.JlObject.fromRef(_getActivity(reference));
+  content.ComponentName getActivity() =>
+      content.ComponentName.fromRef(_getActivity(reference));
 
   static final _getShortLabel = jlookup<
               ffi.NativeFunction<
@@ -2492,7 +2508,7 @@ class ShortcutInfo extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.Intent getIntent()
-  jni.JlObject getIntent() => jni.JlObject.fromRef(_getIntent(reference));
+  content.Intent getIntent() => content.Intent.fromRef(_getIntent(reference));
 
   static final _getIntents = jlookup<
               ffi.NativeFunction<
@@ -2518,7 +2534,8 @@ class ShortcutInfo extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.PersistableBundle getExtras()
-  jni.JlObject getExtras() => jni.JlObject.fromRef(_getExtras(reference));
+  os.PersistableBundle getExtras() =>
+      os.PersistableBundle.fromRef(_getExtras(reference));
 
   static final _getUserHandle = jlookup<
               ffi.NativeFunction<
@@ -2527,8 +2544,8 @@ class ShortcutInfo extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.UserHandle getUserHandle()
-  jni.JlObject getUserHandle() =>
-      jni.JlObject.fromRef(_getUserHandle(reference));
+  os.UserHandle getUserHandle() =>
+      os.UserHandle.fromRef(_getUserHandle(reference));
 
   static final _getLastChangedTimestamp =
       jlookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
@@ -2594,7 +2611,7 @@ class ShortcutInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 
   static final _describeContents =
@@ -2628,7 +2645,7 @@ class ShortcutInfo_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.content.Context context, java.lang.String id)
-  ShortcutInfo_Builder(jni.JlObject context, jni.JlString id)
+  ShortcutInfo_Builder(content.Context context, jni.JlString id)
       : super.fromRef(_ctor(context.reference, id.reference));
 
   static final _setActivity = jlookup<
@@ -2641,7 +2658,7 @@ class ShortcutInfo_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.pm.ShortcutInfo.Builder setActivity(android.content.ComponentName activity)
-  ShortcutInfo_Builder setActivity(jni.JlObject activity) =>
+  ShortcutInfo_Builder setActivity(content.ComponentName activity) =>
       ShortcutInfo_Builder.fromRef(_setActivity(reference, activity.reference));
 
   static final _setIcon = jlookup<
@@ -2723,7 +2740,7 @@ class ShortcutInfo_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.pm.ShortcutInfo.Builder setIntent(android.content.Intent intent)
-  ShortcutInfo_Builder setIntent(jni.JlObject intent) =>
+  ShortcutInfo_Builder setIntent(content.Intent intent) =>
       ShortcutInfo_Builder.fromRef(_setIntent(reference, intent.reference));
 
   static final _setIntents = jlookup<
@@ -2760,7 +2777,7 @@ class ShortcutInfo_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.pm.ShortcutInfo.Builder setExtras(android.os.PersistableBundle extras)
-  ShortcutInfo_Builder setExtras(jni.JlObject extras) =>
+  ShortcutInfo_Builder setExtras(os.PersistableBundle extras) =>
       ShortcutInfo_Builder.fromRef(_setExtras(reference, extras.reference));
 
   static final _build = jlookup<
@@ -2858,7 +2875,7 @@ class PackageItemInfo extends jni.JlObject {
           ffi.Pointer<ffi.Void> Function(
     ffi.Pointer<ffi.Void>,
   )>();
-  jni.JlObject get metaData => jni.JlObject.fromRef(_getmetaData(reference));
+  os.Bundle get metaData => os.Bundle.fromRef(_getmetaData(reference));
   static final _setmetaData = jlookup<
               ffi.NativeFunction<
                   ffi.Void Function(
@@ -2866,7 +2883,7 @@ class PackageItemInfo extends jni.JlObject {
           "set_android_content_pm_PackageItemInfo_metaData")
       .asFunction<
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-  set metaData(jni.JlObject value) => _setmetaData(reference, value.reference);
+  set metaData(os.Bundle value) => _setmetaData(reference, value.reference);
 
   /// from: public java.lang.String name
   static final _getname = jlookup<
@@ -2957,7 +2974,7 @@ class PackageItemInfo extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void <init>(android.os.Parcel source)
-  PackageItemInfo.ctor_2(jni.JlObject source)
+  PackageItemInfo.ctor_2(os.Parcel source)
       : super.fromRef(_ctor_2(source.reference));
 
   static final _loadLabel = jlookup<
@@ -3035,8 +3052,8 @@ class PackageItemInfo extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.res.XmlResourceParser loadXmlMetaData(android.content.pm.PackageManager pm, java.lang.String name)
-  jni.JlObject loadXmlMetaData(PackageManager pm, jni.JlString name) =>
-      jni.JlObject.fromRef(
+  res.XmlResourceParser loadXmlMetaData(PackageManager pm, jni.JlString name) =>
+      res.XmlResourceParser.fromRef(
           _loadXmlMetaData(reference, pm.reference, name.reference));
 
   static final _dumpFront = jlookup<
@@ -3074,7 +3091,7 @@ class PackageItemInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int parcelableFlags)
-  void writeToParcel(jni.JlObject dest, int parcelableFlags) =>
+  void writeToParcel(os.Parcel dest, int parcelableFlags) =>
       _writeToParcel(reference, dest.reference, parcelableFlags);
 }
 
@@ -3114,7 +3131,8 @@ class ResolveInfo extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_pm_ResolveInfo_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: public android.content.pm.ActivityInfo activityInfo
   static final _getactivityInfo = jlookup<
@@ -3148,7 +3166,8 @@ class ResolveInfo extends jni.JlObject {
           ffi.Pointer<ffi.Void> Function(
     ffi.Pointer<ffi.Void>,
   )>();
-  jni.JlObject get filter => jni.JlObject.fromRef(_getfilter(reference));
+  content.IntentFilter get filter =>
+      content.IntentFilter.fromRef(_getfilter(reference));
   static final _setfilter = jlookup<
               ffi.NativeFunction<
                   ffi.Void Function(
@@ -3156,7 +3175,8 @@ class ResolveInfo extends jni.JlObject {
           "set_android_content_pm_ResolveInfo_filter")
       .asFunction<
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-  set filter(jni.JlObject value) => _setfilter(reference, value.reference);
+  set filter(content.IntentFilter value) =>
+      _setfilter(reference, value.reference);
 
   /// from: public int icon
   static final _geticon = jlookup<
@@ -3480,7 +3500,7 @@ class ResolveInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int parcelableFlags)
-  void writeToParcel(jni.JlObject dest, int parcelableFlags) =>
+  void writeToParcel(os.Parcel dest, int parcelableFlags) =>
       _writeToParcel(reference, dest.reference, parcelableFlags);
 }
 
@@ -3520,7 +3540,8 @@ class PermissionGroupInfo extends PackageItemInfo {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_pm_PermissionGroupInfo_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final int FLAG_PERSONAL_INFO
   static const FLAG_PERSONAL_INFO = 1;
@@ -3658,11 +3679,11 @@ class PermissionGroupInfo extends PackageItemInfo {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int parcelableFlags)
-  void writeToParcel(jni.JlObject dest, int parcelableFlags) =>
+  void writeToParcel(os.Parcel dest, int parcelableFlags) =>
       _writeToParcel(reference, dest.reference, parcelableFlags);
 }
 
-class LabeledIntent extends jni.JlObject {
+class LabeledIntent extends content.Intent {
   LabeledIntent.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   /// from: static public final android.os.Parcelable.Creator<android.content.pm.LabeledIntent> CREATOR
@@ -3670,7 +3691,8 @@ class LabeledIntent extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_pm_LabeledIntent_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
           ffi.NativeFunction<
@@ -3684,7 +3706,7 @@ class LabeledIntent extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int, int)>();
 
   /// from: public void <init>(android.content.Intent origIntent, java.lang.String sourcePackage, int labelRes, int icon)
-  LabeledIntent(jni.JlObject origIntent, jni.JlString sourcePackage,
+  LabeledIntent(content.Intent origIntent, jni.JlString sourcePackage,
       int labelRes, int icon)
       : super.fromRef(_ctor(
             origIntent.reference, sourcePackage.reference, labelRes, icon));
@@ -3701,7 +3723,7 @@ class LabeledIntent extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void <init>(android.content.Intent origIntent, java.lang.String sourcePackage, java.lang.CharSequence nonLocalizedLabel, int icon)
-  LabeledIntent.ctor_1(jni.JlObject origIntent, jni.JlString sourcePackage,
+  LabeledIntent.ctor_1(content.Intent origIntent, jni.JlString sourcePackage,
       jni.JlObject nonLocalizedLabel, int icon)
       : super.fromRef(_ctor_1(origIntent.reference, sourcePackage.reference,
             nonLocalizedLabel.reference, icon));
@@ -3803,7 +3825,7 @@ class LabeledIntent extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int parcelableFlags)
-  void writeToParcel(jni.JlObject dest, int parcelableFlags) =>
+  void writeToParcel(os.Parcel dest, int parcelableFlags) =>
       _writeToParcel(reference, dest.reference, parcelableFlags);
 
   static final _readFromParcel = jlookup<
@@ -3815,7 +3837,7 @@ class LabeledIntent extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void readFromParcel(android.os.Parcel in)
-  void readFromParcel(jni.JlObject in_) =>
+  void readFromParcel(os.Parcel in_) =>
       _readFromParcel(reference, in_.reference);
 }
 
@@ -3827,7 +3849,8 @@ class ProviderInfo extends ComponentInfo {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_pm_ProviderInfo_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final int FLAG_SINGLE_USER
   static const FLAG_SINGLE_USER = 1073741824;
@@ -4079,7 +4102,7 @@ class ProviderInfo extends ComponentInfo {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel out, int parcelableFlags)
-  void writeToParcel(jni.JlObject out, int parcelableFlags) =>
+  void writeToParcel(os.Parcel out, int parcelableFlags) =>
       _writeToParcel(reference, out.reference, parcelableFlags);
 
   static final _toString_1 = jlookup<
@@ -4092,7 +4115,7 @@ class ProviderInfo extends ComponentInfo {
   jni.JlString toString_1() => jni.JlString.fromRef(_toString_1(reference));
 }
 
-class PathPermission extends jni.JlObject {
+class PathPermission extends os.PatternMatcher {
   PathPermission.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   /// from: static public final android.os.Parcelable.Creator<android.content.pm.PathPermission> CREATOR
@@ -4100,7 +4123,8 @@ class PathPermission extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_pm_PathPermission_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
               ffi.NativeFunction<
@@ -4127,8 +4151,7 @@ class PathPermission extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.os.Parcel src)
-  PathPermission.ctor_1(jni.JlObject src)
-      : super.fromRef(_ctor_1(src.reference));
+  PathPermission.ctor_1(os.Parcel src) : super.fromRef(_ctor_1(src.reference));
 
   static final _getReadPermission = jlookup<
               ffi.NativeFunction<
@@ -4159,7 +4182,7 @@ class PathPermission extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 }
 
@@ -4171,7 +4194,8 @@ class FeatureInfo extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_pm_FeatureInfo_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final int FLAG_REQUIRED
   static const FLAG_REQUIRED = 1;
@@ -4295,7 +4319,7 @@ class FeatureInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int parcelableFlags)
-  void writeToParcel(jni.JlObject dest, int parcelableFlags) =>
+  void writeToParcel(os.Parcel dest, int parcelableFlags) =>
       _writeToParcel(reference, dest.reference, parcelableFlags);
 
   static final _getGlEsVersion = jlookup<
@@ -4475,7 +4499,7 @@ class ComponentInfo extends PackageItemInfo {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void <init>(android.os.Parcel source)
-  ComponentInfo.ctor_2(jni.JlObject source)
+  ComponentInfo.ctor_2(os.Parcel source)
       : super.fromRef(_ctor_2(source.reference));
 
   static final _isEnabled =
@@ -4544,7 +4568,7 @@ class ComponentInfo extends PackageItemInfo {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int parcelableFlags)
-  void writeToParcel(jni.JlObject dest, int parcelableFlags) =>
+  void writeToParcel(os.Parcel dest, int parcelableFlags) =>
       _writeToParcel(reference, dest.reference, parcelableFlags);
 }
 
@@ -5112,8 +5136,8 @@ class PackageManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract android.content.Intent getLaunchIntentForPackage(java.lang.String packageName)
-  jni.JlObject getLaunchIntentForPackage(jni.JlString packageName) =>
-      jni.JlObject.fromRef(
+  content.Intent getLaunchIntentForPackage(jni.JlString packageName) =>
+      content.Intent.fromRef(
           _getLaunchIntentForPackage(reference, packageName.reference));
 
   static final _getLeanbackLaunchIntentForPackage = jlookup<
@@ -5126,8 +5150,8 @@ class PackageManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract android.content.Intent getLeanbackLaunchIntentForPackage(java.lang.String packageName)
-  jni.JlObject getLeanbackLaunchIntentForPackage(jni.JlString packageName) =>
-      jni.JlObject.fromRef(
+  content.Intent getLeanbackLaunchIntentForPackage(jni.JlString packageName) =>
+      content.Intent.fromRef(
           _getLeanbackLaunchIntentForPackage(reference, packageName.reference));
 
   static final _getPackageGids = jlookup<
@@ -5246,7 +5270,7 @@ class PackageManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public abstract android.content.pm.ActivityInfo getActivityInfo(android.content.ComponentName component, int flags)
-  ActivityInfo getActivityInfo(jni.JlObject component, int flags) =>
+  ActivityInfo getActivityInfo(content.ComponentName component, int flags) =>
       ActivityInfo.fromRef(
           _getActivityInfo(reference, component.reference, flags));
 
@@ -5260,7 +5284,7 @@ class PackageManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public abstract android.content.pm.ActivityInfo getReceiverInfo(android.content.ComponentName component, int flags)
-  ActivityInfo getReceiverInfo(jni.JlObject component, int flags) =>
+  ActivityInfo getReceiverInfo(content.ComponentName component, int flags) =>
       ActivityInfo.fromRef(
           _getReceiverInfo(reference, component.reference, flags));
 
@@ -5274,7 +5298,7 @@ class PackageManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public abstract android.content.pm.ServiceInfo getServiceInfo(android.content.ComponentName component, int flags)
-  ServiceInfo getServiceInfo(jni.JlObject component, int flags) =>
+  ServiceInfo getServiceInfo(content.ComponentName component, int flags) =>
       ServiceInfo.fromRef(
           _getServiceInfo(reference, component.reference, flags));
 
@@ -5288,7 +5312,7 @@ class PackageManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public abstract android.content.pm.ProviderInfo getProviderInfo(android.content.ComponentName component, int flags)
-  ProviderInfo getProviderInfo(jni.JlObject component, int flags) =>
+  ProviderInfo getProviderInfo(content.ComponentName component, int flags) =>
       ProviderInfo.fromRef(
           _getProviderInfo(reference, component.reference, flags));
 
@@ -5570,7 +5594,7 @@ class PackageManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public abstract android.content.pm.ResolveInfo resolveActivity(android.content.Intent intent, int flags)
-  ResolveInfo resolveActivity(jni.JlObject intent, int flags) =>
+  ResolveInfo resolveActivity(content.Intent intent, int flags) =>
       ResolveInfo.fromRef(_resolveActivity(reference, intent.reference, flags));
 
   static final _queryIntentActivities = jlookup<
@@ -5583,7 +5607,7 @@ class PackageManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public abstract java.util.List<android.content.pm.ResolveInfo> queryIntentActivities(android.content.Intent intent, int flags)
-  jni.JlObject queryIntentActivities(jni.JlObject intent, int flags) =>
+  jni.JlObject queryIntentActivities(content.Intent intent, int flags) =>
       jni.JlObject.fromRef(
           _queryIntentActivities(reference, intent.reference, flags));
 
@@ -5605,8 +5629,8 @@ class PackageManager extends jni.JlObject {
               int)>();
 
   /// from: public abstract java.util.List<android.content.pm.ResolveInfo> queryIntentActivityOptions(android.content.ComponentName caller, android.content.Intent[] specifics, android.content.Intent intent, int flags)
-  jni.JlObject queryIntentActivityOptions(jni.JlObject caller,
-          jni.JlObject specifics, jni.JlObject intent, int flags) =>
+  jni.JlObject queryIntentActivityOptions(content.ComponentName caller,
+          jni.JlObject specifics, content.Intent intent, int flags) =>
       jni.JlObject.fromRef(_queryIntentActivityOptions(reference,
           caller.reference, specifics.reference, intent.reference, flags));
 
@@ -5620,7 +5644,7 @@ class PackageManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public abstract java.util.List<android.content.pm.ResolveInfo> queryBroadcastReceivers(android.content.Intent intent, int flags)
-  jni.JlObject queryBroadcastReceivers(jni.JlObject intent, int flags) =>
+  jni.JlObject queryBroadcastReceivers(content.Intent intent, int flags) =>
       jni.JlObject.fromRef(
           _queryBroadcastReceivers(reference, intent.reference, flags));
 
@@ -5634,7 +5658,7 @@ class PackageManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public abstract android.content.pm.ResolveInfo resolveService(android.content.Intent intent, int flags)
-  ResolveInfo resolveService(jni.JlObject intent, int flags) =>
+  ResolveInfo resolveService(content.Intent intent, int flags) =>
       ResolveInfo.fromRef(_resolveService(reference, intent.reference, flags));
 
   static final _queryIntentServices = jlookup<
@@ -5647,7 +5671,7 @@ class PackageManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public abstract java.util.List<android.content.pm.ResolveInfo> queryIntentServices(android.content.Intent intent, int flags)
-  jni.JlObject queryIntentServices(jni.JlObject intent, int flags) =>
+  jni.JlObject queryIntentServices(content.Intent intent, int flags) =>
       jni.JlObject.fromRef(
           _queryIntentServices(reference, intent.reference, flags));
 
@@ -5661,7 +5685,7 @@ class PackageManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public abstract java.util.List<android.content.pm.ResolveInfo> queryIntentContentProviders(android.content.Intent intent, int flags)
-  jni.JlObject queryIntentContentProviders(jni.JlObject intent, int flags) =>
+  jni.JlObject queryIntentContentProviders(content.Intent intent, int flags) =>
       jni.JlObject.fromRef(
           _queryIntentContentProviders(reference, intent.reference, flags));
 
@@ -5705,7 +5729,7 @@ class PackageManager extends jni.JlObject {
 
   /// from: public abstract android.content.pm.InstrumentationInfo getInstrumentationInfo(android.content.ComponentName className, int flags)
   InstrumentationInfo getInstrumentationInfo(
-          jni.JlObject className, int flags) =>
+          content.ComponentName className, int flags) =>
       InstrumentationInfo.fromRef(
           _getInstrumentationInfo(reference, className.reference, flags));
 
@@ -5751,7 +5775,7 @@ class PackageManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract android.graphics.drawable.Drawable getActivityIcon(android.content.ComponentName activityName)
-  jni.JlObject getActivityIcon(jni.JlObject activityName) =>
+  jni.JlObject getActivityIcon(content.ComponentName activityName) =>
       jni.JlObject.fromRef(_getActivityIcon(reference, activityName.reference));
 
   static final _getActivityIcon_1 = jlookup<
@@ -5764,7 +5788,7 @@ class PackageManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract android.graphics.drawable.Drawable getActivityIcon(android.content.Intent intent)
-  jni.JlObject getActivityIcon_1(jni.JlObject intent) =>
+  jni.JlObject getActivityIcon_1(content.Intent intent) =>
       jni.JlObject.fromRef(_getActivityIcon_1(reference, intent.reference));
 
   static final _getActivityBanner = jlookup<
@@ -5777,7 +5801,7 @@ class PackageManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract android.graphics.drawable.Drawable getActivityBanner(android.content.ComponentName activityName)
-  jni.JlObject getActivityBanner(jni.JlObject activityName) =>
+  jni.JlObject getActivityBanner(content.ComponentName activityName) =>
       jni.JlObject.fromRef(
           _getActivityBanner(reference, activityName.reference));
 
@@ -5791,7 +5815,7 @@ class PackageManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract android.graphics.drawable.Drawable getActivityBanner(android.content.Intent intent)
-  jni.JlObject getActivityBanner_1(jni.JlObject intent) =>
+  jni.JlObject getActivityBanner_1(content.Intent intent) =>
       jni.JlObject.fromRef(_getActivityBanner_1(reference, intent.reference));
 
   static final _getDefaultActivityIcon = jlookup<
@@ -5868,7 +5892,7 @@ class PackageManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract android.graphics.drawable.Drawable getActivityLogo(android.content.ComponentName activityName)
-  jni.JlObject getActivityLogo(jni.JlObject activityName) =>
+  jni.JlObject getActivityLogo(content.ComponentName activityName) =>
       jni.JlObject.fromRef(_getActivityLogo(reference, activityName.reference));
 
   static final _getActivityLogo_1 = jlookup<
@@ -5881,7 +5905,7 @@ class PackageManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract android.graphics.drawable.Drawable getActivityLogo(android.content.Intent intent)
-  jni.JlObject getActivityLogo_1(jni.JlObject intent) =>
+  jni.JlObject getActivityLogo_1(content.Intent intent) =>
       jni.JlObject.fromRef(_getActivityLogo_1(reference, intent.reference));
 
   static final _getApplicationLogo = jlookup<
@@ -5921,7 +5945,7 @@ class PackageManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract android.graphics.drawable.Drawable getUserBadgedIcon(android.graphics.drawable.Drawable icon, android.os.UserHandle user)
-  jni.JlObject getUserBadgedIcon(jni.JlObject icon, jni.JlObject user) =>
+  jni.JlObject getUserBadgedIcon(jni.JlObject icon, os.UserHandle user) =>
       jni.JlObject.fromRef(
           _getUserBadgedIcon(reference, icon.reference, user.reference));
 
@@ -5944,7 +5968,7 @@ class PackageManager extends jni.JlObject {
 
   /// from: public abstract android.graphics.drawable.Drawable getUserBadgedDrawableForDensity(android.graphics.drawable.Drawable drawable, android.os.UserHandle user, android.graphics.Rect badgeLocation, int badgeDensity)
   jni.JlObject getUserBadgedDrawableForDensity(jni.JlObject drawable,
-          jni.JlObject user, jni.JlObject badgeLocation, int badgeDensity) =>
+          os.UserHandle user, jni.JlObject badgeLocation, int badgeDensity) =>
       jni.JlObject.fromRef(_getUserBadgedDrawableForDensity(
           reference,
           drawable.reference,
@@ -5962,7 +5986,7 @@ class PackageManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract java.lang.CharSequence getUserBadgedLabel(java.lang.CharSequence label, android.os.UserHandle user)
-  jni.JlObject getUserBadgedLabel(jni.JlObject label, jni.JlObject user) =>
+  jni.JlObject getUserBadgedLabel(jni.JlObject label, os.UserHandle user) =>
       jni.JlObject.fromRef(
           _getUserBadgedLabel(reference, label.reference, user.reference));
 
@@ -5997,9 +6021,9 @@ class PackageManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract android.content.res.XmlResourceParser getXml(java.lang.String packageName, int resid, android.content.pm.ApplicationInfo appInfo)
-  jni.JlObject getXml(
+  res.XmlResourceParser getXml(
           jni.JlString packageName, int resid, ApplicationInfo appInfo) =>
-      jni.JlObject.fromRef(
+      res.XmlResourceParser.fromRef(
           _getXml(reference, packageName.reference, resid, appInfo.reference));
 
   static final _getApplicationLabel = jlookup<
@@ -6025,8 +6049,8 @@ class PackageManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract android.content.res.Resources getResourcesForActivity(android.content.ComponentName activityName)
-  jni.JlObject getResourcesForActivity(jni.JlObject activityName) =>
-      jni.JlObject.fromRef(
+  res.Resources getResourcesForActivity(content.ComponentName activityName) =>
+      res.Resources.fromRef(
           _getResourcesForActivity(reference, activityName.reference));
 
   static final _getResourcesForApplication = jlookup<
@@ -6039,8 +6063,8 @@ class PackageManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract android.content.res.Resources getResourcesForApplication(android.content.pm.ApplicationInfo app)
-  jni.JlObject getResourcesForApplication(ApplicationInfo app) =>
-      jni.JlObject.fromRef(
+  res.Resources getResourcesForApplication(ApplicationInfo app) =>
+      res.Resources.fromRef(
           _getResourcesForApplication(reference, app.reference));
 
   static final _getResourcesForApplication_1 = jlookup<
@@ -6053,8 +6077,8 @@ class PackageManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract android.content.res.Resources getResourcesForApplication(java.lang.String appPackageName)
-  jni.JlObject getResourcesForApplication_1(jni.JlString appPackageName) =>
-      jni.JlObject.fromRef(
+  res.Resources getResourcesForApplication_1(jni.JlString appPackageName) =>
+      res.Resources.fromRef(
           _getResourcesForApplication_1(reference, appPackageName.reference));
 
   static final _getPackageArchiveInfo = jlookup<
@@ -6173,8 +6197,8 @@ class PackageManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract void addPreferredActivity(android.content.IntentFilter filter, int match, android.content.ComponentName[] set, android.content.ComponentName activity)
-  void addPreferredActivity(jni.JlObject filter, int match, jni.JlObject set_,
-          jni.JlObject activity) =>
+  void addPreferredActivity(content.IntentFilter filter, int match,
+          jni.JlObject set_, content.ComponentName activity) =>
       _addPreferredActivity(reference, filter.reference, match, set_.reference,
           activity.reference);
 
@@ -6219,7 +6243,7 @@ class PackageManager extends jni.JlObject {
 
   /// from: public abstract void setComponentEnabledSetting(android.content.ComponentName componentName, int newState, int flags)
   void setComponentEnabledSetting(
-          jni.JlObject componentName, int newState, int flags) =>
+          content.ComponentName componentName, int newState, int flags) =>
       _setComponentEnabledSetting(
           reference, componentName.reference, newState, flags);
 
@@ -6231,7 +6255,7 @@ class PackageManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract int getComponentEnabledSetting(android.content.ComponentName componentName)
-  int getComponentEnabledSetting(jni.JlObject componentName) =>
+  int getComponentEnabledSetting(content.ComponentName componentName) =>
       _getComponentEnabledSetting(reference, componentName.reference);
 
   static final _setApplicationEnabledSetting = jlookup<
@@ -6283,8 +6307,8 @@ class PackageManager extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle getSuspendedPackageAppExtras()
-  jni.JlObject getSuspendedPackageAppExtras() =>
-      jni.JlObject.fromRef(_getSuspendedPackageAppExtras(reference));
+  os.Bundle getSuspendedPackageAppExtras() =>
+      os.Bundle.fromRef(_getSuspendedPackageAppExtras(reference));
 
   static final _setApplicationCategoryHint = jlookup<
               ffi.NativeFunction<
@@ -6540,7 +6564,8 @@ class PackageInstaller extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void uninstall(java.lang.String packageName, android.content.IntentSender statusReceiver)
-  void uninstall(jni.JlString packageName, jni.JlObject statusReceiver) =>
+  void uninstall(
+          jni.JlString packageName, content.IntentSender statusReceiver) =>
       _uninstall(reference, packageName.reference, statusReceiver.reference);
 
   static final _uninstall_1 = jlookup<
@@ -6553,8 +6578,8 @@ class PackageInstaller extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void uninstall(android.content.pm.VersionedPackage versionedPackage, android.content.IntentSender statusReceiver)
-  void uninstall_1(
-          VersionedPackage versionedPackage, jni.JlObject statusReceiver) =>
+  void uninstall_1(VersionedPackage versionedPackage,
+          content.IntentSender statusReceiver) =>
       _uninstall_1(
           reference, versionedPackage.reference, statusReceiver.reference);
 
@@ -6581,7 +6606,7 @@ class PackageInstaller extends jni.JlObject {
 
   /// from: public void registerSessionCallback(android.content.pm.PackageInstaller.SessionCallback callback, android.os.Handler handler)
   void registerSessionCallback_1(
-          PackageInstaller_SessionCallback callback, jni.JlObject handler) =>
+          PackageInstaller_SessionCallback callback, os.Handler handler) =>
       _registerSessionCallback_1(
           reference, callback.reference, handler.reference);
 
@@ -6607,7 +6632,8 @@ class PackageInstaller_SessionParams extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_pm_PackageInstaller__SessionParams_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final int MODE_FULL_INSTALL
   static const MODE_FULL_INSTALL = 1;
@@ -6739,7 +6765,7 @@ class PackageInstaller_SessionParams extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 }
 
@@ -6752,7 +6778,8 @@ class PackageInstaller_SessionInfo extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_pm_PackageInstaller__SessionInfo_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor =
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
@@ -6847,8 +6874,8 @@ class PackageInstaller_SessionInfo extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.Intent createDetailsIntent()
-  jni.JlObject createDetailsIntent() =>
-      jni.JlObject.fromRef(_createDetailsIntent(reference));
+  content.Intent createDetailsIntent() =>
+      content.Intent.fromRef(_createDetailsIntent(reference));
 
   static final _getMode =
       jlookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
@@ -6919,7 +6946,7 @@ class PackageInstaller_SessionInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 }
 
@@ -7078,7 +7105,7 @@ class PackageInstaller_Session extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void commit(android.content.IntentSender statusReceiver)
-  void commit(jni.JlObject statusReceiver) =>
+  void commit(content.IntentSender statusReceiver) =>
       _commit(reference, statusReceiver.reference);
 
   static final _transfer = jlookup<
@@ -7118,7 +7145,8 @@ class PackageInfo extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_pm_PackageInfo_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final int INSTALL_LOCATION_AUTO
   static const INSTALL_LOCATION_AUTO = 0;
@@ -7725,7 +7753,7 @@ class PackageInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int parcelableFlags)
-  void writeToParcel(jni.JlObject dest, int parcelableFlags) =>
+  void writeToParcel(os.Parcel dest, int parcelableFlags) =>
       _writeToParcel(reference, dest.reference, parcelableFlags);
 }
 
@@ -7737,7 +7765,8 @@ class PackageStats extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_pm_PackageStats_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: public long cacheSize
   static final _getcacheSize = jlookup<
@@ -7921,7 +7950,7 @@ class PackageStats extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.os.Parcel source)
-  PackageStats.ctor_1(jni.JlObject source)
+  PackageStats.ctor_1(os.Parcel source)
       : super.fromRef(_ctor_1(source.reference));
 
   static final _ctor_2 = jlookup<
@@ -7959,7 +7988,7 @@ class PackageStats extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int parcelableFlags)
-  void writeToParcel(jni.JlObject dest, int parcelableFlags) =>
+  void writeToParcel(os.Parcel dest, int parcelableFlags) =>
       _writeToParcel(reference, dest.reference, parcelableFlags);
 
   static final _equals_1 = jlookup<
@@ -7989,7 +8018,8 @@ class ChangedPackages extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_pm_ChangedPackages_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
               ffi.NativeFunction<
@@ -8019,7 +8049,7 @@ class ChangedPackages extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 
   static final _getSequenceNumber =
@@ -8049,7 +8079,8 @@ class Signature extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_pm_Signature_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
           ffi.NativeFunction<
@@ -8145,7 +8176,7 @@ class Signature extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int parcelableFlags)
-  void writeToParcel(jni.JlObject dest, int parcelableFlags) =>
+  void writeToParcel(os.Parcel dest, int parcelableFlags) =>
       _writeToParcel(reference, dest.reference, parcelableFlags);
 }
 
@@ -8184,7 +8215,8 @@ class ApplicationInfo extends PackageItemInfo {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_pm_ApplicationInfo_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final int FLAG_ALLOW_BACKUP
   static const FLAG_ALLOW_BACKUP = 32768;
@@ -8897,7 +8929,7 @@ class ApplicationInfo extends PackageItemInfo {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: static public java.lang.CharSequence getCategoryTitle(android.content.Context context, int category)
-  static jni.JlObject getCategoryTitle(jni.JlObject context, int category) =>
+  static jni.JlObject getCategoryTitle(content.Context context, int category) =>
       jni.JlObject.fromRef(_getCategoryTitle(context.reference, category));
 
   static final _dump = jlookup<
@@ -8939,7 +8971,7 @@ class ApplicationInfo extends PackageItemInfo {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int parcelableFlags)
-  void writeToParcel(jni.JlObject dest, int parcelableFlags) =>
+  void writeToParcel(os.Parcel dest, int parcelableFlags) =>
       _writeToParcel(reference, dest.reference, parcelableFlags);
 
   static final _loadDescription = jlookup<
@@ -9000,7 +9032,8 @@ class InstrumentationInfo extends PackageItemInfo {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_pm_InstrumentationInfo_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: public java.lang.String dataDir
   static final _getdataDir = jlookup<
@@ -9257,7 +9290,7 @@ class InstrumentationInfo extends PackageItemInfo {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int parcelableFlags)
-  void writeToParcel(jni.JlObject dest, int parcelableFlags) =>
+  void writeToParcel(os.Parcel dest, int parcelableFlags) =>
       _writeToParcel(reference, dest.reference, parcelableFlags);
 }
 
@@ -9271,7 +9304,7 @@ class ShortcutManager extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: void <init>(android.content.Context context)
-  ShortcutManager(jni.JlObject context)
+  ShortcutManager(content.Context context)
       : super.fromRef(_ctor(context.reference));
 
   static final _setDynamicShortcuts = jlookup<
@@ -9460,7 +9493,8 @@ class ShortcutManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean requestPinShortcut(android.content.pm.ShortcutInfo shortcut, android.content.IntentSender resultIntent)
-  bool requestPinShortcut(ShortcutInfo shortcut, jni.JlObject resultIntent) =>
+  bool requestPinShortcut(
+          ShortcutInfo shortcut, content.IntentSender resultIntent) =>
       _requestPinShortcut(
           reference, shortcut.reference, resultIntent.reference) !=
       0;
@@ -9475,8 +9509,8 @@ class ShortcutManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.Intent createShortcutResultIntent(android.content.pm.ShortcutInfo shortcut)
-  jni.JlObject createShortcutResultIntent(ShortcutInfo shortcut) =>
-      jni.JlObject.fromRef(
+  content.Intent createShortcutResultIntent(ShortcutInfo shortcut) =>
+      content.Intent.fromRef(
           _createShortcutResultIntent(reference, shortcut.reference));
 }
 
@@ -9490,7 +9524,7 @@ class LauncherActivityInfo extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: void <init>(android.content.Context context)
-  LauncherActivityInfo(jni.JlObject context)
+  LauncherActivityInfo(content.Context context)
       : super.fromRef(_ctor(context.reference));
 
   static final _getComponentName = jlookup<
@@ -9500,8 +9534,8 @@ class LauncherActivityInfo extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.ComponentName getComponentName()
-  jni.JlObject getComponentName() =>
-      jni.JlObject.fromRef(_getComponentName(reference));
+  content.ComponentName getComponentName() =>
+      content.ComponentName.fromRef(_getComponentName(reference));
 
   static final _getUser = jlookup<
               ffi.NativeFunction<
@@ -9510,7 +9544,7 @@ class LauncherActivityInfo extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.UserHandle getUser()
-  jni.JlObject getUser() => jni.JlObject.fromRef(_getUser(reference));
+  os.UserHandle getUser() => os.UserHandle.fromRef(_getUser(reference));
 
   static final _getLabel = jlookup<
               ffi.NativeFunction<

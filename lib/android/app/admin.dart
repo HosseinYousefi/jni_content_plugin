@@ -9,6 +9,13 @@
 import "dart:ffi" as ffi;
 
 import "package:jni/jni.dart" as jni;
+import "package:content_plugin/android/os.dart" as os;
+
+import "package:content_plugin/android/content.dart" as content;
+
+import "package:content_plugin/android/content/pm.dart" as pm;
+
+import "package:content_plugin/android/app.dart" as app;
 import "../../init.dart" show jlookup;
 
 class DnsEvent extends NetworkEvent {
@@ -19,7 +26,8 @@ class DnsEvent extends NetworkEvent {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_admin_DnsEvent_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
           ffi.NativeFunction<
@@ -28,7 +36,7 @@ class DnsEvent extends NetworkEvent {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: void <init>(android.os.Parcel in)
-  DnsEvent(jni.JlObject in_) : super.fromRef(_ctor(in_.reference));
+  DnsEvent(os.Parcel in_) : super.fromRef(_ctor(in_.reference));
 
   static final _getHostname = jlookup<
               ffi.NativeFunction<
@@ -83,7 +91,7 @@ class DnsEvent extends NetworkEvent {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel out, int flags)
-  void writeToParcel(jni.JlObject out, int flags) =>
+  void writeToParcel(os.Parcel out, int flags) =>
       _writeToParcel(reference, out.reference, flags);
 }
 
@@ -488,7 +496,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isAdminActive(android.content.ComponentName admin)
-  bool isAdminActive(jni.JlObject admin) =>
+  bool isAdminActive(content.ComponentName admin) =>
       _isAdminActive(reference, admin.reference) != 0;
 
   static final _getActiveAdmins = jlookup<
@@ -510,7 +518,7 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void removeActiveAdmin(android.content.ComponentName admin)
-  void removeActiveAdmin(jni.JlObject admin) =>
+  void removeActiveAdmin(content.ComponentName admin) =>
       _removeActiveAdmin(reference, admin.reference);
 
   static final _hasGrantedPolicy = jlookup<
@@ -522,7 +530,7 @@ class DevicePolicyManager extends jni.JlObject {
           int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public boolean hasGrantedPolicy(android.content.ComponentName admin, int usesPolicy)
-  bool hasGrantedPolicy(jni.JlObject admin, int usesPolicy) =>
+  bool hasGrantedPolicy(content.ComponentName admin, int usesPolicy) =>
       _hasGrantedPolicy(reference, admin.reference, usesPolicy) != 0;
 
   static final _setPasswordQuality = jlookup<
@@ -534,7 +542,7 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setPasswordQuality(android.content.ComponentName admin, int quality)
-  void setPasswordQuality(jni.JlObject admin, int quality) =>
+  void setPasswordQuality(content.ComponentName admin, int quality) =>
       _setPasswordQuality(reference, admin.reference, quality);
 
   static final _getPasswordQuality = jlookup<
@@ -545,7 +553,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getPasswordQuality(android.content.ComponentName admin)
-  int getPasswordQuality(jni.JlObject admin) =>
+  int getPasswordQuality(content.ComponentName admin) =>
       _getPasswordQuality(reference, admin.reference);
 
   static final _setPasswordMinimumLength = jlookup<
@@ -557,7 +565,7 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setPasswordMinimumLength(android.content.ComponentName admin, int length)
-  void setPasswordMinimumLength(jni.JlObject admin, int length) =>
+  void setPasswordMinimumLength(content.ComponentName admin, int length) =>
       _setPasswordMinimumLength(reference, admin.reference, length);
 
   static final _getPasswordMinimumLength = jlookup<
@@ -568,7 +576,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getPasswordMinimumLength(android.content.ComponentName admin)
-  int getPasswordMinimumLength(jni.JlObject admin) =>
+  int getPasswordMinimumLength(content.ComponentName admin) =>
       _getPasswordMinimumLength(reference, admin.reference);
 
   static final _setPasswordMinimumUpperCase = jlookup<
@@ -580,7 +588,7 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setPasswordMinimumUpperCase(android.content.ComponentName admin, int length)
-  void setPasswordMinimumUpperCase(jni.JlObject admin, int length) =>
+  void setPasswordMinimumUpperCase(content.ComponentName admin, int length) =>
       _setPasswordMinimumUpperCase(reference, admin.reference, length);
 
   static final _getPasswordMinimumUpperCase = jlookup<
@@ -591,7 +599,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getPasswordMinimumUpperCase(android.content.ComponentName admin)
-  int getPasswordMinimumUpperCase(jni.JlObject admin) =>
+  int getPasswordMinimumUpperCase(content.ComponentName admin) =>
       _getPasswordMinimumUpperCase(reference, admin.reference);
 
   static final _setPasswordMinimumLowerCase = jlookup<
@@ -603,7 +611,7 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setPasswordMinimumLowerCase(android.content.ComponentName admin, int length)
-  void setPasswordMinimumLowerCase(jni.JlObject admin, int length) =>
+  void setPasswordMinimumLowerCase(content.ComponentName admin, int length) =>
       _setPasswordMinimumLowerCase(reference, admin.reference, length);
 
   static final _getPasswordMinimumLowerCase = jlookup<
@@ -614,7 +622,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getPasswordMinimumLowerCase(android.content.ComponentName admin)
-  int getPasswordMinimumLowerCase(jni.JlObject admin) =>
+  int getPasswordMinimumLowerCase(content.ComponentName admin) =>
       _getPasswordMinimumLowerCase(reference, admin.reference);
 
   static final _setPasswordMinimumLetters = jlookup<
@@ -626,7 +634,7 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setPasswordMinimumLetters(android.content.ComponentName admin, int length)
-  void setPasswordMinimumLetters(jni.JlObject admin, int length) =>
+  void setPasswordMinimumLetters(content.ComponentName admin, int length) =>
       _setPasswordMinimumLetters(reference, admin.reference, length);
 
   static final _getPasswordMinimumLetters = jlookup<
@@ -637,7 +645,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getPasswordMinimumLetters(android.content.ComponentName admin)
-  int getPasswordMinimumLetters(jni.JlObject admin) =>
+  int getPasswordMinimumLetters(content.ComponentName admin) =>
       _getPasswordMinimumLetters(reference, admin.reference);
 
   static final _setPasswordMinimumNumeric = jlookup<
@@ -649,7 +657,7 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setPasswordMinimumNumeric(android.content.ComponentName admin, int length)
-  void setPasswordMinimumNumeric(jni.JlObject admin, int length) =>
+  void setPasswordMinimumNumeric(content.ComponentName admin, int length) =>
       _setPasswordMinimumNumeric(reference, admin.reference, length);
 
   static final _getPasswordMinimumNumeric = jlookup<
@@ -660,7 +668,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getPasswordMinimumNumeric(android.content.ComponentName admin)
-  int getPasswordMinimumNumeric(jni.JlObject admin) =>
+  int getPasswordMinimumNumeric(content.ComponentName admin) =>
       _getPasswordMinimumNumeric(reference, admin.reference);
 
   static final _setPasswordMinimumSymbols = jlookup<
@@ -672,7 +680,7 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setPasswordMinimumSymbols(android.content.ComponentName admin, int length)
-  void setPasswordMinimumSymbols(jni.JlObject admin, int length) =>
+  void setPasswordMinimumSymbols(content.ComponentName admin, int length) =>
       _setPasswordMinimumSymbols(reference, admin.reference, length);
 
   static final _getPasswordMinimumSymbols = jlookup<
@@ -683,7 +691,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getPasswordMinimumSymbols(android.content.ComponentName admin)
-  int getPasswordMinimumSymbols(jni.JlObject admin) =>
+  int getPasswordMinimumSymbols(content.ComponentName admin) =>
       _getPasswordMinimumSymbols(reference, admin.reference);
 
   static final _setPasswordMinimumNonLetter = jlookup<
@@ -695,7 +703,7 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setPasswordMinimumNonLetter(android.content.ComponentName admin, int length)
-  void setPasswordMinimumNonLetter(jni.JlObject admin, int length) =>
+  void setPasswordMinimumNonLetter(content.ComponentName admin, int length) =>
       _setPasswordMinimumNonLetter(reference, admin.reference, length);
 
   static final _getPasswordMinimumNonLetter = jlookup<
@@ -706,7 +714,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getPasswordMinimumNonLetter(android.content.ComponentName admin)
-  int getPasswordMinimumNonLetter(jni.JlObject admin) =>
+  int getPasswordMinimumNonLetter(content.ComponentName admin) =>
       _getPasswordMinimumNonLetter(reference, admin.reference);
 
   static final _setPasswordHistoryLength = jlookup<
@@ -718,7 +726,7 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setPasswordHistoryLength(android.content.ComponentName admin, int length)
-  void setPasswordHistoryLength(jni.JlObject admin, int length) =>
+  void setPasswordHistoryLength(content.ComponentName admin, int length) =>
       _setPasswordHistoryLength(reference, admin.reference, length);
 
   static final _setPasswordExpirationTimeout = jlookup<
@@ -730,7 +738,7 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setPasswordExpirationTimeout(android.content.ComponentName admin, long timeout)
-  void setPasswordExpirationTimeout(jni.JlObject admin, int timeout) =>
+  void setPasswordExpirationTimeout(content.ComponentName admin, int timeout) =>
       _setPasswordExpirationTimeout(reference, admin.reference, timeout);
 
   static final _getPasswordExpirationTimeout = jlookup<
@@ -741,7 +749,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getPasswordExpirationTimeout(android.content.ComponentName admin)
-  int getPasswordExpirationTimeout(jni.JlObject admin) =>
+  int getPasswordExpirationTimeout(content.ComponentName admin) =>
       _getPasswordExpirationTimeout(reference, admin.reference);
 
   static final _getPasswordExpiration = jlookup<
@@ -752,7 +760,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getPasswordExpiration(android.content.ComponentName admin)
-  int getPasswordExpiration(jni.JlObject admin) =>
+  int getPasswordExpiration(content.ComponentName admin) =>
       _getPasswordExpiration(reference, admin.reference);
 
   static final _getPasswordHistoryLength = jlookup<
@@ -763,7 +771,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getPasswordHistoryLength(android.content.ComponentName admin)
-  int getPasswordHistoryLength(jni.JlObject admin) =>
+  int getPasswordHistoryLength(content.ComponentName admin) =>
       _getPasswordHistoryLength(reference, admin.reference);
 
   static final _getPasswordMaximumLength = jlookup<
@@ -793,7 +801,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isUsingUnifiedPassword(android.content.ComponentName admin)
-  bool isUsingUnifiedPassword(jni.JlObject admin) =>
+  bool isUsingUnifiedPassword(content.ComponentName admin) =>
       _isUsingUnifiedPassword(reference, admin.reference) != 0;
 
   static final _getCurrentFailedPasswordAttempts = jlookup<
@@ -814,7 +822,7 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setMaximumFailedPasswordsForWipe(android.content.ComponentName admin, int num)
-  void setMaximumFailedPasswordsForWipe(jni.JlObject admin, int num) =>
+  void setMaximumFailedPasswordsForWipe(content.ComponentName admin, int num) =>
       _setMaximumFailedPasswordsForWipe(reference, admin.reference, num);
 
   static final _getMaximumFailedPasswordsForWipe = jlookup<
@@ -825,7 +833,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getMaximumFailedPasswordsForWipe(android.content.ComponentName admin)
-  int getMaximumFailedPasswordsForWipe(jni.JlObject admin) =>
+  int getMaximumFailedPasswordsForWipe(content.ComponentName admin) =>
       _getMaximumFailedPasswordsForWipe(reference, admin.reference);
 
   static final _resetPassword = jlookup<
@@ -850,7 +858,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean setResetPasswordToken(android.content.ComponentName admin, byte[] token)
-  bool setResetPasswordToken(jni.JlObject admin, jni.JlObject token) =>
+  bool setResetPasswordToken(content.ComponentName admin, jni.JlObject token) =>
       _setResetPasswordToken(reference, admin.reference, token.reference) != 0;
 
   static final _clearResetPasswordToken = jlookup<
@@ -861,7 +869,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean clearResetPasswordToken(android.content.ComponentName admin)
-  bool clearResetPasswordToken(jni.JlObject admin) =>
+  bool clearResetPasswordToken(content.ComponentName admin) =>
       _clearResetPasswordToken(reference, admin.reference) != 0;
 
   static final _isResetPasswordTokenActive = jlookup<
@@ -872,7 +880,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isResetPasswordTokenActive(android.content.ComponentName admin)
-  bool isResetPasswordTokenActive(jni.JlObject admin) =>
+  bool isResetPasswordTokenActive(content.ComponentName admin) =>
       _isResetPasswordTokenActive(reference, admin.reference) != 0;
 
   static final _resetPasswordWithToken = jlookup<
@@ -889,8 +897,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public boolean resetPasswordWithToken(android.content.ComponentName admin, java.lang.String password, byte[] token, int flags)
-  bool resetPasswordWithToken(jni.JlObject admin, jni.JlString password,
-          jni.JlObject token, int flags) =>
+  bool resetPasswordWithToken(content.ComponentName admin,
+          jni.JlString password, jni.JlObject token, int flags) =>
       _resetPasswordWithToken(reference, admin.reference, password.reference,
           token.reference, flags) !=
       0;
@@ -904,7 +912,7 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setMaximumTimeToLock(android.content.ComponentName admin, long timeMs)
-  void setMaximumTimeToLock(jni.JlObject admin, int timeMs) =>
+  void setMaximumTimeToLock(content.ComponentName admin, int timeMs) =>
       _setMaximumTimeToLock(reference, admin.reference, timeMs);
 
   static final _getMaximumTimeToLock = jlookup<
@@ -915,7 +923,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getMaximumTimeToLock(android.content.ComponentName admin)
-  int getMaximumTimeToLock(jni.JlObject admin) =>
+  int getMaximumTimeToLock(content.ComponentName admin) =>
       _getMaximumTimeToLock(reference, admin.reference);
 
   static final _setRequiredStrongAuthTimeout = jlookup<
@@ -927,7 +935,8 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setRequiredStrongAuthTimeout(android.content.ComponentName admin, long timeoutMs)
-  void setRequiredStrongAuthTimeout(jni.JlObject admin, int timeoutMs) =>
+  void setRequiredStrongAuthTimeout(
+          content.ComponentName admin, int timeoutMs) =>
       _setRequiredStrongAuthTimeout(reference, admin.reference, timeoutMs);
 
   static final _getRequiredStrongAuthTimeout = jlookup<
@@ -938,7 +947,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getRequiredStrongAuthTimeout(android.content.ComponentName admin)
-  int getRequiredStrongAuthTimeout(jni.JlObject admin) =>
+  int getRequiredStrongAuthTimeout(content.ComponentName admin) =>
       _getRequiredStrongAuthTimeout(reference, admin.reference);
 
   static final _lockNow =
@@ -989,7 +998,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setRecommendedGlobalProxy(android.content.ComponentName admin, android.net.ProxyInfo proxyInfo)
-  void setRecommendedGlobalProxy(jni.JlObject admin, jni.JlObject proxyInfo) =>
+  void setRecommendedGlobalProxy(
+          content.ComponentName admin, jni.JlObject proxyInfo) =>
       _setRecommendedGlobalProxy(
           reference, admin.reference, proxyInfo.reference);
 
@@ -1002,7 +1012,7 @@ class DevicePolicyManager extends jni.JlObject {
           int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public int setStorageEncryption(android.content.ComponentName admin, boolean encrypt)
-  int setStorageEncryption(jni.JlObject admin, bool encrypt) =>
+  int setStorageEncryption(content.ComponentName admin, bool encrypt) =>
       _setStorageEncryption(reference, admin.reference, encrypt ? 1 : 0);
 
   static final _getStorageEncryption = jlookup<
@@ -1013,7 +1023,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean getStorageEncryption(android.content.ComponentName admin)
-  bool getStorageEncryption(jni.JlObject admin) =>
+  bool getStorageEncryption(content.ComponentName admin) =>
       _getStorageEncryption(reference, admin.reference) != 0;
 
   static final _getStorageEncryptionStatus = jlookup<
@@ -1034,7 +1044,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean installCaCert(android.content.ComponentName admin, byte[] certBuffer)
-  bool installCaCert(jni.JlObject admin, jni.JlObject certBuffer) =>
+  bool installCaCert(content.ComponentName admin, jni.JlObject certBuffer) =>
       _installCaCert(reference, admin.reference, certBuffer.reference) != 0;
 
   static final _uninstallCaCert = jlookup<
@@ -1047,7 +1057,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void uninstallCaCert(android.content.ComponentName admin, byte[] certBuffer)
-  void uninstallCaCert(jni.JlObject admin, jni.JlObject certBuffer) =>
+  void uninstallCaCert(content.ComponentName admin, jni.JlObject certBuffer) =>
       _uninstallCaCert(reference, admin.reference, certBuffer.reference);
 
   static final _getInstalledCaCerts = jlookup<
@@ -1060,7 +1070,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<byte[]> getInstalledCaCerts(android.content.ComponentName admin)
-  jni.JlObject getInstalledCaCerts(jni.JlObject admin) =>
+  jni.JlObject getInstalledCaCerts(content.ComponentName admin) =>
       jni.JlObject.fromRef(_getInstalledCaCerts(reference, admin.reference));
 
   static final _uninstallAllUserCaCerts = jlookup<
@@ -1072,7 +1082,7 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void uninstallAllUserCaCerts(android.content.ComponentName admin)
-  void uninstallAllUserCaCerts(jni.JlObject admin) =>
+  void uninstallAllUserCaCerts(content.ComponentName admin) =>
       _uninstallAllUserCaCerts(reference, admin.reference);
 
   static final _hasCaCertInstalled = jlookup<
@@ -1085,7 +1095,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean hasCaCertInstalled(android.content.ComponentName admin, byte[] certBuffer)
-  bool hasCaCertInstalled(jni.JlObject admin, jni.JlObject certBuffer) =>
+  bool hasCaCertInstalled(
+          content.ComponentName admin, jni.JlObject certBuffer) =>
       _hasCaCertInstalled(reference, admin.reference, certBuffer.reference) !=
       0;
 
@@ -1107,7 +1118,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean installKeyPair(android.content.ComponentName admin, java.security.PrivateKey privKey, java.security.cert.Certificate cert, java.lang.String alias)
-  bool installKeyPair(jni.JlObject admin, jni.JlObject privKey,
+  bool installKeyPair(content.ComponentName admin, jni.JlObject privKey,
           jni.JlObject cert, jni.JlString alias) =>
       _installKeyPair(reference, admin.reference, privKey.reference,
           cert.reference, alias.reference) !=
@@ -1133,7 +1144,7 @@ class DevicePolicyManager extends jni.JlObject {
               int)>();
 
   /// from: public boolean installKeyPair(android.content.ComponentName admin, java.security.PrivateKey privKey, java.security.cert.Certificate[] certs, java.lang.String alias, boolean requestAccess)
-  bool installKeyPair_1(jni.JlObject admin, jni.JlObject privKey,
+  bool installKeyPair_1(content.ComponentName admin, jni.JlObject privKey,
           jni.JlObject certs, jni.JlString alias, bool requestAccess) =>
       _installKeyPair_1(reference, admin.reference, privKey.reference,
           certs.reference, alias.reference, requestAccess ? 1 : 0) !=
@@ -1159,7 +1170,7 @@ class DevicePolicyManager extends jni.JlObject {
               int)>();
 
   /// from: public boolean installKeyPair(android.content.ComponentName admin, java.security.PrivateKey privKey, java.security.cert.Certificate[] certs, java.lang.String alias, int flags)
-  bool installKeyPair_2(jni.JlObject admin, jni.JlObject privKey,
+  bool installKeyPair_2(content.ComponentName admin, jni.JlObject privKey,
           jni.JlObject certs, jni.JlString alias, int flags) =>
       _installKeyPair_2(reference, admin.reference, privKey.reference,
           certs.reference, alias.reference, flags) !=
@@ -1175,7 +1186,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean removeKeyPair(android.content.ComponentName admin, java.lang.String alias)
-  bool removeKeyPair(jni.JlObject admin, jni.JlString alias) =>
+  bool removeKeyPair(content.ComponentName admin, jni.JlString alias) =>
       _removeKeyPair(reference, admin.reference, alias.reference) != 0;
 
   static final _generateKeyPair = jlookup<
@@ -1196,8 +1207,11 @@ class DevicePolicyManager extends jni.JlObject {
               int)>();
 
   /// from: public android.security.AttestedKeyPair generateKeyPair(android.content.ComponentName admin, java.lang.String algorithm, android.security.keystore.KeyGenParameterSpec keySpec, int idAttestationFlags)
-  jni.JlObject generateKeyPair(jni.JlObject admin, jni.JlString algorithm,
-          jni.JlObject keySpec, int idAttestationFlags) =>
+  jni.JlObject generateKeyPair(
+          content.ComponentName admin,
+          jni.JlString algorithm,
+          jni.JlObject keySpec,
+          int idAttestationFlags) =>
       jni.JlObject.fromRef(_generateKeyPair(reference, admin.reference,
           algorithm.reference, keySpec.reference, idAttestationFlags));
 
@@ -1224,7 +1238,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public boolean setKeyPairCertificate(android.content.ComponentName admin, java.lang.String alias, java.util.List<java.security.cert.Certificate> certs, boolean isUserSelectable)
-  bool setKeyPairCertificate(jni.JlObject admin, jni.JlString alias,
+  bool setKeyPairCertificate(content.ComponentName admin, jni.JlString alias,
           jni.JlObject certs, bool isUserSelectable) =>
       _setKeyPairCertificate(reference, admin.reference, alias.reference,
           certs.reference, isUserSelectable ? 1 : 0) !=
@@ -1241,7 +1255,7 @@ class DevicePolicyManager extends jni.JlObject {
 
   /// from: public void setCertInstallerPackage(android.content.ComponentName admin, java.lang.String installerPackage)
   void setCertInstallerPackage(
-          jni.JlObject admin, jni.JlString installerPackage) =>
+          content.ComponentName admin, jni.JlString installerPackage) =>
       _setCertInstallerPackage(
           reference, admin.reference, installerPackage.reference);
 
@@ -1255,7 +1269,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getCertInstallerPackage(android.content.ComponentName admin)
-  jni.JlString getCertInstallerPackage(jni.JlObject admin) =>
+  jni.JlString getCertInstallerPackage(content.ComponentName admin) =>
       jni.JlString.fromRef(
           _getCertInstallerPackage(reference, admin.reference));
 
@@ -1272,8 +1286,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setDelegatedScopes(android.content.ComponentName admin, java.lang.String delegatePackage, java.util.List<java.lang.String> scopes)
-  void setDelegatedScopes(jni.JlObject admin, jni.JlString delegatePackage,
-          jni.JlObject scopes) =>
+  void setDelegatedScopes(content.ComponentName admin,
+          jni.JlString delegatePackage, jni.JlObject scopes) =>
       _setDelegatedScopes(reference, admin.reference, delegatePackage.reference,
           scopes.reference);
 
@@ -1288,7 +1302,7 @@ class DevicePolicyManager extends jni.JlObject {
 
   /// from: public java.util.List<java.lang.String> getDelegatedScopes(android.content.ComponentName admin, java.lang.String delegatedPackage)
   jni.JlObject getDelegatedScopes(
-          jni.JlObject admin, jni.JlString delegatedPackage) =>
+          content.ComponentName admin, jni.JlString delegatedPackage) =>
       jni.JlObject.fromRef(_getDelegatedScopes(
           reference, admin.reference, delegatedPackage.reference));
 
@@ -1303,7 +1317,7 @@ class DevicePolicyManager extends jni.JlObject {
 
   /// from: public java.util.List<java.lang.String> getDelegatePackages(android.content.ComponentName admin, java.lang.String delegationScope)
   jni.JlObject getDelegatePackages(
-          jni.JlObject admin, jni.JlString delegationScope) =>
+          content.ComponentName admin, jni.JlString delegationScope) =>
       jni.JlObject.fromRef(_getDelegatePackages(
           reference, admin.reference, delegationScope.reference));
 
@@ -1320,8 +1334,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setAlwaysOnVpnPackage(android.content.ComponentName admin, java.lang.String vpnPackage, boolean lockdownEnabled)
-  void setAlwaysOnVpnPackage(
-          jni.JlObject admin, jni.JlString vpnPackage, bool lockdownEnabled) =>
+  void setAlwaysOnVpnPackage(content.ComponentName admin,
+          jni.JlString vpnPackage, bool lockdownEnabled) =>
       _setAlwaysOnVpnPackage(reference, admin.reference, vpnPackage.reference,
           lockdownEnabled ? 1 : 0);
 
@@ -1335,7 +1349,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getAlwaysOnVpnPackage(android.content.ComponentName admin)
-  jni.JlString getAlwaysOnVpnPackage(jni.JlObject admin) =>
+  jni.JlString getAlwaysOnVpnPackage(content.ComponentName admin) =>
       jni.JlString.fromRef(_getAlwaysOnVpnPackage(reference, admin.reference));
 
   static final _setCameraDisabled = jlookup<
@@ -1347,7 +1361,7 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setCameraDisabled(android.content.ComponentName admin, boolean disabled)
-  void setCameraDisabled(jni.JlObject admin, bool disabled) =>
+  void setCameraDisabled(content.ComponentName admin, bool disabled) =>
       _setCameraDisabled(reference, admin.reference, disabled ? 1 : 0);
 
   static final _getCameraDisabled = jlookup<
@@ -1358,7 +1372,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean getCameraDisabled(android.content.ComponentName admin)
-  bool getCameraDisabled(jni.JlObject admin) =>
+  bool getCameraDisabled(content.ComponentName admin) =>
       _getCameraDisabled(reference, admin.reference) != 0;
 
   static final _requestBugreport = jlookup<
@@ -1369,7 +1383,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean requestBugreport(android.content.ComponentName admin)
-  bool requestBugreport(jni.JlObject admin) =>
+  bool requestBugreport(content.ComponentName admin) =>
       _requestBugreport(reference, admin.reference) != 0;
 
   static final _setScreenCaptureDisabled = jlookup<
@@ -1381,7 +1395,7 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setScreenCaptureDisabled(android.content.ComponentName admin, boolean disabled)
-  void setScreenCaptureDisabled(jni.JlObject admin, bool disabled) =>
+  void setScreenCaptureDisabled(content.ComponentName admin, bool disabled) =>
       _setScreenCaptureDisabled(reference, admin.reference, disabled ? 1 : 0);
 
   static final _getScreenCaptureDisabled = jlookup<
@@ -1392,7 +1406,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean getScreenCaptureDisabled(android.content.ComponentName admin)
-  bool getScreenCaptureDisabled(jni.JlObject admin) =>
+  bool getScreenCaptureDisabled(content.ComponentName admin) =>
       _getScreenCaptureDisabled(reference, admin.reference) != 0;
 
   static final _setAutoTimeRequired = jlookup<
@@ -1404,7 +1418,7 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setAutoTimeRequired(android.content.ComponentName admin, boolean required)
-  void setAutoTimeRequired(jni.JlObject admin, bool required_) =>
+  void setAutoTimeRequired(content.ComponentName admin, bool required_) =>
       _setAutoTimeRequired(reference, admin.reference, required_ ? 1 : 0);
 
   static final _getAutoTimeRequired =
@@ -1424,7 +1438,7 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setKeyguardDisabledFeatures(android.content.ComponentName admin, int which)
-  void setKeyguardDisabledFeatures(jni.JlObject admin, int which) =>
+  void setKeyguardDisabledFeatures(content.ComponentName admin, int which) =>
       _setKeyguardDisabledFeatures(reference, admin.reference, which);
 
   static final _getKeyguardDisabledFeatures = jlookup<
@@ -1435,7 +1449,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getKeyguardDisabledFeatures(android.content.ComponentName admin)
-  int getKeyguardDisabledFeatures(jni.JlObject admin) =>
+  int getKeyguardDisabledFeatures(content.ComponentName admin) =>
       _getKeyguardDisabledFeatures(reference, admin.reference);
 
   static final _isDeviceOwnerApp = jlookup<
@@ -1470,7 +1484,7 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void clearProfileOwner(android.content.ComponentName admin)
-  void clearProfileOwner(jni.JlObject admin) =>
+  void clearProfileOwner(content.ComponentName admin) =>
       _clearProfileOwner(reference, admin.reference);
 
   static final _setDeviceOwnerLockScreenInfo = jlookup<
@@ -1483,7 +1497,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setDeviceOwnerLockScreenInfo(android.content.ComponentName admin, java.lang.CharSequence info)
-  void setDeviceOwnerLockScreenInfo(jni.JlObject admin, jni.JlObject info) =>
+  void setDeviceOwnerLockScreenInfo(
+          content.ComponentName admin, jni.JlObject info) =>
       _setDeviceOwnerLockScreenInfo(reference, admin.reference, info.reference);
 
   static final _getDeviceOwnerLockScreenInfo = jlookup<
@@ -1509,8 +1524,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public java.lang.String[] setPackagesSuspended(android.content.ComponentName admin, java.lang.String[] packageNames, boolean suspended)
-  jni.JlObject setPackagesSuspended(
-          jni.JlObject admin, jni.JlObject packageNames, bool suspended) =>
+  jni.JlObject setPackagesSuspended(content.ComponentName admin,
+          jni.JlObject packageNames, bool suspended) =>
       jni.JlObject.fromRef(_setPackagesSuspended(reference, admin.reference,
           packageNames.reference, suspended ? 1 : 0));
 
@@ -1524,7 +1539,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isPackageSuspended(android.content.ComponentName admin, java.lang.String packageName)
-  bool isPackageSuspended(jni.JlObject admin, jni.JlString packageName) =>
+  bool isPackageSuspended(
+          content.ComponentName admin, jni.JlString packageName) =>
       _isPackageSuspended(reference, admin.reference, packageName.reference) !=
       0;
 
@@ -1537,7 +1553,7 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setProfileEnabled(android.content.ComponentName admin)
-  void setProfileEnabled(jni.JlObject admin) =>
+  void setProfileEnabled(content.ComponentName admin) =>
       _setProfileEnabled(reference, admin.reference);
 
   static final _setProfileName = jlookup<
@@ -1550,7 +1566,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setProfileName(android.content.ComponentName admin, java.lang.String profileName)
-  void setProfileName(jni.JlObject admin, jni.JlString profileName) =>
+  void setProfileName(content.ComponentName admin, jni.JlString profileName) =>
       _setProfileName(reference, admin.reference, profileName.reference);
 
   static final _isProfileOwnerApp = jlookup<
@@ -1577,8 +1593,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void addPersistentPreferredActivity(android.content.ComponentName admin, android.content.IntentFilter filter, android.content.ComponentName activity)
-  void addPersistentPreferredActivity(
-          jni.JlObject admin, jni.JlObject filter, jni.JlObject activity) =>
+  void addPersistentPreferredActivity(content.ComponentName admin,
+          content.IntentFilter filter, content.ComponentName activity) =>
       _addPersistentPreferredActivity(
           reference, admin.reference, filter.reference, activity.reference);
 
@@ -1593,7 +1609,7 @@ class DevicePolicyManager extends jni.JlObject {
 
   /// from: public void clearPackagePersistentPreferredActivities(android.content.ComponentName admin, java.lang.String packageName)
   void clearPackagePersistentPreferredActivities(
-          jni.JlObject admin, jni.JlString packageName) =>
+          content.ComponentName admin, jni.JlString packageName) =>
       _clearPackagePersistentPreferredActivities(
           reference, admin.reference, packageName.reference);
 
@@ -1608,7 +1624,7 @@ class DevicePolicyManager extends jni.JlObject {
 
   /// from: public void setApplicationRestrictionsManagingPackage(android.content.ComponentName admin, java.lang.String packageName)
   void setApplicationRestrictionsManagingPackage(
-          jni.JlObject admin, jni.JlString packageName) =>
+          content.ComponentName admin, jni.JlString packageName) =>
       _setApplicationRestrictionsManagingPackage(
           reference, admin.reference, packageName.reference);
 
@@ -1622,7 +1638,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getApplicationRestrictionsManagingPackage(android.content.ComponentName admin)
-  jni.JlString getApplicationRestrictionsManagingPackage(jni.JlObject admin) =>
+  jni.JlString getApplicationRestrictionsManagingPackage(
+          content.ComponentName admin) =>
       jni.JlString.fromRef(_getApplicationRestrictionsManagingPackage(
           reference, admin.reference));
 
@@ -1648,8 +1665,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setApplicationRestrictions(android.content.ComponentName admin, java.lang.String packageName, android.os.Bundle settings)
-  void setApplicationRestrictions(jni.JlObject admin, jni.JlString packageName,
-          jni.JlObject settings) =>
+  void setApplicationRestrictions(content.ComponentName admin,
+          jni.JlString packageName, os.Bundle settings) =>
       _setApplicationRestrictions(reference, admin.reference,
           packageName.reference, settings.reference);
 
@@ -1666,8 +1683,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setTrustAgentConfiguration(android.content.ComponentName admin, android.content.ComponentName target, android.os.PersistableBundle configuration)
-  void setTrustAgentConfiguration(jni.JlObject admin, jni.JlObject target,
-          jni.JlObject configuration) =>
+  void setTrustAgentConfiguration(content.ComponentName admin,
+          content.ComponentName target, os.PersistableBundle configuration) =>
       _setTrustAgentConfiguration(reference, admin.reference, target.reference,
           configuration.reference);
 
@@ -1682,7 +1699,7 @@ class DevicePolicyManager extends jni.JlObject {
 
   /// from: public java.util.List<android.os.PersistableBundle> getTrustAgentConfiguration(android.content.ComponentName admin, android.content.ComponentName agent)
   jni.JlObject getTrustAgentConfiguration(
-          jni.JlObject admin, jni.JlObject agent) =>
+          content.ComponentName admin, content.ComponentName agent) =>
       jni.JlObject.fromRef(_getTrustAgentConfiguration(
           reference, admin.reference, agent.reference));
 
@@ -1695,7 +1712,8 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setCrossProfileCallerIdDisabled(android.content.ComponentName admin, boolean disabled)
-  void setCrossProfileCallerIdDisabled(jni.JlObject admin, bool disabled) =>
+  void setCrossProfileCallerIdDisabled(
+          content.ComponentName admin, bool disabled) =>
       _setCrossProfileCallerIdDisabled(
           reference, admin.reference, disabled ? 1 : 0);
 
@@ -1707,7 +1725,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean getCrossProfileCallerIdDisabled(android.content.ComponentName admin)
-  bool getCrossProfileCallerIdDisabled(jni.JlObject admin) =>
+  bool getCrossProfileCallerIdDisabled(content.ComponentName admin) =>
       _getCrossProfileCallerIdDisabled(reference, admin.reference) != 0;
 
   static final _setCrossProfileContactsSearchDisabled = jlookup<
@@ -1720,7 +1738,7 @@ class DevicePolicyManager extends jni.JlObject {
 
   /// from: public void setCrossProfileContactsSearchDisabled(android.content.ComponentName admin, boolean disabled)
   void setCrossProfileContactsSearchDisabled(
-          jni.JlObject admin, bool disabled) =>
+          content.ComponentName admin, bool disabled) =>
       _setCrossProfileContactsSearchDisabled(
           reference, admin.reference, disabled ? 1 : 0);
 
@@ -1732,7 +1750,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean getCrossProfileContactsSearchDisabled(android.content.ComponentName admin)
-  bool getCrossProfileContactsSearchDisabled(jni.JlObject admin) =>
+  bool getCrossProfileContactsSearchDisabled(content.ComponentName admin) =>
       _getCrossProfileContactsSearchDisabled(reference, admin.reference) != 0;
 
   static final _setBluetoothContactSharingDisabled = jlookup<
@@ -1744,7 +1762,8 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setBluetoothContactSharingDisabled(android.content.ComponentName admin, boolean disabled)
-  void setBluetoothContactSharingDisabled(jni.JlObject admin, bool disabled) =>
+  void setBluetoothContactSharingDisabled(
+          content.ComponentName admin, bool disabled) =>
       _setBluetoothContactSharingDisabled(
           reference, admin.reference, disabled ? 1 : 0);
 
@@ -1756,7 +1775,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean getBluetoothContactSharingDisabled(android.content.ComponentName admin)
-  bool getBluetoothContactSharingDisabled(jni.JlObject admin) =>
+  bool getBluetoothContactSharingDisabled(content.ComponentName admin) =>
       _getBluetoothContactSharingDisabled(reference, admin.reference) != 0;
 
   static final _addCrossProfileIntentFilter = jlookup<
@@ -1772,8 +1791,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void addCrossProfileIntentFilter(android.content.ComponentName admin, android.content.IntentFilter filter, int flags)
-  void addCrossProfileIntentFilter(
-          jni.JlObject admin, jni.JlObject filter, int flags) =>
+  void addCrossProfileIntentFilter(content.ComponentName admin,
+          content.IntentFilter filter, int flags) =>
       _addCrossProfileIntentFilter(
           reference, admin.reference, filter.reference, flags);
 
@@ -1786,7 +1805,7 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void clearCrossProfileIntentFilters(android.content.ComponentName admin)
-  void clearCrossProfileIntentFilters(jni.JlObject admin) =>
+  void clearCrossProfileIntentFilters(content.ComponentName admin) =>
       _clearCrossProfileIntentFilters(reference, admin.reference);
 
   static final _setPermittedAccessibilityServices = jlookup<
@@ -1800,7 +1819,7 @@ class DevicePolicyManager extends jni.JlObject {
 
   /// from: public boolean setPermittedAccessibilityServices(android.content.ComponentName admin, java.util.List<java.lang.String> packageNames)
   bool setPermittedAccessibilityServices(
-          jni.JlObject admin, jni.JlObject packageNames) =>
+          content.ComponentName admin, jni.JlObject packageNames) =>
       _setPermittedAccessibilityServices(
           reference, admin.reference, packageNames.reference) !=
       0;
@@ -1815,7 +1834,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<java.lang.String> getPermittedAccessibilityServices(android.content.ComponentName admin)
-  jni.JlObject getPermittedAccessibilityServices(jni.JlObject admin) =>
+  jni.JlObject getPermittedAccessibilityServices(content.ComponentName admin) =>
       jni.JlObject.fromRef(
           _getPermittedAccessibilityServices(reference, admin.reference));
 
@@ -1830,7 +1849,7 @@ class DevicePolicyManager extends jni.JlObject {
 
   /// from: public boolean setPermittedInputMethods(android.content.ComponentName admin, java.util.List<java.lang.String> packageNames)
   bool setPermittedInputMethods(
-          jni.JlObject admin, jni.JlObject packageNames) =>
+          content.ComponentName admin, jni.JlObject packageNames) =>
       _setPermittedInputMethods(
           reference, admin.reference, packageNames.reference) !=
       0;
@@ -1845,7 +1864,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<java.lang.String> getPermittedInputMethods(android.content.ComponentName admin)
-  jni.JlObject getPermittedInputMethods(jni.JlObject admin) =>
+  jni.JlObject getPermittedInputMethods(content.ComponentName admin) =>
       jni.JlObject.fromRef(
           _getPermittedInputMethods(reference, admin.reference));
 
@@ -1860,7 +1879,7 @@ class DevicePolicyManager extends jni.JlObject {
 
   /// from: public boolean setPermittedCrossProfileNotificationListeners(android.content.ComponentName admin, java.util.List<java.lang.String> packageList)
   bool setPermittedCrossProfileNotificationListeners(
-          jni.JlObject admin, jni.JlObject packageList) =>
+          content.ComponentName admin, jni.JlObject packageList) =>
       _setPermittedCrossProfileNotificationListeners(
           reference, admin.reference, packageList.reference) !=
       0;
@@ -1876,7 +1895,7 @@ class DevicePolicyManager extends jni.JlObject {
 
   /// from: public java.util.List<java.lang.String> getPermittedCrossProfileNotificationListeners(android.content.ComponentName admin)
   jni.JlObject getPermittedCrossProfileNotificationListeners(
-          jni.JlObject admin) =>
+          content.ComponentName admin) =>
       jni.JlObject.fromRef(_getPermittedCrossProfileNotificationListeners(
           reference, admin.reference));
 
@@ -1890,7 +1909,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<java.lang.String> getKeepUninstalledPackages(android.content.ComponentName admin)
-  jni.JlObject getKeepUninstalledPackages(jni.JlObject admin) =>
+  jni.JlObject getKeepUninstalledPackages(content.ComponentName admin) =>
       jni.JlObject.fromRef(
           _getKeepUninstalledPackages(reference, admin.reference));
 
@@ -1905,7 +1924,7 @@ class DevicePolicyManager extends jni.JlObject {
 
   /// from: public void setKeepUninstalledPackages(android.content.ComponentName admin, java.util.List<java.lang.String> packageNames)
   void setKeepUninstalledPackages(
-          jni.JlObject admin, jni.JlObject packageNames) =>
+          content.ComponentName admin, jni.JlObject packageNames) =>
       _setKeepUninstalledPackages(
           reference, admin.reference, packageNames.reference);
 
@@ -1929,9 +1948,13 @@ class DevicePolicyManager extends jni.JlObject {
               int)>();
 
   /// from: public android.os.UserHandle createAndManageUser(android.content.ComponentName admin, java.lang.String name, android.content.ComponentName profileOwner, android.os.PersistableBundle adminExtras, int flags)
-  jni.JlObject createAndManageUser(jni.JlObject admin, jni.JlString name,
-          jni.JlObject profileOwner, jni.JlObject adminExtras, int flags) =>
-      jni.JlObject.fromRef(_createAndManageUser(
+  os.UserHandle createAndManageUser(
+          content.ComponentName admin,
+          jni.JlString name,
+          content.ComponentName profileOwner,
+          os.PersistableBundle adminExtras,
+          int flags) =>
+      os.UserHandle.fromRef(_createAndManageUser(
           reference,
           admin.reference,
           name.reference,
@@ -1949,7 +1972,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean removeUser(android.content.ComponentName admin, android.os.UserHandle userHandle)
-  bool removeUser(jni.JlObject admin, jni.JlObject userHandle) =>
+  bool removeUser(content.ComponentName admin, os.UserHandle userHandle) =>
       _removeUser(reference, admin.reference, userHandle.reference) != 0;
 
   static final _switchUser = jlookup<
@@ -1962,7 +1985,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean switchUser(android.content.ComponentName admin, android.os.UserHandle userHandle)
-  bool switchUser(jni.JlObject admin, jni.JlObject userHandle) =>
+  bool switchUser(content.ComponentName admin, os.UserHandle userHandle) =>
       _switchUser(reference, admin.reference, userHandle.reference) != 0;
 
   static final _startUserInBackground = jlookup<
@@ -1975,7 +1998,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public int startUserInBackground(android.content.ComponentName admin, android.os.UserHandle userHandle)
-  int startUserInBackground(jni.JlObject admin, jni.JlObject userHandle) =>
+  int startUserInBackground(
+          content.ComponentName admin, os.UserHandle userHandle) =>
       _startUserInBackground(reference, admin.reference, userHandle.reference);
 
   static final _stopUser = jlookup<
@@ -1988,7 +2012,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public int stopUser(android.content.ComponentName admin, android.os.UserHandle userHandle)
-  int stopUser(jni.JlObject admin, jni.JlObject userHandle) =>
+  int stopUser(content.ComponentName admin, os.UserHandle userHandle) =>
       _stopUser(reference, admin.reference, userHandle.reference);
 
   static final _logoutUser = jlookup<
@@ -1999,7 +2023,8 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int logoutUser(android.content.ComponentName admin)
-  int logoutUser(jni.JlObject admin) => _logoutUser(reference, admin.reference);
+  int logoutUser(content.ComponentName admin) =>
+      _logoutUser(reference, admin.reference);
 
   static final _getSecondaryUsers = jlookup<
               ffi.NativeFunction<
@@ -2011,7 +2036,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<android.os.UserHandle> getSecondaryUsers(android.content.ComponentName admin)
-  jni.JlObject getSecondaryUsers(jni.JlObject admin) =>
+  jni.JlObject getSecondaryUsers(content.ComponentName admin) =>
       jni.JlObject.fromRef(_getSecondaryUsers(reference, admin.reference));
 
   static final _isEphemeralUser = jlookup<
@@ -2022,7 +2047,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isEphemeralUser(android.content.ComponentName admin)
-  bool isEphemeralUser(jni.JlObject admin) =>
+  bool isEphemeralUser(content.ComponentName admin) =>
       _isEphemeralUser(reference, admin.reference) != 0;
 
   static final _getApplicationRestrictions = jlookup<
@@ -2035,9 +2060,9 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle getApplicationRestrictions(android.content.ComponentName admin, java.lang.String packageName)
-  jni.JlObject getApplicationRestrictions(
-          jni.JlObject admin, jni.JlString packageName) =>
-      jni.JlObject.fromRef(_getApplicationRestrictions(
+  os.Bundle getApplicationRestrictions(
+          content.ComponentName admin, jni.JlString packageName) =>
+      os.Bundle.fromRef(_getApplicationRestrictions(
           reference, admin.reference, packageName.reference));
 
   static final _addUserRestriction = jlookup<
@@ -2050,7 +2075,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void addUserRestriction(android.content.ComponentName admin, java.lang.String key)
-  void addUserRestriction(jni.JlObject admin, jni.JlString key) =>
+  void addUserRestriction(content.ComponentName admin, jni.JlString key) =>
       _addUserRestriction(reference, admin.reference, key.reference);
 
   static final _clearUserRestriction = jlookup<
@@ -2063,7 +2088,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void clearUserRestriction(android.content.ComponentName admin, java.lang.String key)
-  void clearUserRestriction(jni.JlObject admin, jni.JlString key) =>
+  void clearUserRestriction(content.ComponentName admin, jni.JlString key) =>
       _clearUserRestriction(reference, admin.reference, key.reference);
 
   static final _getUserRestrictions = jlookup<
@@ -2076,8 +2101,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle getUserRestrictions(android.content.ComponentName admin)
-  jni.JlObject getUserRestrictions(jni.JlObject admin) =>
-      jni.JlObject.fromRef(_getUserRestrictions(reference, admin.reference));
+  os.Bundle getUserRestrictions(content.ComponentName admin) =>
+      os.Bundle.fromRef(_getUserRestrictions(reference, admin.reference));
 
   static final _createAdminSupportIntent = jlookup<
               ffi.NativeFunction<
@@ -2089,8 +2114,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.Intent createAdminSupportIntent(java.lang.String restriction)
-  jni.JlObject createAdminSupportIntent(jni.JlString restriction) =>
-      jni.JlObject.fromRef(
+  content.Intent createAdminSupportIntent(jni.JlString restriction) =>
+      content.Intent.fromRef(
           _createAdminSupportIntent(reference, restriction.reference));
 
   static final _setApplicationHidden = jlookup<
@@ -2107,7 +2132,7 @@ class DevicePolicyManager extends jni.JlObject {
 
   /// from: public boolean setApplicationHidden(android.content.ComponentName admin, java.lang.String packageName, boolean hidden)
   bool setApplicationHidden(
-          jni.JlObject admin, jni.JlString packageName, bool hidden) =>
+          content.ComponentName admin, jni.JlString packageName, bool hidden) =>
       _setApplicationHidden(
           reference, admin.reference, packageName.reference, hidden ? 1 : 0) !=
       0;
@@ -2122,7 +2147,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isApplicationHidden(android.content.ComponentName admin, java.lang.String packageName)
-  bool isApplicationHidden(jni.JlObject admin, jni.JlString packageName) =>
+  bool isApplicationHidden(
+          content.ComponentName admin, jni.JlString packageName) =>
       _isApplicationHidden(reference, admin.reference, packageName.reference) !=
       0;
 
@@ -2136,7 +2162,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void enableSystemApp(android.content.ComponentName admin, java.lang.String packageName)
-  void enableSystemApp(jni.JlObject admin, jni.JlString packageName) =>
+  void enableSystemApp(content.ComponentName admin, jni.JlString packageName) =>
       _enableSystemApp(reference, admin.reference, packageName.reference);
 
   static final _enableSystemApp_1 = jlookup<
@@ -2149,7 +2175,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public int enableSystemApp(android.content.ComponentName admin, android.content.Intent intent)
-  int enableSystemApp_1(jni.JlObject admin, jni.JlObject intent) =>
+  int enableSystemApp_1(content.ComponentName admin, content.Intent intent) =>
       _enableSystemApp_1(reference, admin.reference, intent.reference);
 
   static final _installExistingPackage = jlookup<
@@ -2162,7 +2188,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean installExistingPackage(android.content.ComponentName admin, java.lang.String packageName)
-  bool installExistingPackage(jni.JlObject admin, jni.JlString packageName) =>
+  bool installExistingPackage(
+          content.ComponentName admin, jni.JlString packageName) =>
       _installExistingPackage(
           reference, admin.reference, packageName.reference) !=
       0;
@@ -2180,8 +2207,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setAccountManagementDisabled(android.content.ComponentName admin, java.lang.String accountType, boolean disabled)
-  void setAccountManagementDisabled(
-          jni.JlObject admin, jni.JlString accountType, bool disabled) =>
+  void setAccountManagementDisabled(content.ComponentName admin,
+          jni.JlString accountType, bool disabled) =>
       _setAccountManagementDisabled(
           reference, admin.reference, accountType.reference, disabled ? 1 : 0);
 
@@ -2205,7 +2232,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setLockTaskPackages(android.content.ComponentName admin, java.lang.String[] packages)
-  void setLockTaskPackages(jni.JlObject admin, jni.JlObject packages) =>
+  void setLockTaskPackages(
+          content.ComponentName admin, jni.JlObject packages) =>
       _setLockTaskPackages(reference, admin.reference, packages.reference);
 
   static final _getLockTaskPackages = jlookup<
@@ -2218,7 +2246,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String[] getLockTaskPackages(android.content.ComponentName admin)
-  jni.JlObject getLockTaskPackages(jni.JlObject admin) =>
+  jni.JlObject getLockTaskPackages(content.ComponentName admin) =>
       jni.JlObject.fromRef(_getLockTaskPackages(reference, admin.reference));
 
   static final _isLockTaskPermitted = jlookup<
@@ -2241,7 +2269,7 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setLockTaskFeatures(android.content.ComponentName admin, int flags)
-  void setLockTaskFeatures(jni.JlObject admin, int flags) =>
+  void setLockTaskFeatures(content.ComponentName admin, int flags) =>
       _setLockTaskFeatures(reference, admin.reference, flags);
 
   static final _getLockTaskFeatures = jlookup<
@@ -2252,7 +2280,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getLockTaskFeatures(android.content.ComponentName admin)
-  int getLockTaskFeatures(jni.JlObject admin) =>
+  int getLockTaskFeatures(content.ComponentName admin) =>
       _getLockTaskFeatures(reference, admin.reference);
 
   static final _setGlobalSetting = jlookup<
@@ -2268,8 +2296,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setGlobalSetting(android.content.ComponentName admin, java.lang.String setting, java.lang.String value)
-  void setGlobalSetting(
-          jni.JlObject admin, jni.JlString setting, jni.JlString value) =>
+  void setGlobalSetting(content.ComponentName admin, jni.JlString setting,
+          jni.JlString value) =>
       _setGlobalSetting(
           reference, admin.reference, setting.reference, value.reference);
 
@@ -2286,8 +2314,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setSystemSetting(android.content.ComponentName admin, java.lang.String setting, java.lang.String value)
-  void setSystemSetting(
-          jni.JlObject admin, jni.JlString setting, jni.JlString value) =>
+  void setSystemSetting(content.ComponentName admin, jni.JlString setting,
+          jni.JlString value) =>
       _setSystemSetting(
           reference, admin.reference, setting.reference, value.reference);
 
@@ -2299,7 +2327,7 @@ class DevicePolicyManager extends jni.JlObject {
           int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public boolean setTime(android.content.ComponentName admin, long millis)
-  bool setTime(jni.JlObject admin, int millis) =>
+  bool setTime(content.ComponentName admin, int millis) =>
       _setTime(reference, admin.reference, millis) != 0;
 
   static final _setTimeZone = jlookup<
@@ -2312,7 +2340,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean setTimeZone(android.content.ComponentName admin, java.lang.String timeZone)
-  bool setTimeZone(jni.JlObject admin, jni.JlString timeZone) =>
+  bool setTimeZone(content.ComponentName admin, jni.JlString timeZone) =>
       _setTimeZone(reference, admin.reference, timeZone.reference) != 0;
 
   static final _setSecureSetting = jlookup<
@@ -2328,8 +2356,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setSecureSetting(android.content.ComponentName admin, java.lang.String setting, java.lang.String value)
-  void setSecureSetting(
-          jni.JlObject admin, jni.JlString setting, jni.JlString value) =>
+  void setSecureSetting(content.ComponentName admin, jni.JlString setting,
+          jni.JlString value) =>
       _setSecureSetting(
           reference, admin.reference, setting.reference, value.reference);
 
@@ -2343,7 +2371,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setRestrictionsProvider(android.content.ComponentName admin, android.content.ComponentName provider)
-  void setRestrictionsProvider(jni.JlObject admin, jni.JlObject provider) =>
+  void setRestrictionsProvider(
+          content.ComponentName admin, content.ComponentName provider) =>
       _setRestrictionsProvider(reference, admin.reference, provider.reference);
 
   static final _setMasterVolumeMuted = jlookup<
@@ -2355,7 +2384,7 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setMasterVolumeMuted(android.content.ComponentName admin, boolean on)
-  void setMasterVolumeMuted(jni.JlObject admin, bool on_) =>
+  void setMasterVolumeMuted(content.ComponentName admin, bool on_) =>
       _setMasterVolumeMuted(reference, admin.reference, on_ ? 1 : 0);
 
   static final _isMasterVolumeMuted = jlookup<
@@ -2366,7 +2395,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isMasterVolumeMuted(android.content.ComponentName admin)
-  bool isMasterVolumeMuted(jni.JlObject admin) =>
+  bool isMasterVolumeMuted(content.ComponentName admin) =>
       _isMasterVolumeMuted(reference, admin.reference) != 0;
 
   static final _setUninstallBlocked = jlookup<
@@ -2382,8 +2411,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setUninstallBlocked(android.content.ComponentName admin, java.lang.String packageName, boolean uninstallBlocked)
-  void setUninstallBlocked(jni.JlObject admin, jni.JlString packageName,
-          bool uninstallBlocked) =>
+  void setUninstallBlocked(content.ComponentName admin,
+          jni.JlString packageName, bool uninstallBlocked) =>
       _setUninstallBlocked(reference, admin.reference, packageName.reference,
           uninstallBlocked ? 1 : 0);
 
@@ -2397,7 +2426,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isUninstallBlocked(android.content.ComponentName admin, java.lang.String packageName)
-  bool isUninstallBlocked(jni.JlObject admin, jni.JlString packageName) =>
+  bool isUninstallBlocked(
+          content.ComponentName admin, jni.JlString packageName) =>
       _isUninstallBlocked(reference, admin.reference, packageName.reference) !=
       0;
 
@@ -2412,7 +2442,7 @@ class DevicePolicyManager extends jni.JlObject {
 
   /// from: public boolean addCrossProfileWidgetProvider(android.content.ComponentName admin, java.lang.String packageName)
   bool addCrossProfileWidgetProvider(
-          jni.JlObject admin, jni.JlString packageName) =>
+          content.ComponentName admin, jni.JlString packageName) =>
       _addCrossProfileWidgetProvider(
           reference, admin.reference, packageName.reference) !=
       0;
@@ -2428,7 +2458,7 @@ class DevicePolicyManager extends jni.JlObject {
 
   /// from: public boolean removeCrossProfileWidgetProvider(android.content.ComponentName admin, java.lang.String packageName)
   bool removeCrossProfileWidgetProvider(
-          jni.JlObject admin, jni.JlString packageName) =>
+          content.ComponentName admin, jni.JlString packageName) =>
       _removeCrossProfileWidgetProvider(
           reference, admin.reference, packageName.reference) !=
       0;
@@ -2443,7 +2473,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<java.lang.String> getCrossProfileWidgetProviders(android.content.ComponentName admin)
-  jni.JlObject getCrossProfileWidgetProviders(jni.JlObject admin) =>
+  jni.JlObject getCrossProfileWidgetProviders(content.ComponentName admin) =>
       jni.JlObject.fromRef(
           _getCrossProfileWidgetProviders(reference, admin.reference));
 
@@ -2457,7 +2487,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setUserIcon(android.content.ComponentName admin, android.graphics.Bitmap icon)
-  void setUserIcon(jni.JlObject admin, jni.JlObject icon) =>
+  void setUserIcon(content.ComponentName admin, jni.JlObject icon) =>
       _setUserIcon(reference, admin.reference, icon.reference);
 
   static final _setSystemUpdatePolicy = jlookup<
@@ -2470,7 +2500,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setSystemUpdatePolicy(android.content.ComponentName admin, android.app.admin.SystemUpdatePolicy policy)
-  void setSystemUpdatePolicy(jni.JlObject admin, SystemUpdatePolicy policy) =>
+  void setSystemUpdatePolicy(
+          content.ComponentName admin, SystemUpdatePolicy policy) =>
       _setSystemUpdatePolicy(reference, admin.reference, policy.reference);
 
   static final _getSystemUpdatePolicy = jlookup<
@@ -2492,7 +2523,7 @@ class DevicePolicyManager extends jni.JlObject {
           int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public boolean setKeyguardDisabled(android.content.ComponentName admin, boolean disabled)
-  bool setKeyguardDisabled(jni.JlObject admin, bool disabled) =>
+  bool setKeyguardDisabled(content.ComponentName admin, bool disabled) =>
       _setKeyguardDisabled(reference, admin.reference, disabled ? 1 : 0) != 0;
 
   static final _setStatusBarDisabled = jlookup<
@@ -2504,7 +2535,7 @@ class DevicePolicyManager extends jni.JlObject {
           int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public boolean setStatusBarDisabled(android.content.ComponentName admin, boolean disabled)
-  bool setStatusBarDisabled(jni.JlObject admin, bool disabled) =>
+  bool setStatusBarDisabled(content.ComponentName admin, bool disabled) =>
       _setStatusBarDisabled(reference, admin.reference, disabled ? 1 : 0) != 0;
 
   static final _getPendingSystemUpdate = jlookup<
@@ -2517,7 +2548,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.admin.SystemUpdateInfo getPendingSystemUpdate(android.content.ComponentName admin)
-  SystemUpdateInfo getPendingSystemUpdate(jni.JlObject admin) =>
+  SystemUpdateInfo getPendingSystemUpdate(content.ComponentName admin) =>
       SystemUpdateInfo.fromRef(
           _getPendingSystemUpdate(reference, admin.reference));
 
@@ -2530,7 +2561,7 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setPermissionPolicy(android.content.ComponentName admin, int policy)
-  void setPermissionPolicy(jni.JlObject admin, int policy) =>
+  void setPermissionPolicy(content.ComponentName admin, int policy) =>
       _setPermissionPolicy(reference, admin.reference, policy);
 
   static final _getPermissionPolicy = jlookup<
@@ -2541,7 +2572,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getPermissionPolicy(android.content.ComponentName admin)
-  int getPermissionPolicy(jni.JlObject admin) =>
+  int getPermissionPolicy(content.ComponentName admin) =>
       _getPermissionPolicy(reference, admin.reference);
 
   static final _setPermissionGrantState = jlookup<
@@ -2558,8 +2589,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public boolean setPermissionGrantState(android.content.ComponentName admin, java.lang.String packageName, java.lang.String permission, int grantState)
-  bool setPermissionGrantState(jni.JlObject admin, jni.JlString packageName,
-          jni.JlString permission, int grantState) =>
+  bool setPermissionGrantState(content.ComponentName admin,
+          jni.JlString packageName, jni.JlString permission, int grantState) =>
       _setPermissionGrantState(reference, admin.reference,
           packageName.reference, permission.reference, grantState) !=
       0;
@@ -2577,8 +2608,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getPermissionGrantState(android.content.ComponentName admin, java.lang.String packageName, java.lang.String permission)
-  int getPermissionGrantState(jni.JlObject admin, jni.JlString packageName,
-          jni.JlString permission) =>
+  int getPermissionGrantState(content.ComponentName admin,
+          jni.JlString packageName, jni.JlString permission) =>
       _getPermissionGrantState(reference, admin.reference,
           packageName.reference, permission.reference);
 
@@ -2601,7 +2632,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isManagedProfile(android.content.ComponentName admin)
-  bool isManagedProfile(jni.JlObject admin) =>
+  bool isManagedProfile(content.ComponentName admin) =>
       _isManagedProfile(reference, admin.reference) != 0;
 
   static final _getWifiMacAddress = jlookup<
@@ -2614,7 +2645,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getWifiMacAddress(android.content.ComponentName admin)
-  jni.JlString getWifiMacAddress(jni.JlObject admin) =>
+  jni.JlString getWifiMacAddress(content.ComponentName admin) =>
       jni.JlString.fromRef(_getWifiMacAddress(reference, admin.reference));
 
   static final _reboot = jlookup<
@@ -2626,7 +2657,8 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void reboot(android.content.ComponentName admin)
-  void reboot(jni.JlObject admin) => _reboot(reference, admin.reference);
+  void reboot(content.ComponentName admin) =>
+      _reboot(reference, admin.reference);
 
   static final _setShortSupportMessage = jlookup<
               ffi.NativeFunction<
@@ -2638,7 +2670,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setShortSupportMessage(android.content.ComponentName admin, java.lang.CharSequence message)
-  void setShortSupportMessage(jni.JlObject admin, jni.JlObject message) =>
+  void setShortSupportMessage(
+          content.ComponentName admin, jni.JlObject message) =>
       _setShortSupportMessage(reference, admin.reference, message.reference);
 
   static final _getShortSupportMessage = jlookup<
@@ -2651,7 +2684,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.CharSequence getShortSupportMessage(android.content.ComponentName admin)
-  jni.JlObject getShortSupportMessage(jni.JlObject admin) =>
+  jni.JlObject getShortSupportMessage(content.ComponentName admin) =>
       jni.JlObject.fromRef(_getShortSupportMessage(reference, admin.reference));
 
   static final _setLongSupportMessage = jlookup<
@@ -2664,7 +2697,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setLongSupportMessage(android.content.ComponentName admin, java.lang.CharSequence message)
-  void setLongSupportMessage(jni.JlObject admin, jni.JlObject message) =>
+  void setLongSupportMessage(
+          content.ComponentName admin, jni.JlObject message) =>
       _setLongSupportMessage(reference, admin.reference, message.reference);
 
   static final _getLongSupportMessage = jlookup<
@@ -2677,7 +2711,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.CharSequence getLongSupportMessage(android.content.ComponentName admin)
-  jni.JlObject getLongSupportMessage(jni.JlObject admin) =>
+  jni.JlObject getLongSupportMessage(content.ComponentName admin) =>
       jni.JlObject.fromRef(_getLongSupportMessage(reference, admin.reference));
 
   static final _getParentProfileInstance = jlookup<
@@ -2690,7 +2724,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.admin.DevicePolicyManager getParentProfileInstance(android.content.ComponentName admin)
-  DevicePolicyManager getParentProfileInstance(jni.JlObject admin) =>
+  DevicePolicyManager getParentProfileInstance(content.ComponentName admin) =>
       DevicePolicyManager.fromRef(
           _getParentProfileInstance(reference, admin.reference));
 
@@ -2703,7 +2737,7 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setSecurityLoggingEnabled(android.content.ComponentName admin, boolean enabled)
-  void setSecurityLoggingEnabled(jni.JlObject admin, bool enabled) =>
+  void setSecurityLoggingEnabled(content.ComponentName admin, bool enabled) =>
       _setSecurityLoggingEnabled(reference, admin.reference, enabled ? 1 : 0);
 
   static final _isSecurityLoggingEnabled = jlookup<
@@ -2714,7 +2748,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isSecurityLoggingEnabled(android.content.ComponentName admin)
-  bool isSecurityLoggingEnabled(jni.JlObject admin) =>
+  bool isSecurityLoggingEnabled(content.ComponentName admin) =>
       _isSecurityLoggingEnabled(reference, admin.reference) != 0;
 
   static final _retrieveSecurityLogs = jlookup<
@@ -2727,7 +2761,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<android.app.admin.SecurityLog.SecurityEvent> retrieveSecurityLogs(android.content.ComponentName admin)
-  jni.JlObject retrieveSecurityLogs(jni.JlObject admin) =>
+  jni.JlObject retrieveSecurityLogs(content.ComponentName admin) =>
       jni.JlObject.fromRef(_retrieveSecurityLogs(reference, admin.reference));
 
   static final _setMeteredDataDisabledPackages = jlookup<
@@ -2741,7 +2775,7 @@ class DevicePolicyManager extends jni.JlObject {
 
   /// from: public java.util.List<java.lang.String> setMeteredDataDisabledPackages(android.content.ComponentName admin, java.util.List<java.lang.String> packageNames)
   jni.JlObject setMeteredDataDisabledPackages(
-          jni.JlObject admin, jni.JlObject packageNames) =>
+          content.ComponentName admin, jni.JlObject packageNames) =>
       jni.JlObject.fromRef(_setMeteredDataDisabledPackages(
           reference, admin.reference, packageNames.reference));
 
@@ -2755,7 +2789,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<java.lang.String> getMeteredDataDisabledPackages(android.content.ComponentName admin)
-  jni.JlObject getMeteredDataDisabledPackages(jni.JlObject admin) =>
+  jni.JlObject getMeteredDataDisabledPackages(content.ComponentName admin) =>
       jni.JlObject.fromRef(
           _getMeteredDataDisabledPackages(reference, admin.reference));
 
@@ -2769,7 +2803,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<android.app.admin.SecurityLog.SecurityEvent> retrievePreRebootSecurityLogs(android.content.ComponentName admin)
-  jni.JlObject retrievePreRebootSecurityLogs(jni.JlObject admin) =>
+  jni.JlObject retrievePreRebootSecurityLogs(content.ComponentName admin) =>
       jni.JlObject.fromRef(
           _retrievePreRebootSecurityLogs(reference, admin.reference));
 
@@ -2782,7 +2816,7 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setOrganizationColor(android.content.ComponentName admin, int color)
-  void setOrganizationColor(jni.JlObject admin, int color) =>
+  void setOrganizationColor(content.ComponentName admin, int color) =>
       _setOrganizationColor(reference, admin.reference, color);
 
   static final _getOrganizationColor = jlookup<
@@ -2793,7 +2827,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getOrganizationColor(android.content.ComponentName admin)
-  int getOrganizationColor(jni.JlObject admin) =>
+  int getOrganizationColor(content.ComponentName admin) =>
       _getOrganizationColor(reference, admin.reference);
 
   static final _setOrganizationName = jlookup<
@@ -2806,7 +2840,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setOrganizationName(android.content.ComponentName admin, java.lang.CharSequence title)
-  void setOrganizationName(jni.JlObject admin, jni.JlObject title) =>
+  void setOrganizationName(content.ComponentName admin, jni.JlObject title) =>
       _setOrganizationName(reference, admin.reference, title.reference);
 
   static final _getOrganizationName = jlookup<
@@ -2819,7 +2853,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.CharSequence getOrganizationName(android.content.ComponentName admin)
-  jni.JlObject getOrganizationName(jni.JlObject admin) =>
+  jni.JlObject getOrganizationName(content.ComponentName admin) =>
       jni.JlObject.fromRef(_getOrganizationName(reference, admin.reference));
 
   static final _setAffiliationIds = jlookup<
@@ -2832,7 +2866,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setAffiliationIds(android.content.ComponentName admin, java.util.Set<java.lang.String> ids)
-  void setAffiliationIds(jni.JlObject admin, jni.JlObject ids) =>
+  void setAffiliationIds(content.ComponentName admin, jni.JlObject ids) =>
       _setAffiliationIds(reference, admin.reference, ids.reference);
 
   static final _getAffiliationIds = jlookup<
@@ -2845,7 +2879,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.Set<java.lang.String> getAffiliationIds(android.content.ComponentName admin)
-  jni.JlObject getAffiliationIds(jni.JlObject admin) =>
+  jni.JlObject getAffiliationIds(content.ComponentName admin) =>
       jni.JlObject.fromRef(_getAffiliationIds(reference, admin.reference));
 
   static final _isAffiliatedUser =
@@ -2865,7 +2899,7 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setBackupServiceEnabled(android.content.ComponentName admin, boolean enabled)
-  void setBackupServiceEnabled(jni.JlObject admin, bool enabled) =>
+  void setBackupServiceEnabled(content.ComponentName admin, bool enabled) =>
       _setBackupServiceEnabled(reference, admin.reference, enabled ? 1 : 0);
 
   static final _isBackupServiceEnabled = jlookup<
@@ -2876,7 +2910,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isBackupServiceEnabled(android.content.ComponentName admin)
-  bool isBackupServiceEnabled(jni.JlObject admin) =>
+  bool isBackupServiceEnabled(content.ComponentName admin) =>
       _isBackupServiceEnabled(reference, admin.reference) != 0;
 
   static final _setNetworkLoggingEnabled = jlookup<
@@ -2888,7 +2922,7 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setNetworkLoggingEnabled(android.content.ComponentName admin, boolean enabled)
-  void setNetworkLoggingEnabled(jni.JlObject admin, bool enabled) =>
+  void setNetworkLoggingEnabled(content.ComponentName admin, bool enabled) =>
       _setNetworkLoggingEnabled(reference, admin.reference, enabled ? 1 : 0);
 
   static final _isNetworkLoggingEnabled = jlookup<
@@ -2899,7 +2933,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isNetworkLoggingEnabled(android.content.ComponentName admin)
-  bool isNetworkLoggingEnabled(jni.JlObject admin) =>
+  bool isNetworkLoggingEnabled(content.ComponentName admin) =>
       _isNetworkLoggingEnabled(reference, admin.reference) != 0;
 
   static final _retrieveNetworkLogs = jlookup<
@@ -2912,7 +2946,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public java.util.List<android.app.admin.NetworkEvent> retrieveNetworkLogs(android.content.ComponentName admin, long batchToken)
-  jni.JlObject retrieveNetworkLogs(jni.JlObject admin, int batchToken) =>
+  jni.JlObject retrieveNetworkLogs(
+          content.ComponentName admin, int batchToken) =>
       jni.JlObject.fromRef(
           _retrieveNetworkLogs(reference, admin.reference, batchToken));
 
@@ -2937,11 +2972,11 @@ class DevicePolicyManager extends jni.JlObject {
 
   /// from: public boolean bindDeviceAdminServiceAsUser(android.content.ComponentName admin, android.content.Intent serviceIntent, android.content.ServiceConnection conn, int flags, android.os.UserHandle targetUser)
   bool bindDeviceAdminServiceAsUser(
-          jni.JlObject admin,
-          jni.JlObject serviceIntent,
-          jni.JlObject conn,
+          content.ComponentName admin,
+          content.Intent serviceIntent,
+          content.ServiceConnection conn,
           int flags,
-          jni.JlObject targetUser) =>
+          os.UserHandle targetUser) =>
       _bindDeviceAdminServiceAsUser(
           reference,
           admin.reference,
@@ -2961,7 +2996,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<android.os.UserHandle> getBindDeviceAdminTargetUsers(android.content.ComponentName admin)
-  jni.JlObject getBindDeviceAdminTargetUsers(jni.JlObject admin) =>
+  jni.JlObject getBindDeviceAdminTargetUsers(content.ComponentName admin) =>
       jni.JlObject.fromRef(
           _getBindDeviceAdminTargetUsers(reference, admin.reference));
 
@@ -2984,7 +3019,7 @@ class DevicePolicyManager extends jni.JlObject {
 
   /// from: public void clearApplicationUserData(android.content.ComponentName admin, java.lang.String packageName, java.util.concurrent.Executor executor, android.app.admin.DevicePolicyManager.OnClearApplicationUserDataListener listener)
   void clearApplicationUserData(
-          jni.JlObject admin,
+          content.ComponentName admin,
           jni.JlString packageName,
           jni.JlObject executor,
           DevicePolicyManager_OnClearApplicationUserDataListener listener) =>
@@ -3000,7 +3035,7 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setLogoutEnabled(android.content.ComponentName admin, boolean enabled)
-  void setLogoutEnabled(jni.JlObject admin, bool enabled) =>
+  void setLogoutEnabled(content.ComponentName admin, bool enabled) =>
       _setLogoutEnabled(reference, admin.reference, enabled ? 1 : 0);
 
   static final _isLogoutEnabled =
@@ -3024,8 +3059,8 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void transferOwnership(android.content.ComponentName admin, android.content.ComponentName target, android.os.PersistableBundle bundle)
-  void transferOwnership(
-          jni.JlObject admin, jni.JlObject target, jni.JlObject bundle) =>
+  void transferOwnership(content.ComponentName admin,
+          content.ComponentName target, os.PersistableBundle bundle) =>
       _transferOwnership(
           reference, admin.reference, target.reference, bundle.reference);
 
@@ -3040,7 +3075,7 @@ class DevicePolicyManager extends jni.JlObject {
 
   /// from: public void setStartUserSessionMessage(android.content.ComponentName admin, java.lang.CharSequence startUserSessionMessage)
   void setStartUserSessionMessage(
-          jni.JlObject admin, jni.JlObject startUserSessionMessage) =>
+          content.ComponentName admin, jni.JlObject startUserSessionMessage) =>
       _setStartUserSessionMessage(
           reference, admin.reference, startUserSessionMessage.reference);
 
@@ -3055,7 +3090,7 @@ class DevicePolicyManager extends jni.JlObject {
 
   /// from: public void setEndUserSessionMessage(android.content.ComponentName admin, java.lang.CharSequence endUserSessionMessage)
   void setEndUserSessionMessage(
-          jni.JlObject admin, jni.JlObject endUserSessionMessage) =>
+          content.ComponentName admin, jni.JlObject endUserSessionMessage) =>
       _setEndUserSessionMessage(
           reference, admin.reference, endUserSessionMessage.reference);
 
@@ -3069,7 +3104,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.CharSequence getStartUserSessionMessage(android.content.ComponentName admin)
-  jni.JlObject getStartUserSessionMessage(jni.JlObject admin) =>
+  jni.JlObject getStartUserSessionMessage(content.ComponentName admin) =>
       jni.JlObject.fromRef(
           _getStartUserSessionMessage(reference, admin.reference));
 
@@ -3083,7 +3118,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.CharSequence getEndUserSessionMessage(android.content.ComponentName admin)
-  jni.JlObject getEndUserSessionMessage(jni.JlObject admin) =>
+  jni.JlObject getEndUserSessionMessage(content.ComponentName admin) =>
       jni.JlObject.fromRef(
           _getEndUserSessionMessage(reference, admin.reference));
 
@@ -3097,7 +3132,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public int addOverrideApn(android.content.ComponentName admin, android.telephony.data.ApnSetting apnSetting)
-  int addOverrideApn(jni.JlObject admin, jni.JlObject apnSetting) =>
+  int addOverrideApn(content.ComponentName admin, jni.JlObject apnSetting) =>
       _addOverrideApn(reference, admin.reference, apnSetting.reference);
 
   static final _updateOverrideApn = jlookup<
@@ -3114,7 +3149,7 @@ class DevicePolicyManager extends jni.JlObject {
 
   /// from: public boolean updateOverrideApn(android.content.ComponentName admin, int apnId, android.telephony.data.ApnSetting apnSetting)
   bool updateOverrideApn(
-          jni.JlObject admin, int apnId, jni.JlObject apnSetting) =>
+          content.ComponentName admin, int apnId, jni.JlObject apnSetting) =>
       _updateOverrideApn(
           reference, admin.reference, apnId, apnSetting.reference) !=
       0;
@@ -3128,7 +3163,7 @@ class DevicePolicyManager extends jni.JlObject {
           int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public boolean removeOverrideApn(android.content.ComponentName admin, int apnId)
-  bool removeOverrideApn(jni.JlObject admin, int apnId) =>
+  bool removeOverrideApn(content.ComponentName admin, int apnId) =>
       _removeOverrideApn(reference, admin.reference, apnId) != 0;
 
   static final _getOverrideApns = jlookup<
@@ -3141,7 +3176,7 @@ class DevicePolicyManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<android.telephony.data.ApnSetting> getOverrideApns(android.content.ComponentName admin)
-  jni.JlObject getOverrideApns(jni.JlObject admin) =>
+  jni.JlObject getOverrideApns(content.ComponentName admin) =>
       jni.JlObject.fromRef(_getOverrideApns(reference, admin.reference));
 
   static final _setOverrideApnsEnabled = jlookup<
@@ -3153,7 +3188,7 @@ class DevicePolicyManager extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setOverrideApnsEnabled(android.content.ComponentName admin, boolean enabled)
-  void setOverrideApnsEnabled(jni.JlObject admin, bool enabled) =>
+  void setOverrideApnsEnabled(content.ComponentName admin, bool enabled) =>
       _setOverrideApnsEnabled(reference, admin.reference, enabled ? 1 : 0);
 
   static final _isOverrideApnEnabled = jlookup<
@@ -3164,7 +3199,7 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isOverrideApnEnabled(android.content.ComponentName admin)
-  bool isOverrideApnEnabled(jni.JlObject admin) =>
+  bool isOverrideApnEnabled(content.ComponentName admin) =>
       _isOverrideApnEnabled(reference, admin.reference) != 0;
 
   static final _getTransferOwnershipBundle = jlookup<
@@ -3174,8 +3209,8 @@ class DevicePolicyManager extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.PersistableBundle getTransferOwnershipBundle()
-  jni.JlObject getTransferOwnershipBundle() =>
-      jni.JlObject.fromRef(_getTransferOwnershipBundle(reference));
+  os.PersistableBundle getTransferOwnershipBundle() =>
+      os.PersistableBundle.fromRef(_getTransferOwnershipBundle(reference));
 }
 
 class DevicePolicyManager_OnClearApplicationUserDataListener
@@ -3206,7 +3241,8 @@ class SystemUpdateInfo extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_admin_SystemUpdateInfo_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final int SECURITY_PATCH_STATE_FALSE
   static const SECURITY_PATCH_STATE_FALSE = 1;
@@ -3224,7 +3260,7 @@ class SystemUpdateInfo extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: void <init>(android.os.Parcel in)
-  SystemUpdateInfo(jni.JlObject in_) : super.fromRef(_ctor(in_.reference));
+  SystemUpdateInfo(os.Parcel in_) : super.fromRef(_ctor(in_.reference));
 
   static final _getReceivedTime =
       jlookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
@@ -3259,7 +3295,7 @@ class SystemUpdateInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 
   static final _toString_1 = jlookup<
@@ -3298,7 +3334,8 @@ class ConnectEvent extends NetworkEvent {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_admin_ConnectEvent_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
           ffi.NativeFunction<
@@ -3307,7 +3344,7 @@ class ConnectEvent extends NetworkEvent {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: void <init>(android.os.Parcel in)
-  ConnectEvent(jni.JlObject in_) : super.fromRef(_ctor(in_.reference));
+  ConnectEvent(os.Parcel in_) : super.fromRef(_ctor(in_.reference));
 
   static final _getInetAddress = jlookup<
               ffi.NativeFunction<
@@ -3352,7 +3389,7 @@ class ConnectEvent extends NetworkEvent {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel out, int flags)
-  void writeToParcel(jni.JlObject out, int flags) =>
+  void writeToParcel(os.Parcel out, int flags) =>
       _writeToParcel(reference, out.reference, flags);
 }
 
@@ -3364,7 +3401,8 @@ class SystemUpdatePolicy extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_admin_SystemUpdatePolicy_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final int TYPE_INSTALL_AUTOMATIC
   static const TYPE_INSTALL_AUTOMATIC = 1;
@@ -3487,7 +3525,7 @@ class SystemUpdatePolicy extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 }
 
@@ -3501,7 +3539,8 @@ class SystemUpdatePolicy_ValidationFailedException extends jni.JlObject {
               ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
           "get_android_app_admin_SystemUpdatePolicy__ValidationFailedException_CREATOR")
       .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final int ERROR_COMBINED_FREEZE_PERIOD_TOO_CLOSE
   static const ERROR_COMBINED_FREEZE_PERIOD_TOO_CLOSE = 6;
@@ -3558,11 +3597,11 @@ class SystemUpdatePolicy_ValidationFailedException extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 }
 
-class DeviceAdminReceiver extends jni.JlObject {
+class DeviceAdminReceiver extends content.BroadcastReceiver {
   DeviceAdminReceiver.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   /// from: static public final java.lang.String ACTION_DEVICE_ADMIN_DISABLED
@@ -3642,7 +3681,7 @@ class DeviceAdminReceiver extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.admin.DevicePolicyManager getManager(android.content.Context context)
-  DevicePolicyManager getManager(jni.JlObject context) =>
+  DevicePolicyManager getManager(content.Context context) =>
       DevicePolicyManager.fromRef(_getManager(reference, context.reference));
 
   static final _getWho = jlookup<
@@ -3655,8 +3694,8 @@ class DeviceAdminReceiver extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.ComponentName getWho(android.content.Context context)
-  jni.JlObject getWho(jni.JlObject context) =>
-      jni.JlObject.fromRef(_getWho(reference, context.reference));
+  content.ComponentName getWho(content.Context context) =>
+      content.ComponentName.fromRef(_getWho(reference, context.reference));
 
   static final _onEnabled = jlookup<
               ffi.NativeFunction<
@@ -3668,7 +3707,7 @@ class DeviceAdminReceiver extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onEnabled(android.content.Context context, android.content.Intent intent)
-  void onEnabled(jni.JlObject context, jni.JlObject intent) =>
+  void onEnabled(content.Context context, content.Intent intent) =>
       _onEnabled(reference, context.reference, intent.reference);
 
   static final _onDisableRequested = jlookup<
@@ -3681,7 +3720,8 @@ class DeviceAdminReceiver extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.CharSequence onDisableRequested(android.content.Context context, android.content.Intent intent)
-  jni.JlObject onDisableRequested(jni.JlObject context, jni.JlObject intent) =>
+  jni.JlObject onDisableRequested(
+          content.Context context, content.Intent intent) =>
       jni.JlObject.fromRef(
           _onDisableRequested(reference, context.reference, intent.reference));
 
@@ -3695,7 +3735,7 @@ class DeviceAdminReceiver extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onDisabled(android.content.Context context, android.content.Intent intent)
-  void onDisabled(jni.JlObject context, jni.JlObject intent) =>
+  void onDisabled(content.Context context, content.Intent intent) =>
       _onDisabled(reference, context.reference, intent.reference);
 
   static final _onPasswordChanged = jlookup<
@@ -3708,7 +3748,7 @@ class DeviceAdminReceiver extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onPasswordChanged(android.content.Context context, android.content.Intent intent)
-  void onPasswordChanged(jni.JlObject context, jni.JlObject intent) =>
+  void onPasswordChanged(content.Context context, content.Intent intent) =>
       _onPasswordChanged(reference, context.reference, intent.reference);
 
   static final _onPasswordChanged_1 = jlookup<
@@ -3725,7 +3765,7 @@ class DeviceAdminReceiver extends jni.JlObject {
 
   /// from: public void onPasswordChanged(android.content.Context context, android.content.Intent intent, android.os.UserHandle user)
   void onPasswordChanged_1(
-          jni.JlObject context, jni.JlObject intent, jni.JlObject user) =>
+          content.Context context, content.Intent intent, os.UserHandle user) =>
       _onPasswordChanged_1(
           reference, context.reference, intent.reference, user.reference);
 
@@ -3739,7 +3779,7 @@ class DeviceAdminReceiver extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onPasswordFailed(android.content.Context context, android.content.Intent intent)
-  void onPasswordFailed(jni.JlObject context, jni.JlObject intent) =>
+  void onPasswordFailed(content.Context context, content.Intent intent) =>
       _onPasswordFailed(reference, context.reference, intent.reference);
 
   static final _onPasswordFailed_1 = jlookup<
@@ -3756,7 +3796,7 @@ class DeviceAdminReceiver extends jni.JlObject {
 
   /// from: public void onPasswordFailed(android.content.Context context, android.content.Intent intent, android.os.UserHandle user)
   void onPasswordFailed_1(
-          jni.JlObject context, jni.JlObject intent, jni.JlObject user) =>
+          content.Context context, content.Intent intent, os.UserHandle user) =>
       _onPasswordFailed_1(
           reference, context.reference, intent.reference, user.reference);
 
@@ -3770,7 +3810,7 @@ class DeviceAdminReceiver extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onPasswordSucceeded(android.content.Context context, android.content.Intent intent)
-  void onPasswordSucceeded(jni.JlObject context, jni.JlObject intent) =>
+  void onPasswordSucceeded(content.Context context, content.Intent intent) =>
       _onPasswordSucceeded(reference, context.reference, intent.reference);
 
   static final _onPasswordSucceeded_1 = jlookup<
@@ -3787,7 +3827,7 @@ class DeviceAdminReceiver extends jni.JlObject {
 
   /// from: public void onPasswordSucceeded(android.content.Context context, android.content.Intent intent, android.os.UserHandle user)
   void onPasswordSucceeded_1(
-          jni.JlObject context, jni.JlObject intent, jni.JlObject user) =>
+          content.Context context, content.Intent intent, os.UserHandle user) =>
       _onPasswordSucceeded_1(
           reference, context.reference, intent.reference, user.reference);
 
@@ -3801,7 +3841,7 @@ class DeviceAdminReceiver extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onPasswordExpiring(android.content.Context context, android.content.Intent intent)
-  void onPasswordExpiring(jni.JlObject context, jni.JlObject intent) =>
+  void onPasswordExpiring(content.Context context, content.Intent intent) =>
       _onPasswordExpiring(reference, context.reference, intent.reference);
 
   static final _onPasswordExpiring_1 = jlookup<
@@ -3818,7 +3858,7 @@ class DeviceAdminReceiver extends jni.JlObject {
 
   /// from: public void onPasswordExpiring(android.content.Context context, android.content.Intent intent, android.os.UserHandle user)
   void onPasswordExpiring_1(
-          jni.JlObject context, jni.JlObject intent, jni.JlObject user) =>
+          content.Context context, content.Intent intent, os.UserHandle user) =>
       _onPasswordExpiring_1(
           reference, context.reference, intent.reference, user.reference);
 
@@ -3833,7 +3873,7 @@ class DeviceAdminReceiver extends jni.JlObject {
 
   /// from: public void onProfileProvisioningComplete(android.content.Context context, android.content.Intent intent)
   void onProfileProvisioningComplete(
-          jni.JlObject context, jni.JlObject intent) =>
+          content.Context context, content.Intent intent) =>
       _onProfileProvisioningComplete(
           reference, context.reference, intent.reference);
 
@@ -3848,7 +3888,7 @@ class DeviceAdminReceiver extends jni.JlObject {
 
   /// from: public void onReadyForUserInitialization(android.content.Context context, android.content.Intent intent)
   void onReadyForUserInitialization(
-          jni.JlObject context, jni.JlObject intent) =>
+          content.Context context, content.Intent intent) =>
       _onReadyForUserInitialization(
           reference, context.reference, intent.reference);
 
@@ -3866,7 +3906,7 @@ class DeviceAdminReceiver extends jni.JlObject {
 
   /// from: public void onLockTaskModeEntering(android.content.Context context, android.content.Intent intent, java.lang.String pkg)
   void onLockTaskModeEntering(
-          jni.JlObject context, jni.JlObject intent, jni.JlString pkg) =>
+          content.Context context, content.Intent intent, jni.JlString pkg) =>
       _onLockTaskModeEntering(
           reference, context.reference, intent.reference, pkg.reference);
 
@@ -3880,7 +3920,7 @@ class DeviceAdminReceiver extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onLockTaskModeExiting(android.content.Context context, android.content.Intent intent)
-  void onLockTaskModeExiting(jni.JlObject context, jni.JlObject intent) =>
+  void onLockTaskModeExiting(content.Context context, content.Intent intent) =>
       _onLockTaskModeExiting(reference, context.reference, intent.reference);
 
   static final _onChoosePrivateKeyAlias = jlookup<
@@ -3903,8 +3943,12 @@ class DeviceAdminReceiver extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String onChoosePrivateKeyAlias(android.content.Context context, android.content.Intent intent, int uid, android.net.Uri uri, java.lang.String alias)
-  jni.JlString onChoosePrivateKeyAlias(jni.JlObject context,
-          jni.JlObject intent, int uid, jni.JlObject uri, jni.JlString alias) =>
+  jni.JlString onChoosePrivateKeyAlias(
+          content.Context context,
+          content.Intent intent,
+          int uid,
+          jni.JlObject uri,
+          jni.JlString alias) =>
       jni.JlString.fromRef(_onChoosePrivateKeyAlias(
           reference,
           context.reference,
@@ -3927,7 +3971,7 @@ class DeviceAdminReceiver extends jni.JlObject {
 
   /// from: public void onSystemUpdatePending(android.content.Context context, android.content.Intent intent, long receivedTime)
   void onSystemUpdatePending(
-          jni.JlObject context, jni.JlObject intent, int receivedTime) =>
+          content.Context context, content.Intent intent, int receivedTime) =>
       _onSystemUpdatePending(
           reference, context.reference, intent.reference, receivedTime);
 
@@ -3941,7 +3985,8 @@ class DeviceAdminReceiver extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onBugreportSharingDeclined(android.content.Context context, android.content.Intent intent)
-  void onBugreportSharingDeclined(jni.JlObject context, jni.JlObject intent) =>
+  void onBugreportSharingDeclined(
+          content.Context context, content.Intent intent) =>
       _onBugreportSharingDeclined(
           reference, context.reference, intent.reference);
 
@@ -3958,7 +4003,7 @@ class DeviceAdminReceiver extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onBugreportShared(android.content.Context context, android.content.Intent intent, java.lang.String bugreportHash)
-  void onBugreportShared(jni.JlObject context, jni.JlObject intent,
+  void onBugreportShared(content.Context context, content.Intent intent,
           jni.JlString bugreportHash) =>
       _onBugreportShared(reference, context.reference, intent.reference,
           bugreportHash.reference);
@@ -3977,7 +4022,7 @@ class DeviceAdminReceiver extends jni.JlObject {
 
   /// from: public void onBugreportFailed(android.content.Context context, android.content.Intent intent, int failureCode)
   void onBugreportFailed(
-          jni.JlObject context, jni.JlObject intent, int failureCode) =>
+          content.Context context, content.Intent intent, int failureCode) =>
       _onBugreportFailed(
           reference, context.reference, intent.reference, failureCode);
 
@@ -3991,7 +4036,8 @@ class DeviceAdminReceiver extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onSecurityLogsAvailable(android.content.Context context, android.content.Intent intent)
-  void onSecurityLogsAvailable(jni.JlObject context, jni.JlObject intent) =>
+  void onSecurityLogsAvailable(
+          content.Context context, content.Intent intent) =>
       _onSecurityLogsAvailable(reference, context.reference, intent.reference);
 
   static final _onNetworkLogsAvailable = jlookup<
@@ -4008,7 +4054,7 @@ class DeviceAdminReceiver extends jni.JlObject {
               ffi.Pointer<ffi.Void>, int, int)>();
 
   /// from: public void onNetworkLogsAvailable(android.content.Context context, android.content.Intent intent, long batchToken, int networkLogsCount)
-  void onNetworkLogsAvailable(jni.JlObject context, jni.JlObject intent,
+  void onNetworkLogsAvailable(content.Context context, content.Intent intent,
           int batchToken, int networkLogsCount) =>
       _onNetworkLogsAvailable(reference, context.reference, intent.reference,
           batchToken, networkLogsCount);
@@ -4026,8 +4072,8 @@ class DeviceAdminReceiver extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onUserAdded(android.content.Context context, android.content.Intent intent, android.os.UserHandle newUser)
-  void onUserAdded(
-          jni.JlObject context, jni.JlObject intent, jni.JlObject newUser) =>
+  void onUserAdded(content.Context context, content.Intent intent,
+          os.UserHandle newUser) =>
       _onUserAdded(
           reference, context.reference, intent.reference, newUser.reference);
 
@@ -4044,8 +4090,8 @@ class DeviceAdminReceiver extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onUserRemoved(android.content.Context context, android.content.Intent intent, android.os.UserHandle removedUser)
-  void onUserRemoved(jni.JlObject context, jni.JlObject intent,
-          jni.JlObject removedUser) =>
+  void onUserRemoved(content.Context context, content.Intent intent,
+          os.UserHandle removedUser) =>
       _onUserRemoved(reference, context.reference, intent.reference,
           removedUser.reference);
 
@@ -4062,8 +4108,8 @@ class DeviceAdminReceiver extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onUserStarted(android.content.Context context, android.content.Intent intent, android.os.UserHandle startedUser)
-  void onUserStarted(jni.JlObject context, jni.JlObject intent,
-          jni.JlObject startedUser) =>
+  void onUserStarted(content.Context context, content.Intent intent,
+          os.UserHandle startedUser) =>
       _onUserStarted(reference, context.reference, intent.reference,
           startedUser.reference);
 
@@ -4080,8 +4126,8 @@ class DeviceAdminReceiver extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onUserStopped(android.content.Context context, android.content.Intent intent, android.os.UserHandle stoppedUser)
-  void onUserStopped(jni.JlObject context, jni.JlObject intent,
-          jni.JlObject stoppedUser) =>
+  void onUserStopped(content.Context context, content.Intent intent,
+          os.UserHandle stoppedUser) =>
       _onUserStopped(reference, context.reference, intent.reference,
           stoppedUser.reference);
 
@@ -4098,8 +4144,8 @@ class DeviceAdminReceiver extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onUserSwitched(android.content.Context context, android.content.Intent intent, android.os.UserHandle switchedUser)
-  void onUserSwitched(jni.JlObject context, jni.JlObject intent,
-          jni.JlObject switchedUser) =>
+  void onUserSwitched(content.Context context, content.Intent intent,
+          os.UserHandle switchedUser) =>
       _onUserSwitched(reference, context.reference, intent.reference,
           switchedUser.reference);
 
@@ -4113,7 +4159,8 @@ class DeviceAdminReceiver extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onTransferOwnershipComplete(android.content.Context context, android.os.PersistableBundle bundle)
-  void onTransferOwnershipComplete(jni.JlObject context, jni.JlObject bundle) =>
+  void onTransferOwnershipComplete(
+          content.Context context, os.PersistableBundle bundle) =>
       _onTransferOwnershipComplete(
           reference, context.reference, bundle.reference);
 
@@ -4128,7 +4175,7 @@ class DeviceAdminReceiver extends jni.JlObject {
 
   /// from: public void onTransferAffiliatedProfileOwnershipComplete(android.content.Context context, android.os.UserHandle user)
   void onTransferAffiliatedProfileOwnershipComplete(
-          jni.JlObject context, jni.JlObject user) =>
+          content.Context context, os.UserHandle user) =>
       _onTransferAffiliatedProfileOwnershipComplete(
           reference, context.reference, user.reference);
 
@@ -4142,7 +4189,7 @@ class DeviceAdminReceiver extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onReceive(android.content.Context context, android.content.Intent intent)
-  void onReceive(jni.JlObject context, jni.JlObject intent) =>
+  void onReceive(content.Context context, content.Intent intent) =>
       _onReceive(reference, context.reference, intent.reference);
 }
 
@@ -4154,7 +4201,8 @@ class DeviceAdminInfo extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_admin_DeviceAdminInfo_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final int USES_ENCRYPTED_STORAGE
   static const USES_ENCRYPTED_STORAGE = 7;
@@ -4193,7 +4241,7 @@ class DeviceAdminInfo extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.content.Context context, android.content.pm.ResolveInfo resolveInfo)
-  DeviceAdminInfo(jni.JlObject context, jni.JlObject resolveInfo)
+  DeviceAdminInfo(content.Context context, pm.ResolveInfo resolveInfo)
       : super.fromRef(_ctor(context.reference, resolveInfo.reference));
 
   static final _getPackageName = jlookup<
@@ -4223,8 +4271,8 @@ class DeviceAdminInfo extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.pm.ActivityInfo getActivityInfo()
-  jni.JlObject getActivityInfo() =>
-      jni.JlObject.fromRef(_getActivityInfo(reference));
+  pm.ActivityInfo getActivityInfo() =>
+      pm.ActivityInfo.fromRef(_getActivityInfo(reference));
 
   static final _getComponent = jlookup<
               ffi.NativeFunction<
@@ -4233,7 +4281,8 @@ class DeviceAdminInfo extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.ComponentName getComponent()
-  jni.JlObject getComponent() => jni.JlObject.fromRef(_getComponent(reference));
+  content.ComponentName getComponent() =>
+      content.ComponentName.fromRef(_getComponent(reference));
 
   static final _loadLabel = jlookup<
               ffi.NativeFunction<
@@ -4245,8 +4294,8 @@ class DeviceAdminInfo extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.CharSequence loadLabel(android.content.pm.PackageManager pm)
-  jni.JlObject loadLabel(jni.JlObject pm) =>
-      jni.JlObject.fromRef(_loadLabel(reference, pm.reference));
+  jni.JlObject loadLabel(pm.PackageManager pm_) =>
+      jni.JlObject.fromRef(_loadLabel(reference, pm_.reference));
 
   static final _loadDescription = jlookup<
               ffi.NativeFunction<
@@ -4258,8 +4307,8 @@ class DeviceAdminInfo extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.CharSequence loadDescription(android.content.pm.PackageManager pm)
-  jni.JlObject loadDescription(jni.JlObject pm) =>
-      jni.JlObject.fromRef(_loadDescription(reference, pm.reference));
+  jni.JlObject loadDescription(pm.PackageManager pm_) =>
+      jni.JlObject.fromRef(_loadDescription(reference, pm_.reference));
 
   static final _loadIcon = jlookup<
               ffi.NativeFunction<
@@ -4271,8 +4320,8 @@ class DeviceAdminInfo extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.graphics.drawable.Drawable loadIcon(android.content.pm.PackageManager pm)
-  jni.JlObject loadIcon(jni.JlObject pm) =>
-      jni.JlObject.fromRef(_loadIcon(reference, pm.reference));
+  jni.JlObject loadIcon(pm.PackageManager pm_) =>
+      jni.JlObject.fromRef(_loadIcon(reference, pm_.reference));
 
   static final _isVisible =
       jlookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
@@ -4342,7 +4391,7 @@ class DeviceAdminInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 
   static final _describeContents =
@@ -4405,7 +4454,8 @@ class NetworkEvent extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_admin_NetworkEvent_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor =
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
@@ -4457,11 +4507,11 @@ class NetworkEvent extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public abstract void writeToParcel(android.os.Parcel out, int flags)
-  void writeToParcel(jni.JlObject out, int flags) =>
+  void writeToParcel(os.Parcel out, int flags) =>
       _writeToParcel(reference, out.reference, flags);
 }
 
-class DeviceAdminService extends jni.JlObject {
+class DeviceAdminService extends app.Service {
   DeviceAdminService.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   static final _ctor =
@@ -4482,8 +4532,8 @@ class DeviceAdminService extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public final android.os.IBinder onBind(android.content.Intent intent)
-  jni.JlObject onBind(jni.JlObject intent) =>
-      jni.JlObject.fromRef(_onBind(reference, intent.reference));
+  os.IBinder onBind(content.Intent intent) =>
+      os.IBinder.fromRef(_onBind(reference, intent.reference));
 }
 
 class SecurityLog extends jni.JlObject {
@@ -4615,7 +4665,8 @@ class SecurityLog_SecurityEvent extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_app_admin_SecurityLog__SecurityEvent_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
               ffi.NativeFunction<
@@ -4685,7 +4736,7 @@ class SecurityLog_SecurityEvent extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 
   static final _equals_1 = jlookup<

@@ -9,6 +9,9 @@
 import "dart:ffi" as ffi;
 
 import "package:jni/jni.dart" as jni;
+import "package:content_plugin/android/os.dart" as os;
+
+import "package:content_plugin/android/content.dart" as content;
 import "../../init.dart" show jlookup;
 
 class StorageVolume extends jni.JlObject {
@@ -19,7 +22,8 @@ class StorageVolume extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_os_storage_StorageVolume_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final java.lang.String EXTRA_STORAGE_VOLUME
   static const EXTRA_STORAGE_VOLUME = "android.os.storage.extra.STORAGE_VOLUME";
@@ -31,7 +35,7 @@ class StorageVolume extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: void <init>(android.os.Parcel in)
-  StorageVolume(jni.JlObject in_) : super.fromRef(_ctor(in_.reference));
+  StorageVolume(os.Parcel in_) : super.fromRef(_ctor(in_.reference));
 
   static final _getDescription = jlookup<
               ffi.NativeFunction<
@@ -43,7 +47,7 @@ class StorageVolume extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getDescription(android.content.Context context)
-  jni.JlString getDescription(jni.JlObject context) =>
+  jni.JlString getDescription(content.Context context) =>
       jni.JlString.fromRef(_getDescription(reference, context.reference));
 
   static final _isPrimary =
@@ -98,8 +102,8 @@ class StorageVolume extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.Intent createAccessIntent(java.lang.String directoryName)
-  jni.JlObject createAccessIntent(jni.JlString directoryName) =>
-      jni.JlObject.fromRef(
+  content.Intent createAccessIntent(jni.JlString directoryName) =>
+      content.Intent.fromRef(
           _createAccessIntent(reference, directoryName.reference));
 
   static final _equals_1 = jlookup<
@@ -145,7 +149,7 @@ class StorageVolume extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel parcel, int flags)
-  void writeToParcel(jni.JlObject parcel, int flags) =>
+  void writeToParcel(os.Parcel parcel, int flags) =>
       _writeToParcel(reference, parcel.reference, flags);
 }
 
@@ -371,9 +375,9 @@ class StorageManager extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.ParcelFileDescriptor openProxyFileDescriptor(int mode, android.os.ProxyFileDescriptorCallback callback, android.os.Handler handler)
-  jni.JlObject openProxyFileDescriptor(
-          int mode, jni.JlObject callback, jni.JlObject handler) =>
-      jni.JlObject.fromRef(_openProxyFileDescriptor(
+  os.ParcelFileDescriptor openProxyFileDescriptor(int mode,
+          os.ProxyFileDescriptorCallback callback, os.Handler handler) =>
+      os.ParcelFileDescriptor.fromRef(_openProxyFileDescriptor(
           reference, mode, callback.reference, handler.reference));
 
   static final _getCacheQuotaBytes = jlookup<

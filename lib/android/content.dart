@@ -9,6 +9,8 @@
 import "dart:ffi" as ffi;
 
 import "package:jni/jni.dart" as jni;
+import "package:content_plugin/android/os.dart" as os;
+
 import "content/res.dart" as res;
 
 import "content/pm.dart" as pm;
@@ -56,7 +58,8 @@ class ClipDescription extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_ClipDescription_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final java.lang.String MIMETYPE_TEXT_HTML
   static const MIMETYPE_TEXT_HTML = "text/html";
@@ -171,7 +174,8 @@ class ClipDescription extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.PersistableBundle getExtras()
-  jni.JlObject getExtras() => jni.JlObject.fromRef(_getExtras(reference));
+  os.PersistableBundle getExtras() =>
+      os.PersistableBundle.fromRef(_getExtras(reference));
 
   static final _setExtras = jlookup<
               ffi.NativeFunction<
@@ -182,7 +186,7 @@ class ClipDescription extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setExtras(android.os.PersistableBundle extras)
-  void setExtras(jni.JlObject extras) =>
+  void setExtras(os.PersistableBundle extras) =>
       _setExtras(reference, extras.reference);
 
   static final _toString_1 = jlookup<
@@ -210,7 +214,7 @@ class ClipDescription extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 }
 
@@ -578,7 +582,7 @@ class ContentResolver extends jni.JlObject {
           jni.JlString selection,
           jni.JlObject selectionArgs,
           jni.JlString sortOrder,
-          jni.JlObject cancellationSignal) =>
+          os.CancellationSignal cancellationSignal) =>
       jni.JlObject.fromRef(_query_1(
           reference,
           uri.reference,
@@ -607,7 +611,7 @@ class ContentResolver extends jni.JlObject {
 
   /// from: public final android.database.Cursor query(android.net.Uri uri, java.lang.String[] projection, android.os.Bundle queryArgs, android.os.CancellationSignal cancellationSignal)
   jni.JlObject query_2(jni.JlObject uri, jni.JlObject projection,
-          jni.JlObject queryArgs, jni.JlObject cancellationSignal) =>
+          os.Bundle queryArgs, os.CancellationSignal cancellationSignal) =>
       jni.JlObject.fromRef(_query_2(
           reference,
           uri.reference,
@@ -654,8 +658,8 @@ class ContentResolver extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public final boolean refresh(android.net.Uri url, android.os.Bundle args, android.os.CancellationSignal cancellationSignal)
-  bool refresh(jni.JlObject url, jni.JlObject args,
-          jni.JlObject cancellationSignal) =>
+  bool refresh(jni.JlObject url, os.Bundle args,
+          os.CancellationSignal cancellationSignal) =>
       _refresh(reference, url.reference, args.reference,
           cancellationSignal.reference) !=
       0;
@@ -710,8 +714,9 @@ class ContentResolver extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public final android.os.ParcelFileDescriptor openFileDescriptor(android.net.Uri uri, java.lang.String mode)
-  jni.JlObject openFileDescriptor(jni.JlObject uri, jni.JlString mode) =>
-      jni.JlObject.fromRef(
+  os.ParcelFileDescriptor openFileDescriptor(
+          jni.JlObject uri, jni.JlString mode) =>
+      os.ParcelFileDescriptor.fromRef(
           _openFileDescriptor(reference, uri.reference, mode.reference));
 
   static final _openFileDescriptor_1 = jlookup<
@@ -730,10 +735,10 @@ class ContentResolver extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public final android.os.ParcelFileDescriptor openFileDescriptor(android.net.Uri uri, java.lang.String mode, android.os.CancellationSignal cancellationSignal)
-  jni.JlObject openFileDescriptor_1(jni.JlObject uri, jni.JlString mode,
-          jni.JlObject cancellationSignal) =>
-      jni.JlObject.fromRef(_openFileDescriptor_1(reference, uri.reference,
-          mode.reference, cancellationSignal.reference));
+  os.ParcelFileDescriptor openFileDescriptor_1(jni.JlObject uri,
+          jni.JlString mode, os.CancellationSignal cancellationSignal) =>
+      os.ParcelFileDescriptor.fromRef(_openFileDescriptor_1(reference,
+          uri.reference, mode.reference, cancellationSignal.reference));
 
   static final _openAssetFileDescriptor = jlookup<
               ffi.NativeFunction<
@@ -767,7 +772,7 @@ class ContentResolver extends jni.JlObject {
 
   /// from: public final android.content.res.AssetFileDescriptor openAssetFileDescriptor(android.net.Uri uri, java.lang.String mode, android.os.CancellationSignal cancellationSignal)
   res.AssetFileDescriptor openAssetFileDescriptor_1(jni.JlObject uri,
-          jni.JlString mode, jni.JlObject cancellationSignal) =>
+          jni.JlString mode, os.CancellationSignal cancellationSignal) =>
       res.AssetFileDescriptor.fromRef(_openAssetFileDescriptor_1(reference,
           uri.reference, mode.reference, cancellationSignal.reference));
 
@@ -788,7 +793,7 @@ class ContentResolver extends jni.JlObject {
 
   /// from: public final android.content.res.AssetFileDescriptor openTypedAssetFileDescriptor(android.net.Uri uri, java.lang.String mimeType, android.os.Bundle opts)
   res.AssetFileDescriptor openTypedAssetFileDescriptor(
-          jni.JlObject uri, jni.JlString mimeType, jni.JlObject opts) =>
+          jni.JlObject uri, jni.JlString mimeType, os.Bundle opts) =>
       res.AssetFileDescriptor.fromRef(_openTypedAssetFileDescriptor(
           reference, uri.reference, mimeType.reference, opts.reference));
 
@@ -813,8 +818,8 @@ class ContentResolver extends jni.JlObject {
   res.AssetFileDescriptor openTypedAssetFileDescriptor_1(
           jni.JlObject uri,
           jni.JlString mimeType,
-          jni.JlObject opts,
-          jni.JlObject cancellationSignal) =>
+          os.Bundle opts,
+          os.CancellationSignal cancellationSignal) =>
       res.AssetFileDescriptor.fromRef(_openTypedAssetFileDescriptor_1(
           reference,
           uri.reference,
@@ -921,9 +926,9 @@ class ContentResolver extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public final android.os.Bundle call(android.net.Uri uri, java.lang.String method, java.lang.String arg, android.os.Bundle extras)
-  jni.JlObject call(jni.JlObject uri, jni.JlString method, jni.JlString arg,
-          jni.JlObject extras) =>
-      jni.JlObject.fromRef(_call(reference, uri.reference, method.reference,
+  os.Bundle call(jni.JlObject uri, jni.JlString method, jni.JlString arg,
+          os.Bundle extras) =>
+      os.Bundle.fromRef(_call(reference, uri.reference, method.reference,
           arg.reference, extras.reference));
 
   static final _acquireContentProviderClient = jlookup<
@@ -1113,7 +1118,7 @@ class ContentResolver extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void startSync(android.net.Uri uri, android.os.Bundle extras)
-  void startSync(jni.JlObject uri, jni.JlObject extras) =>
+  void startSync(jni.JlObject uri, os.Bundle extras) =>
       _startSync(reference, uri.reference, extras.reference);
 
   static final _requestSync = jlookup<
@@ -1127,7 +1132,7 @@ class ContentResolver extends jni.JlObject {
 
   /// from: static public void requestSync(android.accounts.Account account, java.lang.String authority, android.os.Bundle extras)
   static void requestSync(
-          jni.JlObject account, jni.JlString authority, jni.JlObject extras) =>
+          jni.JlObject account, jni.JlString authority, os.Bundle extras) =>
       _requestSync(account.reference, authority.reference, extras.reference);
 
   static final _requestSync_1 =
@@ -1145,7 +1150,7 @@ class ContentResolver extends jni.JlObject {
           .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public void validateSyncExtrasBundle(android.os.Bundle extras)
-  static void validateSyncExtrasBundle(jni.JlObject extras) =>
+  static void validateSyncExtrasBundle(os.Bundle extras) =>
       _validateSyncExtrasBundle(extras.reference);
 
   static final _cancelSync = jlookup<
@@ -1220,7 +1225,7 @@ class ContentResolver extends jni.JlObject {
 
   /// from: static public void addPeriodicSync(android.accounts.Account account, java.lang.String authority, android.os.Bundle extras, long pollFrequency)
   static void addPeriodicSync(jni.JlObject account, jni.JlString authority,
-          jni.JlObject extras, int pollFrequency) =>
+          os.Bundle extras, int pollFrequency) =>
       _addPeriodicSync(account.reference, authority.reference, extras.reference,
           pollFrequency);
 
@@ -1235,7 +1240,7 @@ class ContentResolver extends jni.JlObject {
 
   /// from: static public void removePeriodicSync(android.accounts.Account account, java.lang.String authority, android.os.Bundle extras)
   static void removePeriodicSync(
-          jni.JlObject account, jni.JlString authority, jni.JlObject extras) =>
+          jni.JlObject account, jni.JlString authority, os.Bundle extras) =>
       _removePeriodicSync(
           account.reference, authority.reference, extras.reference);
 
@@ -1620,8 +1625,8 @@ class RestrictionsManager extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle getApplicationRestrictions()
-  jni.JlObject getApplicationRestrictions() =>
-      jni.JlObject.fromRef(_getApplicationRestrictions(reference));
+  os.Bundle getApplicationRestrictions() =>
+      os.Bundle.fromRef(_getApplicationRestrictions(reference));
 
   static final _hasRestrictionsProvider =
       jlookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
@@ -1645,7 +1650,7 @@ class RestrictionsManager extends jni.JlObject {
 
   /// from: public void requestPermission(java.lang.String requestType, java.lang.String requestId, android.os.PersistableBundle request)
   void requestPermission(jni.JlString requestType, jni.JlString requestId,
-          jni.JlObject request) =>
+          os.PersistableBundle request) =>
       _requestPermission(reference, requestType.reference, requestId.reference,
           request.reference);
 
@@ -1670,7 +1675,7 @@ class RestrictionsManager extends jni.JlObject {
 
   /// from: public void notifyPermissionResponse(java.lang.String packageName, android.os.PersistableBundle response)
   void notifyPermissionResponse(
-          jni.JlString packageName, jni.JlObject response) =>
+          jni.JlString packageName, os.PersistableBundle response) =>
       _notifyPermissionResponse(
           reference, packageName.reference, response.reference);
 
@@ -1695,8 +1700,8 @@ class RestrictionsManager extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public android.os.Bundle convertRestrictionsToBundle(java.util.List<android.content.RestrictionEntry> entries)
-  static jni.JlObject convertRestrictionsToBundle(jni.JlObject entries) =>
-      jni.JlObject.fromRef(_convertRestrictionsToBundle(entries.reference));
+  static os.Bundle convertRestrictionsToBundle(jni.JlObject entries) =>
+      os.Bundle.fromRef(_convertRestrictionsToBundle(entries.reference));
 }
 
 class ContentProviderResult extends jni.JlObject {
@@ -1707,7 +1712,8 @@ class ContentProviderResult extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_ContentProviderResult_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: public final java.lang.Integer count
   static final _getcount = jlookup<
@@ -1757,7 +1763,7 @@ class ContentProviderResult extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.os.Parcel source)
-  ContentProviderResult.ctor_2(jni.JlObject source)
+  ContentProviderResult.ctor_2(os.Parcel source)
       : super.fromRef(_ctor_2(source.reference));
 
   static final _writeToParcel = jlookup<
@@ -1769,7 +1775,7 @@ class ContentProviderResult extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 
   static final _describeContents =
@@ -2131,8 +2137,7 @@ class Context extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract android.os.Looper getMainLooper()
-  jni.JlObject getMainLooper() =>
-      jni.JlObject.fromRef(_getMainLooper(reference));
+  os.Looper getMainLooper() => os.Looper.fromRef(_getMainLooper(reference));
 
   static final _getMainExecutor = jlookup<
               ffi.NativeFunction<
@@ -2786,7 +2791,7 @@ class Context extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract void startActivity(android.content.Intent intent, android.os.Bundle options)
-  void startActivity_1(Intent intent, jni.JlObject options) =>
+  void startActivity_1(Intent intent, os.Bundle options) =>
       _startActivity_1(reference, intent.reference, options.reference);
 
   static final _startActivities = jlookup<
@@ -2811,7 +2816,7 @@ class Context extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract void startActivities(android.content.Intent[] intents, android.os.Bundle options)
-  void startActivities_1(jni.JlObject intents, jni.JlObject options) =>
+  void startActivities_1(jni.JlObject intents, os.Bundle options) =>
       _startActivities_1(reference, intents.reference, options.reference);
 
   static final _startIntentSender = jlookup<
@@ -2849,13 +2854,8 @@ class Context extends jni.JlObject {
               ffi.Pointer<ffi.Void>, int, int, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract void startIntentSender(android.content.IntentSender intent, android.content.Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags, android.os.Bundle options)
-  void startIntentSender_1(
-          IntentSender intent,
-          Intent fillInIntent,
-          int flagsMask,
-          int flagsValues,
-          int extraFlags,
-          jni.JlObject options) =>
+  void startIntentSender_1(IntentSender intent, Intent fillInIntent,
+          int flagsMask, int flagsValues, int extraFlags, os.Bundle options) =>
       _startIntentSender_1(reference, intent.reference, fillInIntent.reference,
           flagsMask, flagsValues, extraFlags, options.reference);
 
@@ -2927,10 +2927,10 @@ class Context extends jni.JlObject {
           Intent intent,
           jni.JlString receiverPermission,
           BroadcastReceiver resultReceiver,
-          jni.JlObject scheduler,
+          os.Handler scheduler,
           int initialCode,
           jni.JlString initialData,
-          jni.JlObject initialExtras) =>
+          os.Bundle initialExtras) =>
       _sendOrderedBroadcast_1(
           reference,
           intent.reference,
@@ -2951,7 +2951,7 @@ class Context extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract void sendBroadcastAsUser(android.content.Intent intent, android.os.UserHandle user)
-  void sendBroadcastAsUser(Intent intent, jni.JlObject user) =>
+  void sendBroadcastAsUser(Intent intent, os.UserHandle user) =>
       _sendBroadcastAsUser(reference, intent.reference, user.reference);
 
   static final _sendBroadcastAsUser_1 = jlookup<
@@ -2968,7 +2968,7 @@ class Context extends jni.JlObject {
 
   /// from: public abstract void sendBroadcastAsUser(android.content.Intent intent, android.os.UserHandle user, java.lang.String receiverPermission)
   void sendBroadcastAsUser_1(
-          Intent intent, jni.JlObject user, jni.JlString receiverPermission) =>
+          Intent intent, os.UserHandle user, jni.JlString receiverPermission) =>
       _sendBroadcastAsUser_1(reference, intent.reference, user.reference,
           receiverPermission.reference);
 
@@ -3000,13 +3000,13 @@ class Context extends jni.JlObject {
   /// from: public abstract void sendOrderedBroadcastAsUser(android.content.Intent intent, android.os.UserHandle user, java.lang.String receiverPermission, android.content.BroadcastReceiver resultReceiver, android.os.Handler scheduler, int initialCode, java.lang.String initialData, android.os.Bundle initialExtras)
   void sendOrderedBroadcastAsUser(
           Intent intent,
-          jni.JlObject user,
+          os.UserHandle user,
           jni.JlString receiverPermission,
           BroadcastReceiver resultReceiver,
-          jni.JlObject scheduler,
+          os.Handler scheduler,
           int initialCode,
           jni.JlString initialData,
-          jni.JlObject initialExtras) =>
+          os.Bundle initialExtras) =>
       _sendOrderedBroadcastAsUser(
           reference,
           intent.reference,
@@ -3055,10 +3055,10 @@ class Context extends jni.JlObject {
   void sendStickyOrderedBroadcast(
           Intent intent,
           BroadcastReceiver resultReceiver,
-          jni.JlObject scheduler,
+          os.Handler scheduler,
           int initialCode,
           jni.JlString initialData,
-          jni.JlObject initialExtras) =>
+          os.Bundle initialExtras) =>
       _sendStickyOrderedBroadcast(
           reference,
           intent.reference,
@@ -3090,7 +3090,7 @@ class Context extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract void sendStickyBroadcastAsUser(android.content.Intent intent, android.os.UserHandle user)
-  void sendStickyBroadcastAsUser(Intent intent, jni.JlObject user) =>
+  void sendStickyBroadcastAsUser(Intent intent, os.UserHandle user) =>
       _sendStickyBroadcastAsUser(reference, intent.reference, user.reference);
 
   static final _sendStickyOrderedBroadcastAsUser = jlookup<
@@ -3119,12 +3119,12 @@ class Context extends jni.JlObject {
   /// from: public abstract void sendStickyOrderedBroadcastAsUser(android.content.Intent intent, android.os.UserHandle user, android.content.BroadcastReceiver resultReceiver, android.os.Handler scheduler, int initialCode, java.lang.String initialData, android.os.Bundle initialExtras)
   void sendStickyOrderedBroadcastAsUser(
           Intent intent,
-          jni.JlObject user,
+          os.UserHandle user,
           BroadcastReceiver resultReceiver,
-          jni.JlObject scheduler,
+          os.Handler scheduler,
           int initialCode,
           jni.JlString initialData,
-          jni.JlObject initialExtras) =>
+          os.Bundle initialExtras) =>
       _sendStickyOrderedBroadcastAsUser(
           reference,
           intent.reference,
@@ -3145,7 +3145,7 @@ class Context extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract void removeStickyBroadcastAsUser(android.content.Intent intent, android.os.UserHandle user)
-  void removeStickyBroadcastAsUser(Intent intent, jni.JlObject user) =>
+  void removeStickyBroadcastAsUser(Intent intent, os.UserHandle user) =>
       _removeStickyBroadcastAsUser(reference, intent.reference, user.reference);
 
   static final _registerReceiver = jlookup<
@@ -3198,7 +3198,7 @@ class Context extends jni.JlObject {
 
   /// from: public abstract android.content.Intent registerReceiver(android.content.BroadcastReceiver receiver, android.content.IntentFilter filter, java.lang.String broadcastPermission, android.os.Handler scheduler)
   Intent registerReceiver_2(BroadcastReceiver receiver, IntentFilter filter,
-          jni.JlString broadcastPermission, jni.JlObject scheduler) =>
+          jni.JlString broadcastPermission, os.Handler scheduler) =>
       Intent.fromRef(_registerReceiver_2(
           reference,
           receiver.reference,
@@ -3225,12 +3225,8 @@ class Context extends jni.JlObject {
               int)>();
 
   /// from: public abstract android.content.Intent registerReceiver(android.content.BroadcastReceiver receiver, android.content.IntentFilter filter, java.lang.String broadcastPermission, android.os.Handler scheduler, int flags)
-  Intent registerReceiver_3(
-          BroadcastReceiver receiver,
-          IntentFilter filter,
-          jni.JlString broadcastPermission,
-          jni.JlObject scheduler,
-          int flags) =>
+  Intent registerReceiver_3(BroadcastReceiver receiver, IntentFilter filter,
+          jni.JlString broadcastPermission, os.Handler scheduler, int flags) =>
       Intent.fromRef(_registerReceiver_3(
           reference,
           receiver.reference,
@@ -3329,7 +3325,7 @@ class Context extends jni.JlObject {
 
   /// from: public abstract boolean startInstrumentation(android.content.ComponentName className, java.lang.String profileFile, android.os.Bundle arguments)
   bool startInstrumentation(ComponentName className, jni.JlString profileFile,
-          jni.JlObject arguments) =>
+          os.Bundle arguments) =>
       _startInstrumentation(reference, className.reference,
           profileFile.reference, arguments.reference) !=
       0;
@@ -3791,7 +3787,8 @@ class SyncStats extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_SyncStats_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: public long numAuthExceptions
   static final _getnumAuthExceptions = jlookup<
@@ -3972,7 +3969,7 @@ class SyncStats extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.os.Parcel in)
-  SyncStats.ctor_1(jni.JlObject in_) : super.fromRef(_ctor_1(in_.reference));
+  SyncStats.ctor_1(os.Parcel in_) : super.fromRef(_ctor_1(in_.reference));
 
   static final _toString_1 = jlookup<
               ffi.NativeFunction<
@@ -4007,7 +4004,7 @@ class SyncStats extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 }
 
@@ -4024,7 +4021,7 @@ class ServiceConnection extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract void onServiceConnected(android.content.ComponentName name, android.os.IBinder service)
-  void onServiceConnected(ComponentName name, jni.JlObject service) =>
+  void onServiceConnected(ComponentName name, os.IBinder service) =>
       _onServiceConnected(reference, name.reference, service.reference);
 
   static final _onServiceDisconnected = jlookup<
@@ -4097,7 +4094,8 @@ class IntentFilter extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_IntentFilter_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final int MATCH_ADJUSTMENT_MASK
   static const MATCH_ADJUSTMENT_MASK = 65535;
@@ -4409,8 +4407,8 @@ class IntentFilter extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public final android.os.PatternMatcher getDataSchemeSpecificPart(int index)
-  jni.JlObject getDataSchemeSpecificPart(int index) =>
-      jni.JlObject.fromRef(_getDataSchemeSpecificPart(reference, index));
+  os.PatternMatcher getDataSchemeSpecificPart(int index) =>
+      os.PatternMatcher.fromRef(_getDataSchemeSpecificPart(reference, index));
 
   static final _hasDataSchemeSpecificPart = jlookup<
               ffi.NativeFunction<
@@ -4511,8 +4509,8 @@ class IntentFilter extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public final android.os.PatternMatcher getDataPath(int index)
-  jni.JlObject getDataPath(int index) =>
-      jni.JlObject.fromRef(_getDataPath(reference, index));
+  os.PatternMatcher getDataPath(int index) =>
+      os.PatternMatcher.fromRef(_getDataPath(reference, index));
 
   static final _hasDataPath = jlookup<
               ffi.NativeFunction<
@@ -4723,7 +4721,7 @@ class IntentFilter extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public final void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 }
 
@@ -4813,7 +4811,8 @@ class SyncRequest extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_SyncRequest_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
           ffi.NativeFunction<
@@ -4822,7 +4821,7 @@ class SyncRequest extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: void <init>(android.os.Parcel in)
-  SyncRequest(jni.JlObject in_) : super.fromRef(_ctor(in_.reference));
+  SyncRequest(os.Parcel in_) : super.fromRef(_ctor(in_.reference));
 
   static final _describeContents =
       jlookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
@@ -4840,7 +4839,7 @@ class SyncRequest extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel parcel, int flags)
-  void writeToParcel(jni.JlObject parcel, int flags) =>
+  void writeToParcel(os.Parcel parcel, int flags) =>
       _writeToParcel(reference, parcel.reference, flags);
 }
 
@@ -4927,7 +4926,7 @@ class SyncRequest_Builder extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.SyncRequest.Builder setExtras(android.os.Bundle bundle)
-  SyncRequest_Builder setExtras(jni.JlObject bundle) =>
+  SyncRequest_Builder setExtras(os.Bundle bundle) =>
       SyncRequest_Builder.fromRef(_setExtras(reference, bundle.reference));
 
   static final _setNoRetry = jlookup<
@@ -5287,7 +5286,8 @@ class UriPermission extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_UriPermission_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final long INVALID_TIME
   static const INVALID_TIME = -9223372036854775808;
@@ -5299,7 +5299,7 @@ class UriPermission extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: void <init>(android.os.Parcel in)
-  UriPermission(jni.JlObject in_) : super.fromRef(_ctor(in_.reference));
+  UriPermission(os.Parcel in_) : super.fromRef(_ctor(in_.reference));
 
   static final _getUri = jlookup<
               ffi.NativeFunction<
@@ -5359,7 +5359,7 @@ class UriPermission extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 }
 
@@ -5371,7 +5371,8 @@ class RestrictionEntry extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_RestrictionEntry_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final int TYPE_BOOLEAN
   static const TYPE_BOOLEAN = 1;
@@ -5461,7 +5462,7 @@ class RestrictionEntry extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.os.Parcel in)
-  RestrictionEntry.ctor_5(jni.JlObject in_)
+  RestrictionEntry.ctor_5(os.Parcel in_)
       : super.fromRef(_ctor_5(in_.reference));
 
   static final _createBundleEntry = jlookup<
@@ -5765,7 +5766,7 @@ class RestrictionEntry extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 
   static final _toString_1 = jlookup<
@@ -5982,8 +5983,8 @@ class BroadcastReceiver extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.IBinder peekService(android.content.Context myContext, android.content.Intent service)
-  jni.JlObject peekService(Context myContext, Intent service) =>
-      jni.JlObject.fromRef(
+  os.IBinder peekService(Context myContext, Intent service) =>
+      os.IBinder.fromRef(
           _peekService(reference, myContext.reference, service.reference));
 
   static final _setResultCode = jlookup<
@@ -6034,7 +6035,7 @@ class BroadcastReceiver extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public final void setResultExtras(android.os.Bundle extras)
-  void setResultExtras(jni.JlObject extras) =>
+  void setResultExtras(os.Bundle extras) =>
       _setResultExtras(reference, extras.reference);
 
   static final _getResultExtras = jlookup<
@@ -6045,8 +6046,8 @@ class BroadcastReceiver extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public final android.os.Bundle getResultExtras(boolean makeMap)
-  jni.JlObject getResultExtras(bool makeMap) =>
-      jni.JlObject.fromRef(_getResultExtras(reference, makeMap ? 1 : 0));
+  os.Bundle getResultExtras(bool makeMap) =>
+      os.Bundle.fromRef(_getResultExtras(reference, makeMap ? 1 : 0));
 
   static final _setResult = jlookup<
               ffi.NativeFunction<
@@ -6058,7 +6059,7 @@ class BroadcastReceiver extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public final void setResult(int code, java.lang.String data, android.os.Bundle extras)
-  void setResult(int code, jni.JlString data, jni.JlObject extras) =>
+  void setResult(int code, jni.JlString data, os.Bundle extras) =>
       _setResult(reference, code, data.reference, extras.reference);
 
   static final _getAbortBroadcast =
@@ -6163,11 +6164,11 @@ class BroadcastReceiver_PendingResult extends jni.JlObject {
   BroadcastReceiver_PendingResult(
       int resultCode,
       jni.JlString resultData,
-      jni.JlObject resultExtras,
+      os.Bundle resultExtras,
       int type,
       bool ordered,
       bool sticky,
-      jni.JlObject token,
+      os.IBinder token,
       int userId,
       int flags)
       : super.fromRef(_ctor(
@@ -6229,7 +6230,7 @@ class BroadcastReceiver_PendingResult extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public final void setResultExtras(android.os.Bundle extras)
-  void setResultExtras(jni.JlObject extras) =>
+  void setResultExtras(os.Bundle extras) =>
       _setResultExtras(reference, extras.reference);
 
   static final _getResultExtras = jlookup<
@@ -6240,8 +6241,8 @@ class BroadcastReceiver_PendingResult extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public final android.os.Bundle getResultExtras(boolean makeMap)
-  jni.JlObject getResultExtras(bool makeMap) =>
-      jni.JlObject.fromRef(_getResultExtras(reference, makeMap ? 1 : 0));
+  os.Bundle getResultExtras(bool makeMap) =>
+      os.Bundle.fromRef(_getResultExtras(reference, makeMap ? 1 : 0));
 
   static final _setResult = jlookup<
               ffi.NativeFunction<
@@ -6253,7 +6254,7 @@ class BroadcastReceiver_PendingResult extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public final void setResult(int code, java.lang.String data, android.os.Bundle extras)
-  void setResult(int code, jni.JlString data, jni.JlObject extras) =>
+  void setResult(int code, jni.JlString data, os.Bundle extras) =>
       _setResult(reference, code, data.reference, extras.reference);
 
   static final _getAbortBroadcast = jlookup<
@@ -6639,7 +6640,7 @@ class SyncInfo extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel parcel, int flags)
-  void writeToParcel(jni.JlObject parcel, int flags) =>
+  void writeToParcel(os.Parcel parcel, int flags) =>
       _writeToParcel(reference, parcel.reference, flags);
 }
 
@@ -6656,7 +6657,7 @@ class SyncStatusObserver extends jni.JlObject {
   void onStatusChanged(int which) => _onStatusChanged(reference, which);
 }
 
-class AsyncQueryHandler extends jni.JlObject {
+class AsyncQueryHandler extends os.Handler {
   AsyncQueryHandler.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   static final _ctor = jlookup<
@@ -6678,8 +6679,8 @@ class AsyncQueryHandler extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected android.os.Handler createHandler(android.os.Looper looper)
-  jni.JlObject createHandler(jni.JlObject looper) =>
-      jni.JlObject.fromRef(_createHandler(reference, looper.reference));
+  os.Handler createHandler(os.Looper looper) =>
+      os.Handler.fromRef(_createHandler(reference, looper.reference));
 
   static final _startQuery = jlookup<
               ffi.NativeFunction<
@@ -6869,11 +6870,11 @@ class AsyncQueryHandler extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void handleMessage(android.os.Message msg)
-  void handleMessage(jni.JlObject msg) =>
+  void handleMessage(os.Message msg) =>
       _handleMessage(reference, msg.reference);
 }
 
-class AsyncQueryHandler_WorkerHandler extends jni.JlObject {
+class AsyncQueryHandler_WorkerHandler extends os.Handler {
   AsyncQueryHandler_WorkerHandler.fromRef(ffi.Pointer<ffi.Void> ref)
       : super.fromRef(ref);
 
@@ -6884,7 +6885,7 @@ class AsyncQueryHandler_WorkerHandler extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.os.Looper looper)
-  AsyncQueryHandler_WorkerHandler(jni.JlObject looper)
+  AsyncQueryHandler_WorkerHandler(os.Looper looper)
       : super.fromRef(_ctor(looper.reference));
 
   static final _handleMessage = jlookup<
@@ -6896,7 +6897,7 @@ class AsyncQueryHandler_WorkerHandler extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void handleMessage(android.os.Message msg)
-  void handleMessage(jni.JlObject msg) =>
+  void handleMessage(os.Message msg) =>
       _handleMessage(reference, msg.reference);
 }
 
@@ -6934,7 +6935,7 @@ class AsyncQueryHandler_WorkerArgs extends jni.JlObject {
           ffi.Pointer<ffi.Void> Function(
     ffi.Pointer<ffi.Void>,
   )>();
-  jni.JlObject get handler => jni.JlObject.fromRef(_gethandler(reference));
+  os.Handler get handler => os.Handler.fromRef(_gethandler(reference));
   static final _sethandler = jlookup<
               ffi.NativeFunction<
                   ffi.Void Function(
@@ -6942,7 +6943,7 @@ class AsyncQueryHandler_WorkerArgs extends jni.JlObject {
           "set_android_content_AsyncQueryHandler__WorkerArgs_handler")
       .asFunction<
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-  set handler(jni.JlObject value) => _sethandler(reference, value.reference);
+  set handler(os.Handler value) => _sethandler(reference, value.reference);
 
   /// from: public java.lang.String orderBy
   static final _getorderBy = jlookup<
@@ -7146,8 +7147,8 @@ class AbstractThreadedSyncAdapter extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public final android.os.IBinder getSyncAdapterBinder()
-  jni.JlObject getSyncAdapterBinder() =>
-      jni.JlObject.fromRef(_getSyncAdapterBinder(reference));
+  os.IBinder getSyncAdapterBinder() =>
+      os.IBinder.fromRef(_getSyncAdapterBinder(reference));
 
   static final _onUnsyncableAccount =
       jlookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
@@ -7179,7 +7180,7 @@ class AbstractThreadedSyncAdapter extends jni.JlObject {
   /// from: public abstract void onPerformSync(android.accounts.Account account, android.os.Bundle extras, java.lang.String authority, android.content.ContentProviderClient provider, android.content.SyncResult syncResult)
   void onPerformSync(
           jni.JlObject account,
-          jni.JlObject extras,
+          os.Bundle extras,
           jni.JlString authority,
           ContentProviderClient provider,
           SyncResult syncResult) =>
@@ -7204,7 +7205,7 @@ class AbstractThreadedSyncAdapter extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onSecurityException(android.accounts.Account account, android.os.Bundle extras, java.lang.String authority, android.content.SyncResult syncResult)
-  void onSecurityException(jni.JlObject account, jni.JlObject extras,
+  void onSecurityException(jni.JlObject account, os.Bundle extras,
           jni.JlString authority, SyncResult syncResult) =>
       _onSecurityException(reference, account.reference, extras.reference,
           authority.reference, syncResult.reference);
@@ -7405,8 +7406,7 @@ class ContextWrapper extends Context {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Looper getMainLooper()
-  jni.JlObject getMainLooper() =>
-      jni.JlObject.fromRef(_getMainLooper(reference));
+  os.Looper getMainLooper() => os.Looper.fromRef(_getMainLooper(reference));
 
   static final _getMainExecutor = jlookup<
               ffi.NativeFunction<
@@ -7911,7 +7911,7 @@ class ContextWrapper extends Context {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void startActivity(android.content.Intent intent, android.os.Bundle options)
-  void startActivity_1(Intent intent, jni.JlObject options) =>
+  void startActivity_1(Intent intent, os.Bundle options) =>
       _startActivity_1(reference, intent.reference, options.reference);
 
   static final _startActivities = jlookup<
@@ -7936,7 +7936,7 @@ class ContextWrapper extends Context {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void startActivities(android.content.Intent[] intents, android.os.Bundle options)
-  void startActivities_1(jni.JlObject intents, jni.JlObject options) =>
+  void startActivities_1(jni.JlObject intents, os.Bundle options) =>
       _startActivities_1(reference, intents.reference, options.reference);
 
   static final _startIntentSender = jlookup<
@@ -7975,13 +7975,8 @@ class ContextWrapper extends Context {
               ffi.Pointer<ffi.Void>, int, int, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void startIntentSender(android.content.IntentSender intent, android.content.Intent fillInIntent, int flagsMask, int flagsValues, int extraFlags, android.os.Bundle options)
-  void startIntentSender_1(
-          IntentSender intent,
-          Intent fillInIntent,
-          int flagsMask,
-          int flagsValues,
-          int extraFlags,
-          jni.JlObject options) =>
+  void startIntentSender_1(IntentSender intent, Intent fillInIntent,
+          int flagsMask, int flagsValues, int extraFlags, os.Bundle options) =>
       _startIntentSender_1(reference, intent.reference, fillInIntent.reference,
           flagsMask, flagsValues, extraFlags, options.reference);
 
@@ -8053,10 +8048,10 @@ class ContextWrapper extends Context {
           Intent intent,
           jni.JlString receiverPermission,
           BroadcastReceiver resultReceiver,
-          jni.JlObject scheduler,
+          os.Handler scheduler,
           int initialCode,
           jni.JlString initialData,
-          jni.JlObject initialExtras) =>
+          os.Bundle initialExtras) =>
       _sendOrderedBroadcast_1(
           reference,
           intent.reference,
@@ -8077,7 +8072,7 @@ class ContextWrapper extends Context {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void sendBroadcastAsUser(android.content.Intent intent, android.os.UserHandle user)
-  void sendBroadcastAsUser(Intent intent, jni.JlObject user) =>
+  void sendBroadcastAsUser(Intent intent, os.UserHandle user) =>
       _sendBroadcastAsUser(reference, intent.reference, user.reference);
 
   static final _sendBroadcastAsUser_1 = jlookup<
@@ -8094,7 +8089,7 @@ class ContextWrapper extends Context {
 
   /// from: public void sendBroadcastAsUser(android.content.Intent intent, android.os.UserHandle user, java.lang.String receiverPermission)
   void sendBroadcastAsUser_1(
-          Intent intent, jni.JlObject user, jni.JlString receiverPermission) =>
+          Intent intent, os.UserHandle user, jni.JlString receiverPermission) =>
       _sendBroadcastAsUser_1(reference, intent.reference, user.reference,
           receiverPermission.reference);
 
@@ -8126,13 +8121,13 @@ class ContextWrapper extends Context {
   /// from: public void sendOrderedBroadcastAsUser(android.content.Intent intent, android.os.UserHandle user, java.lang.String receiverPermission, android.content.BroadcastReceiver resultReceiver, android.os.Handler scheduler, int initialCode, java.lang.String initialData, android.os.Bundle initialExtras)
   void sendOrderedBroadcastAsUser(
           Intent intent,
-          jni.JlObject user,
+          os.UserHandle user,
           jni.JlString receiverPermission,
           BroadcastReceiver resultReceiver,
-          jni.JlObject scheduler,
+          os.Handler scheduler,
           int initialCode,
           jni.JlString initialData,
-          jni.JlObject initialExtras) =>
+          os.Bundle initialExtras) =>
       _sendOrderedBroadcastAsUser(
           reference,
           intent.reference,
@@ -8181,10 +8176,10 @@ class ContextWrapper extends Context {
   void sendStickyOrderedBroadcast(
           Intent intent,
           BroadcastReceiver resultReceiver,
-          jni.JlObject scheduler,
+          os.Handler scheduler,
           int initialCode,
           jni.JlString initialData,
-          jni.JlObject initialExtras) =>
+          os.Bundle initialExtras) =>
       _sendStickyOrderedBroadcast(
           reference,
           intent.reference,
@@ -8216,7 +8211,7 @@ class ContextWrapper extends Context {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void sendStickyBroadcastAsUser(android.content.Intent intent, android.os.UserHandle user)
-  void sendStickyBroadcastAsUser(Intent intent, jni.JlObject user) =>
+  void sendStickyBroadcastAsUser(Intent intent, os.UserHandle user) =>
       _sendStickyBroadcastAsUser(reference, intent.reference, user.reference);
 
   static final _sendStickyOrderedBroadcastAsUser = jlookup<
@@ -8245,12 +8240,12 @@ class ContextWrapper extends Context {
   /// from: public void sendStickyOrderedBroadcastAsUser(android.content.Intent intent, android.os.UserHandle user, android.content.BroadcastReceiver resultReceiver, android.os.Handler scheduler, int initialCode, java.lang.String initialData, android.os.Bundle initialExtras)
   void sendStickyOrderedBroadcastAsUser(
           Intent intent,
-          jni.JlObject user,
+          os.UserHandle user,
           BroadcastReceiver resultReceiver,
-          jni.JlObject scheduler,
+          os.Handler scheduler,
           int initialCode,
           jni.JlString initialData,
-          jni.JlObject initialExtras) =>
+          os.Bundle initialExtras) =>
       _sendStickyOrderedBroadcastAsUser(
           reference,
           intent.reference,
@@ -8271,7 +8266,7 @@ class ContextWrapper extends Context {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void removeStickyBroadcastAsUser(android.content.Intent intent, android.os.UserHandle user)
-  void removeStickyBroadcastAsUser(Intent intent, jni.JlObject user) =>
+  void removeStickyBroadcastAsUser(Intent intent, os.UserHandle user) =>
       _removeStickyBroadcastAsUser(reference, intent.reference, user.reference);
 
   static final _registerReceiver = jlookup<
@@ -8325,7 +8320,7 @@ class ContextWrapper extends Context {
 
   /// from: public android.content.Intent registerReceiver(android.content.BroadcastReceiver receiver, android.content.IntentFilter filter, java.lang.String broadcastPermission, android.os.Handler scheduler)
   Intent registerReceiver_2(BroadcastReceiver receiver, IntentFilter filter,
-          jni.JlString broadcastPermission, jni.JlObject scheduler) =>
+          jni.JlString broadcastPermission, os.Handler scheduler) =>
       Intent.fromRef(_registerReceiver_2(
           reference,
           receiver.reference,
@@ -8353,12 +8348,8 @@ class ContextWrapper extends Context {
               int)>();
 
   /// from: public android.content.Intent registerReceiver(android.content.BroadcastReceiver receiver, android.content.IntentFilter filter, java.lang.String broadcastPermission, android.os.Handler scheduler, int flags)
-  Intent registerReceiver_3(
-          BroadcastReceiver receiver,
-          IntentFilter filter,
-          jni.JlString broadcastPermission,
-          jni.JlObject scheduler,
-          int flags) =>
+  Intent registerReceiver_3(BroadcastReceiver receiver, IntentFilter filter,
+          jni.JlString broadcastPermission, os.Handler scheduler, int flags) =>
       Intent.fromRef(_registerReceiver_3(
           reference,
           receiver.reference,
@@ -8456,7 +8447,7 @@ class ContextWrapper extends Context {
 
   /// from: public boolean startInstrumentation(android.content.ComponentName className, java.lang.String profileFile, android.os.Bundle arguments)
   bool startInstrumentation(ComponentName className, jni.JlString profileFile,
-          jni.JlObject arguments) =>
+          os.Bundle arguments) =>
       _startInstrumentation(reference, className.reference,
           profileFile.reference, arguments.reference) !=
       0;
@@ -8995,7 +8986,8 @@ class ComponentName extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_ComponentName_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
           ffi.NativeFunction<
@@ -9042,8 +9034,7 @@ class ComponentName extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.os.Parcel in)
-  ComponentName.ctor_3(jni.JlObject in_)
-      : super.fromRef(_ctor_3(in_.reference));
+  ComponentName.ctor_3(os.Parcel in_) : super.fromRef(_ctor_3(in_.reference));
 
   static final _createRelative = jlookup<
               ffi.NativeFunction<
@@ -9202,7 +9193,7 @@ class ComponentName extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel out, int flags)
-  void writeToParcel(jni.JlObject out, int flags) =>
+  void writeToParcel(os.Parcel out, int flags) =>
       _writeToParcel(reference, out.reference, flags);
 
   static final _writeToParcel_1 = jlookup<
@@ -9214,7 +9205,7 @@ class ComponentName extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: static public void writeToParcel(android.content.ComponentName c, android.os.Parcel out)
-  static void writeToParcel_1(ComponentName c, jni.JlObject out) =>
+  static void writeToParcel_1(ComponentName c, os.Parcel out) =>
       _writeToParcel_1(c.reference, out.reference);
 
   static final _readFromParcel = jlookup<
@@ -9224,7 +9215,7 @@ class ComponentName extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public android.content.ComponentName readFromParcel(android.os.Parcel in)
-  static ComponentName readFromParcel(jni.JlObject in_) =>
+  static ComponentName readFromParcel(os.Parcel in_) =>
       ComponentName.fromRef(_readFromParcel(in_.reference));
 }
 
@@ -9236,7 +9227,8 @@ class SyncAdapterType extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_SyncAdapterType_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: public final java.lang.String accountType
   static final _getaccountType = jlookup<
@@ -9299,7 +9291,7 @@ class SyncAdapterType extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.os.Parcel source)
-  SyncAdapterType.ctor_1(jni.JlObject source)
+  SyncAdapterType.ctor_1(os.Parcel source)
       : super.fromRef(_ctor_1(source.reference));
 
   static final _supportsUploading =
@@ -9402,7 +9394,7 @@ class SyncAdapterType extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 }
 
@@ -9414,7 +9406,8 @@ class PeriodicSync extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_PeriodicSync_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: public final android.accounts.Account account
   static final _getaccount = jlookup<
@@ -9450,7 +9443,7 @@ class PeriodicSync extends jni.JlObject {
           ffi.Pointer<ffi.Void> Function(
     ffi.Pointer<ffi.Void>,
   )>();
-  jni.JlObject get extras => jni.JlObject.fromRef(_getextras(reference));
+  os.Bundle get extras => os.Bundle.fromRef(_getextras(reference));
 
   /// from: public final long period
   static final _getperiod = jlookup<
@@ -9476,8 +9469,8 @@ class PeriodicSync extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void <init>(android.accounts.Account account, java.lang.String authority, android.os.Bundle extras, long periodInSeconds)
-  PeriodicSync(jni.JlObject account, jni.JlString authority,
-      jni.JlObject extras, int periodInSeconds)
+  PeriodicSync(jni.JlObject account, jni.JlString authority, os.Bundle extras,
+      int periodInSeconds)
       : super.fromRef(_ctor(account.reference, authority.reference,
             extras.reference, periodInSeconds));
 
@@ -9497,7 +9490,7 @@ class PeriodicSync extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 
   static final _equals_1 = jlookup<
@@ -9603,7 +9596,8 @@ class IntentSender extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_IntentSender_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
           ffi.NativeFunction<
@@ -9612,7 +9606,7 @@ class IntentSender extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: void <init>(android.os.IBinder target)
-  IntentSender(jni.JlObject target) : super.fromRef(_ctor(target.reference));
+  IntentSender(os.IBinder target) : super.fromRef(_ctor(target.reference));
 
   static final _sendIntent = jlookup<
               ffi.NativeFunction<
@@ -9635,7 +9629,7 @@ class IntentSender extends jni.JlObject {
 
   /// from: public void sendIntent(android.content.Context context, int code, android.content.Intent intent, android.content.IntentSender.OnFinished onFinished, android.os.Handler handler)
   void sendIntent(Context context, int code, Intent intent,
-          IntentSender_OnFinished onFinished, jni.JlObject handler) =>
+          IntentSender_OnFinished onFinished, os.Handler handler) =>
       _sendIntent(reference, context.reference, code, intent.reference,
           onFinished.reference, handler.reference);
 
@@ -9666,7 +9660,7 @@ class IntentSender extends jni.JlObject {
           int code,
           Intent intent,
           IntentSender_OnFinished onFinished,
-          jni.JlObject handler,
+          os.Handler handler,
           jni.JlString requiredPermission) =>
       _sendIntent_1(
           reference,
@@ -9712,8 +9706,8 @@ class IntentSender extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.UserHandle getCreatorUserHandle()
-  jni.JlObject getCreatorUserHandle() =>
-      jni.JlObject.fromRef(_getCreatorUserHandle(reference));
+  os.UserHandle getCreatorUserHandle() =>
+      os.UserHandle.fromRef(_getCreatorUserHandle(reference));
 
   static final _equals_1 = jlookup<
               ffi.NativeFunction<
@@ -9759,7 +9753,7 @@ class IntentSender extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel out, int flags)
-  void writeToParcel(jni.JlObject out, int flags) =>
+  void writeToParcel(os.Parcel out, int flags) =>
       _writeToParcel(reference, out.reference, flags);
 
   static final _writeIntentSenderOrNullToParcel = jlookup<
@@ -9772,7 +9766,7 @@ class IntentSender extends jni.JlObject {
 
   /// from: static public void writeIntentSenderOrNullToParcel(android.content.IntentSender sender, android.os.Parcel out)
   static void writeIntentSenderOrNullToParcel(
-          IntentSender sender, jni.JlObject out) =>
+          IntentSender sender, os.Parcel out) =>
       _writeIntentSenderOrNullToParcel(sender.reference, out.reference);
 
   static final _readIntentSenderOrNullFromParcel = jlookup<
@@ -9782,7 +9776,7 @@ class IntentSender extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public android.content.IntentSender readIntentSenderOrNullFromParcel(android.os.Parcel in)
-  static IntentSender readIntentSenderOrNullFromParcel(jni.JlObject in_) =>
+  static IntentSender readIntentSenderOrNullFromParcel(os.Parcel in_) =>
       IntentSender.fromRef(_readIntentSenderOrNullFromParcel(in_.reference));
 }
 
@@ -9844,7 +9838,7 @@ class IntentSender_OnFinished extends jni.JlObject {
 
   /// from: public abstract void onSendFinished(android.content.IntentSender IntentSender, android.content.Intent intent, int resultCode, java.lang.String resultData, android.os.Bundle resultExtras)
   void onSendFinished(IntentSender IntentSender, Intent intent, int resultCode,
-          jni.JlString resultData, jni.JlObject resultExtras) =>
+          jni.JlString resultData, os.Bundle resultExtras) =>
       _onSendFinished(reference, IntentSender.reference, intent.reference,
           resultCode, resultData.reference, resultExtras.reference);
 }
@@ -9865,7 +9859,8 @@ class SyncResult extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_SyncResult_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: public boolean databaseError
   static final _getdatabaseError = jlookup<
@@ -10086,7 +10081,7 @@ class SyncResult extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel parcel, int flags)
-  void writeToParcel(jni.JlObject parcel, int flags) =>
+  void writeToParcel(os.Parcel parcel, int flags) =>
       _writeToParcel(reference, parcel.reference, flags);
 
   static final _toString_1 = jlookup<
@@ -10182,7 +10177,7 @@ class ContentProviderClient extends jni.JlObject {
           jni.JlString selection,
           jni.JlObject selectionArgs,
           jni.JlString sortOrder,
-          jni.JlObject cancellationSignal) =>
+          os.CancellationSignal cancellationSignal) =>
       jni.JlObject.fromRef(_query_1(
           reference,
           uri.reference,
@@ -10211,7 +10206,7 @@ class ContentProviderClient extends jni.JlObject {
 
   /// from: public android.database.Cursor query(android.net.Uri uri, java.lang.String[] projection, android.os.Bundle queryArgs, android.os.CancellationSignal cancellationSignal)
   jni.JlObject query_2(jni.JlObject uri, jni.JlObject projection,
-          jni.JlObject queryArgs, jni.JlObject cancellationSignal) =>
+          os.Bundle queryArgs, os.CancellationSignal cancellationSignal) =>
       jni.JlObject.fromRef(_query_2(
           reference,
           uri.reference,
@@ -10285,8 +10280,8 @@ class ContentProviderClient extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean refresh(android.net.Uri url, android.os.Bundle args, android.os.CancellationSignal cancellationSignal)
-  bool refresh(jni.JlObject url, jni.JlObject args,
-          jni.JlObject cancellationSignal) =>
+  bool refresh(jni.JlObject url, os.Bundle args,
+          os.CancellationSignal cancellationSignal) =>
       _refresh(reference, url.reference, args.reference,
           cancellationSignal.reference) !=
       0;
@@ -10369,8 +10364,9 @@ class ContentProviderClient extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.ParcelFileDescriptor openFile(android.net.Uri url, java.lang.String mode)
-  jni.JlObject openFile(jni.JlObject url, jni.JlString mode) =>
-      jni.JlObject.fromRef(_openFile(reference, url.reference, mode.reference));
+  os.ParcelFileDescriptor openFile(jni.JlObject url, jni.JlString mode) =>
+      os.ParcelFileDescriptor.fromRef(
+          _openFile(reference, url.reference, mode.reference));
 
   static final _openFile_1 = jlookup<
               ffi.NativeFunction<
@@ -10388,9 +10384,9 @@ class ContentProviderClient extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.ParcelFileDescriptor openFile(android.net.Uri url, java.lang.String mode, android.os.CancellationSignal signal)
-  jni.JlObject openFile_1(
-          jni.JlObject url, jni.JlString mode, jni.JlObject signal) =>
-      jni.JlObject.fromRef(_openFile_1(
+  os.ParcelFileDescriptor openFile_1(
+          jni.JlObject url, jni.JlString mode, os.CancellationSignal signal) =>
+      os.ParcelFileDescriptor.fromRef(_openFile_1(
           reference, url.reference, mode.reference, signal.reference));
 
   static final _openAssetFile = jlookup<
@@ -10424,7 +10420,7 @@ class ContentProviderClient extends jni.JlObject {
 
   /// from: public android.content.res.AssetFileDescriptor openAssetFile(android.net.Uri url, java.lang.String mode, android.os.CancellationSignal signal)
   res.AssetFileDescriptor openAssetFile_1(
-          jni.JlObject url, jni.JlString mode, jni.JlObject signal) =>
+          jni.JlObject url, jni.JlString mode, os.CancellationSignal signal) =>
       res.AssetFileDescriptor.fromRef(_openAssetFile_1(
           reference, url.reference, mode.reference, signal.reference));
 
@@ -10445,7 +10441,7 @@ class ContentProviderClient extends jni.JlObject {
 
   /// from: public final android.content.res.AssetFileDescriptor openTypedAssetFileDescriptor(android.net.Uri uri, java.lang.String mimeType, android.os.Bundle opts)
   res.AssetFileDescriptor openTypedAssetFileDescriptor(
-          jni.JlObject uri, jni.JlString mimeType, jni.JlObject opts) =>
+          jni.JlObject uri, jni.JlString mimeType, os.Bundle opts) =>
       res.AssetFileDescriptor.fromRef(_openTypedAssetFileDescriptor(
           reference, uri.reference, mimeType.reference, opts.reference));
 
@@ -10467,8 +10463,11 @@ class ContentProviderClient extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public final android.content.res.AssetFileDescriptor openTypedAssetFileDescriptor(android.net.Uri uri, java.lang.String mimeType, android.os.Bundle opts, android.os.CancellationSignal signal)
-  res.AssetFileDescriptor openTypedAssetFileDescriptor_1(jni.JlObject uri,
-          jni.JlString mimeType, jni.JlObject opts, jni.JlObject signal) =>
+  res.AssetFileDescriptor openTypedAssetFileDescriptor_1(
+          jni.JlObject uri,
+          jni.JlString mimeType,
+          os.Bundle opts,
+          os.CancellationSignal signal) =>
       res.AssetFileDescriptor.fromRef(_openTypedAssetFileDescriptor_1(reference,
           uri.reference, mimeType.reference, opts.reference, signal.reference));
 
@@ -10501,9 +10500,8 @@ class ContentProviderClient extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle call(java.lang.String method, java.lang.String arg, android.os.Bundle extras)
-  jni.JlObject call(
-          jni.JlString method, jni.JlString arg, jni.JlObject extras) =>
-      jni.JlObject.fromRef(
+  os.Bundle call(jni.JlString method, jni.JlString arg, os.Bundle extras) =>
+      os.Bundle.fromRef(
           _call(reference, method.reference, arg.reference, extras.reference));
 
   static final _close =
@@ -11095,7 +11093,8 @@ class Intent extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_Intent_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final java.lang.String EXTRA_ALARM_COUNT
   static const EXTRA_ALARM_COUNT = "android.intent.extra.ALARM_COUNT";
@@ -12146,8 +12145,8 @@ class Intent extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle getBundleExtra(java.lang.String name)
-  jni.JlObject getBundleExtra(jni.JlString name) =>
-      jni.JlObject.fromRef(_getBundleExtra(reference, name.reference));
+  os.Bundle getBundleExtra(jni.JlString name) =>
+      os.Bundle.fromRef(_getBundleExtra(reference, name.reference));
 
   static final _getExtras = jlookup<
           ffi.NativeFunction<
@@ -12156,7 +12155,7 @@ class Intent extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle getExtras()
-  jni.JlObject getExtras() => jni.JlObject.fromRef(_getExtras(reference));
+  os.Bundle getExtras() => os.Bundle.fromRef(_getExtras(reference));
 
   static final _getFlags =
       jlookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
@@ -12508,7 +12507,7 @@ class Intent extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.Intent putExtra(java.lang.String name, android.os.Parcelable value)
-  Intent putExtra_10(jni.JlString name, jni.JlObject value) =>
+  Intent putExtra_10(jni.JlString name, os.Parcelable value) =>
       Intent.fromRef(_putExtra_10(reference, name.reference, value.reference));
 
   static final _putExtra_11 = jlookup<
@@ -12746,7 +12745,7 @@ class Intent extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.Intent putExtra(java.lang.String name, android.os.Bundle value)
-  Intent putExtra_23(jni.JlString name, jni.JlObject value) =>
+  Intent putExtra_23(jni.JlString name, os.Bundle value) =>
       Intent.fromRef(_putExtra_23(reference, name.reference, value.reference));
 
   static final _putExtras = jlookup<
@@ -12770,7 +12769,7 @@ class Intent extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.Intent putExtras(android.os.Bundle extras)
-  Intent putExtras_1(jni.JlObject extras) =>
+  Intent putExtras_1(os.Bundle extras) =>
       Intent.fromRef(_putExtras_1(reference, extras.reference));
 
   static final _replaceExtras = jlookup<
@@ -12796,7 +12795,7 @@ class Intent extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.Intent replaceExtras(android.os.Bundle extras)
-  Intent replaceExtras_1(jni.JlObject extras) =>
+  Intent replaceExtras_1(os.Bundle extras) =>
       Intent.fromRef(_replaceExtras_1(reference, extras.reference));
 
   static final _removeExtra = jlookup<
@@ -12990,7 +12989,7 @@ class Intent extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel out, int flags)
-  void writeToParcel(jni.JlObject out, int flags) =>
+  void writeToParcel(os.Parcel out, int flags) =>
       _writeToParcel(reference, out.reference, flags);
 
   static final _readFromParcel = jlookup<
@@ -13002,7 +13001,7 @@ class Intent extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void readFromParcel(android.os.Parcel in)
-  void readFromParcel(jni.JlObject in_) =>
+  void readFromParcel(os.Parcel in_) =>
       _readFromParcel(reference, in_.reference);
 
   static final _parseIntent = jlookup<
@@ -13041,7 +13040,8 @@ class Intent_ShortcutIconResource extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_Intent__ShortcutIconResource_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: public java.lang.String packageName
   static final _getpackageName = jlookup<
@@ -13125,7 +13125,7 @@ class Intent_ShortcutIconResource extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 
   static final _toString_1 = jlookup<
@@ -13375,7 +13375,7 @@ class ContentProvider extends jni.JlObject {
           jni.JlString selection,
           jni.JlObject selectionArgs,
           jni.JlString sortOrder,
-          jni.JlObject cancellationSignal) =>
+          os.CancellationSignal cancellationSignal) =>
       jni.JlObject.fromRef(_query_1(
           reference,
           uri.reference,
@@ -13404,7 +13404,7 @@ class ContentProvider extends jni.JlObject {
 
   /// from: public android.database.Cursor query(android.net.Uri uri, java.lang.String[] projection, android.os.Bundle queryArgs, android.os.CancellationSignal cancellationSignal)
   jni.JlObject query_2(jni.JlObject uri, jni.JlObject projection,
-          jni.JlObject queryArgs, jni.JlObject cancellationSignal) =>
+          os.Bundle queryArgs, os.CancellationSignal cancellationSignal) =>
       jni.JlObject.fromRef(_query_2(
           reference,
           uri.reference,
@@ -13464,8 +13464,8 @@ class ContentProvider extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean refresh(android.net.Uri uri, android.os.Bundle args, android.os.CancellationSignal cancellationSignal)
-  bool refresh(jni.JlObject uri, jni.JlObject args,
-          jni.JlObject cancellationSignal) =>
+  bool refresh(jni.JlObject uri, os.Bundle args,
+          os.CancellationSignal cancellationSignal) =>
       _refresh(reference, uri.reference, args.reference,
           cancellationSignal.reference) !=
       0;
@@ -13547,8 +13547,9 @@ class ContentProvider extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.ParcelFileDescriptor openFile(android.net.Uri uri, java.lang.String mode)
-  jni.JlObject openFile(jni.JlObject uri, jni.JlString mode) =>
-      jni.JlObject.fromRef(_openFile(reference, uri.reference, mode.reference));
+  os.ParcelFileDescriptor openFile(jni.JlObject uri, jni.JlString mode) =>
+      os.ParcelFileDescriptor.fromRef(
+          _openFile(reference, uri.reference, mode.reference));
 
   static final _openFile_1 = jlookup<
               ffi.NativeFunction<
@@ -13566,9 +13567,9 @@ class ContentProvider extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.ParcelFileDescriptor openFile(android.net.Uri uri, java.lang.String mode, android.os.CancellationSignal signal)
-  jni.JlObject openFile_1(
-          jni.JlObject uri, jni.JlString mode, jni.JlObject signal) =>
-      jni.JlObject.fromRef(_openFile_1(
+  os.ParcelFileDescriptor openFile_1(
+          jni.JlObject uri, jni.JlString mode, os.CancellationSignal signal) =>
+      os.ParcelFileDescriptor.fromRef(_openFile_1(
           reference, uri.reference, mode.reference, signal.reference));
 
   static final _openAssetFile = jlookup<
@@ -13602,7 +13603,7 @@ class ContentProvider extends jni.JlObject {
 
   /// from: public android.content.res.AssetFileDescriptor openAssetFile(android.net.Uri uri, java.lang.String mode, android.os.CancellationSignal signal)
   res.AssetFileDescriptor openAssetFile_1(
-          jni.JlObject uri, jni.JlString mode, jni.JlObject signal) =>
+          jni.JlObject uri, jni.JlString mode, os.CancellationSignal signal) =>
       res.AssetFileDescriptor.fromRef(_openAssetFile_1(
           reference, uri.reference, mode.reference, signal.reference));
 
@@ -13616,8 +13617,8 @@ class ContentProvider extends jni.JlObject {
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: protected final android.os.ParcelFileDescriptor openFileHelper(android.net.Uri uri, java.lang.String mode)
-  jni.JlObject openFileHelper(jni.JlObject uri, jni.JlString mode) =>
-      jni.JlObject.fromRef(
+  os.ParcelFileDescriptor openFileHelper(jni.JlObject uri, jni.JlString mode) =>
+      os.ParcelFileDescriptor.fromRef(
           _openFileHelper(reference, uri.reference, mode.reference));
 
   static final _getStreamTypes = jlookup<
@@ -13651,7 +13652,7 @@ class ContentProvider extends jni.JlObject {
 
   /// from: public android.content.res.AssetFileDescriptor openTypedAssetFile(android.net.Uri uri, java.lang.String mimeTypeFilter, android.os.Bundle opts)
   res.AssetFileDescriptor openTypedAssetFile(
-          jni.JlObject uri, jni.JlString mimeTypeFilter, jni.JlObject opts) =>
+          jni.JlObject uri, jni.JlString mimeTypeFilter, os.Bundle opts) =>
       res.AssetFileDescriptor.fromRef(_openTypedAssetFile(
           reference, uri.reference, mimeTypeFilter.reference, opts.reference));
 
@@ -13676,8 +13677,8 @@ class ContentProvider extends jni.JlObject {
   res.AssetFileDescriptor openTypedAssetFile_1(
           jni.JlObject uri,
           jni.JlString mimeTypeFilter,
-          jni.JlObject opts,
-          jni.JlObject signal) =>
+          os.Bundle opts,
+          os.CancellationSignal signal) =>
       res.AssetFileDescriptor.fromRef(_openTypedAssetFile_1(
           reference,
           uri.reference,
@@ -13735,9 +13736,8 @@ class ContentProvider extends jni.JlObject {
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle call(java.lang.String method, java.lang.String arg, android.os.Bundle extras)
-  jni.JlObject call(
-          jni.JlString method, jni.JlString arg, jni.JlObject extras) =>
-      jni.JlObject.fromRef(
+  os.Bundle call(jni.JlString method, jni.JlString arg, os.Bundle extras) =>
+      os.Bundle.fromRef(
           _call(reference, method.reference, arg.reference, extras.reference));
 
   static final _shutdown =
@@ -13778,7 +13778,8 @@ class ContentValues extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_ContentValues_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   /// from: static public final java.lang.String TAG
   static const TAG = "ContentValues";
@@ -14167,7 +14168,7 @@ class ContentValues extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel parcel, int flags)
-  void writeToParcel(jni.JlObject parcel, int flags) =>
+  void writeToParcel(os.Parcel parcel, int flags) =>
       _writeToParcel(reference, parcel.reference, flags);
 
   static final _toString_1 = jlookup<
@@ -14532,8 +14533,8 @@ class SyncContext extends jni.JlObject {
       .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.IBinder getSyncContextBinder()
-  jni.JlObject getSyncContextBinder() =>
-      jni.JlObject.fromRef(_getSyncContextBinder(reference));
+  os.IBinder getSyncContextBinder() =>
+      os.IBinder.fromRef(_getSyncContextBinder(reference));
 }
 
 class ContentProviderOperation extends jni.JlObject {
@@ -14545,7 +14546,8 @@ class ContentProviderOperation extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_ContentProviderOperation_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
               ffi.NativeFunction<
@@ -14566,7 +14568,7 @@ class ContentProviderOperation extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 
   static final _newInsert = jlookup<
@@ -14894,7 +14896,7 @@ class ContentQueryMap extends jni.JlObject {
 
   /// from: public void <init>(android.database.Cursor cursor, java.lang.String columnNameOfKey, boolean keepUpdated, android.os.Handler handlerForUpdateNotifications)
   ContentQueryMap(jni.JlObject cursor, jni.JlString columnNameOfKey,
-      bool keepUpdated, jni.JlObject handlerForUpdateNotifications)
+      bool keepUpdated, os.Handler handlerForUpdateNotifications)
       : super.fromRef(_ctor(cursor.reference, columnNameOfKey.reference,
             keepUpdated ? 1 : 0, handlerForUpdateNotifications.reference));
 
@@ -14963,7 +14965,8 @@ class ClipData extends jni.JlObject {
       jlookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
               "get_android_content_ClipData_CREATOR")
           .asFunction<ffi.Pointer<ffi.Void> Function()>();
-  static jni.JlObject get CREATOR => jni.JlObject.fromRef(_getCREATOR());
+  static os.Parcelable_Creator get CREATOR =>
+      os.Parcelable_Creator.fromRef(_getCREATOR());
 
   static final _ctor = jlookup<
           ffi.NativeFunction<
@@ -15144,7 +15147,7 @@ class ClipData extends jni.JlObject {
           void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(jni.JlObject dest, int flags) =>
+  void writeToParcel(os.Parcel dest, int flags) =>
       _writeToParcel(reference, dest.reference, flags);
 }
 
