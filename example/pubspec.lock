@@ -98,11 +98,9 @@ packages:
   jni:
     dependency: "direct main"
     description:
-      path: jni
-      ref: add_jni_gen
-      resolved-ref: "9e8300e27086e5a020d9c0fa6210f71d06703983"
-      url: "https://github.com/mahesh-hegde/jnigen_devel"
-    source: git
+      path: "../../jnigen_devel/jni"
+      relative: true
+    source: path
     version: "0.0.1"
   lints:
     dependency: transitive

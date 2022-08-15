@@ -12,19 +12,21 @@ dependencies:
   flutter:
     sdk: flutter
   jni:
-    git:
-      url: https://github.com/mahesh-hegde/jnigen_devel
-      path: jni
-      ref: add_jni_gen
+    path: ../jnigen_devel/jni
+    #    git:
+    #url: https://github.com/mahesh-hegde/jnigen_devel
+    #path: jni
+    #ref: add_jni_gen
   plugin_platform_interface: ^2.0.2
 
 dev_dependencies:
   path: ^1.8.0
   jni_gen:
-    git:
-      url: https://github.com/mahesh-hegde/jnigen_devel
-      path: jni_gen
-      ref: add_jni_gen
+    path: ../jnigen_devel/jni_gen
+    #git:
+    #url: https://github.com/mahesh-hegde/jnigen_devel
+    #path: jni_gen
+    #ref: add_jni_gen
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0

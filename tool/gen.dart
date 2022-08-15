@@ -17,15 +17,10 @@ void main(List<String> arguments) async {
           classes: ['android.content', 'android.app', 'android.os'],
         ),
         options: WrapperOptions(
-            methodFilter: CombinedMethodFilter([
-              MethodNameFilter.exclude('android.app.ProgressDialog', 'show'),
-              MethodNameFilter.exclude('android.os.BaseBundle', 'putAll'),
-              // ParcelFileDescriptor_AutoCloseInputStream.read_{1, 2}
-              // TODO: Store synthesized attributes like renamed name in
-              // elements, so API can check them.
-              MethodNameFilter.exclude(
-                  'android.os.ParcelFileDescriptor\$AutoCloseInputStream',
-                  'read'),
+            methodFilter: excludeAll<Method>([
+              ['android.app.ProgressDialog', 'show'],
+              ['android.os.BaseBundle', 'putAll'],
+              ['android.os.ParcelFileDescriptor\$AutoCloseInputStream', 'read'],
             ]),
             importPaths: {
               'android.os': 'package:content_plugin/',

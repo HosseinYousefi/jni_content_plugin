@@ -29352,46 +29352,6 @@ jobject android_app_ProgressDialog_new_1(jobject context, int32_t theme) {
     return to_global_ref(_result);
 }
 
-jmethodID _m_android_app_ProgressDialog_show_ = NULL;
-FFI_PLUGIN_EXPORT
-jobject android_app_ProgressDialog_show_(jobject context, jobject title, jobject message) {
-    load_env();
-    load_class_gr(&_c_android_app_ProgressDialog, "android/app/ProgressDialog");
-    load_static_method(_c_android_app_ProgressDialog, &_m_android_app_ProgressDialog_show_, "show", "(Landroid/content/Context;Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Landroid/app/ProgressDialog;");
-    jobject _result = (*jniEnv)->CallStaticObjectMethod(jniEnv, _c_android_app_ProgressDialog, _m_android_app_ProgressDialog_show_, context, title, message);
-    return to_global_ref(_result);
-}
-
-jmethodID _m_android_app_ProgressDialog_show__1 = NULL;
-FFI_PLUGIN_EXPORT
-jobject android_app_ProgressDialog_show__1(jobject context, jobject title, jobject message, uint8_t indeterminate) {
-    load_env();
-    load_class_gr(&_c_android_app_ProgressDialog, "android/app/ProgressDialog");
-    load_static_method(_c_android_app_ProgressDialog, &_m_android_app_ProgressDialog_show__1, "show", "(Landroid/content/Context;Ljava/lang/CharSequence;Ljava/lang/CharSequence;Z)Landroid/app/ProgressDialog;");
-    jobject _result = (*jniEnv)->CallStaticObjectMethod(jniEnv, _c_android_app_ProgressDialog, _m_android_app_ProgressDialog_show__1, context, title, message, indeterminate);
-    return to_global_ref(_result);
-}
-
-jmethodID _m_android_app_ProgressDialog_show__2 = NULL;
-FFI_PLUGIN_EXPORT
-jobject android_app_ProgressDialog_show__2(jobject context, jobject title, jobject message, uint8_t indeterminate, uint8_t cancelable) {
-    load_env();
-    load_class_gr(&_c_android_app_ProgressDialog, "android/app/ProgressDialog");
-    load_static_method(_c_android_app_ProgressDialog, &_m_android_app_ProgressDialog_show__2, "show", "(Landroid/content/Context;Ljava/lang/CharSequence;Ljava/lang/CharSequence;ZZ)Landroid/app/ProgressDialog;");
-    jobject _result = (*jniEnv)->CallStaticObjectMethod(jniEnv, _c_android_app_ProgressDialog, _m_android_app_ProgressDialog_show__2, context, title, message, indeterminate, cancelable);
-    return to_global_ref(_result);
-}
-
-jmethodID _m_android_app_ProgressDialog_show__3 = NULL;
-FFI_PLUGIN_EXPORT
-jobject android_app_ProgressDialog_show__3(jobject context, jobject title, jobject message, uint8_t indeterminate, uint8_t cancelable, jobject cancelListener) {
-    load_env();
-    load_class_gr(&_c_android_app_ProgressDialog, "android/app/ProgressDialog");
-    load_static_method(_c_android_app_ProgressDialog, &_m_android_app_ProgressDialog_show__3, "show", "(Landroid/content/Context;Ljava/lang/CharSequence;Ljava/lang/CharSequence;ZZLandroid/content/DialogInterface$OnCancelListener;)Landroid/app/ProgressDialog;");
-    jobject _result = (*jniEnv)->CallStaticObjectMethod(jniEnv, _c_android_app_ProgressDialog, _m_android_app_ProgressDialog_show__3, context, title, message, indeterminate, cancelable, cancelListener);
-    return to_global_ref(_result);
-}
-
 jmethodID _m_android_app_ProgressDialog_onCreate = NULL;
 FFI_PLUGIN_EXPORT
 void android_app_ProgressDialog_onCreate(jobject self_, jobject savedInstanceState) {
@@ -51100,15 +51060,6 @@ void android_os_BaseBundle_remove(jobject self_, jobject key) {
     (*jniEnv)->CallVoidMethod(jniEnv, self_, _m_android_os_BaseBundle_remove, key);
 }
 
-jmethodID _m_android_os_BaseBundle_putAll = NULL;
-FFI_PLUGIN_EXPORT
-void android_os_BaseBundle_putAll(jobject self_, jobject bundle) {
-    load_env();
-    load_class_gr(&_c_android_os_BaseBundle, "android/os/BaseBundle");
-    load_method(_c_android_os_BaseBundle, &_m_android_os_BaseBundle_putAll, "putAll", "(Landroid/os/PersistableBundle;)V");
-    (*jniEnv)->CallVoidMethod(jniEnv, self_, _m_android_os_BaseBundle_putAll, bundle);
-}
-
 jmethodID _m_android_os_BaseBundle_keySet = NULL;
 FFI_PLUGIN_EXPORT
 jobject android_os_BaseBundle_keySet(jobject self_) {
@@ -52143,36 +52094,6 @@ void android_os_ParcelFileDescriptor__AutoCloseInputStream_close(jobject self_) 
     load_class_gr(&_c_android_os_ParcelFileDescriptor__AutoCloseInputStream, "android/os/ParcelFileDescriptor$AutoCloseInputStream");
     load_method(_c_android_os_ParcelFileDescriptor__AutoCloseInputStream, &_m_android_os_ParcelFileDescriptor__AutoCloseInputStream_close, "close", "()V");
     (*jniEnv)->CallVoidMethod(jniEnv, self_, _m_android_os_ParcelFileDescriptor__AutoCloseInputStream_close);
-}
-
-jmethodID _m_android_os_ParcelFileDescriptor__AutoCloseInputStream_read = NULL;
-FFI_PLUGIN_EXPORT
-int32_t android_os_ParcelFileDescriptor__AutoCloseInputStream_read(jobject self_) {
-    load_env();
-    load_class_gr(&_c_android_os_ParcelFileDescriptor__AutoCloseInputStream, "android/os/ParcelFileDescriptor$AutoCloseInputStream");
-    load_method(_c_android_os_ParcelFileDescriptor__AutoCloseInputStream, &_m_android_os_ParcelFileDescriptor__AutoCloseInputStream_read, "read", "()I");
-    int32_t _result = (*jniEnv)->CallIntMethod(jniEnv, self_, _m_android_os_ParcelFileDescriptor__AutoCloseInputStream_read);
-    return _result;
-}
-
-jmethodID _m_android_os_ParcelFileDescriptor__AutoCloseInputStream_read_1 = NULL;
-FFI_PLUGIN_EXPORT
-int32_t android_os_ParcelFileDescriptor__AutoCloseInputStream_read_1(jobject self_, jobject b) {
-    load_env();
-    load_class_gr(&_c_android_os_ParcelFileDescriptor__AutoCloseInputStream, "android/os/ParcelFileDescriptor$AutoCloseInputStream");
-    load_method(_c_android_os_ParcelFileDescriptor__AutoCloseInputStream, &_m_android_os_ParcelFileDescriptor__AutoCloseInputStream_read_1, "read", "(L[B;)I");
-    int32_t _result = (*jniEnv)->CallIntMethod(jniEnv, self_, _m_android_os_ParcelFileDescriptor__AutoCloseInputStream_read_1, b);
-    return _result;
-}
-
-jmethodID _m_android_os_ParcelFileDescriptor__AutoCloseInputStream_read_2 = NULL;
-FFI_PLUGIN_EXPORT
-int32_t android_os_ParcelFileDescriptor__AutoCloseInputStream_read_2(jobject self_, jobject b, int32_t off, int32_t len) {
-    load_env();
-    load_class_gr(&_c_android_os_ParcelFileDescriptor__AutoCloseInputStream, "android/os/ParcelFileDescriptor$AutoCloseInputStream");
-    load_method(_c_android_os_ParcelFileDescriptor__AutoCloseInputStream, &_m_android_os_ParcelFileDescriptor__AutoCloseInputStream_read_2, "read", "(L[B;II)I");
-    int32_t _result = (*jniEnv)->CallIntMethod(jniEnv, self_, _m_android_os_ParcelFileDescriptor__AutoCloseInputStream_read_2, b, off, len);
-    return _result;
 }
 
 // android.os.DeadSystemException
