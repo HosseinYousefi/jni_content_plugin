@@ -6,7 +6,7 @@ cmake_minimum_required(VERSION 3.10)
 project(content_plugin VERSION 0.0.1 LANGUAGES C)
 
 add_library(content_plugin SHARED
-  "content_plugin.c"
+  "./content_plugin.c"
 )
 
 set_target_properties(content_plugin PROPERTIES

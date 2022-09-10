@@ -1,39 +1,32 @@
 import 'dart:io';
 
-import 'package:jni_gen/jni_gen.dart';
+import 'package:jnigen/jnigen.dart';
+
+const useAsmOption = '--use-asm';
 
 // usage: dart run tool/gen.dart android_source_path
-void main(List<String> arguments) async {
-  if (arguments.isEmpty) {
-    stdout.writeln('usage: tool/gen.dart path_to_android_sources');
+void main(List<String> args) async {
+  if (args.isEmpty || (args.length == 2 && args[0] != useAsmOption)) {
+    stdout.writeln('usage: tool/gen.dart [--use-asm] '
+        'path_to_android_sources_or_jar');
     exitCode = 2;
     return;
   }
-  final sources = arguments.map(Uri.directory).toList();
-  try {
-    await runTask(JniGenTask(
-        summarySource: SummarizerCommand(
-          sourcePaths: sources,
-          classes: ['android.content', 'android.app', 'android.os'],
+  final useAsm = (args.length == 2 && args[0] == useAsmOption);
+  final sources = args.map(Uri.directory).toList();
+  await generateJniBindings(
+    Config(
+        classPath: useAsm ? sources : [],
+        sourcePath: useAsm ? [] : sources,
+        classes: ['android.content', 'android.app', 'android.os'],
+        exclude: BindingExclusions(
+          methods: excludeAll<Method>([
+            ['android.app.AlertDialog', 'setButton2'],
+            ['android.app.AlertDialog', 'setButton3'],
+          ]),
         ),
-        options: WrapperOptions(
-            methodFilter: excludeAll<Method>([
-              ['android.app.ProgressDialog', 'show'],
-              ['android.os.BaseBundle', 'putAll'],
-              ['android.os.ParcelFileDescriptor\$AutoCloseInputStream', 'read'],
-            ]),
-            importPaths: {
-              'android.os': 'package:content_plugin/',
-              'android.app': 'package:content_plugin/',
-              'android.content': 'package:content_plugin',
-            }),
-        outputWriter: FilesWriter(
-            cWrapperDir: Uri.directory('src/'),
-            dartWrappersRoot: Uri.directory('lib/'),
-            libraryName: 'content_plugin')));
-  } on Error catch (e) {
-    stderr.writeln(e);
-  } on Exception catch (e) {
-    stderr.writeln(e);
-  }
+        cRoot: Uri.directory('src/'),
+        dartRoot: Uri.directory('lib/'),
+        libraryName: 'content_plugin'),
+  );
 }

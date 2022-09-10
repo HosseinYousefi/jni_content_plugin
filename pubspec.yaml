@@ -1,7 +1,7 @@
 name: content_plugin
-description: Bindings generated for android.content, android.app and android.os packages using jni_gen.
+description: Bindings generated for android.content, android.app and android.os packages using jnigen.
 version: 0.0.1
-homepage: https://github.com/dart-lang/jni_gen
+homepage: https://github.com/dart-lang/jnigen
 publish_to: none
 
 environment:
@@ -13,20 +13,12 @@ dependencies:
     sdk: flutter
   jni:
     path: ../jnigen_devel/jni
-    #    git:
-    #url: https://github.com/mahesh-hegde/jnigen_devel
-    #path: jni
-    #ref: add_jni_gen
   plugin_platform_interface: ^2.0.2
 
 dev_dependencies:
   path: ^1.8.0
-  jni_gen:
-    path: ../jnigen_devel/jni_gen
-    #git:
-    #url: https://github.com/mahesh-hegde/jnigen_devel
-    #path: jni_gen
-    #ref: add_jni_gen
+  jnigen:
+    path: ../jnigen_devel/jnigen
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0

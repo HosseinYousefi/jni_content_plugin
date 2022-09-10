@@ -34,7 +34,7 @@ dependencies:
     #git:
     #url: https://github.com/mahesh-hegde/jnigen_devel
     #path: jni
-    #ref: add_jni_gen
+    #ref: add_jnigen
 
   content_plugin:
     path: ../

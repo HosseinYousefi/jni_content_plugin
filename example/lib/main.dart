@@ -9,27 +9,23 @@ import 'package:content_plugin/android/content.dart' show Intent, Context;
 import 'package:content_plugin/android/app.dart' as app;
 import 'package:content_plugin/android/os.dart' as os;
 
-late Jni jni;
-
 void main() {
   if (!Platform.isAndroid) {
-    Jni.spawn();
+    throw 'Only android is supported';
   }
-  jni = Jni.getInstance();
-  final context = Context.fromRef(jni.getCachedApplicationContext());
-  final activity = app.Activity.fromRef(jni.getCurrentActivity());
-  // obviously, this terse code will leak a few references.
+  final context = Context.fromRef(Jni.getCachedApplicationContext());
+  final activity = app.Activity.fromRef(Jni.getCurrentActivity());
   final examples = [
     Example('package name', () => context.getPackageName().toDartString()),
     Example('intent', () => activity.getIntent().getAction().toDartString()),
     Example('share some text', () {
-      final intent = Intent.ctor_2(JlString.fromString(Intent.ACTION_SEND));
-      intent.setType(JlString.fromString('text/plain'));
-      intent.putExtra_8(JlString.fromString(Intent.EXTRA_TEXT),
-          JlString.fromString("dart jni"));
+      final intent = Intent.ctor2(Intent.ACTION_SEND.jniString());
+      intent.setType('text/plain'.jniString());
+      intent.putExtra8(Intent.EXTRA_TEXT.jniString(),
+          "dart jni".jniString());
       activity.startActivity(Intent.createChooser(
         intent,
-        JlString.fromString('choose an action'),
+        'choose an action'.jniString(),
       ));
       intent.delete();
     }, runInitially: false),
