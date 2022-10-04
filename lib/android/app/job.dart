@@ -8,11 +8,12 @@
 // ignore_for_file: unused_element
 
 import "dart:ffi" as ffi;
+import "package:jni/internal_helpers_for_jnigen.dart";
 import "package:jni/jni.dart" as jni;
 
-import "../../android/os.dart" as os_;
+import "../os.dart" as os_;
 
-import "../../android/content.dart" as content_;
+import "../content.dart" as content_;
 
 import "../app.dart" as app_;
 import "../../_init.dart" show jniLookup;
@@ -46,14 +47,14 @@ class JobInfo extends jni.JniObject {
   static const BACKOFF_POLICY_LINEAR = 0;
 
   static final _get_CREATOR =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "get_android_app_job_JobInfo_CREATOR")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_JobInfo__CREATOR")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: static public final android.os.Parcelable.Creator<android.app.job.JobInfo> CREATOR
   /// The returned object must be deleted after use, by calling the `delete` method.
   static os_.Parcelable_Creator get CREATOR =>
-      os_.Parcelable_Creator.fromRef(_get_CREATOR());
+      os_.Parcelable_Creator.fromRef(_get_CREATOR().object);
 
   /// from: static public final long DEFAULT_INITIAL_BACKOFF_MILLIS
   ///
@@ -108,19 +109,16 @@ class JobInfo extends jni.JniObject {
 
   static final _ctor = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-                  ffi.Pointer<ffi.Void>)>>("android_app_job_JobInfo_ctor")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("JobInfo__ctor")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: void <init>(android.os.Parcel in)
-  JobInfo(os_.Parcel in0) : super.fromRef(_ctor(in0.reference)) {
-    jni.Jni.env.checkException();
-  }
+  JobInfo(os_.Parcel in0) : super.fromRef(_ctor(in0.reference).object);
 
   static final _getMinPeriodMillis =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function()>>(
-              "android_app_job_JobInfo_getMinPeriodMillis")
-          .asFunction<int Function()>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "JobInfo__getMinPeriodMillis")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: static public final long getMinPeriodMillis()
   ///
@@ -128,16 +126,12 @@ class JobInfo extends jni.JniObject {
   /// to declare a smaller period that this when scheduling a job will result in a
   /// job that is still periodic, but will run with this effective period.
   ///@return The minimum available interval for scheduling periodic jobs, in milliseconds.
-  static int getMinPeriodMillis() {
-    final result__ = _getMinPeriodMillis();
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  static int getMinPeriodMillis() => _getMinPeriodMillis().long;
 
   static final _getMinFlexMillis =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function()>>(
-              "android_app_job_JobInfo_getMinFlexMillis")
-          .asFunction<int Function()>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "JobInfo__getMinFlexMillis")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: static public final long getMinFlexMillis()
   ///
@@ -145,170 +139,135 @@ class JobInfo extends jni.JniObject {
   /// to declare a shorter flex time than this when scheduling such a job will
   /// result in this amount as the effective flex time for the job.
   ///@return The minimum available flex time for scheduling periodic jobs, in milliseconds.
-  static int getMinFlexMillis() {
-    final result__ = _getMinFlexMillis();
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  static int getMinFlexMillis() => _getMinFlexMillis().long;
 
-  static final _getId =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobInfo_getId")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getId = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("JobInfo__getId")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getId()
   ///
   /// Unique job id associated with this application (uid).  This is the same job ID
   /// you supplied in the Builder constructor.
-  int getId() {
-    final result__ = _getId(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getId() => _getId(reference).integer;
 
   static final _getExtras = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-                  ffi.Pointer<ffi.Void>)>>("android_app_job_JobInfo_getExtras")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobInfo__getExtras")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.PersistableBundle getExtras()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// @see JobInfo.Builder\#setExtras(PersistableBundle)
   ///@return This value will never be {@code null}.
-  os_.PersistableBundle getExtras() {
-    final result__ = os_.PersistableBundle.fromRef(_getExtras(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  os_.PersistableBundle getExtras() =>
+      os_.PersistableBundle.fromRef(_getExtras(reference).object);
 
   static final _getTransientExtras = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_job_JobInfo_getTransientExtras")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobInfo__getTransientExtras")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle getTransientExtras()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// @see JobInfo.Builder\#setTransientExtras(Bundle)
   ///@return This value will never be {@code null}.
-  os_.Bundle getTransientExtras() {
-    final result__ = os_.Bundle.fromRef(_getTransientExtras(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  os_.Bundle getTransientExtras() =>
+      os_.Bundle.fromRef(_getTransientExtras(reference).object);
 
   static final _getClipData = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_job_JobInfo_getClipData")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobInfo__getClipData")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.ClipData getClipData()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// @see JobInfo.Builder\#setClipData(ClipData, int)
   ///@return This value may be {@code null}.
-  content_.ClipData getClipData() {
-    final result__ = content_.ClipData.fromRef(_getClipData(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  content_.ClipData getClipData() =>
+      content_.ClipData.fromRef(_getClipData(reference).object);
 
-  static final _getClipGrantFlags =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobInfo_getClipGrantFlags")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getClipGrantFlags = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobInfo__getClipGrantFlags")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getClipGrantFlags()
   ///
   /// @see JobInfo.Builder\#setClipData(ClipData, int)
-  int getClipGrantFlags() {
-    final result__ = _getClipGrantFlags(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getClipGrantFlags() => _getClipGrantFlags(reference).integer;
 
   static final _getService = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-                  ffi.Pointer<ffi.Void>)>>("android_app_job_JobInfo_getService")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobInfo__getService")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.ComponentName getService()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Name of the service endpoint that will be called back into by the JobScheduler.
   ///@return This value will never be {@code null}.
-  content_.ComponentName getService() {
-    final result__ = content_.ComponentName.fromRef(_getService(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  content_.ComponentName getService() =>
+      content_.ComponentName.fromRef(_getService(reference).object);
 
-  static final _isRequireCharging =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobInfo_isRequireCharging")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isRequireCharging = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobInfo__isRequireCharging")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isRequireCharging()
   ///
   /// @see JobInfo.Builder\#setRequiresCharging(boolean)
-  bool isRequireCharging() {
-    final result__ = _isRequireCharging(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isRequireCharging() => _isRequireCharging(reference).boolean;
 
-  static final _isRequireBatteryNotLow =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobInfo_isRequireBatteryNotLow")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isRequireBatteryNotLow = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobInfo__isRequireBatteryNotLow")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isRequireBatteryNotLow()
   ///
   /// @see JobInfo.Builder\#setRequiresBatteryNotLow(boolean)
-  bool isRequireBatteryNotLow() {
-    final result__ = _isRequireBatteryNotLow(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isRequireBatteryNotLow() => _isRequireBatteryNotLow(reference).boolean;
 
-  static final _isRequireDeviceIdle =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobInfo_isRequireDeviceIdle")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isRequireDeviceIdle = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobInfo__isRequireDeviceIdle")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isRequireDeviceIdle()
   ///
   /// @see JobInfo.Builder\#setRequiresDeviceIdle(boolean)
-  bool isRequireDeviceIdle() {
-    final result__ = _isRequireDeviceIdle(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isRequireDeviceIdle() => _isRequireDeviceIdle(reference).boolean;
 
-  static final _isRequireStorageNotLow =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobInfo_isRequireStorageNotLow")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isRequireStorageNotLow = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobInfo__isRequireStorageNotLow")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isRequireStorageNotLow()
   ///
   /// @see JobInfo.Builder\#setRequiresStorageNotLow(boolean)
-  bool isRequireStorageNotLow() {
-    final result__ = _isRequireStorageNotLow(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isRequireStorageNotLow() => _isRequireStorageNotLow(reference).boolean;
 
   static final _getTriggerContentUris = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_job_JobInfo_getTriggerContentUris")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobInfo__getTriggerContentUris")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.job.JobInfo.TriggerContentUri[] getTriggerContentUris()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -316,48 +275,41 @@ class JobInfo extends jni.JniObject {
   /// Which content: URIs must change for the job to be scheduled.  Returns null
   /// if there are none required.
   ///@see JobInfo.Builder\#addTriggerContentUri(TriggerContentUri)
-  jni.JniObject getTriggerContentUris() {
-    final result__ = jni.JniObject.fromRef(_getTriggerContentUris(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getTriggerContentUris() =>
+      jni.JniObject.fromRef(_getTriggerContentUris(reference).object);
 
-  static final _getTriggerContentUpdateDelay =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobInfo_getTriggerContentUpdateDelay")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getTriggerContentUpdateDelay = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "JobInfo__getTriggerContentUpdateDelay")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getTriggerContentUpdateDelay()
   ///
   /// When triggering on content URI changes, this is the delay from when a change
   /// is detected until the job is scheduled.
   ///@see JobInfo.Builder\#setTriggerContentUpdateDelay(long)
-  int getTriggerContentUpdateDelay() {
-    final result__ = _getTriggerContentUpdateDelay(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getTriggerContentUpdateDelay() =>
+      _getTriggerContentUpdateDelay(reference).long;
 
-  static final _getTriggerContentMaxDelay =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobInfo_getTriggerContentMaxDelay")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getTriggerContentMaxDelay = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobInfo__getTriggerContentMaxDelay")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getTriggerContentMaxDelay()
   ///
   /// When triggering on content URI changes, this is the maximum delay we will
   /// use before scheduling the job.
   ///@see JobInfo.Builder\#setTriggerContentMaxDelay(long)
-  int getTriggerContentMaxDelay() {
-    final result__ = _getTriggerContentMaxDelay(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getTriggerContentMaxDelay() => _getTriggerContentMaxDelay(reference).long;
 
-  static final _getNetworkType =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobInfo_getNetworkType")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getNetworkType = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobInfo__getNetworkType")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getNetworkType()
   ///
@@ -368,17 +320,13 @@ class JobInfo extends jni.JniObject {
   ///             \#getRequiredNetwork() directly.
   ///@see Builder\#setRequiredNetworkType(int)
   ///@return Value is android.app.job.JobInfo\#NETWORK_TYPE_NONE, android.app.job.JobInfo\#NETWORK_TYPE_ANY, android.app.job.JobInfo\#NETWORK_TYPE_UNMETERED, android.app.job.JobInfo\#NETWORK_TYPE_NOT_ROAMING, or android.app.job.JobInfo\#NETWORK_TYPE_CELLULAR
-  int getNetworkType() {
-    final result__ = _getNetworkType(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getNetworkType() => _getNetworkType(reference).integer;
 
   static final _getRequiredNetwork = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_job_JobInfo_getRequiredNetwork")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobInfo__getRequiredNetwork")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.net.NetworkRequest getRequiredNetwork()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -386,16 +334,14 @@ class JobInfo extends jni.JniObject {
   /// Return the detailed description of the kind of network this job requires,
   /// or {@code null} if no specific kind of network is required.
   ///@see Builder\#setRequiredNetwork(NetworkRequest)
-  jni.JniObject getRequiredNetwork() {
-    final result__ = jni.JniObject.fromRef(_getRequiredNetwork(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getRequiredNetwork() =>
+      jni.JniObject.fromRef(_getRequiredNetwork(reference).object);
 
-  static final _getEstimatedNetworkDownloadBytes =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobInfo_getEstimatedNetworkDownloadBytes")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getEstimatedNetworkDownloadBytes = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "JobInfo__getEstimatedNetworkDownloadBytes")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getEstimatedNetworkDownloadBytes()
   ///
@@ -407,16 +353,14 @@ class JobInfo extends jni.JniObject {
   ///         \#NETWORK_BYTES_UNKNOWN when unknown.
   /// Value is a non-negative number of bytes.
   ///@see Builder\#setEstimatedNetworkBytes(long, long)
-  int getEstimatedNetworkDownloadBytes() {
-    final result__ = _getEstimatedNetworkDownloadBytes(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getEstimatedNetworkDownloadBytes() =>
+      _getEstimatedNetworkDownloadBytes(reference).long;
 
-  static final _getEstimatedNetworkUploadBytes =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobInfo_getEstimatedNetworkUploadBytes")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getEstimatedNetworkUploadBytes = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "JobInfo__getEstimatedNetworkUploadBytes")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getEstimatedNetworkUploadBytes()
   ///
@@ -428,76 +372,63 @@ class JobInfo extends jni.JniObject {
   ///         \#NETWORK_BYTES_UNKNOWN when unknown.
   /// Value is a non-negative number of bytes.
   ///@see Builder\#setEstimatedNetworkBytes(long, long)
-  int getEstimatedNetworkUploadBytes() {
-    final result__ = _getEstimatedNetworkUploadBytes(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getEstimatedNetworkUploadBytes() =>
+      _getEstimatedNetworkUploadBytes(reference).long;
 
-  static final _getMinLatencyMillis =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobInfo_getMinLatencyMillis")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getMinLatencyMillis = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobInfo__getMinLatencyMillis")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getMinLatencyMillis()
   ///
   /// Set for a job that does not recur periodically, to specify a delay after which the job
   /// will be eligible for execution. This value is not set if the job recurs periodically.
   ///@see JobInfo.Builder\#setMinimumLatency(long)
-  int getMinLatencyMillis() {
-    final result__ = _getMinLatencyMillis(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getMinLatencyMillis() => _getMinLatencyMillis(reference).long;
 
-  static final _getMaxExecutionDelayMillis =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobInfo_getMaxExecutionDelayMillis")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getMaxExecutionDelayMillis = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "JobInfo__getMaxExecutionDelayMillis")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getMaxExecutionDelayMillis()
   ///
   /// @see JobInfo.Builder\#setOverrideDeadline(long)
-  int getMaxExecutionDelayMillis() {
-    final result__ = _getMaxExecutionDelayMillis(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getMaxExecutionDelayMillis() =>
+      _getMaxExecutionDelayMillis(reference).long;
 
-  static final _isPeriodic =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobInfo_isPeriodic")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isPeriodic = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobInfo__isPeriodic")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isPeriodic()
   ///
   /// Track whether this job will repeat with a given period.
   ///@see JobInfo.Builder\#setPeriodic(long)
   ///@see JobInfo.Builder\#setPeriodic(long, long)
-  bool isPeriodic() {
-    final result__ = _isPeriodic(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isPeriodic() => _isPeriodic(reference).boolean;
 
-  static final _isPersisted =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobInfo_isPersisted")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isPersisted = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobInfo__isPersisted")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isPersisted()
   ///
   /// @see JobInfo.Builder\#setPersisted(boolean)
-  bool isPersisted() {
-    final result__ = _isPersisted(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isPersisted() => _isPersisted(reference).boolean;
 
-  static final _getIntervalMillis =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobInfo_getIntervalMillis")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getIntervalMillis = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobInfo__getIntervalMillis")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getIntervalMillis()
   ///
@@ -505,16 +436,13 @@ class JobInfo extends jni.JniObject {
   /// job does not recur periodically.
   ///@see JobInfo.Builder\#setPeriodic(long)
   ///@see JobInfo.Builder\#setPeriodic(long, long)
-  int getIntervalMillis() {
-    final result__ = _getIntervalMillis(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getIntervalMillis() => _getIntervalMillis(reference).long;
 
-  static final _getFlexMillis =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobInfo_getFlexMillis")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getFlexMillis = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobInfo__getFlexMillis")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getFlexMillis()
   ///
@@ -522,16 +450,13 @@ class JobInfo extends jni.JniObject {
   /// execute at any time in a window of flex length at the end of the period.
   ///@see JobInfo.Builder\#setPeriodic(long)
   ///@see JobInfo.Builder\#setPeriodic(long, long)
-  int getFlexMillis() {
-    final result__ = _getFlexMillis(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getFlexMillis() => _getFlexMillis(reference).long;
 
-  static final _getInitialBackoffMillis =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobInfo_getInitialBackoffMillis")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getInitialBackoffMillis = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobInfo__getInitialBackoffMillis")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getInitialBackoffMillis()
   ///
@@ -539,120 +464,95 @@ class JobInfo extends jni.JniObject {
   /// will be increased depending on the backoff policy specified at job creation time. Defaults
   /// to 30 seconds, minimum is currently 10 seconds.
   ///@see JobInfo.Builder\#setBackoffCriteria(long, int)
-  int getInitialBackoffMillis() {
-    final result__ = _getInitialBackoffMillis(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getInitialBackoffMillis() => _getInitialBackoffMillis(reference).long;
 
-  static final _getBackoffPolicy =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobInfo_getBackoffPolicy")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getBackoffPolicy = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobInfo__getBackoffPolicy")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getBackoffPolicy()
   ///
   /// Return the backoff policy of this job.
   ///@see JobInfo.Builder\#setBackoffCriteria(long, int)
   ///@return Value is android.app.job.JobInfo\#BACKOFF_POLICY_LINEAR, or android.app.job.JobInfo\#BACKOFF_POLICY_EXPONENTIAL
-  int getBackoffPolicy() {
-    final result__ = _getBackoffPolicy(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getBackoffPolicy() => _getBackoffPolicy(reference).integer;
 
-  static final _isImportantWhileForeground =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobInfo_isImportantWhileForeground")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isImportantWhileForeground = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "JobInfo__isImportantWhileForeground")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isImportantWhileForeground()
   ///
   /// @see JobInfo.Builder\#setImportantWhileForeground(boolean)
-  bool isImportantWhileForeground() {
-    final result__ = _isImportantWhileForeground(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isImportantWhileForeground() =>
+      _isImportantWhileForeground(reference).boolean;
 
-  static final _isPrefetch =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobInfo_isPrefetch")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isPrefetch = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobInfo__isPrefetch")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isPrefetch()
   ///
   /// @see JobInfo.Builder\#setPrefetch(boolean)
-  bool isPrefetch() {
-    final result__ = _isPrefetch(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isPrefetch() => _isPrefetch(reference).boolean;
 
   static final _equals1 = jniLookup<
           ffi.NativeFunction<
-              ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
-                  ffi.Pointer<ffi.Void>)>>("android_app_job_JobInfo_equals1")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JobInfo__equals1")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean equals(java.lang.Object o)
-  bool equals1(jni.JniObject o) {
-    final result__ = _equals1(reference, o.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool equals1(jni.JniObject o) => _equals1(reference, o.reference).boolean;
 
-  static final _hashCode1 =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobInfo_hashCode1")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _hashCode1 = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobInfo__hashCode1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int hashCode()
-  int hashCode1() {
-    final result__ = _hashCode1(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int hashCode1() => _hashCode1(reference).integer;
 
-  static final _describeContents =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobInfo_describeContents")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _describeContents = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobInfo__describeContents")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int describeContents()
-  int describeContents() {
-    final result__ = _describeContents(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int describeContents() => _describeContents(reference).integer;
 
   static final _writeToParcel = jniLookup<
           ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_app_job_JobInfo_writeToParcel")
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("JobInfo__writeToParcel")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel out, int flags)
-  void writeToParcel(os_.Parcel out, int flags) {
-    final result__ = _writeToParcel(reference, out.reference, flags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void writeToParcel(os_.Parcel out, int flags) =>
+      _writeToParcel(reference, out.reference, flags).check();
 
   static final _toString1 = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-                  ffi.Pointer<ffi.Void>)>>("android_app_job_JobInfo_toString1")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobInfo__toString1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String toString()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniString toString1() {
-    final result__ = jni.JniString.fromRef(_toString1(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString toString1() =>
+      jni.JniString.fromRef(_toString1(reference).object);
 }
 
 /// from: android.app.job.JobInfo$TriggerContentUri
@@ -664,14 +564,14 @@ class JobInfo_TriggerContentUri extends jni.JniObject {
       : super.fromRef(ref);
 
   static final _get_CREATOR =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "get_android_app_job_JobInfo__TriggerContentUri_CREATOR")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_JobInfo_TriggerContentUri__CREATOR")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: static public final android.os.Parcelable.Creator<android.app.job.JobInfo.TriggerContentUri> CREATOR
   /// The returned object must be deleted after use, by calling the `delete` method.
   static os_.Parcelable_Creator get CREATOR =>
-      os_.Parcelable_Creator.fromRef(_get_CREATOR());
+      os_.Parcelable_Creator.fromRef(_get_CREATOR().object);
 
   /// from: static public final int FLAG_NOTIFY_FOR_DESCENDANTS
   ///
@@ -681,11 +581,10 @@ class JobInfo_TriggerContentUri extends jni.JniObject {
   static const FLAG_NOTIFY_FOR_DESCENDANTS = 1;
 
   static final _ctor = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_job_JobInfo__TriggerContentUri_ctor")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("JobInfo_TriggerContentUri__ctor")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void <init>(android.net.Uri uri, int flags)
   ///
@@ -696,93 +595,74 @@ class JobInfo_TriggerContentUri extends jni.JniObject {
   ///
   /// Value is either <code>0</code> or android.app.job.JobInfo.TriggerContentUri\#FLAG_NOTIFY_FOR_DESCENDANTS
   JobInfo_TriggerContentUri(jni.JniObject uri, int flags)
-      : super.fromRef(_ctor(uri.reference, flags)) {
-    jni.Jni.env.checkException();
-  }
+      : super.fromRef(_ctor(uri.reference, flags).object);
 
   static final _getUri = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_job_JobInfo__TriggerContentUri_getUri")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobInfo_TriggerContentUri__getUri")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.net.Uri getUri()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Return the Uri this trigger was created for.
-  jni.JniObject getUri() {
-    final result__ = jni.JniObject.fromRef(_getUri(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getUri() => jni.JniObject.fromRef(_getUri(reference).object);
 
-  static final _getFlags =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobInfo__TriggerContentUri_getFlags")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getFlags = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "JobInfo_TriggerContentUri__getFlags")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getFlags()
   ///
   /// Return the flags supplied for the trigger.
   ///@return Value is either <code>0</code> or android.app.job.JobInfo.TriggerContentUri\#FLAG_NOTIFY_FOR_DESCENDANTS
-  int getFlags() {
-    final result__ = _getFlags(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getFlags() => _getFlags(reference).integer;
 
   static final _equals1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_job_JobInfo__TriggerContentUri_equals1")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JobInfo_TriggerContentUri__equals1")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean equals(java.lang.Object o)
-  bool equals1(jni.JniObject o) {
-    final result__ = _equals1(reference, o.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool equals1(jni.JniObject o) => _equals1(reference, o.reference).boolean;
 
-  static final _hashCode1 =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobInfo__TriggerContentUri_hashCode1")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _hashCode1 = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "JobInfo_TriggerContentUri__hashCode1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int hashCode()
-  int hashCode1() {
-    final result__ = _hashCode1(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int hashCode1() => _hashCode1(reference).integer;
 
-  static final _describeContents =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobInfo__TriggerContentUri_describeContents")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _describeContents = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "JobInfo_TriggerContentUri__describeContents")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int describeContents()
-  int describeContents() {
-    final result__ = _describeContents(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int describeContents() => _describeContents(reference).integer;
 
   static final _writeToParcel = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_job_JobInfo__TriggerContentUri_writeToParcel")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("JobInfo_TriggerContentUri__writeToParcel")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel out, int flags)
-  void writeToParcel(os_.Parcel out, int flags) {
-    final result__ = _writeToParcel(reference, out.reference, flags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void writeToParcel(os_.Parcel out, int flags) =>
+      _writeToParcel(reference, out.reference, flags).check();
 }
 
 /// from: android.app.job.JobInfo$Builder
@@ -792,11 +672,10 @@ class JobInfo_Builder extends jni.JniObject {
   JobInfo_Builder.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   static final _ctor = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Int32, ffi.Pointer<ffi.Void>)>>(
-          "android_app_job_JobInfo__Builder_ctor")
-      .asFunction<ffi.Pointer<ffi.Void> Function(int, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Int32, ffi.Pointer<ffi.Void>)>>("JobInfo_Builder__ctor")
+      .asFunction<jni.JniResult Function(int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(int jobId, android.content.ComponentName jobService)
   ///
@@ -811,17 +690,14 @@ class JobInfo_Builder extends jni.JniObject {
   ///
   /// This value must never be {@code null}.
   JobInfo_Builder(int jobId, content_.ComponentName jobService)
-      : super.fromRef(_ctor(jobId, jobService.reference)) {
-    jni.Jni.env.checkException();
-  }
+      : super.fromRef(_ctor(jobId, jobService.reference).object);
 
   static final _setExtras = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_job_JobInfo__Builder_setExtras")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JobInfo_Builder__setExtras")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.job.JobInfo.Builder setExtras(android.os.PersistableBundle extras)
@@ -831,20 +707,16 @@ class JobInfo_Builder extends jni.JniObject {
   ///@param extras Bundle containing extras you want the scheduler to hold on to for you.
   /// This value must never be {@code null}.
   ///@see JobInfo\#getExtras()
-  JobInfo_Builder setExtras(os_.PersistableBundle extras) {
-    final result__ =
-        JobInfo_Builder.fromRef(_setExtras(reference, extras.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JobInfo_Builder setExtras(os_.PersistableBundle extras) =>
+      JobInfo_Builder.fromRef(_setExtras(reference, extras.reference).object);
 
   static final _setTransientExtras = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_job_JobInfo__Builder_setTransientExtras")
+          "JobInfo_Builder__setTransientExtras")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.job.JobInfo.Builder setTransientExtras(android.os.Bundle extras)
@@ -859,21 +731,18 @@ class JobInfo_Builder extends jni.JniObject {
   ///@param extras Bundle containing extras you want the scheduler to hold on to for you.
   /// This value must never be {@code null}.
   ///@see JobInfo\#getTransientExtras()
-  JobInfo_Builder setTransientExtras(os_.Bundle extras) {
-    final result__ = JobInfo_Builder.fromRef(
-        _setTransientExtras(reference, extras.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JobInfo_Builder setTransientExtras(os_.Bundle extras) =>
+      JobInfo_Builder.fromRef(
+          _setTransientExtras(reference, extras.reference).object);
 
   static final _setClipData = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
+              jni.JniResult Function(
                   ffi.Pointer<ffi.Void>,
                   ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_app_job_JobInfo__Builder_setClipData")
+                  ffi.Int32)>>("JobInfo_Builder__setClipData")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.app.job.JobInfo.Builder setClipData(android.content.ClipData clip, int grantFlags)
@@ -902,19 +771,15 @@ class JobInfo_Builder extends jni.JniObject {
   /// android.content.Intent\#FLAG_GRANT_PREFIX_URI_PERMISSION.
   ///@see JobInfo\#getClipData()
   ///@see JobInfo\#getClipGrantFlags()
-  JobInfo_Builder setClipData(content_.ClipData clip, int grantFlags) {
-    final result__ = JobInfo_Builder.fromRef(
-        _setClipData(reference, clip.reference, grantFlags));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JobInfo_Builder setClipData(content_.ClipData clip, int grantFlags) =>
+      JobInfo_Builder.fromRef(
+          _setClipData(reference, clip.reference, grantFlags).object);
 
   static final _setRequiredNetworkType = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_job_JobInfo__Builder_setRequiredNetworkType")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("JobInfo_Builder__setRequiredNetworkType")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.app.job.JobInfo.Builder setRequiredNetworkType(int networkType)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -942,20 +807,17 @@ class JobInfo_Builder extends jni.JniObject {
   ///@see JobInfo\#getNetworkType()
   ///@see JobParameters\#getNetwork()
   ///@param networkType Value is android.app.job.JobInfo\#NETWORK_TYPE_NONE, android.app.job.JobInfo\#NETWORK_TYPE_ANY, android.app.job.JobInfo\#NETWORK_TYPE_UNMETERED, android.app.job.JobInfo\#NETWORK_TYPE_NOT_ROAMING, or android.app.job.JobInfo\#NETWORK_TYPE_CELLULAR
-  JobInfo_Builder setRequiredNetworkType(int networkType) {
-    final result__ = JobInfo_Builder.fromRef(
-        _setRequiredNetworkType(reference, networkType));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JobInfo_Builder setRequiredNetworkType(int networkType) =>
+      JobInfo_Builder.fromRef(
+          _setRequiredNetworkType(reference, networkType).object);
 
   static final _setRequiredNetwork = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_job_JobInfo__Builder_setRequiredNetwork")
+          "JobInfo_Builder__setRequiredNetwork")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.job.JobInfo.Builder setRequiredNetwork(android.net.NetworkRequest networkRequest)
@@ -986,20 +848,15 @@ class JobInfo_Builder extends jni.JniObject {
   ///@see \#setRequiredNetworkType(int)
   ///@see JobInfo\#getRequiredNetwork()
   ///@see JobParameters\#getNetwork()
-  JobInfo_Builder setRequiredNetwork(jni.JniObject networkRequest) {
-    final result__ = JobInfo_Builder.fromRef(
-        _setRequiredNetwork(reference, networkRequest.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JobInfo_Builder setRequiredNetwork(jni.JniObject networkRequest) =>
+      JobInfo_Builder.fromRef(
+          _setRequiredNetwork(reference, networkRequest.reference).object);
 
   static final _setEstimatedNetworkBytes = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int64, ffi.Int64)>>(
-          "android_app_job_JobInfo__Builder_setEstimatedNetworkBytes")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int64,
+                  ffi.Int64)>>("JobInfo_Builder__setEstimatedNetworkBytes")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int, int)>();
 
   /// from: public android.app.job.JobInfo.Builder setEstimatedNetworkBytes(long downloadBytes, long uploadBytes)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1040,19 +897,17 @@ class JobInfo_Builder extends jni.JniObject {
   ///@see JobInfo\#getEstimatedNetworkDownloadBytes()
   ///@see JobInfo\#getEstimatedNetworkUploadBytes()
   ///@see JobWorkItem\#JobWorkItem(android.content.Intent, long, long)
-  JobInfo_Builder setEstimatedNetworkBytes(int downloadBytes, int uploadBytes) {
-    final result__ = JobInfo_Builder.fromRef(
-        _setEstimatedNetworkBytes(reference, downloadBytes, uploadBytes));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JobInfo_Builder setEstimatedNetworkBytes(
+          int downloadBytes, int uploadBytes) =>
+      JobInfo_Builder.fromRef(
+          _setEstimatedNetworkBytes(reference, downloadBytes, uploadBytes)
+              .object);
 
   static final _setRequiresCharging = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "android_app_job_JobInfo__Builder_setRequiresCharging")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("JobInfo_Builder__setRequiresCharging")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.app.job.JobInfo.Builder setRequiresCharging(boolean requiresCharging)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1070,19 +925,15 @@ class JobInfo_Builder extends jni.JniObject {
   ///@param requiresCharging Pass {@code true} to require that the device be
   ///     charging in order to run the job.
   ///@see JobInfo\#isRequireCharging()
-  JobInfo_Builder setRequiresCharging(bool requiresCharging) {
-    final result__ = JobInfo_Builder.fromRef(
-        _setRequiresCharging(reference, requiresCharging ? 1 : 0));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JobInfo_Builder setRequiresCharging(bool requiresCharging) =>
+      JobInfo_Builder.fromRef(
+          _setRequiresCharging(reference, requiresCharging ? 1 : 0).object);
 
   static final _setRequiresBatteryNotLow = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "android_app_job_JobInfo__Builder_setRequiresBatteryNotLow")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("JobInfo_Builder__setRequiresBatteryNotLow")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.app.job.JobInfo.Builder setRequiresBatteryNotLow(boolean batteryNotLow)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1093,19 +944,15 @@ class JobInfo_Builder extends jni.JniObject {
   /// warning.
   ///@param batteryNotLow Whether or not the device's battery level must not be low.
   ///@see JobInfo\#isRequireBatteryNotLow()
-  JobInfo_Builder setRequiresBatteryNotLow(bool batteryNotLow) {
-    final result__ = JobInfo_Builder.fromRef(
-        _setRequiresBatteryNotLow(reference, batteryNotLow ? 1 : 0));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JobInfo_Builder setRequiresBatteryNotLow(bool batteryNotLow) =>
+      JobInfo_Builder.fromRef(
+          _setRequiresBatteryNotLow(reference, batteryNotLow ? 1 : 0).object);
 
   static final _setRequiresDeviceIdle = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "android_app_job_JobInfo__Builder_setRequiresDeviceIdle")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("JobInfo_Builder__setRequiresDeviceIdle")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.app.job.JobInfo.Builder setRequiresDeviceIdle(boolean requiresDeviceIdle)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1127,19 +974,15 @@ class JobInfo_Builder extends jni.JniObject {
   ///@param requiresDeviceIdle Pass {@code true} to prevent the job from running
   ///     while the device is being used interactively.
   ///@see JobInfo\#isRequireDeviceIdle()
-  JobInfo_Builder setRequiresDeviceIdle(bool requiresDeviceIdle) {
-    final result__ = JobInfo_Builder.fromRef(
-        _setRequiresDeviceIdle(reference, requiresDeviceIdle ? 1 : 0));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JobInfo_Builder setRequiresDeviceIdle(bool requiresDeviceIdle) =>
+      JobInfo_Builder.fromRef(
+          _setRequiresDeviceIdle(reference, requiresDeviceIdle ? 1 : 0).object);
 
   static final _setRequiresStorageNotLow = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "android_app_job_JobInfo__Builder_setRequiresStorageNotLow")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("JobInfo_Builder__setRequiresStorageNotLow")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.app.job.JobInfo.Builder setRequiresStorageNotLow(boolean storageNotLow)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1150,20 +993,17 @@ class JobInfo_Builder extends jni.JniObject {
   /// "low storage" warning.
   ///@param storageNotLow Whether or not the device's available storage must not be low.
   ///@see JobInfo\#isRequireStorageNotLow()
-  JobInfo_Builder setRequiresStorageNotLow(bool storageNotLow) {
-    final result__ = JobInfo_Builder.fromRef(
-        _setRequiresStorageNotLow(reference, storageNotLow ? 1 : 0));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JobInfo_Builder setRequiresStorageNotLow(bool storageNotLow) =>
+      JobInfo_Builder.fromRef(
+          _setRequiresStorageNotLow(reference, storageNotLow ? 1 : 0).object);
 
   static final _addTriggerContentUri = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_job_JobInfo__Builder_addTriggerContentUri")
+          "JobInfo_Builder__addTriggerContentUri")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.job.JobInfo.Builder addTriggerContentUri(android.app.job.JobInfo.TriggerContentUri uri)
@@ -1197,19 +1037,15 @@ class JobInfo_Builder extends jni.JniObject {
   ///@param uri The content: URI to monitor.
   /// This value must never be {@code null}.
   ///@see JobInfo\#getTriggerContentUris()
-  JobInfo_Builder addTriggerContentUri(JobInfo_TriggerContentUri uri) {
-    final result__ = JobInfo_Builder.fromRef(
-        _addTriggerContentUri(reference, uri.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JobInfo_Builder addTriggerContentUri(JobInfo_TriggerContentUri uri) =>
+      JobInfo_Builder.fromRef(
+          _addTriggerContentUri(reference, uri.reference).object);
 
   static final _setTriggerContentUpdateDelay = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int64)>>(
-          "android_app_job_JobInfo__Builder_setTriggerContentUpdateDelay")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int64)>>("JobInfo_Builder__setTriggerContentUpdateDelay")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.app.job.JobInfo.Builder setTriggerContentUpdateDelay(long durationMs)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1219,19 +1055,15 @@ class JobInfo_Builder extends jni.JniObject {
   /// will be reset to start at the time of the most recent change.
   ///@param durationMs Delay after most recent content change, in milliseconds.
   ///@see JobInfo\#getTriggerContentUpdateDelay()
-  JobInfo_Builder setTriggerContentUpdateDelay(int durationMs) {
-    final result__ = JobInfo_Builder.fromRef(
-        _setTriggerContentUpdateDelay(reference, durationMs));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JobInfo_Builder setTriggerContentUpdateDelay(int durationMs) =>
+      JobInfo_Builder.fromRef(
+          _setTriggerContentUpdateDelay(reference, durationMs).object);
 
   static final _setTriggerContentMaxDelay = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int64)>>(
-          "android_app_job_JobInfo__Builder_setTriggerContentMaxDelay")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int64)>>("JobInfo_Builder__setTriggerContentMaxDelay")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.app.job.JobInfo.Builder setTriggerContentMaxDelay(long durationMs)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1240,18 +1072,15 @@ class JobInfo_Builder extends jni.JniObject {
   /// time a content change is detected until the job is scheduled.
   ///@param durationMs Delay after initial content change, in milliseconds.
   ///@see JobInfo\#getTriggerContentMaxDelay()
-  JobInfo_Builder setTriggerContentMaxDelay(int durationMs) {
-    final result__ = JobInfo_Builder.fromRef(
-        _setTriggerContentMaxDelay(reference, durationMs));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JobInfo_Builder setTriggerContentMaxDelay(int durationMs) =>
+      JobInfo_Builder.fromRef(
+          _setTriggerContentMaxDelay(reference, durationMs).object);
 
   static final _setPeriodic = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int64)>>("android_app_job_JobInfo__Builder_setPeriodic")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int64)>>("JobInfo_Builder__setPeriodic")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.app.job.JobInfo.Builder setPeriodic(long intervalMillis)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1264,19 +1093,14 @@ class JobInfo_Builder extends jni.JniObject {
   ///@param intervalMillis Millisecond interval for which this job will repeat.
   ///@see JobInfo\#getIntervalMillis()
   ///@see JobInfo\#getFlexMillis()
-  JobInfo_Builder setPeriodic(int intervalMillis) {
-    final result__ =
-        JobInfo_Builder.fromRef(_setPeriodic(reference, intervalMillis));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JobInfo_Builder setPeriodic(int intervalMillis) =>
+      JobInfo_Builder.fromRef(_setPeriodic(reference, intervalMillis).object);
 
   static final _setPeriodic1 = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, ffi.Int64,
-                  ffi.Int64)>>("android_app_job_JobInfo__Builder_setPeriodic1")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int, int)>();
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int64,
+                  ffi.Int64)>>("JobInfo_Builder__setPeriodic1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int, int)>();
 
   /// from: public android.app.job.JobInfo.Builder setPeriodic(long intervalMillis, long flexMillis)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1290,19 +1114,15 @@ class JobInfo_Builder extends jni.JniObject {
   ///                   higher.
   ///@see JobInfo\#getIntervalMillis()
   ///@see JobInfo\#getFlexMillis()
-  JobInfo_Builder setPeriodic1(int intervalMillis, int flexMillis) {
-    final result__ = JobInfo_Builder.fromRef(
-        _setPeriodic1(reference, intervalMillis, flexMillis));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JobInfo_Builder setPeriodic1(int intervalMillis, int flexMillis) =>
+      JobInfo_Builder.fromRef(
+          _setPeriodic1(reference, intervalMillis, flexMillis).object);
 
   static final _setMinimumLatency = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int64)>>(
-          "android_app_job_JobInfo__Builder_setMinimumLatency")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int64)>>("JobInfo_Builder__setMinimumLatency")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.app.job.JobInfo.Builder setMinimumLatency(long minLatencyMillis)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1314,19 +1134,15 @@ class JobInfo_Builder extends jni.JniObject {
   ///@param minLatencyMillis Milliseconds before which this job will not be considered for
   ///                         execution.
   ///@see JobInfo\#getMinLatencyMillis()
-  JobInfo_Builder setMinimumLatency(int minLatencyMillis) {
-    final result__ = JobInfo_Builder.fromRef(
-        _setMinimumLatency(reference, minLatencyMillis));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JobInfo_Builder setMinimumLatency(int minLatencyMillis) =>
+      JobInfo_Builder.fromRef(
+          _setMinimumLatency(reference, minLatencyMillis).object);
 
   static final _setOverrideDeadline = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int64)>>(
-          "android_app_job_JobInfo__Builder_setOverrideDeadline")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int64)>>("JobInfo_Builder__setOverrideDeadline")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.app.job.JobInfo.Builder setOverrideDeadline(long maxExecutionDelayMillis)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1337,20 +1153,15 @@ class JobInfo_Builder extends jni.JniObject {
   /// java.lang.IllegalArgumentException when
   /// android.app.job.JobInfo.Builder\#build() is called.
   ///@see JobInfo\#getMaxExecutionDelayMillis()
-  JobInfo_Builder setOverrideDeadline(int maxExecutionDelayMillis) {
-    final result__ = JobInfo_Builder.fromRef(
-        _setOverrideDeadline(reference, maxExecutionDelayMillis));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JobInfo_Builder setOverrideDeadline(int maxExecutionDelayMillis) =>
+      JobInfo_Builder.fromRef(
+          _setOverrideDeadline(reference, maxExecutionDelayMillis).object);
 
   static final _setBackoffCriteria = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int64, ffi.Int32)>>(
-          "android_app_job_JobInfo__Builder_setBackoffCriteria")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int64,
+                  ffi.Int32)>>("JobInfo_Builder__setBackoffCriteria")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int, int)>();
 
   /// from: public android.app.job.JobInfo.Builder setBackoffCriteria(long initialBackoffMillis, int backoffPolicy)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1370,19 +1181,16 @@ class JobInfo_Builder extends jni.JniObject {
   ///@see JobInfo\#getBackoffPolicy()
   ///@param backoffPolicy Value is android.app.job.JobInfo\#BACKOFF_POLICY_LINEAR, or android.app.job.JobInfo\#BACKOFF_POLICY_EXPONENTIAL
   JobInfo_Builder setBackoffCriteria(
-      int initialBackoffMillis, int backoffPolicy) {
-    final result__ = JobInfo_Builder.fromRef(
-        _setBackoffCriteria(reference, initialBackoffMillis, backoffPolicy));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          int initialBackoffMillis, int backoffPolicy) =>
+      JobInfo_Builder.fromRef(
+          _setBackoffCriteria(reference, initialBackoffMillis, backoffPolicy)
+              .object);
 
   static final _setImportantWhileForeground = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "android_app_job_JobInfo__Builder_setImportantWhileForeground")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("JobInfo_Builder__setImportantWhileForeground")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.app.job.JobInfo.Builder setImportantWhileForeground(boolean importantWhileForeground)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1400,18 +1208,16 @@ class JobInfo_Builder extends jni.JniObject {
   ///@param importantWhileForeground whether to relax doze restrictions for this job when the
   ///                                 app is in the foreground. False by default.
   ///@see JobInfo\#isImportantWhileForeground()
-  JobInfo_Builder setImportantWhileForeground(bool importantWhileForeground) {
-    final result__ = JobInfo_Builder.fromRef(_setImportantWhileForeground(
-        reference, importantWhileForeground ? 1 : 0));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JobInfo_Builder setImportantWhileForeground(bool importantWhileForeground) =>
+      JobInfo_Builder.fromRef(_setImportantWhileForeground(
+              reference, importantWhileForeground ? 1 : 0)
+          .object);
 
   static final _setPrefetch = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Uint8)>>("android_app_job_JobInfo__Builder_setPrefetch")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("JobInfo_Builder__setPrefetch")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.app.job.JobInfo.Builder setPrefetch(boolean prefetch)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1428,18 +1234,14 @@ class JobInfo_Builder extends jni.JniObject {
   /// may also use this signal in combination with end user usage patterns
   /// to ensure data is prefetched before the user launches your app.
   ///@see JobInfo\#isPrefetch()
-  JobInfo_Builder setPrefetch(bool prefetch) {
-    final result__ =
-        JobInfo_Builder.fromRef(_setPrefetch(reference, prefetch ? 1 : 0));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JobInfo_Builder setPrefetch(bool prefetch) =>
+      JobInfo_Builder.fromRef(_setPrefetch(reference, prefetch ? 1 : 0).object);
 
   static final _setPersisted = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Uint8)>>("android_app_job_JobInfo__Builder_setPersisted")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("JobInfo_Builder__setPersisted")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.app.job.JobInfo.Builder setPersisted(boolean isPersisted)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1450,28 +1252,20 @@ class JobInfo_Builder extends jni.JniObject {
   ///@param isPersisted True to indicate that the job will be written to
   ///            disk and loaded at boot.
   ///@see JobInfo\#isPersisted()
-  JobInfo_Builder setPersisted(bool isPersisted) {
-    final result__ =
-        JobInfo_Builder.fromRef(_setPersisted(reference, isPersisted ? 1 : 0));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JobInfo_Builder setPersisted(bool isPersisted) => JobInfo_Builder.fromRef(
+      _setPersisted(reference, isPersisted ? 1 : 0).object);
 
   static final _build = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_job_JobInfo__Builder_build")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobInfo_Builder__build")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.job.JobInfo build()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// @return The job object to hand to the JobScheduler. This object is immutable.
-  JobInfo build() {
-    final result__ = JobInfo.fromRef(_build(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JobInfo build() => JobInfo.fromRef(_build(reference).object);
 }
 
 /// from: android.app.job.JobParameters
@@ -1482,45 +1276,40 @@ class JobParameters extends jni.JniObject {
   JobParameters.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   static final _get_CREATOR =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "get_android_app_job_JobParameters_CREATOR")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_JobParameters__CREATOR")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: static public final android.os.Parcelable.Creator<android.app.job.JobParameters> CREATOR
   /// The returned object must be deleted after use, by calling the `delete` method.
   static os_.Parcelable_Creator get CREATOR =>
-      os_.Parcelable_Creator.fromRef(_get_CREATOR());
+      os_.Parcelable_Creator.fromRef(_get_CREATOR().object);
 
   static final _ctor = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-                  ffi.Pointer<ffi.Void>)>>("android_app_job_JobParameters_ctor")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobParameters__ctor")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: void <init>(android.os.Parcel in)
-  JobParameters(os_.Parcel in0) : super.fromRef(_ctor(in0.reference)) {
-    jni.Jni.env.checkException();
-  }
+  JobParameters(os_.Parcel in0) : super.fromRef(_ctor(in0.reference).object);
 
-  static final _getJobId =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobParameters_getJobId")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getJobId = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobParameters__getJobId")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getJobId()
   ///
   /// @return The unique id of this job, specified at creation time.
-  int getJobId() {
-    final result__ = _getJobId(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getJobId() => _getJobId(reference).integer;
 
   static final _getExtras = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_job_JobParameters_getExtras")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobParameters__getExtras")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.PersistableBundle getExtras()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1528,17 +1317,14 @@ class JobParameters extends jni.JniObject {
   /// @return The extras you passed in when constructing this job with
   /// android.app.job.JobInfo.Builder\#setExtras(android.os.PersistableBundle). This will
   /// never be null. If you did not set any extras this will be an empty bundle.
-  os_.PersistableBundle getExtras() {
-    final result__ = os_.PersistableBundle.fromRef(_getExtras(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  os_.PersistableBundle getExtras() =>
+      os_.PersistableBundle.fromRef(_getExtras(reference).object);
 
   static final _getTransientExtras = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_job_JobParameters_getTransientExtras")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobParameters__getTransientExtras")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle getTransientExtras()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1546,17 +1332,14 @@ class JobParameters extends jni.JniObject {
   /// @return The transient extras you passed in when constructing this job with
   /// android.app.job.JobInfo.Builder\#setTransientExtras(android.os.Bundle). This will
   /// never be null. If you did not set any extras this will be an empty bundle.
-  os_.Bundle getTransientExtras() {
-    final result__ = os_.Bundle.fromRef(_getTransientExtras(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  os_.Bundle getTransientExtras() =>
+      os_.Bundle.fromRef(_getTransientExtras(reference).object);
 
   static final _getClipData = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_job_JobParameters_getClipData")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobParameters__getClipData")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.ClipData getClipData()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1564,32 +1347,27 @@ class JobParameters extends jni.JniObject {
   /// @return The clip you passed in when constructing this job with
   /// android.app.job.JobInfo.Builder\#setClipData(ClipData, int). Will be null
   /// if it was not set.
-  content_.ClipData getClipData() {
-    final result__ = content_.ClipData.fromRef(_getClipData(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  content_.ClipData getClipData() =>
+      content_.ClipData.fromRef(_getClipData(reference).object);
 
-  static final _getClipGrantFlags =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobParameters_getClipGrantFlags")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getClipGrantFlags = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobParameters__getClipGrantFlags")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getClipGrantFlags()
   ///
   /// @return The clip grant flags you passed in when constructing this job with
   /// android.app.job.JobInfo.Builder\#setClipData(ClipData, int). Will be 0
   /// if it was not set.
-  int getClipGrantFlags() {
-    final result__ = _getClipGrantFlags(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getClipGrantFlags() => _getClipGrantFlags(reference).integer;
 
-  static final _isOverrideDeadlineExpired =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobParameters_isOverrideDeadlineExpired")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isOverrideDeadlineExpired = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "JobParameters__isOverrideDeadlineExpired")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isOverrideDeadlineExpired()
   ///
@@ -1597,17 +1375,14 @@ class JobParameters extends jni.JniObject {
   /// provides an easy way to tell whether the job is being executed due to the deadline
   /// expiring. Note: If the job is running because its deadline expired, it implies that its
   /// constraints will not be met.
-  bool isOverrideDeadlineExpired() {
-    final result__ = _isOverrideDeadlineExpired(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isOverrideDeadlineExpired() =>
+      _isOverrideDeadlineExpired(reference).boolean;
 
   static final _getTriggeredContentUris = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_job_JobParameters_getTriggeredContentUris")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "JobParameters__getTriggeredContentUris")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.net.Uri[] getTriggeredContentUris()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1618,17 +1393,14 @@ class JobParameters extends jni.JniObject {
   /// URIs is too large to report.  Whether or not the number of URIs is too large, you can
   /// always use \#getTriggeredContentAuthorities() to determine whether the job was
   /// triggered due to any content changes and the authorities they are associated with.
-  jni.JniObject getTriggeredContentUris() {
-    final result__ = jni.JniObject.fromRef(_getTriggeredContentUris(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getTriggeredContentUris() =>
+      jni.JniObject.fromRef(_getTriggeredContentUris(reference).object);
 
   static final _getTriggeredContentAuthorities = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_job_JobParameters_getTriggeredContentAuthorities")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "JobParameters__getTriggeredContentAuthorities")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String[] getTriggeredContentAuthorities()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1639,18 +1411,14 @@ class JobParameters extends jni.JniObject {
   /// as a deadline expiring.  If this is non-null, you can use \#getTriggeredContentUris()
   /// to retrieve the details of which URIs changed (as long as that has not exceeded the maximum
   /// number it can reported).
-  jni.JniObject getTriggeredContentAuthorities() {
-    final result__ =
-        jni.JniObject.fromRef(_getTriggeredContentAuthorities(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getTriggeredContentAuthorities() =>
+      jni.JniObject.fromRef(_getTriggeredContentAuthorities(reference).object);
 
   static final _getNetwork = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_job_JobParameters_getNetwork")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobParameters__getNetwork")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.net.Network getNetwork()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1670,17 +1438,14 @@ class JobParameters extends jni.JniObject {
   ///         for this job, or {@code null} if this job didn't set any required
   ///         network type.
   ///@see JobInfo.Builder\#setRequiredNetworkType(int)
-  jni.JniObject getNetwork() {
-    final result__ = jni.JniObject.fromRef(_getNetwork(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getNetwork() =>
+      jni.JniObject.fromRef(_getNetwork(reference).object);
 
   static final _dequeueWork = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_job_JobParameters_dequeueWork")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobParameters__dequeueWork")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.job.JobWorkItem dequeueWork()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1718,19 +1483,16 @@ class JobParameters extends jni.JniObject {
   /// If null is returned, the system will also stop the job if all work has also been completed.
   /// (This means that for correct operation, you must always call dequeueWork() after you have
   /// completed other work, to check either for more work or allow the system to stop the job.)
-  JobWorkItem dequeueWork() {
-    final result__ = JobWorkItem.fromRef(_dequeueWork(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JobWorkItem dequeueWork() =>
+      JobWorkItem.fromRef(_dequeueWork(reference).object);
 
   static final _completeWork = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_job_JobParameters_completeWork")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JobParameters__completeWork")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void completeWork(android.app.job.JobWorkItem work)
   ///
@@ -1750,213 +1512,31 @@ class JobParameters extends jni.JniObject {
   /// \#dequeueWork()
   ///
   /// This value must never be {@code null}.
-  void completeWork(JobWorkItem work) {
-    final result__ = _completeWork(reference, work.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void completeWork(JobWorkItem work) =>
+      _completeWork(reference, work.reference).check();
 
-  static final _describeContents =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobParameters_describeContents")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _describeContents = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobParameters__describeContents")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int describeContents()
-  int describeContents() {
-    final result__ = _describeContents(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int describeContents() => _describeContents(reference).integer;
 
   static final _writeToParcel = jniLookup<
           ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_app_job_JobParameters_writeToParcel")
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("JobParameters__writeToParcel")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(os_.Parcel dest, int flags) {
-    final result__ = _writeToParcel(reference, dest.reference, flags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
-
-/// from: android.app.job.JobWorkItem
-///
-/// A unit of work that can be enqueued for a job using
-/// JobScheduler\#enqueue JobScheduler.enqueue.  See
-/// JobParameters\#dequeueWork() JobParameters.dequeueWork for more details.
-class JobWorkItem extends jni.JniObject {
-  JobWorkItem.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  static final _get_CREATOR =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "get_android_app_job_JobWorkItem_CREATOR")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: static public final android.os.Parcelable.Creator<android.app.job.JobWorkItem> CREATOR
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  static os_.Parcelable_Creator get CREATOR =>
-      os_.Parcelable_Creator.fromRef(_get_CREATOR());
-
-  static final _ctor = jniLookup<
-          ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-                  ffi.Pointer<ffi.Void>)>>("android_app_job_JobWorkItem_ctor")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void <init>(android.content.Intent intent)
-  ///
-  /// Create a new piece of work, which can be submitted to
-  /// JobScheduler\#enqueue JobScheduler.enqueue.
-  ///@param intent The general Intent describing this work.
-  JobWorkItem(content_.Intent intent) : super.fromRef(_ctor(intent.reference)) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _ctor1 = jniLookup<
-          ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, ffi.Int64,
-                  ffi.Int64)>>("android_app_job_JobWorkItem_ctor1")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int, int)>();
-
-  /// from: public void <init>(android.content.Intent intent, long downloadBytes, long uploadBytes)
-  ///
-  /// Create a new piece of work, which can be submitted to
-  /// JobScheduler\#enqueue JobScheduler.enqueue.
-  ///
-  /// See JobInfo.Builder\#setEstimatedNetworkBytes(long, long) for
-  /// details about how to estimate network traffic.
-  ///@param intent The general Intent describing this work.
-  ///@param downloadBytes The estimated size of network traffic that will be
-  ///            downloaded by this job work item, in bytes.
-  /// Value is a non-negative number of bytes.
-  ///@param uploadBytes The estimated size of network traffic that will be
-  ///            uploaded by this job work item, in bytes.
-  ///
-  /// Value is a non-negative number of bytes.
-  JobWorkItem.ctor1(content_.Intent intent, int downloadBytes, int uploadBytes)
-      : super.fromRef(_ctor1(intent.reference, downloadBytes, uploadBytes)) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _getIntent = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_job_JobWorkItem_getIntent")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.content.Intent getIntent()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Return the Intent associated with this work.
-  content_.Intent getIntent() {
-    final result__ = content_.Intent.fromRef(_getIntent(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getEstimatedNetworkDownloadBytes =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobWorkItem_getEstimatedNetworkDownloadBytes")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public long getEstimatedNetworkDownloadBytes()
-  ///
-  /// Return the estimated size of download traffic that will be performed by
-  /// this job, in bytes.
-  ///
-  /// Value is a non-negative number of bytes.
-  ///@return Estimated size of download traffic, or
-  ///         JobInfo\#NETWORK_BYTES_UNKNOWN when unknown.
-  ///
-  /// Value is a non-negative number of bytes.
-  int getEstimatedNetworkDownloadBytes() {
-    final result__ = _getEstimatedNetworkDownloadBytes(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getEstimatedNetworkUploadBytes =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobWorkItem_getEstimatedNetworkUploadBytes")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public long getEstimatedNetworkUploadBytes()
-  ///
-  /// Return the estimated size of upload traffic that will be performed by
-  /// this job work item, in bytes.
-  ///
-  /// Value is a non-negative number of bytes.
-  ///@return Estimated size of upload traffic, or
-  ///         JobInfo\#NETWORK_BYTES_UNKNOWN when unknown.
-  ///
-  /// Value is a non-negative number of bytes.
-  int getEstimatedNetworkUploadBytes() {
-    final result__ = _getEstimatedNetworkUploadBytes(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getDeliveryCount =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobWorkItem_getDeliveryCount")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int getDeliveryCount()
-  ///
-  /// Return the count of the number of times this work item has been delivered
-  /// to the job.  The value will be > 1 if it has been redelivered because the job
-  /// was stopped or crashed while it had previously been delivered but before the
-  /// job had called JobParameters\#completeWork JobParameters.completeWork for it.
-  int getDeliveryCount() {
-    final result__ = _getDeliveryCount(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _toString1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_job_JobWorkItem_toString1")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.lang.String toString()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniString toString1() {
-    final result__ = jni.JniString.fromRef(_toString1(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _describeContents =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobWorkItem_describeContents")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int describeContents()
-  int describeContents() {
-    final result__ = _describeContents(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _writeToParcel = jniLookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_app_job_JobWorkItem_writeToParcel")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public void writeToParcel(android.os.Parcel out, int flags)
-  void writeToParcel(os_.Parcel out, int flags) {
-    final result__ = _writeToParcel(reference, out.reference, flags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void writeToParcel(os_.Parcel dest, int flags) =>
+      _writeToParcel(reference, dest.reference, flags).check();
 }
 
 /// from: android.app.job.JobScheduler
@@ -2001,22 +1581,20 @@ class JobScheduler extends jni.JniObject {
   /// Returned from \#schedule(JobInfo) if this job has been successfully scheduled.
   static const RESULT_SUCCESS = 1;
 
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_app_job_JobScheduler_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "JobScheduler__ctor")
+      .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  JobScheduler() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
+  JobScheduler() : super.fromRef(_ctor().object);
 
   static final _schedule = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_job_JobScheduler_schedule")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JobScheduler__schedule")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract int schedule(android.app.job.JobInfo job)
   ///
@@ -2030,19 +1608,16 @@ class JobScheduler extends jni.JniObject {
   ///@return the result of the schedule request.
   ///
   /// Value is android.app.job.JobScheduler\#RESULT_FAILURE, or android.app.job.JobScheduler\#RESULT_SUCCESS
-  int schedule(JobInfo job) {
-    final result__ = _schedule(reference, job.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int schedule(JobInfo job) => _schedule(reference, job.reference).integer;
 
   static final _enqueue = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_job_JobScheduler_enqueue")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JobScheduler__enqueue")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract int enqueue(android.app.job.JobInfo job, android.app.job.JobWorkItem work)
@@ -2086,17 +1661,14 @@ class JobScheduler extends jni.JniObject {
   ///@return the result of the enqueue request.
   ///
   /// Value is android.app.job.JobScheduler\#RESULT_FAILURE, or android.app.job.JobScheduler\#RESULT_SUCCESS
-  int enqueue(JobInfo job, JobWorkItem work) {
-    final result__ = _enqueue(reference, job.reference, work.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int enqueue(JobInfo job, JobWorkItem work) =>
+      _enqueue(reference, job.reference, work.reference).integer;
 
   static final _cancel = jniLookup<
           ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_app_job_JobScheduler_cancel")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("JobScheduler__cancel")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public abstract void cancel(int jobId)
   ///
@@ -2106,31 +1678,24 @@ class JobScheduler extends jni.JniObject {
   ///@param jobId unique identifier for the job to be canceled, as supplied to
   ///     JobInfo.Builder\#JobInfo.Builder(int, android.content.ComponentName)
   ///     JobInfo.Builder(int, android.content.ComponentName).
-  void cancel(int jobId) {
-    final result__ = _cancel(reference, jobId);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void cancel(int jobId) => _cancel(reference, jobId).check();
 
-  static final _cancelAll =
-      jniLookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_job_JobScheduler_cancelAll")
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+  static final _cancelAll = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobScheduler__cancelAll")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract void cancelAll()
   ///
   /// Cancel _all_ jobs that have been scheduled by the calling application.
-  void cancelAll() {
-    final result__ = _cancelAll(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void cancelAll() => _cancelAll(reference).check();
 
   static final _getAllPendingJobs = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_job_JobScheduler_getAllPendingJobs")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobScheduler__getAllPendingJobs")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract java.util.List<android.app.job.JobInfo> getAllPendingJobs()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -2140,17 +1705,14 @@ class JobScheduler extends jni.JniObject {
   ///     currently started as well as those that are still waiting to run.
   ///
   /// This value will never be {@code null}.
-  jni.JniObject getAllPendingJobs() {
-    final result__ = jni.JniObject.fromRef(_getAllPendingJobs(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getAllPendingJobs() =>
+      jni.JniObject.fromRef(_getAllPendingJobs(reference).object);
 
   static final _getPendingJob = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_app_job_JobScheduler_getPendingJob")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("JobScheduler__getPendingJob")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public abstract android.app.job.JobInfo getPendingJob(int jobId)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -2158,11 +1720,8 @@ class JobScheduler extends jni.JniObject {
   /// Look up the description of a scheduled job.
   ///@return The JobInfo description of the given scheduled job, or {@code null}
   ///     if the supplied job ID does not correspond to any job.
-  JobInfo getPendingJob(int jobId) {
-    final result__ = JobInfo.fromRef(_getPendingJob(reference, jobId));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  JobInfo getPendingJob(int jobId) =>
+      JobInfo.fromRef(_getPendingJob(reference, jobId).object);
 }
 
 /// from: android.app.job.JobService
@@ -2198,40 +1757,35 @@ class JobService extends app_.Service {
   /// permission, that service will be ignored by the system.
   static const PERMISSION_BIND = "android.permission.BIND_JOB_SERVICE";
 
-  static final _ctor2 =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_app_job_JobService_ctor2")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+  static final _ctor2 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "JobService__ctor2")
+      .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  JobService.ctor2() : super.fromRef(_ctor2()) {
-    jni.Jni.env.checkException();
-  }
+  JobService.ctor2() : super.fromRef(_ctor2().object);
 
   static final _onBind = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Pointer<ffi.Void>)>>("android_app_job_JobService_onBind")
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JobService__onBind")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public final android.os.IBinder onBind(android.content.Intent intent)
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// @hide
-  os_.IBinder onBind(content_.Intent intent) {
-    final result__ = os_.IBinder.fromRef(_onBind(reference, intent.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  os_.IBinder onBind(content_.Intent intent) =>
+      os_.IBinder.fromRef(_onBind(reference, intent.reference).object);
 
   static final _jobFinished = jniLookup<
           ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-                  ffi.Uint8)>>("android_app_job_JobService_jobFinished")
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>, ffi.Uint8)>>("JobService__jobFinished")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public final void jobFinished(android.app.job.JobParameters params, boolean wantsReschedule)
   ///
@@ -2256,19 +1810,17 @@ class JobService extends app_.Service {
   ///@param wantsReschedule {@code true} if this job should be rescheduled according
   ///     to the back-off criteria specified when it was first scheduled; {@code false}
   ///     otherwise.
-  void jobFinished(JobParameters params, bool wantsReschedule) {
-    final result__ =
-        _jobFinished(reference, params.reference, wantsReschedule ? 1 : 0);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void jobFinished(JobParameters params, bool wantsReschedule) =>
+      _jobFinished(reference, params.reference, wantsReschedule ? 1 : 0)
+          .check();
 
   static final _onStartJob = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_job_JobService_onStartJob")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JobService__onStartJob")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract boolean onStartJob(android.app.job.JobParameters params)
   ///
@@ -2301,18 +1853,16 @@ class JobService extends app_.Service {
   ///     \#jobFinished(JobParameters, boolean).
   ///@return {@code true} if your service will continue running, using a separate thread
   ///     when appropriate.  {@code false} means that this job has completed its work.
-  bool onStartJob(JobParameters params) {
-    final result__ = _onStartJob(reference, params.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool onStartJob(JobParameters params) =>
+      _onStartJob(reference, params.reference).boolean;
 
   static final _onStopJob = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_job_JobService_onStopJob")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JobService__onStopJob")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract boolean onStopJob(android.app.job.JobParameters params)
   ///
@@ -2335,11 +1885,8 @@ class JobService extends app_.Service {
   ///@return {@code true} to indicate to the JobManager whether you'd like to reschedule
   /// this job based on the retry criteria provided at job creation-time; or {@code false}
   /// to end the job entirely.  Regardless of the value returned, your job must stop executing.
-  bool onStopJob(JobParameters params) {
-    final result__ = _onStopJob(reference, params.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool onStopJob(JobParameters params) =>
+      _onStopJob(reference, params.reference).boolean;
 }
 
 /// from: android.app.job.JobServiceEngine
@@ -2354,87 +1901,234 @@ class JobServiceEngine extends jni.JniObject {
   JobServiceEngine.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   static final _ctor = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_job_JobServiceEngine_ctor")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobServiceEngine__ctor")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.app.Service service)
   ///
   /// Create a new engine, ready for use.
   ///@param service The Service that is creating this engine and in which it will run.
   JobServiceEngine(app_.Service service)
-      : super.fromRef(_ctor(service.reference)) {
-    jni.Jni.env.checkException();
-  }
+      : super.fromRef(_ctor(service.reference).object);
 
   static final _getBinder = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_job_JobServiceEngine_getBinder")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobServiceEngine__getBinder")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public final android.os.IBinder getBinder()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Retrieve the engine's IPC interface that should be returned by
   /// Service\#onBind(Intent).
-  os_.IBinder getBinder() {
-    final result__ = os_.IBinder.fromRef(_getBinder(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  os_.IBinder getBinder() => os_.IBinder.fromRef(_getBinder(reference).object);
 
   static final _onStartJob = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_job_JobServiceEngine_onStartJob")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JobServiceEngine__onStartJob")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract boolean onStartJob(android.app.job.JobParameters params)
   ///
   /// Engine's report that a job has started.  See
   /// JobService\#onStartJob(JobParameters) JobService.onStartJob for more information.
-  bool onStartJob(JobParameters params) {
-    final result__ = _onStartJob(reference, params.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool onStartJob(JobParameters params) =>
+      _onStartJob(reference, params.reference).boolean;
 
   static final _onStopJob = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_job_JobServiceEngine_onStopJob")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("JobServiceEngine__onStopJob")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract boolean onStopJob(android.app.job.JobParameters params)
   ///
   /// Engine's report that a job has stopped.  See
   /// JobService\#onStopJob(JobParameters) JobService.onStopJob for more information.
-  bool onStopJob(JobParameters params) {
-    final result__ = _onStopJob(reference, params.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool onStopJob(JobParameters params) =>
+      _onStopJob(reference, params.reference).boolean;
 
   static final _jobFinished = jniLookup<
           ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-                  ffi.Uint8)>>("android_app_job_JobServiceEngine_jobFinished")
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("JobServiceEngine__jobFinished")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void jobFinished(android.app.job.JobParameters params, boolean needsReschedule)
   ///
   /// Call in to engine to report that a job has finished executing.  See
   /// JobService\#jobFinished(JobParameters, boolean)  JobService.jobFinished} for more
   /// information.
-  void jobFinished(JobParameters params, bool needsReschedule) {
-    final result__ =
-        _jobFinished(reference, params.reference, needsReschedule ? 1 : 0);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void jobFinished(JobParameters params, bool needsReschedule) =>
+      _jobFinished(reference, params.reference, needsReschedule ? 1 : 0)
+          .check();
+}
+
+/// from: android.app.job.JobWorkItem
+///
+/// A unit of work that can be enqueued for a job using
+/// JobScheduler\#enqueue JobScheduler.enqueue.  See
+/// JobParameters\#dequeueWork() JobParameters.dequeueWork for more details.
+class JobWorkItem extends jni.JniObject {
+  JobWorkItem.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  static final _get_CREATOR =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_JobWorkItem__CREATOR")
+          .asFunction<jni.JniResult Function()>();
+
+  /// from: static public final android.os.Parcelable.Creator<android.app.job.JobWorkItem> CREATOR
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  static os_.Parcelable_Creator get CREATOR =>
+      os_.Parcelable_Creator.fromRef(_get_CREATOR().object);
+
+  static final _ctor = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobWorkItem__ctor")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void <init>(android.content.Intent intent)
+  ///
+  /// Create a new piece of work, which can be submitted to
+  /// JobScheduler\#enqueue JobScheduler.enqueue.
+  ///@param intent The general Intent describing this work.
+  JobWorkItem(content_.Intent intent)
+      : super.fromRef(_ctor(intent.reference).object);
+
+  static final _ctor1 = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int64,
+                  ffi.Int64)>>("JobWorkItem__ctor1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int, int)>();
+
+  /// from: public void <init>(android.content.Intent intent, long downloadBytes, long uploadBytes)
+  ///
+  /// Create a new piece of work, which can be submitted to
+  /// JobScheduler\#enqueue JobScheduler.enqueue.
+  ///
+  /// See JobInfo.Builder\#setEstimatedNetworkBytes(long, long) for
+  /// details about how to estimate network traffic.
+  ///@param intent The general Intent describing this work.
+  ///@param downloadBytes The estimated size of network traffic that will be
+  ///            downloaded by this job work item, in bytes.
+  /// Value is a non-negative number of bytes.
+  ///@param uploadBytes The estimated size of network traffic that will be
+  ///            uploaded by this job work item, in bytes.
+  ///
+  /// Value is a non-negative number of bytes.
+  JobWorkItem.ctor1(content_.Intent intent, int downloadBytes, int uploadBytes)
+      : super.fromRef(
+            _ctor1(intent.reference, downloadBytes, uploadBytes).object);
+
+  static final _getIntent = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobWorkItem__getIntent")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.content.Intent getIntent()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Return the Intent associated with this work.
+  content_.Intent getIntent() =>
+      content_.Intent.fromRef(_getIntent(reference).object);
+
+  static final _getEstimatedNetworkDownloadBytes = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "JobWorkItem__getEstimatedNetworkDownloadBytes")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public long getEstimatedNetworkDownloadBytes()
+  ///
+  /// Return the estimated size of download traffic that will be performed by
+  /// this job, in bytes.
+  ///
+  /// Value is a non-negative number of bytes.
+  ///@return Estimated size of download traffic, or
+  ///         JobInfo\#NETWORK_BYTES_UNKNOWN when unknown.
+  ///
+  /// Value is a non-negative number of bytes.
+  int getEstimatedNetworkDownloadBytes() =>
+      _getEstimatedNetworkDownloadBytes(reference).long;
+
+  static final _getEstimatedNetworkUploadBytes = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "JobWorkItem__getEstimatedNetworkUploadBytes")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public long getEstimatedNetworkUploadBytes()
+  ///
+  /// Return the estimated size of upload traffic that will be performed by
+  /// this job work item, in bytes.
+  ///
+  /// Value is a non-negative number of bytes.
+  ///@return Estimated size of upload traffic, or
+  ///         JobInfo\#NETWORK_BYTES_UNKNOWN when unknown.
+  ///
+  /// Value is a non-negative number of bytes.
+  int getEstimatedNetworkUploadBytes() =>
+      _getEstimatedNetworkUploadBytes(reference).long;
+
+  static final _getDeliveryCount = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobWorkItem__getDeliveryCount")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int getDeliveryCount()
+  ///
+  /// Return the count of the number of times this work item has been delivered
+  /// to the job.  The value will be > 1 if it has been redelivered because the job
+  /// was stopped or crashed while it had previously been delivered but before the
+  /// job had called JobParameters\#completeWork JobParameters.completeWork for it.
+  int getDeliveryCount() => _getDeliveryCount(reference).integer;
+
+  static final _toString1 = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobWorkItem__toString1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.lang.String toString()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  jni.JniString toString1() =>
+      jni.JniString.fromRef(_toString1(reference).object);
+
+  static final _describeContents = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("JobWorkItem__describeContents")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int describeContents()
+  int describeContents() => _describeContents(reference).integer;
+
+  static final _writeToParcel = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("JobWorkItem__writeToParcel")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public void writeToParcel(android.os.Parcel out, int flags)
+  void writeToParcel(os_.Parcel out, int flags) =>
+      _writeToParcel(reference, out.reference, flags).check();
 }

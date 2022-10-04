@@ -8,1548 +8,137 @@
 // ignore_for_file: unused_element
 
 import "dart:ffi" as ffi;
+import "package:jni/internal_helpers_for_jnigen.dart";
 import "package:jni/jni.dart" as jni;
 
-import "../../android/os.dart" as os_;
+import "../os.dart" as os_;
 
-import "../../android/content/res.dart" as res_;
+import "../content/res.dart" as res_;
 import "../../_init.dart" show jniLookup;
 
-/// from: android.app.usage.UsageStatsManager
+/// from: android.app.usage.ConfigurationStats
 ///
-/// Provides access to device usage history and statistics. Usage data is aggregated into
-/// time intervals: days, weeks, months, and years.
-/// <p/>
-/// When requesting usage data since a particular time, the request might look something like this:
-/// <pre>
-/// PAST                   REQUEST_TIME                    TODAY                   FUTURE
-/// \u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014||\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014¦-----------------------|
-///                        YEAR ||                           ¦                       |
-/// \u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014||\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014¦-----------------------|
-///  MONTH            |         ||                MONTH      ¦                       |
-/// \u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014|\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014||\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014¦-----------------------|
-///   |      WEEK     |     WEEK||    |     WEEK     |     WE¦EK     |      WEEK     |
-/// \u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014||\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014|\u2014\u2014\u2014\u2014\u2014\u2014\u2014¦-----------------------|
-///                             ||           |DAY|DAY|DAY|DAY¦DAY|DAY|DAY|DAY|DAY|DAY|
-/// \u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014||\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014¦-----------------------|
-/// </pre>
-/// A request for data in the middle of a time interval will include that interval.
-/// <p/>
-/// __NOTE:__ Most methods on this API require the permission
-/// android.permission.PACKAGE_USAGE_STATS. However, declaring the permission implies intention to
-/// use the API and the user of the device still needs to grant permission through the Settings
-/// application.
-/// See android.provider.Settings\#ACTION_USAGE_ACCESS_SETTINGS.
-/// Methods which only return the information for the calling package do not require this permission.
-/// E.g. \#getAppStandbyBucket() and \#queryEventsForSelf(long, long).
-class UsageStatsManager extends jni.JniObject {
-  UsageStatsManager.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  /// from: static public final int INTERVAL_BEST
-  ///
-  /// An interval type that will use the best fit interval for the given time range.
-  /// See \#queryUsageStats(int, long, long).
-  static const INTERVAL_BEST = 4;
-
-  /// from: static public final int INTERVAL_DAILY
-  ///
-  /// An interval type that spans a day. See \#queryUsageStats(int, long, long).
-  static const INTERVAL_DAILY = 0;
-
-  /// from: static public final int INTERVAL_MONTHLY
-  ///
-  /// An interval type that spans a month. See \#queryUsageStats(int, long, long).
-  static const INTERVAL_MONTHLY = 2;
-
-  /// from: static public final int INTERVAL_WEEKLY
-  ///
-  /// An interval type that spans a week. See \#queryUsageStats(int, long, long).
-  static const INTERVAL_WEEKLY = 1;
-
-  /// from: static public final int INTERVAL_YEARLY
-  ///
-  /// An interval type that spans a year. See \#queryUsageStats(int, long, long).
-  static const INTERVAL_YEARLY = 3;
-
-  /// from: static public final int STANDBY_BUCKET_ACTIVE
-  ///
-  /// The app was used very recently, currently in use or likely to be used very soon. Standby
-  /// bucket values that are &le; \#STANDBY_BUCKET_ACTIVE will not be throttled by the
-  /// system while they are in this bucket. Buckets &gt; \#STANDBY_BUCKET_ACTIVE will most
-  /// likely be restricted in some way. For instance, jobs and alarms may be deferred.
-  ///@see \#getAppStandbyBucket()
-  static const STANDBY_BUCKET_ACTIVE = 10;
-
-  /// from: static public final int STANDBY_BUCKET_FREQUENT
-  ///
-  /// The app was used in the last few days and/or likely to be used in the next few days.
-  /// Restrictions will apply to these apps, such as deferral of jobs and alarms. The delays may be
-  /// greater than for apps in higher buckets (lower bucket value). Bucket values &gt;
-  /// \#STANDBY_BUCKET_FREQUENT may additionally have network access limited.
-  ///@see \#getAppStandbyBucket()
-  static const STANDBY_BUCKET_FREQUENT = 30;
-
-  /// from: static public final int STANDBY_BUCKET_RARE
-  ///
-  /// The app has not be used for several days and/or is unlikely to be used for several days.
-  /// Apps in this bucket will have the most restrictions, including network restrictions, except
-  /// during certain short periods (at a minimum, once a day) when they are allowed to execute
-  /// jobs, access the network, etc.
-  ///@see \#getAppStandbyBucket()
-  static const STANDBY_BUCKET_RARE = 40;
-
-  /// from: static public final int STANDBY_BUCKET_WORKING_SET
-  ///
-  /// The app was used recently and/or likely to be used in the next few hours. Restrictions will
-  /// apply to these apps, such as deferral of jobs and alarms.
-  ///@see \#getAppStandbyBucket()
-  static const STANDBY_BUCKET_WORKING_SET = 20;
-
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_app_usage_UsageStatsManager_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: void <init>()
-  UsageStatsManager() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _queryUsageStats = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int32, ffi.Int64, ffi.Int64)>>(
-          "android_app_usage_UsageStatsManager_queryUsageStats")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, int, int, int)>();
-
-  /// from: public java.util.List<android.app.usage.UsageStats> queryUsageStats(int intervalType, long beginTime, long endTime)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Gets application usage stats for the given time range, aggregated by the specified interval.
-  /// The returned list will contain a UsageStats object for each package that
-  /// has data for an interval that is a subset of the time range given. To illustrate:
-  ///
-  /// <pre>
-  /// intervalType = INTERVAL_YEARLY
-  /// beginTime = 2013
-  /// endTime = 2015 (exclusive)
-  ///
-  /// Results:
-  /// 2013 - com.example.alpha
-  /// 2013 - com.example.beta
-  /// 2014 - com.example.alpha
-  /// 2014 - com.example.beta
-  /// 2014 - com.example.charlie
-  /// </pre>
-  ///
-  ///  The caller must have android.Manifest.permission\#PACKAGE_USAGE_STATS
-  ///
-  ///@param intervalType The time interval by which the stats are aggregated.
-  ///@param beginTime The inclusive beginning of the range of stats to include in the results.
-  ///@param endTime The exclusive end of the range of stats to include in the results.
-  ///@return A list of UsageStats
-  ///@see \#INTERVAL_DAILY
-  ///@see \#INTERVAL_WEEKLY
-  ///@see \#INTERVAL_MONTHLY
-  ///@see \#INTERVAL_YEARLY
-  ///@see \#INTERVAL_BEST
-  jni.JniObject queryUsageStats(int intervalType, int beginTime, int endTime) {
-    final result__ = jni.JniObject.fromRef(
-        _queryUsageStats(reference, intervalType, beginTime, endTime));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _queryConfigurations = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int32, ffi.Int64, ffi.Int64)>>(
-          "android_app_usage_UsageStatsManager_queryConfigurations")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, int, int, int)>();
-
-  /// from: public java.util.List<android.app.usage.ConfigurationStats> queryConfigurations(int intervalType, long beginTime, long endTime)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Gets the hardware configurations the device was in for the given time range, aggregated by
-  /// the specified interval. The results are ordered as in
-  /// \#queryUsageStats(int, long, long).
-  ///  The caller must have android.Manifest.permission\#PACKAGE_USAGE_STATS
-  ///
-  ///@param intervalType The time interval by which the stats are aggregated.
-  ///@param beginTime The inclusive beginning of the range of stats to include in the results.
-  ///@param endTime The exclusive end of the range of stats to include in the results.
-  ///@return A list of ConfigurationStats
-  jni.JniObject queryConfigurations(
-      int intervalType, int beginTime, int endTime) {
-    final result__ = jni.JniObject.fromRef(
-        _queryConfigurations(reference, intervalType, beginTime, endTime));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _queryEventStats = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int32, ffi.Int64, ffi.Int64)>>(
-          "android_app_usage_UsageStatsManager_queryEventStats")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, int, int, int)>();
-
-  /// from: public java.util.List<android.app.usage.EventStats> queryEventStats(int intervalType, long beginTime, long endTime)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Gets aggregated event stats for the given time range, aggregated by the specified interval.
-  /// The returned list will contain a EventStats object for each event type that
-  /// is being aggregated and has data for an interval that is a subset of the time range given.
-  ///
-  /// The current event types that will be aggregated here are:
-  ///
-  /// <ul>
-  ///     <li>UsageEvents.Event\#SCREEN_INTERACTIVE</li>
-  ///     <li>UsageEvents.Event\#SCREEN_NON_INTERACTIVE</li>
-  ///     <li>UsageEvents.Event\#KEYGUARD_SHOWN</li>
-  ///     <li>UsageEvents.Event\#KEYGUARD_HIDDEN</li>
-  /// </ul>
-  ///
-  ///  The caller must have android.Manifest.permission\#PACKAGE_USAGE_STATS
-  ///
-  ///@param intervalType The time interval by which the stats are aggregated.
-  ///@param beginTime The inclusive beginning of the range of stats to include in the results.
-  ///@param endTime The exclusive end of the range of stats to include in the results.
-  ///@return A list of EventStats
-  ///@see \#INTERVAL_DAILY
-  ///@see \#INTERVAL_WEEKLY
-  ///@see \#INTERVAL_MONTHLY
-  ///@see \#INTERVAL_YEARLY
-  ///@see \#INTERVAL_BEST
-  jni.JniObject queryEventStats(int intervalType, int beginTime, int endTime) {
-    final result__ = jni.JniObject.fromRef(
-        _queryEventStats(reference, intervalType, beginTime, endTime));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _queryEvents = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int64, ffi.Int64)>>(
-          "android_app_usage_UsageStatsManager_queryEvents")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int, int)>();
-
-  /// from: public android.app.usage.UsageEvents queryEvents(long beginTime, long endTime)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Query for events in the given time range. Events are only kept by the system for a few
-  /// days.
-  ///  The caller must have android.Manifest.permission\#PACKAGE_USAGE_STATS
-  ///
-  ///@param beginTime The inclusive beginning of the range of events to include in the results.
-  ///@param endTime The exclusive end of the range of events to include in the results.
-  ///@return A UsageEvents.
-  UsageEvents queryEvents(int beginTime, int endTime) {
-    final result__ =
-        UsageEvents.fromRef(_queryEvents(reference, beginTime, endTime));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _queryEventsForSelf = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int64, ffi.Int64)>>(
-          "android_app_usage_UsageStatsManager_queryEventsForSelf")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int, int)>();
-
-  /// from: public android.app.usage.UsageEvents queryEventsForSelf(long beginTime, long endTime)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Like \#queryEvents(long, long), but only returns events for the calling package.
-  ///@param beginTime The inclusive beginning of the range of events to include in the results.
-  ///@param endTime The exclusive end of the range of events to include in the results.
-  ///@return A UsageEvents object.
-  ///@see \#queryEvents(long, long)
-  UsageEvents queryEventsForSelf(int beginTime, int endTime) {
-    final result__ =
-        UsageEvents.fromRef(_queryEventsForSelf(reference, beginTime, endTime));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _queryAndAggregateUsageStats = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int64, ffi.Int64)>>(
-          "android_app_usage_UsageStatsManager_queryAndAggregateUsageStats")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int, int)>();
-
-  /// from: public java.util.Map<java.lang.String,android.app.usage.UsageStats> queryAndAggregateUsageStats(long beginTime, long endTime)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// A convenience method that queries for all stats in the given range (using the best interval
-  /// for that range), merges the resulting data, and keys it by package name.
-  /// See \#queryUsageStats(int, long, long).
-  ///  The caller must have android.Manifest.permission\#PACKAGE_USAGE_STATS
-  ///
-  ///@param beginTime The inclusive beginning of the range of stats to include in the results.
-  ///@param endTime The exclusive end of the range of stats to include in the results.
-  ///@return A java.util.Map keyed by package name
-  jni.JniObject queryAndAggregateUsageStats(int beginTime, int endTime) {
-    final result__ = jni.JniObject.fromRef(
-        _queryAndAggregateUsageStats(reference, beginTime, endTime));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _isAppInactive = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_usage_UsageStatsManager_isAppInactive")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public boolean isAppInactive(java.lang.String packageName)
-  ///
-  /// Returns whether the specified app is currently considered inactive. This will be true if the
-  /// app hasn't been used directly or indirectly for a period of time defined by the system. This
-  /// could be of the order of several hours or days.
-  ///@param packageName The package name of the app to query
-  ///@return whether the app is currently considered inactive
-  bool isAppInactive(jni.JniString packageName) {
-    final result__ = _isAppInactive(reference, packageName.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getAppStandbyBucket =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_UsageStatsManager_getAppStandbyBucket")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int getAppStandbyBucket()
-  ///
-  /// Returns the current standby bucket of the calling app. The system determines the standby
-  /// state of the app based on app usage patterns. Standby buckets determine how much an app will
-  /// be restricted from running background tasks such as jobs and alarms.
-  /// Restrictions increase progressively from \#STANDBY_BUCKET_ACTIVE to
-  /// \#STANDBY_BUCKET_RARE, with \#STANDBY_BUCKET_ACTIVE being the least
-  /// restrictive. The battery level of the device might also affect the restrictions.
-  /// Apps in buckets &le; \#STANDBY_BUCKET_ACTIVE have no standby restrictions imposed.
-  /// Apps in buckets &gt; \#STANDBY_BUCKET_FREQUENT may have network access restricted when
-  /// running in the background.
-  /// The standby state of an app can change at any time either due to a user interaction or a
-  /// system interaction or some algorithm determining that the app can be restricted for a period
-  /// of time before the user has a need for it.
-  /// You can also query the recent history of standby bucket changes by calling
-  /// \#queryEventsForSelf(long, long) and searching for
-  /// UsageEvents.Event\#STANDBY_BUCKET_CHANGED.
-  ///@return the current standby bucket of the calling app. One of STANDBY_BUCKET_* constants.
-  ///
-  /// Value is android.app.usage.UsageStatsManager.STANDBY_BUCKET_EXEMPTED, android.app.usage.UsageStatsManager\#STANDBY_BUCKET_ACTIVE, android.app.usage.UsageStatsManager\#STANDBY_BUCKET_WORKING_SET, android.app.usage.UsageStatsManager\#STANDBY_BUCKET_FREQUENT, android.app.usage.UsageStatsManager\#STANDBY_BUCKET_RARE, or android.app.usage.UsageStatsManager.STANDBY_BUCKET_NEVER
-  int getAppStandbyBucket() {
-    final result__ = _getAppStandbyBucket(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
-
-/// from: android.app.usage.NetworkStatsManager
-///
-/// Provides access to network usage history and statistics. Usage data is collected in
-/// discrete bins of time called 'Buckets'. See NetworkStats.Bucket for details.
-/// <p/>
-/// Queries can define a time interval in the form of start and end timestamps (Long.MIN_VALUE and
-/// Long.MAX_VALUE can be used to simulate open ended intervals). By default, apps can only obtain
-/// data about themselves. See the below note for special cases in which apps can obtain data about
-/// other applications.
-/// <h3>
-/// Summary queries
-/// </h3>
-/// \#querySummaryForDevice <p/>
-/// \#querySummaryForUser <p/>
-/// \#querySummary <p/>
-/// These queries aggregate network usage across the whole interval. Therefore there will be only one
-/// bucket for a particular key, state, metered and roaming combination. In case of the user-wide
-/// and device-wide summaries a single bucket containing the totalised network usage is returned.
-/// <h3>
-/// History queries
-/// </h3>
-/// \#queryDetailsForUid <p/>
-/// \#queryDetails <p/>
-/// These queries do not aggregate over time but do aggregate over state, metered and roaming.
-/// Therefore there can be multiple buckets for a particular key. However, all Buckets will have
-/// {@code state} NetworkStats.Bucket\#STATE_ALL,
-/// {@code defaultNetwork} NetworkStats.Bucket\#DEFAULT_NETWORK_ALL,
-/// {@code metered } NetworkStats.Bucket\#METERED_ALL,
-/// {@code roaming} NetworkStats.Bucket\#ROAMING_ALL.
-/// <p/>
-/// __NOTE:__ Calling \#querySummaryForDevice or accessing stats for apps other than the
-/// calling app requires the permission android.Manifest.permission\#PACKAGE_USAGE_STATS,
-/// which is a system-level permission and will not be granted to third-party apps. However,
-/// declaring the permission implies intention to use the API and the user of the device can grant
-/// permission through the Settings application.
-/// <p/>
-/// Profile owner apps are automatically granted permission to query data on the profile they manage
-/// (that is, for any query except \#querySummaryForDevice). Device owner apps and carrier-
-/// privileged apps likewise get access to usage data for all users on the device.
-/// <p/>
-/// In addition to tethering usage, usage by removed users and apps, and usage by the system
-/// is also included in the results for callers with one of these higher levels of access.
-/// <p/>
-/// __NOTE:__ Prior to API level {@value android.os.Build.VERSION_CODES\#N}, all calls to these APIs required
-/// the above permission, even to access an app's own data usage, and carrier-privileged apps were
-/// not included.
-class NetworkStatsManager extends jni.JniObject {
-  NetworkStatsManager.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_app_usage_NetworkStatsManager_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: void <init>()
-  NetworkStatsManager() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _querySummaryForDevice = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Int32, ffi.Pointer<ffi.Void>, ffi.Int64, ffi.Int64)>>(
-          "android_app_usage_NetworkStatsManager_querySummaryForDevice")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>, int, int)>();
-
-  /// from: public android.app.usage.NetworkStats.Bucket querySummaryForDevice(int networkType, java.lang.String subscriberId, long startTime, long endTime)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Query network usage statistics summaries. Result is summarised data usage for the whole
-  /// device. Result is a single Bucket aggregated over time, state, uid, tag, metered, and
-  /// roaming. This means the bucket's start and end timestamp are going to be the same as the
-  /// 'startTime' and 'endTime' parameters. State is going to be
-  /// NetworkStats.Bucket\#STATE_ALL, uid NetworkStats.Bucket\#UID_ALL,
-  /// tag NetworkStats.Bucket\#TAG_NONE,
-  /// default network NetworkStats.Bucket\#DEFAULT_NETWORK_ALL,
-  /// metered NetworkStats.Bucket\#METERED_ALL,
-  /// and roaming NetworkStats.Bucket\#ROAMING_ALL.
-  ///@param networkType As defined in ConnectivityManager, e.g.
-  ///            ConnectivityManager\#TYPE_MOBILE, ConnectivityManager\#TYPE_WIFI
-  ///            etc.
-  ///@param subscriberId If applicable, the subscriber id of the network interface.
-  ///@param startTime Start of period. Defined in terms of "Unix time", see
-  ///            java.lang.System\#currentTimeMillis.
-  ///@param endTime End of period. Defined in terms of "Unix time", see
-  ///            java.lang.System\#currentTimeMillis.
-  ///@return Bucket object or null if permissions are insufficient or error happened during
-  ///         statistics collection.
-  NetworkStats_Bucket querySummaryForDevice(
-      int networkType, jni.JniString subscriberId, int startTime, int endTime) {
-    final result__ = NetworkStats_Bucket.fromRef(_querySummaryForDevice(
-        reference, networkType, subscriberId.reference, startTime, endTime));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _querySummaryForUser = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Int32, ffi.Pointer<ffi.Void>, ffi.Int64, ffi.Int64)>>(
-          "android_app_usage_NetworkStatsManager_querySummaryForUser")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>, int, int)>();
-
-  /// from: public android.app.usage.NetworkStats.Bucket querySummaryForUser(int networkType, java.lang.String subscriberId, long startTime, long endTime)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Query network usage statistics summaries. Result is summarised data usage for all uids
-  /// belonging to calling user. Result is a single Bucket aggregated over time, state and uid.
-  /// This means the bucket's start and end timestamp are going to be the same as the 'startTime'
-  /// and 'endTime' parameters. State is going to be NetworkStats.Bucket\#STATE_ALL,
-  /// uid NetworkStats.Bucket\#UID_ALL, tag NetworkStats.Bucket\#TAG_NONE,
-  /// metered NetworkStats.Bucket\#METERED_ALL, and roaming
-  /// NetworkStats.Bucket\#ROAMING_ALL.
-  ///@param networkType As defined in ConnectivityManager, e.g.
-  ///            ConnectivityManager\#TYPE_MOBILE, ConnectivityManager\#TYPE_WIFI
-  ///            etc.
-  ///@param subscriberId If applicable, the subscriber id of the network interface.
-  ///@param startTime Start of period. Defined in terms of "Unix time", see
-  ///            java.lang.System\#currentTimeMillis.
-  ///@param endTime End of period. Defined in terms of "Unix time", see
-  ///            java.lang.System\#currentTimeMillis.
-  ///@return Bucket object or null if permissions are insufficient or error happened during
-  ///         statistics collection.
-  NetworkStats_Bucket querySummaryForUser(
-      int networkType, jni.JniString subscriberId, int startTime, int endTime) {
-    final result__ = NetworkStats_Bucket.fromRef(_querySummaryForUser(
-        reference, networkType, subscriberId.reference, startTime, endTime));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _querySummary = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Int32, ffi.Pointer<ffi.Void>, ffi.Int64, ffi.Int64)>>(
-          "android_app_usage_NetworkStatsManager_querySummary")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>, int, int)>();
-
-  /// from: public android.app.usage.NetworkStats querySummary(int networkType, java.lang.String subscriberId, long startTime, long endTime)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Query network usage statistics summaries. Result filtered to include only uids belonging to
-  /// calling user. Result is aggregated over time, hence all buckets will have the same start and
-  /// end timestamps. Not aggregated over state, uid, default network, metered, or roaming. This
-  /// means buckets' start and end timestamps are going to be the same as the 'startTime' and
-  /// 'endTime' parameters. State, uid, metered, and roaming are going to vary, and tag is going to
-  /// be the same.
-  ///@param networkType As defined in ConnectivityManager, e.g.
-  ///            ConnectivityManager\#TYPE_MOBILE, ConnectivityManager\#TYPE_WIFI
-  ///            etc.
-  ///@param subscriberId If applicable, the subscriber id of the network interface.
-  ///@param startTime Start of period. Defined in terms of "Unix time", see
-  ///            java.lang.System\#currentTimeMillis.
-  ///@param endTime End of period. Defined in terms of "Unix time", see
-  ///            java.lang.System\#currentTimeMillis.
-  ///@return Statistics object or null if permissions are insufficient or error happened during
-  ///         statistics collection.
-  NetworkStats querySummary(
-      int networkType, jni.JniString subscriberId, int startTime, int endTime) {
-    final result__ = NetworkStats.fromRef(_querySummary(
-        reference, networkType, subscriberId.reference, startTime, endTime));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _queryDetailsForUid = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Int32,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Int64,
-                      ffi.Int64,
-                      ffi.Int32)>>(
-          "android_app_usage_NetworkStatsManager_queryDetailsForUid")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int,
-              ffi.Pointer<ffi.Void>, int, int, int)>();
-
-  /// from: public android.app.usage.NetworkStats queryDetailsForUid(int networkType, java.lang.String subscriberId, long startTime, long endTime, int uid)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Query network usage statistics details for a given uid.
-  ///
-  /// \#see queryDetailsForUidTagState(int, String, long, long, int, int, int)
-  NetworkStats queryDetailsForUid(int networkType, jni.JniString subscriberId,
-      int startTime, int endTime, int uid) {
-    final result__ = NetworkStats.fromRef(_queryDetailsForUid(reference,
-        networkType, subscriberId.reference, startTime, endTime, uid));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _queryDetailsForUidTag = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Int32,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Int64,
-                      ffi.Int64,
-                      ffi.Int32,
-                      ffi.Int32)>>(
-          "android_app_usage_NetworkStatsManager_queryDetailsForUidTag")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int,
-              ffi.Pointer<ffi.Void>, int, int, int, int)>();
-
-  /// from: public android.app.usage.NetworkStats queryDetailsForUidTag(int networkType, java.lang.String subscriberId, long startTime, long endTime, int uid, int tag)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Query network usage statistics details for a given uid and tag.
-  ///
-  /// \#see queryDetailsForUidTagState(int, String, long, long, int, int, int)
-  NetworkStats queryDetailsForUidTag(
-      int networkType,
-      jni.JniString subscriberId,
-      int startTime,
-      int endTime,
-      int uid,
-      int tag) {
-    final result__ = NetworkStats.fromRef(_queryDetailsForUidTag(reference,
-        networkType, subscriberId.reference, startTime, endTime, uid, tag));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _queryDetailsForUidTagState = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Int32,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Int64,
-                      ffi.Int64,
-                      ffi.Int32,
-                      ffi.Int32,
-                      ffi.Int32)>>(
-          "android_app_usage_NetworkStatsManager_queryDetailsForUidTagState")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int,
-              ffi.Pointer<ffi.Void>, int, int, int, int, int)>();
-
-  /// from: public android.app.usage.NetworkStats queryDetailsForUidTagState(int networkType, java.lang.String subscriberId, long startTime, long endTime, int uid, int tag, int state)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Query network usage statistics details for a given uid, tag, and state. Only usable for uids
-  /// belonging to calling user. Result is not aggregated over time. This means buckets' start and
-  /// end timestamps are going to be between 'startTime' and 'endTime' parameters. The uid is going
-  /// to be the same as the 'uid' parameter, the tag the same as the 'tag' parameter, and the state
-  /// the same as the 'state' parameter.
-  /// defaultNetwork is going to be NetworkStats.Bucket\#DEFAULT_NETWORK_ALL,
-  /// metered is going to be NetworkStats.Bucket\#METERED_ALL, and
-  /// roaming is going to be NetworkStats.Bucket\#ROAMING_ALL.
-  /// Only includes buckets that atomically occur in the inclusive time range. Doesn't
-  /// interpolate across partial buckets. Since bucket length is in the order of hours, this
-  /// method cannot be used to measure data usage on a fine grained time scale.
-  ///@param networkType As defined in ConnectivityManager, e.g.
-  ///            ConnectivityManager\#TYPE_MOBILE, ConnectivityManager\#TYPE_WIFI
-  ///            etc.
-  ///@param subscriberId If applicable, the subscriber id of the network interface.
-  ///@param startTime Start of period. Defined in terms of "Unix time", see
-  ///            java.lang.System\#currentTimeMillis.
-  ///@param endTime End of period. Defined in terms of "Unix time", see
-  ///            java.lang.System\#currentTimeMillis.
-  ///@param uid UID of app
-  ///@param tag TAG of interest. Use NetworkStats.Bucket\#TAG_NONE for no tags.
-  ///@param state state of interest. Use NetworkStats.Bucket\#STATE_ALL to aggregate
-  ///            traffic from all states.
-  ///@return Statistics object or null if an error happened during statistics collection.
-  ///@throws SecurityException if permissions are insufficient to read network statistics.
-  NetworkStats queryDetailsForUidTagState(
-      int networkType,
-      jni.JniString subscriberId,
-      int startTime,
-      int endTime,
-      int uid,
-      int tag,
-      int state) {
-    final result__ = NetworkStats.fromRef(_queryDetailsForUidTagState(
-        reference,
-        networkType,
-        subscriberId.reference,
-        startTime,
-        endTime,
-        uid,
-        tag,
-        state));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _queryDetails = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Int32, ffi.Pointer<ffi.Void>, ffi.Int64, ffi.Int64)>>(
-          "android_app_usage_NetworkStatsManager_queryDetails")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>, int, int)>();
-
-  /// from: public android.app.usage.NetworkStats queryDetails(int networkType, java.lang.String subscriberId, long startTime, long endTime)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Query network usage statistics details. Result filtered to include only uids belonging to
-  /// calling user. Result is aggregated over state but not aggregated over time, uid, tag,
-  /// metered, nor roaming. This means buckets' start and end timestamps are going to be between
-  /// 'startTime' and 'endTime' parameters. State is going to be
-  /// NetworkStats.Bucket\#STATE_ALL, uid will vary,
-  /// tag NetworkStats.Bucket\#TAG_NONE,
-  /// default network is going to be NetworkStats.Bucket\#DEFAULT_NETWORK_ALL,
-  /// metered is going to be NetworkStats.Bucket\#METERED_ALL,
-  /// and roaming is going to be NetworkStats.Bucket\#ROAMING_ALL.
-  /// Only includes buckets that atomically occur in the inclusive time range. Doesn't
-  /// interpolate across partial buckets. Since bucket length is in the order of hours, this
-  /// method cannot be used to measure data usage on a fine grained time scale.
-  ///@param networkType As defined in ConnectivityManager, e.g.
-  ///            ConnectivityManager\#TYPE_MOBILE, ConnectivityManager\#TYPE_WIFI
-  ///            etc.
-  ///@param subscriberId If applicable, the subscriber id of the network interface.
-  ///@param startTime Start of period. Defined in terms of "Unix time", see
-  ///            java.lang.System\#currentTimeMillis.
-  ///@param endTime End of period. Defined in terms of "Unix time", see
-  ///            java.lang.System\#currentTimeMillis.
-  ///@return Statistics object or null if permissions are insufficient or error happened during
-  ///         statistics collection.
-  NetworkStats queryDetails(
-      int networkType, jni.JniString subscriberId, int startTime, int endTime) {
-    final result__ = NetworkStats.fromRef(_queryDetails(
-        reference, networkType, subscriberId.reference, startTime, endTime));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _registerUsageCallback = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Int32,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Int64,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_usage_NetworkStatsManager_registerUsageCallback")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>, int,
-              ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void registerUsageCallback(int networkType, java.lang.String subscriberId, long thresholdBytes, android.app.usage.NetworkStatsManager.UsageCallback callback)
-  ///
-  /// Registers to receive notifications about data usage on specified networks.
-  ///
-  /// \#see registerUsageCallback(int, String[], long, UsageCallback, Handler)
-  void registerUsageCallback(int networkType, jni.JniString subscriberId,
-      int thresholdBytes, NetworkStatsManager_UsageCallback callback) {
-    final result__ = _registerUsageCallback(reference, networkType,
-        subscriberId.reference, thresholdBytes, callback.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _registerUsageCallback1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Int32,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Int64,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_usage_NetworkStatsManager_registerUsageCallback1")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>, int,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void registerUsageCallback(int networkType, java.lang.String subscriberId, long thresholdBytes, android.app.usage.NetworkStatsManager.UsageCallback callback, android.os.Handler handler)
-  ///
-  /// Registers to receive notifications about data usage on specified networks.
-  ///
-  /// The callbacks will continue to be called as long as the process is live or
-  /// \#unregisterUsageCallback is called.
-  ///@param networkType Type of network to monitor. Either
-  ///             ConnectivityManager\#TYPE_MOBILE or ConnectivityManager\#TYPE_WIFI.
-  ///@param subscriberId If applicable, the subscriber id of the network interface.
-  ///@param thresholdBytes Threshold in bytes to be notified on.
-  ///@param callback The UsageCallback that the system will call when data usage
-  ///            has exceeded the specified threshold.
-  ///@param handler to dispatch callback events through, otherwise if {@code null} it uses
-  ///            the calling thread.
-  ///
-  /// This value may be {@code null}.
-  void registerUsageCallback1(
-      int networkType,
-      jni.JniString subscriberId,
-      int thresholdBytes,
-      NetworkStatsManager_UsageCallback callback,
-      os_.Handler handler) {
-    final result__ = _registerUsageCallback1(
-        reference,
-        networkType,
-        subscriberId.reference,
-        thresholdBytes,
-        callback.reference,
-        handler.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _unregisterUsageCallback = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_usage_NetworkStatsManager_unregisterUsageCallback")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void unregisterUsageCallback(android.app.usage.NetworkStatsManager.UsageCallback callback)
-  ///
-  /// Unregisters callbacks on data usage.
-  ///@param callback The UsageCallback used when registering.
-  void unregisterUsageCallback(NetworkStatsManager_UsageCallback callback) {
-    final result__ = _unregisterUsageCallback(reference, callback.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
-
-/// from: android.app.usage.NetworkStatsManager$UsageCallback
-///
-/// Base class for usage callbacks. Should be extended by applications wanting notifications.
-class NetworkStatsManager_UsageCallback extends jni.JniObject {
-  NetworkStatsManager_UsageCallback.fromRef(ffi.Pointer<ffi.Void> ref)
-      : super.fromRef(ref);
-
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_app_usage_NetworkStatsManager__UsageCallback_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: public void <init>()
-  NetworkStatsManager_UsageCallback() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _onThresholdReached = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_usage_NetworkStatsManager__UsageCallback_onThresholdReached")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public abstract void onThresholdReached(int networkType, java.lang.String subscriberId)
-  ///
-  /// Called when data usage has reached the given threshold.
-  void onThresholdReached(int networkType, jni.JniString subscriberId) {
-    final result__ =
-        _onThresholdReached(reference, networkType, subscriberId.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
-
-/// from: android.app.usage.StorageStatsManager
-///
-/// Access to detailed storage statistics. This provides a summary of how apps,
-/// users, and external/shared storage is utilizing disk space.
-/// <p class="note">
-/// Note: no permissions are required when calling these APIs for your own
-/// package or UID. However, requesting details for any other package requires
-/// the {@code android.Manifest.permission\#PACKAGE_USAGE_STATS} permission, which
-/// is a system-level permission that will not be granted to normal apps.
-/// Declaring that permission expresses your intention to use this API and an end
-/// user can then choose to grant this permission through the Settings
-/// application.
-///
-///
-class StorageStatsManager extends jni.JniObject {
-  StorageStatsManager.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_app_usage_StorageStatsManager_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: void <init>()
-  StorageStatsManager() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _getTotalBytes = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int64 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_usage_StorageStatsManager_getTotalBytes")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public long getTotalBytes(java.util.UUID storageUuid)
-  ///
-  /// Return the total size of the underlying physical media that is hosting
-  /// this storage volume.
-  ///
-  /// This value is best suited for visual display to end users, since it's
-  /// designed to reflect the total storage size advertised in a retail
-  /// environment.
-  ///
-  /// Apps making logical decisions about disk space should always use
-  /// File\#getTotalSpace() instead of this value.
-  ///
-  /// This method may take several seconds to complete, so it should
-  ///  *            only be called from a worker thread.
-  /// Value is a non-negative number of bytes.
-  ///@param storageUuid the UUID of the storage volume you're interested in,
-  ///            such as StorageManager\#UUID_DEFAULT.
-  /// This value must never be {@code null}.
-  ///@throws IOException when the storage device isn't present.
-  ///@return Value is a non-negative number of bytes.
-  int getTotalBytes(jni.JniObject storageUuid) {
-    final result__ = _getTotalBytes(reference, storageUuid.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getFreeBytes = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int64 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_usage_StorageStatsManager_getFreeBytes")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public long getFreeBytes(java.util.UUID storageUuid)
-  ///
-  /// Return the free space on the requested storage volume.
-  ///
-  /// This value is best suited for visual display to end users, since it's
-  /// designed to reflect both unused space _and_ and cached space that
-  /// could be reclaimed by the system.
-  ///
-  /// Apps making logical decisions about disk space should always use
-  /// StorageManager\#getAllocatableBytes(UUID) instead of this value.
-  ///
-  /// This method may take several seconds to complete, so it should
-  ///  *            only be called from a worker thread.
-  /// Value is a non-negative number of bytes.
-  ///@param storageUuid the UUID of the storage volume you're interested in,
-  ///            such as StorageManager\#UUID_DEFAULT.
-  /// This value must never be {@code null}.
-  ///@throws IOException when the storage device isn't present.
-  ///@return Value is a non-negative number of bytes.
-  int getFreeBytes(jni.JniObject storageUuid) {
-    final result__ = _getFreeBytes(reference, storageUuid.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _queryStatsForPackage = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_usage_StorageStatsManager_queryStatsForPackage")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.app.usage.StorageStats queryStatsForPackage(java.util.UUID storageUuid, java.lang.String packageName, android.os.UserHandle user)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Return storage statistics for a specific package on the requested storage
-  /// volume.
-  /// <p class="note">
-  /// Note: no permissions are required when calling this API for your own
-  /// package. However, requesting details for any other package requires the
-  /// {@code android.Manifest.permission\#PACKAGE_USAGE_STATS} permission, which
-  /// is a system-level permission that will not be granted to normal apps.
-  /// Declaring that permission expresses your intention to use this API and an
-  /// end user can then choose to grant this permission through the Settings
-  /// application.
-  ///
-  ///
-  /// <p class="note">
-  /// Note: if the requested package uses the {@code android:sharedUserId}
-  /// manifest feature, this call will be forced into a slower manual
-  /// calculation path. If possible, consider always using
-  /// \#queryStatsForUid(UUID, int), which is typically faster.
-  ///
-  ///
-  ///
-  /// This method may take several seconds to complete, so it should
-  ///  *            only be called from a worker thread.
-  ///@param storageUuid the UUID of the storage volume you're interested in,
-  ///            such as StorageManager\#UUID_DEFAULT.
-  /// This value must never be {@code null}.
-  ///@param packageName the package name you're interested in.
-  /// This value must never be {@code null}.
-  ///@param user the user you're interested in.
-  /// This value must never be {@code null}.
-  ///@throws PackageManager.NameNotFoundException when the requested package
-  ///             name isn't installed for the requested user.
-  ///@throws IOException when the storage device isn't present.
-  ///@see ApplicationInfo\#storageUuid
-  ///@see PackageInfo\#packageName
-  ///@return This value will never be {@code null}.
-  StorageStats queryStatsForPackage(jni.JniObject storageUuid,
-      jni.JniString packageName, os_.UserHandle user) {
-    final result__ = StorageStats.fromRef(_queryStatsForPackage(reference,
-        storageUuid.reference, packageName.reference, user.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _queryStatsForUid = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_usage_StorageStatsManager_queryStatsForUid")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public android.app.usage.StorageStats queryStatsForUid(java.util.UUID storageUuid, int uid)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Return storage statistics for a specific UID on the requested storage
-  /// volume.
-  /// <p class="note">
-  /// Note: no permissions are required when calling this API for your own UID.
-  /// However, requesting details for any other UID requires the
-  /// {@code android.Manifest.permission\#PACKAGE_USAGE_STATS} permission, which
-  /// is a system-level permission that will not be granted to normal apps.
-  /// Declaring that permission expresses your intention to use this API and an
-  /// end user can then choose to grant this permission through the Settings
-  /// application.
-  ///
-  ///
-  ///
-  /// This method may take several seconds to complete, so it should
-  ///  *            only be called from a worker thread.
-  ///@param storageUuid the UUID of the storage volume you're interested in,
-  ///            such as StorageManager\#UUID_DEFAULT.
-  /// This value must never be {@code null}.
-  ///@param uid the UID you're interested in.
-  ///@throws IOException when the storage device isn't present.
-  ///@see ApplicationInfo\#storageUuid
-  ///@see ApplicationInfo\#uid
-  ///@return This value will never be {@code null}.
-  StorageStats queryStatsForUid(jni.JniObject storageUuid, int uid) {
-    final result__ = StorageStats.fromRef(
-        _queryStatsForUid(reference, storageUuid.reference, uid));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _queryStatsForUser = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_usage_StorageStatsManager_queryStatsForUser")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.app.usage.StorageStats queryStatsForUser(java.util.UUID storageUuid, android.os.UserHandle user)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Return storage statistics for a specific UserHandle on the
-  /// requested storage volume.
-  /// <p class="note">
-  /// Note: this API requires the
-  /// {@code android.Manifest.permission\#PACKAGE_USAGE_STATS} permission, which
-  /// is a system-level permission that will not be granted to normal apps.
-  /// Declaring that permission expresses your intention to use this API and an
-  /// end user can then choose to grant this permission through the Settings
-  /// application.
-  ///
-  ///
-  ///
-  /// This method may take several seconds to complete, so it should
-  ///  *            only be called from a worker thread.
-  ///@param storageUuid the UUID of the storage volume you're interested in,
-  ///            such as StorageManager\#UUID_DEFAULT.
-  /// This value must never be {@code null}.
-  ///@param user the user you're interested in.
-  /// This value must never be {@code null}.
-  ///@throws IOException when the storage device isn't present.
-  ///@see android.os.Process\#myUserHandle()
-  ///@return This value will never be {@code null}.
-  StorageStats queryStatsForUser(
-      jni.JniObject storageUuid, os_.UserHandle user) {
-    final result__ = StorageStats.fromRef(
-        _queryStatsForUser(reference, storageUuid.reference, user.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _queryExternalStatsForUser = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_usage_StorageStatsManager_queryExternalStatsForUser")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.app.usage.ExternalStorageStats queryExternalStatsForUser(java.util.UUID storageUuid, android.os.UserHandle user)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Return shared/external storage statistics for a specific
-  /// UserHandle on the requested storage volume.
-  /// <p class="note">
-  /// Note: this API requires the
-  /// {@code android.Manifest.permission\#PACKAGE_USAGE_STATS} permission, which
-  /// is a system-level permission that will not be granted to normal apps.
-  /// Declaring that permission expresses your intention to use this API and an
-  /// end user can then choose to grant this permission through the Settings
-  /// application.
-  ///
-  ///
-  ///
-  /// This method may take several seconds to complete, so it should
-  ///  *            only be called from a worker thread.
-  ///@param storageUuid the UUID of the storage volume you're interested in,
-  ///            such as StorageManager\#UUID_DEFAULT.
-  /// This value must never be {@code null}.
-  ///@throws IOException when the storage device isn't present.
-  ///@see android.os.Process\#myUserHandle()
-  ///@param user This value must never be {@code null}.
-  ///@return This value will never be {@code null}.
-  ExternalStorageStats queryExternalStatsForUser(
-      jni.JniObject storageUuid, os_.UserHandle user) {
-    final result__ = ExternalStorageStats.fromRef(_queryExternalStatsForUser(
-        reference, storageUuid.reference, user.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
-
-/// from: android.app.usage.UsageStats
-///
-/// Contains usage statistics for an app package for a specific
-/// time range.
-class UsageStats extends jni.JniObject {
-  UsageStats.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+/// Represents the usage statistics of a device android.content.res.Configuration for a
+/// specific time range.
+class ConfigurationStats extends jni.JniObject {
+  ConfigurationStats.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   static final _get_CREATOR =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "get_android_app_usage_UsageStats_CREATOR")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_ConfigurationStats__CREATOR")
+          .asFunction<jni.JniResult Function()>();
 
-  /// from: static public final android.os.Parcelable.Creator<android.app.usage.UsageStats> CREATOR
+  /// from: static public final android.os.Parcelable.Creator<android.app.usage.ConfigurationStats> CREATOR
   /// The returned object must be deleted after use, by calling the `delete` method.
   static os_.Parcelable_Creator get CREATOR =>
-      os_.Parcelable_Creator.fromRef(_get_CREATOR());
+      os_.Parcelable_Creator.fromRef(_get_CREATOR().object);
 
   static final _ctor = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-                  ffi.Pointer<ffi.Void>)>>("android_app_usage_UsageStats_ctor")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("ConfigurationStats__ctor")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void <init>(android.app.usage.UsageStats stats)
-  UsageStats(UsageStats stats) : super.fromRef(_ctor(stats.reference)) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _getPackageName = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_usage_UsageStats_getPackageName")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.lang.String getPackageName()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniString getPackageName() {
-    final result__ = jni.JniString.fromRef(_getPackageName(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getFirstTimeStamp =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_UsageStats_getFirstTimeStamp")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public long getFirstTimeStamp()
-  ///
-  /// Get the beginning of the time range this android.app.usage.UsageStats represents,
-  /// measured in milliseconds since the epoch.
-  /// <p/>
-  /// See System\#currentTimeMillis().
-  int getFirstTimeStamp() {
-    final result__ = _getFirstTimeStamp(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getLastTimeStamp =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_UsageStats_getLastTimeStamp")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public long getLastTimeStamp()
-  ///
-  /// Get the end of the time range this android.app.usage.UsageStats represents,
-  /// measured in milliseconds since the epoch.
-  /// <p/>
-  /// See System\#currentTimeMillis().
-  int getLastTimeStamp() {
-    final result__ = _getLastTimeStamp(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getLastTimeUsed =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_UsageStats_getLastTimeUsed")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public long getLastTimeUsed()
-  ///
-  /// Get the last time this package was used, measured in milliseconds since the epoch.
-  /// <p/>
-  /// See System\#currentTimeMillis().
-  int getLastTimeUsed() {
-    final result__ = _getLastTimeUsed(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getTotalTimeInForeground =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_UsageStats_getTotalTimeInForeground")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public long getTotalTimeInForeground()
-  ///
-  /// Get the total time this package spent in the foreground, measured in milliseconds.
-  int getTotalTimeInForeground() {
-    final result__ = _getTotalTimeInForeground(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _add = jniLookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>,
-                  ffi.Pointer<ffi.Void>)>>("android_app_usage_UsageStats_add")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void add(android.app.usage.UsageStats right)
-  ///
-  /// Add the statistics from the right UsageStats to the left. The package name for
-  /// both UsageStats objects must be the same.
-  ///@param right The UsageStats object to merge into this one.
-  ///@throws java.lang.IllegalArgumentException if the package names of the two
-  ///         UsageStats objects are different.
-  void add(UsageStats right) {
-    final result__ = _add(reference, right.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _describeContents =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_UsageStats_describeContents")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int describeContents()
-  int describeContents() {
-    final result__ = _describeContents(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _writeToParcel = jniLookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_app_usage_UsageStats_writeToParcel")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(os_.Parcel dest, int flags) {
-    final result__ = _writeToParcel(reference, dest.reference, flags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
-
-/// from: android.app.usage.UsageEvents
-///
-/// A result returned from android.app.usage.UsageStatsManager\#queryEvents(long, long)
-/// from which to read android.app.usage.UsageEvents.Event objects.
-class UsageEvents extends jni.JniObject {
-  UsageEvents.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  static final _get_CREATOR =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "get_android_app_usage_UsageEvents_CREATOR")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: static public final android.os.Parcelable.Creator<android.app.usage.UsageEvents> CREATOR
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  static os_.Parcelable_Creator get CREATOR =>
-      os_.Parcelable_Creator.fromRef(_get_CREATOR());
-
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_app_usage_UsageEvents_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: void <init>()
-  ///
-  /// Create an empty iterator.
-  /// {@hide }
-  UsageEvents() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _hasNextEvent =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_UsageEvents_hasNextEvent")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public boolean hasNextEvent()
-  ///
-  /// Returns whether or not there are more events to read using
-  /// \#getNextEvent(android.app.usage.UsageEvents.Event).
-  ///@return true if there are more events, false otherwise.
-  bool hasNextEvent() {
-    final result__ = _hasNextEvent(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getNextEvent = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_usage_UsageEvents_getNextEvent")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public boolean getNextEvent(android.app.usage.UsageEvents.Event eventOut)
-  ///
-  /// Retrieve the next android.app.usage.UsageEvents.Event from the collection and put the
-  /// resulting data into {@code eventOut}.
-  ///@param eventOut The android.app.usage.UsageEvents.Event object that will receive the
-  ///                 next event data.
-  ///@return true if an event was available, false if there are no more events.
-  bool getNextEvent(UsageEvents_Event eventOut) {
-    final result__ = _getNextEvent(reference, eventOut.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _describeContents =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_UsageEvents_describeContents")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int describeContents()
-  int describeContents() {
-    final result__ = _describeContents(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _writeToParcel = jniLookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_app_usage_UsageEvents_writeToParcel")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(os_.Parcel dest, int flags) {
-    final result__ = _writeToParcel(reference, dest.reference, flags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
-
-/// from: android.app.usage.UsageEvents$Event
-///
-/// An event representing a state change for a component.
-class UsageEvents_Event extends jni.JniObject {
-  UsageEvents_Event.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  /// from: static public final int CONFIGURATION_CHANGE
-  ///
-  /// An event type denoting that the device configuration has changed.
-  static const CONFIGURATION_CHANGE = 5;
-
-  /// from: static public final int KEYGUARD_HIDDEN
-  ///
-  /// An event type denoting that the screen's keyguard has been hidden.  This typically
-  /// happens when the user unlocks their phone after turning it on.
-  static const KEYGUARD_HIDDEN = 18;
-
-  /// from: static public final int KEYGUARD_SHOWN
-  ///
-  /// An event type denoting that the screen's keyguard has been shown, whether or not
-  /// the screen is off.
-  static const KEYGUARD_SHOWN = 17;
-
-  /// from: static public final int MOVE_TO_BACKGROUND
-  ///
-  /// An event type denoting that a component moved to the background.
-  static const MOVE_TO_BACKGROUND = 2;
-
-  /// from: static public final int MOVE_TO_FOREGROUND
-  ///
-  /// An event type denoting that a component moved to the foreground.
-  static const MOVE_TO_FOREGROUND = 1;
-
-  /// from: static public final int NONE
-  ///
-  /// No event type.
-  static const NONE = 0;
-
-  /// from: static public final int SCREEN_INTERACTIVE
-  ///
-  /// An event type denoting that the screen has gone in to an interactive state (turned
-  /// on for full user interaction, not ambient display or other non-interactive state).
-  static const SCREEN_INTERACTIVE = 15;
-
-  /// from: static public final int SCREEN_NON_INTERACTIVE
-  ///
-  /// An event type denoting that the screen has gone in to a non-interactive state
-  /// (completely turned off or turned on only in a non-interactive state like ambient
-  /// display).
-  static const SCREEN_NON_INTERACTIVE = 16;
-
-  /// from: static public final int SHORTCUT_INVOCATION
-  ///
-  /// An event type denoting that an action equivalent to a ShortcutInfo is taken by the user.
-  ///@see android.content.pm.ShortcutManager\#reportShortcutUsed(String)
-  static const SHORTCUT_INVOCATION = 8;
-
-  /// from: static public final int STANDBY_BUCKET_CHANGED
-  ///
-  /// An event type denoting a change in App Standby Bucket. The new bucket can be
-  /// retrieved by calling \#getAppStandbyBucket().
-  ///@see UsageStatsManager\#getAppStandbyBucket()
-  static const STANDBY_BUCKET_CHANGED = 11;
-
-  /// from: static public final int USER_INTERACTION
-  ///
-  /// An event type denoting that a package was interacted with in some way by the user.
-  static const USER_INTERACTION = 7;
-
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_app_usage_UsageEvents__Event_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: public void <init>()
-  UsageEvents_Event() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _getPackageName = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_usage_UsageEvents__Event_getPackageName")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.lang.String getPackageName()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// The package name of the source of this event.
-  jni.JniString getPackageName() {
-    final result__ = jni.JniString.fromRef(_getPackageName(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getClassName = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_usage_UsageEvents__Event_getClassName")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.lang.String getClassName()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// The class name of the source of this event. This may be null for
-  /// certain events.
-  jni.JniString getClassName() {
-    final result__ = jni.JniString.fromRef(_getClassName(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getTimeStamp =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_UsageEvents__Event_getTimeStamp")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public long getTimeStamp()
-  ///
-  /// The time at which this event occurred, measured in milliseconds since the epoch.
-  /// <p/>
-  /// See System\#currentTimeMillis().
-  int getTimeStamp() {
-    final result__ = _getTimeStamp(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getEventType =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_UsageEvents__Event_getEventType")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int getEventType()
-  ///
-  /// The event type.
-  ///@see \#MOVE_TO_BACKGROUND
-  ///@see \#MOVE_TO_FOREGROUND
-  ///@see \#CONFIGURATION_CHANGE
-  ///@see \#USER_INTERACTION
-  ///@see \#STANDBY_BUCKET_CHANGED
-  int getEventType() {
-    final result__ = _getEventType(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  /// from: public void <init>(android.app.usage.ConfigurationStats stats)
+  ConfigurationStats(ConfigurationStats stats)
+      : super.fromRef(_ctor(stats.reference).object);
 
   static final _getConfiguration = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_usage_UsageEvents__Event_getConfiguration")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "ConfigurationStats__getConfiguration")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.res.Configuration getConfiguration()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Returns a Configuration for this event if the event is of type
-  /// \#CONFIGURATION_CHANGE, otherwise it returns null.
-  res_.Configuration getConfiguration() {
-    final result__ = res_.Configuration.fromRef(_getConfiguration(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  res_.Configuration getConfiguration() =>
+      res_.Configuration.fromRef(_getConfiguration(reference).object);
 
-  static final _getShortcutId = jniLookup<
+  static final _getFirstTimeStamp = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_usage_UsageEvents__Event_getShortcutId")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "ConfigurationStats__getFirstTimeStamp")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
-  /// from: public java.lang.String getShortcutId()
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// from: public long getFirstTimeStamp()
   ///
-  /// Returns the ID of a android.content.pm.ShortcutInfo for this event
-  /// if the event is of type \#SHORTCUT_INVOCATION, otherwise it returns null.
-  ///@see android.content.pm.ShortcutManager\#reportShortcutUsed(String)
-  jni.JniString getShortcutId() {
-    final result__ = jni.JniString.fromRef(_getShortcutId(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  /// Get the beginning of the time range this ConfigurationStats represents,
+  /// measured in milliseconds since the epoch.
+  /// <p/>
+  /// See System\#currentTimeMillis().
+  int getFirstTimeStamp() => _getFirstTimeStamp(reference).long;
 
-  static final _getAppStandbyBucket =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_UsageEvents__Event_getAppStandbyBucket")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getLastTimeStamp = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "ConfigurationStats__getLastTimeStamp")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
-  /// from: public int getAppStandbyBucket()
+  /// from: public long getLastTimeStamp()
   ///
-  /// Returns the standby bucket of the app, if the event is of type
-  /// \#STANDBY_BUCKET_CHANGED, otherwise returns 0.
-  ///@return the standby bucket associated with the event.
-  int getAppStandbyBucket() {
-    final result__ = _getAppStandbyBucket(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  /// Get the end of the time range this ConfigurationStats represents,
+  /// measured in milliseconds since the epoch.
+  /// <p/>
+  /// See System\#currentTimeMillis().
+  int getLastTimeStamp() => _getLastTimeStamp(reference).long;
+
+  static final _getLastTimeActive = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "ConfigurationStats__getLastTimeActive")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public long getLastTimeActive()
+  ///
+  /// Get the last time this configuration was active, measured in milliseconds since the epoch.
+  /// <p/>
+  /// See System\#currentTimeMillis().
+  int getLastTimeActive() => _getLastTimeActive(reference).long;
+
+  static final _getTotalTimeActive = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "ConfigurationStats__getTotalTimeActive")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public long getTotalTimeActive()
+  ///
+  /// Get the total time this configuration was active, measured in milliseconds.
+  int getTotalTimeActive() => _getTotalTimeActive(reference).long;
+
+  static final _getActivationCount = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "ConfigurationStats__getActivationCount")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int getActivationCount()
+  ///
+  /// Get the number of times this configuration was active.
+  int getActivationCount() => _getActivationCount(reference).integer;
+
+  static final _describeContents = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "ConfigurationStats__describeContents")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int describeContents()
+  int describeContents() => _describeContents(reference).integer;
+
+  static final _writeToParcel = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("ConfigurationStats__writeToParcel")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public void writeToParcel(android.os.Parcel dest, int flags)
+  void writeToParcel(os_.Parcel dest, int flags) =>
+      _writeToParcel(reference, dest.reference, flags).check();
 }
 
 /// from: android.app.usage.EventStats
@@ -1560,45 +149,41 @@ class EventStats extends jni.JniObject {
   EventStats.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   static final _get_CREATOR =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "get_android_app_usage_EventStats_CREATOR")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_EventStats__CREATOR")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: static public final android.os.Parcelable.Creator<android.app.usage.EventStats> CREATOR
   /// The returned object must be deleted after use, by calling the `delete` method.
   static os_.Parcelable_Creator get CREATOR =>
-      os_.Parcelable_Creator.fromRef(_get_CREATOR());
+      os_.Parcelable_Creator.fromRef(_get_CREATOR().object);
 
   static final _ctor = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-                  ffi.Pointer<ffi.Void>)>>("android_app_usage_EventStats_ctor")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("EventStats__ctor")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.app.usage.EventStats stats)
-  EventStats(EventStats stats) : super.fromRef(_ctor(stats.reference)) {
-    jni.Jni.env.checkException();
-  }
+  EventStats(EventStats stats) : super.fromRef(_ctor(stats.reference).object);
 
-  static final _getEventType =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_EventStats_getEventType")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getEventType = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("EventStats__getEventType")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getEventType()
   ///
   /// Return the type of event this is usage for.  May be one of the event
   /// constants in UsageEvents.Event.
-  int getEventType() {
-    final result__ = _getEventType(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getEventType() => _getEventType(reference).integer;
 
-  static final _getFirstTimeStamp =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_EventStats_getFirstTimeStamp")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getFirstTimeStamp = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("EventStats__getFirstTimeStamp")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getFirstTimeStamp()
   ///
@@ -1606,16 +191,13 @@ class EventStats extends jni.JniObject {
   /// measured in milliseconds since the epoch.
   /// <p/>
   /// See System\#currentTimeMillis().
-  int getFirstTimeStamp() {
-    final result__ = _getFirstTimeStamp(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getFirstTimeStamp() => _getFirstTimeStamp(reference).long;
 
-  static final _getLastTimeStamp =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_EventStats_getLastTimeStamp")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getLastTimeStamp = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("EventStats__getLastTimeStamp")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getLastTimeStamp()
   ///
@@ -1623,62 +205,50 @@ class EventStats extends jni.JniObject {
   /// measured in milliseconds since the epoch.
   /// <p/>
   /// See System\#currentTimeMillis().
-  int getLastTimeStamp() {
-    final result__ = _getLastTimeStamp(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getLastTimeStamp() => _getLastTimeStamp(reference).long;
 
-  static final _getLastEventTime =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_EventStats_getLastEventTime")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getLastEventTime = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("EventStats__getLastEventTime")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getLastEventTime()
   ///
   /// Get the last time this event triggered, measured in milliseconds since the epoch.
   /// <p/>
   /// See System\#currentTimeMillis().
-  int getLastEventTime() {
-    final result__ = _getLastEventTime(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getLastEventTime() => _getLastEventTime(reference).long;
 
-  static final _getCount =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_EventStats_getCount")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getCount = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("EventStats__getCount")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getCount()
   ///
   /// Return the number of times that this event occurred over the interval.
-  int getCount() {
-    final result__ = _getCount(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getCount() => _getCount(reference).integer;
 
-  static final _getTotalTime =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_EventStats_getTotalTime")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getTotalTime = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("EventStats__getTotalTime")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getTotalTime()
   ///
   /// Get the total time this event was active, measured in milliseconds.
-  int getTotalTime() {
-    final result__ = _getTotalTime(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getTotalTime() => _getTotalTime(reference).long;
 
   static final _add = jniLookup<
           ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>,
-                  ffi.Pointer<ffi.Void>)>>("android_app_usage_EventStats_add")
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("EventStats__add")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void add(android.app.usage.EventStats right)
   ///
@@ -1687,168 +257,30 @@ class EventStats extends jni.JniObject {
   ///@param right The EventStats object to merge into this one.
   ///@throws java.lang.IllegalArgumentException if the event types of the two
   ///         UsageStats objects are different.
-  void add(EventStats right) {
-    final result__ = _add(reference, right.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void add(EventStats right) => _add(reference, right.reference).check();
 
-  static final _describeContents =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_EventStats_describeContents")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _describeContents = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("EventStats__describeContents")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int describeContents()
-  int describeContents() {
-    final result__ = _describeContents(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int describeContents() => _describeContents(reference).integer;
 
   static final _writeToParcel = jniLookup<
           ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_app_usage_EventStats_writeToParcel")
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("EventStats__writeToParcel")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(os_.Parcel dest, int flags) {
-    final result__ = _writeToParcel(reference, dest.reference, flags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
-
-/// from: android.app.usage.StorageStats
-///
-/// Storage statistics for a UID, package, or UserHandle on a single
-/// storage volume.
-///@see StorageStatsManager
-class StorageStats extends jni.JniObject {
-  StorageStats.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  static final _get_CREATOR =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "get_android_app_usage_StorageStats_CREATOR")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: static public final android.os.Parcelable.Creator<android.app.usage.StorageStats> CREATOR
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  static os_.Parcelable_Creator get CREATOR =>
-      os_.Parcelable_Creator.fromRef(_get_CREATOR());
-
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_app_usage_StorageStats_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: void <init>()
-  ///
-  /// {@hide }
-  StorageStats() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _getAppBytes =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_StorageStats_getAppBytes")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public long getAppBytes()
-  ///
-  /// Return the size of app. This includes {@code APK} files, optimized
-  /// compiler output, and unpacked native libraries.
-  ///
-  /// If the primary external/shared storage is hosted on this storage device,
-  /// then this includes files stored under Context\#getObbDir().
-  ///
-  /// Code is shared between all users on a multiuser device.
-  ///
-  /// Value is a non-negative number of bytes.
-  ///@return Value is a non-negative number of bytes.
-  int getAppBytes() {
-    final result__ = _getAppBytes(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getDataBytes =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_StorageStats_getDataBytes")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public long getDataBytes()
-  ///
-  /// Return the size of all data. This includes files stored under
-  /// Context\#getDataDir(), Context\#getCacheDir(),
-  /// Context\#getCodeCacheDir().
-  ///
-  /// If the primary external/shared storage is hosted on this storage device,
-  /// then this includes files stored under
-  /// Context\#getExternalFilesDir(String),
-  /// Context\#getExternalCacheDir(), and
-  /// Context\#getExternalMediaDirs().
-  ///
-  /// Data is isolated for each user on a multiuser device.
-  ///
-  /// Value is a non-negative number of bytes.
-  ///@return Value is a non-negative number of bytes.
-  int getDataBytes() {
-    final result__ = _getDataBytes(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getCacheBytes =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_StorageStats_getCacheBytes")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public long getCacheBytes()
-  ///
-  /// Return the size of all cached data. This includes files stored under
-  /// Context\#getCacheDir() and Context\#getCodeCacheDir().
-  ///
-  /// If the primary external/shared storage is hosted on this storage device,
-  /// then this includes files stored under
-  /// Context\#getExternalCacheDir().
-  ///
-  /// Cached data is isolated for each user on a multiuser device.
-  ///
-  /// Value is a non-negative number of bytes.
-  ///@return Value is a non-negative number of bytes.
-  int getCacheBytes() {
-    final result__ = _getCacheBytes(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _describeContents =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_StorageStats_describeContents")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int describeContents()
-  int describeContents() {
-    final result__ = _describeContents(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _writeToParcel = jniLookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_app_usage_StorageStats_writeToParcel")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(os_.Parcel dest, int flags) {
-    final result__ = _writeToParcel(reference, dest.reference, flags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void writeToParcel(os_.Parcel dest, int flags) =>
+      _writeToParcel(reference, dest.reference, flags).check();
 }
 
 /// from: android.app.usage.ExternalStorageStats
@@ -1860,31 +292,29 @@ class ExternalStorageStats extends jni.JniObject {
   ExternalStorageStats.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   static final _get_CREATOR =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "get_android_app_usage_ExternalStorageStats_CREATOR")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_ExternalStorageStats__CREATOR")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: static public final android.os.Parcelable.Creator<android.app.usage.ExternalStorageStats> CREATOR
   /// The returned object must be deleted after use, by calling the `delete` method.
   static os_.Parcelable_Creator get CREATOR =>
-      os_.Parcelable_Creator.fromRef(_get_CREATOR());
+      os_.Parcelable_Creator.fromRef(_get_CREATOR().object);
 
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_app_usage_ExternalStorageStats_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "ExternalStorageStats__ctor")
+      .asFunction<jni.JniResult Function()>();
 
   /// from: void <init>()
   ///
   /// {@hide }
-  ExternalStorageStats() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
+  ExternalStorageStats() : super.fromRef(_ctor().object);
 
-  static final _getTotalBytes =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_ExternalStorageStats_getTotalBytes")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getTotalBytes = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "ExternalStorageStats__getTotalBytes")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getTotalBytes()
   ///
@@ -1897,16 +327,13 @@ class ExternalStorageStats extends jni.JniObject {
   ///
   /// Value is a non-negative number of bytes.
   ///@return Value is a non-negative number of bytes.
-  int getTotalBytes() {
-    final result__ = _getTotalBytes(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getTotalBytes() => _getTotalBytes(reference).long;
 
-  static final _getAudioBytes =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_ExternalStorageStats_getAudioBytes")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getAudioBytes = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "ExternalStorageStats__getAudioBytes")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getAudioBytes()
   ///
@@ -1919,16 +346,13 @@ class ExternalStorageStats extends jni.JniObject {
   ///
   /// Value is a non-negative number of bytes.
   ///@return Value is a non-negative number of bytes.
-  int getAudioBytes() {
-    final result__ = _getAudioBytes(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getAudioBytes() => _getAudioBytes(reference).long;
 
-  static final _getVideoBytes =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_ExternalStorageStats_getVideoBytes")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getVideoBytes = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "ExternalStorageStats__getVideoBytes")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getVideoBytes()
   ///
@@ -1941,16 +365,13 @@ class ExternalStorageStats extends jni.JniObject {
   ///
   /// Value is a non-negative number of bytes.
   ///@return Value is a non-negative number of bytes.
-  int getVideoBytes() {
-    final result__ = _getVideoBytes(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getVideoBytes() => _getVideoBytes(reference).long;
 
-  static final _getImageBytes =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_ExternalStorageStats_getImageBytes")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getImageBytes = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "ExternalStorageStats__getImageBytes")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getImageBytes()
   ///
@@ -1963,16 +384,13 @@ class ExternalStorageStats extends jni.JniObject {
   ///
   /// Value is a non-negative number of bytes.
   ///@return Value is a non-negative number of bytes.
-  int getImageBytes() {
-    final result__ = _getImageBytes(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getImageBytes() => _getImageBytes(reference).long;
 
-  static final _getAppBytes =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_ExternalStorageStats_getAppBytes")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getAppBytes = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("ExternalStorageStats__getAppBytes")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getAppBytes()
   ///
@@ -1987,38 +405,30 @@ class ExternalStorageStats extends jni.JniObject {
   ///
   /// Value is a non-negative number of bytes.
   ///@return Value is a non-negative number of bytes.
-  int getAppBytes() {
-    final result__ = _getAppBytes(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getAppBytes() => _getAppBytes(reference).long;
 
-  static final _describeContents =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_ExternalStorageStats_describeContents")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _describeContents = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "ExternalStorageStats__describeContents")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int describeContents()
-  int describeContents() {
-    final result__ = _describeContents(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int describeContents() => _describeContents(reference).integer;
 
   static final _writeToParcel = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_usage_ExternalStorageStats_writeToParcel")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("ExternalStorageStats__writeToParcel")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(os_.Parcel dest, int flags) {
-    final result__ = _writeToParcel(reference, dest.reference, flags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void writeToParcel(os_.Parcel dest, int flags) =>
+      _writeToParcel(reference, dest.reference, flags).check();
 }
 
 /// from: android.app.usage.NetworkStats
@@ -2028,74 +438,60 @@ class ExternalStorageStats extends jni.JniObject {
 class NetworkStats extends jni.JniObject {
   NetworkStats.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_app_usage_NetworkStats_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "NetworkStats__ctor")
+      .asFunction<jni.JniResult Function()>();
 
   /// from: void <init>()
-  NetworkStats() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
+  NetworkStats() : super.fromRef(_ctor().object);
 
-  static final _finalize =
-      jniLookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_NetworkStats_finalize")
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+  static final _finalize = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("NetworkStats__finalize")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void finalize()
-  void finalize() {
-    final result__ = _finalize(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void finalize() => _finalize(reference).check();
 
   static final _getNextBucket = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_usage_NetworkStats_getNextBucket")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("NetworkStats__getNextBucket")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean getNextBucket(android.app.usage.NetworkStats.Bucket bucketOut)
   ///
   /// Fills the recycled bucket with data of the next bin in the enumeration.
   ///@param bucketOut Bucket to be filled with data.
   ///@return true if successfully filled the bucket, false otherwise.
-  bool getNextBucket(NetworkStats_Bucket bucketOut) {
-    final result__ = _getNextBucket(reference, bucketOut.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool getNextBucket(NetworkStats_Bucket bucketOut) =>
+      _getNextBucket(reference, bucketOut.reference).boolean;
 
-  static final _hasNextBucket =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_NetworkStats_hasNextBucket")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _hasNextBucket = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("NetworkStats__hasNextBucket")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean hasNextBucket()
   ///
   /// Check if it is possible to ask for a next bucket in the enumeration.
   ///@return true if there is at least one more bucket.
-  bool hasNextBucket() {
-    final result__ = _hasNextBucket(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool hasNextBucket() => _hasNextBucket(reference).boolean;
 
-  static final _close =
-      jniLookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_NetworkStats_close")
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+  static final _close = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("NetworkStats__close")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void close()
   ///
   /// Closes the enumeration. Call this method before this object gets out of scope.
-  void close() {
-    final result__ = _close(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void close() => _close(reference).check();
 }
 
 /// from: android.app.usage.NetworkStats$Bucket
@@ -2203,20 +599,18 @@ class NetworkStats_Bucket extends jni.JniObject {
   /// Special UID value for data usage by tethering.
   static const UID_TETHERING = -5;
 
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_app_usage_NetworkStats__Bucket_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "NetworkStats_Bucket__ctor")
+      .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  NetworkStats_Bucket() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
+  NetworkStats_Bucket() : super.fromRef(_ctor().object);
 
-  static final _getUid =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_NetworkStats__Bucket_getUid")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getUid = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("NetworkStats_Bucket__getUid")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getUid()
   ///
@@ -2227,31 +621,25 @@ class NetworkStats_Bucket extends jni.JniObject {
   /// <li>android.os.Process\#SYSTEM_UID</li>
   /// </ul>
   ///@return Bucket key.
-  int getUid() {
-    final result__ = _getUid(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getUid() => _getUid(reference).integer;
 
-  static final _getTag =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_NetworkStats__Bucket_getTag")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getTag = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("NetworkStats_Bucket__getTag")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getTag()
   ///
   /// Tag of the bucket.<p/>
   ///@return Bucket tag.
-  int getTag() {
-    final result__ = _getTag(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getTag() => _getTag(reference).integer;
 
-  static final _getState =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_NetworkStats__Bucket_getState")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getState = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("NetworkStats_Bucket__getState")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getState()
   ///
@@ -2264,16 +652,13 @@ class NetworkStats_Bucket extends jni.JniObject {
   ///@return Usage state.
   ///
   /// Value is android.app.usage.NetworkStats.Bucket\#STATE_ALL, android.app.usage.NetworkStats.Bucket\#STATE_DEFAULT, or android.app.usage.NetworkStats.Bucket\#STATE_FOREGROUND
-  int getState() {
-    final result__ = _getState(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getState() => _getState(reference).integer;
 
-  static final _getMetered =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_NetworkStats__Bucket_getMetered")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getMetered = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("NetworkStats_Bucket__getMetered")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getMetered()
   ///
@@ -2287,16 +672,13 @@ class NetworkStats_Bucket extends jni.JniObject {
   /// that connection. Apps may warn before using these networks for large downloads. The
   /// metered state can be set by the user within data usage network restrictions.
   ///@return Value is android.app.usage.NetworkStats.Bucket\#METERED_ALL, android.app.usage.NetworkStats.Bucket\#METERED_NO, or android.app.usage.NetworkStats.Bucket\#METERED_YES
-  int getMetered() {
-    final result__ = _getMetered(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getMetered() => _getMetered(reference).integer;
 
-  static final _getRoaming =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_NetworkStats__Bucket_getRoaming")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getRoaming = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("NetworkStats_Bucket__getRoaming")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getRoaming()
   ///
@@ -2307,16 +689,13 @@ class NetworkStats_Bucket extends jni.JniObject {
   /// <li>\#ROAMING_YES</li>
   /// </ul>
   ///@return Value is android.app.usage.NetworkStats.Bucket\#ROAMING_ALL, android.app.usage.NetworkStats.Bucket\#ROAMING_NO, or android.app.usage.NetworkStats.Bucket\#ROAMING_YES
-  int getRoaming() {
-    final result__ = _getRoaming(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getRoaming() => _getRoaming(reference).integer;
 
-  static final _getDefaultNetworkStatus =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_NetworkStats__Bucket_getDefaultNetworkStatus")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getDefaultNetworkStatus = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "NetworkStats_Bucket__getDefaultNetworkStatus")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getDefaultNetworkStatus()
   ///
@@ -2327,254 +706,1600 @@ class NetworkStats_Bucket extends jni.JniObject {
   /// <li>\#DEFAULT_NETWORK_YES</li>
   /// </ul>
   ///@return Value is android.app.usage.NetworkStats.Bucket\#DEFAULT_NETWORK_ALL, android.app.usage.NetworkStats.Bucket\#DEFAULT_NETWORK_NO, or android.app.usage.NetworkStats.Bucket\#DEFAULT_NETWORK_YES
-  int getDefaultNetworkStatus() {
-    final result__ = _getDefaultNetworkStatus(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getDefaultNetworkStatus() => _getDefaultNetworkStatus(reference).integer;
 
-  static final _getStartTimeStamp =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_NetworkStats__Bucket_getStartTimeStamp")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getStartTimeStamp = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "NetworkStats_Bucket__getStartTimeStamp")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getStartTimeStamp()
   ///
   /// Start timestamp of the bucket's time interval. Defined in terms of "Unix time", see
   /// java.lang.System\#currentTimeMillis.
   ///@return Start of interval.
-  int getStartTimeStamp() {
-    final result__ = _getStartTimeStamp(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getStartTimeStamp() => _getStartTimeStamp(reference).long;
 
-  static final _getEndTimeStamp =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_NetworkStats__Bucket_getEndTimeStamp")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getEndTimeStamp = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "NetworkStats_Bucket__getEndTimeStamp")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getEndTimeStamp()
   ///
   /// End timestamp of the bucket's time interval. Defined in terms of "Unix time", see
   /// java.lang.System\#currentTimeMillis.
   ///@return End of interval.
-  int getEndTimeStamp() {
-    final result__ = _getEndTimeStamp(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getEndTimeStamp() => _getEndTimeStamp(reference).long;
 
-  static final _getRxBytes =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_NetworkStats__Bucket_getRxBytes")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getRxBytes = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("NetworkStats_Bucket__getRxBytes")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getRxBytes()
   ///
   /// Number of bytes received during the bucket's time interval. Statistics are measured at
   /// the network layer, so they include both TCP and UDP usage.
   ///@return Number of bytes.
-  int getRxBytes() {
-    final result__ = _getRxBytes(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getRxBytes() => _getRxBytes(reference).long;
 
-  static final _getTxBytes =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_NetworkStats__Bucket_getTxBytes")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getTxBytes = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("NetworkStats_Bucket__getTxBytes")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getTxBytes()
   ///
   /// Number of bytes transmitted during the bucket's time interval. Statistics are measured at
   /// the network layer, so they include both TCP and UDP usage.
   ///@return Number of bytes.
-  int getTxBytes() {
-    final result__ = _getTxBytes(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getTxBytes() => _getTxBytes(reference).long;
 
-  static final _getRxPackets =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_NetworkStats__Bucket_getRxPackets")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getRxPackets = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("NetworkStats_Bucket__getRxPackets")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getRxPackets()
   ///
   /// Number of packets received during the bucket's time interval. Statistics are measured at
   /// the network layer, so they include both TCP and UDP usage.
   ///@return Number of packets.
-  int getRxPackets() {
-    final result__ = _getRxPackets(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getRxPackets() => _getRxPackets(reference).long;
 
-  static final _getTxPackets =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_NetworkStats__Bucket_getTxPackets")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getTxPackets = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("NetworkStats_Bucket__getTxPackets")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getTxPackets()
   ///
   /// Number of packets transmitted during the bucket's time interval. Statistics are measured
   /// at the network layer, so they include both TCP and UDP usage.
   ///@return Number of packets.
-  int getTxPackets() {
-    final result__ = _getTxPackets(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getTxPackets() => _getTxPackets(reference).long;
 }
 
-/// from: android.app.usage.ConfigurationStats
+/// from: android.app.usage.NetworkStatsManager
 ///
-/// Represents the usage statistics of a device android.content.res.Configuration for a
-/// specific time range.
-class ConfigurationStats extends jni.JniObject {
-  ConfigurationStats.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+/// Provides access to network usage history and statistics. Usage data is collected in
+/// discrete bins of time called 'Buckets'. See NetworkStats.Bucket for details.
+/// <p/>
+/// Queries can define a time interval in the form of start and end timestamps (Long.MIN_VALUE and
+/// Long.MAX_VALUE can be used to simulate open ended intervals). By default, apps can only obtain
+/// data about themselves. See the below note for special cases in which apps can obtain data about
+/// other applications.
+/// <h3>
+/// Summary queries
+/// </h3>
+/// \#querySummaryForDevice <p/>
+/// \#querySummaryForUser <p/>
+/// \#querySummary <p/>
+/// These queries aggregate network usage across the whole interval. Therefore there will be only one
+/// bucket for a particular key, state, metered and roaming combination. In case of the user-wide
+/// and device-wide summaries a single bucket containing the totalised network usage is returned.
+/// <h3>
+/// History queries
+/// </h3>
+/// \#queryDetailsForUid <p/>
+/// \#queryDetails <p/>
+/// These queries do not aggregate over time but do aggregate over state, metered and roaming.
+/// Therefore there can be multiple buckets for a particular key. However, all Buckets will have
+/// {@code state} NetworkStats.Bucket\#STATE_ALL,
+/// {@code defaultNetwork} NetworkStats.Bucket\#DEFAULT_NETWORK_ALL,
+/// {@code metered } NetworkStats.Bucket\#METERED_ALL,
+/// {@code roaming} NetworkStats.Bucket\#ROAMING_ALL.
+/// <p/>
+/// __NOTE:__ Calling \#querySummaryForDevice or accessing stats for apps other than the
+/// calling app requires the permission android.Manifest.permission\#PACKAGE_USAGE_STATS,
+/// which is a system-level permission and will not be granted to third-party apps. However,
+/// declaring the permission implies intention to use the API and the user of the device can grant
+/// permission through the Settings application.
+/// <p/>
+/// Profile owner apps are automatically granted permission to query data on the profile they manage
+/// (that is, for any query except \#querySummaryForDevice). Device owner apps and carrier-
+/// privileged apps likewise get access to usage data for all users on the device.
+/// <p/>
+/// In addition to tethering usage, usage by removed users and apps, and usage by the system
+/// is also included in the results for callers with one of these higher levels of access.
+/// <p/>
+/// __NOTE:__ Prior to API level {@value android.os.Build.VERSION_CODES\#N}, all calls to these APIs required
+/// the above permission, even to access an app's own data usage, and carrier-privileged apps were
+/// not included.
+class NetworkStatsManager extends jni.JniObject {
+  NetworkStatsManager.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "NetworkStatsManager__ctor")
+      .asFunction<jni.JniResult Function()>();
+
+  /// from: void <init>()
+  NetworkStatsManager() : super.fromRef(_ctor().object);
+
+  static final _querySummaryForDevice = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int64,
+                  ffi.Int64)>>("NetworkStatsManager__querySummaryForDevice")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>, int, int)>();
+
+  /// from: public android.app.usage.NetworkStats.Bucket querySummaryForDevice(int networkType, java.lang.String subscriberId, long startTime, long endTime)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Query network usage statistics summaries. Result is summarised data usage for the whole
+  /// device. Result is a single Bucket aggregated over time, state, uid, tag, metered, and
+  /// roaming. This means the bucket's start and end timestamp are going to be the same as the
+  /// 'startTime' and 'endTime' parameters. State is going to be
+  /// NetworkStats.Bucket\#STATE_ALL, uid NetworkStats.Bucket\#UID_ALL,
+  /// tag NetworkStats.Bucket\#TAG_NONE,
+  /// default network NetworkStats.Bucket\#DEFAULT_NETWORK_ALL,
+  /// metered NetworkStats.Bucket\#METERED_ALL,
+  /// and roaming NetworkStats.Bucket\#ROAMING_ALL.
+  ///@param networkType As defined in ConnectivityManager, e.g.
+  ///            ConnectivityManager\#TYPE_MOBILE, ConnectivityManager\#TYPE_WIFI
+  ///            etc.
+  ///@param subscriberId If applicable, the subscriber id of the network interface.
+  ///@param startTime Start of period. Defined in terms of "Unix time", see
+  ///            java.lang.System\#currentTimeMillis.
+  ///@param endTime End of period. Defined in terms of "Unix time", see
+  ///            java.lang.System\#currentTimeMillis.
+  ///@return Bucket object or null if permissions are insufficient or error happened during
+  ///         statistics collection.
+  NetworkStats_Bucket querySummaryForDevice(int networkType,
+          jni.JniString subscriberId, int startTime, int endTime) =>
+      NetworkStats_Bucket.fromRef(_querySummaryForDevice(reference, networkType,
+              subscriberId.reference, startTime, endTime)
+          .object);
+
+  static final _querySummaryForUser = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int64,
+                  ffi.Int64)>>("NetworkStatsManager__querySummaryForUser")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>, int, int)>();
+
+  /// from: public android.app.usage.NetworkStats.Bucket querySummaryForUser(int networkType, java.lang.String subscriberId, long startTime, long endTime)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Query network usage statistics summaries. Result is summarised data usage for all uids
+  /// belonging to calling user. Result is a single Bucket aggregated over time, state and uid.
+  /// This means the bucket's start and end timestamp are going to be the same as the 'startTime'
+  /// and 'endTime' parameters. State is going to be NetworkStats.Bucket\#STATE_ALL,
+  /// uid NetworkStats.Bucket\#UID_ALL, tag NetworkStats.Bucket\#TAG_NONE,
+  /// metered NetworkStats.Bucket\#METERED_ALL, and roaming
+  /// NetworkStats.Bucket\#ROAMING_ALL.
+  ///@param networkType As defined in ConnectivityManager, e.g.
+  ///            ConnectivityManager\#TYPE_MOBILE, ConnectivityManager\#TYPE_WIFI
+  ///            etc.
+  ///@param subscriberId If applicable, the subscriber id of the network interface.
+  ///@param startTime Start of period. Defined in terms of "Unix time", see
+  ///            java.lang.System\#currentTimeMillis.
+  ///@param endTime End of period. Defined in terms of "Unix time", see
+  ///            java.lang.System\#currentTimeMillis.
+  ///@return Bucket object or null if permissions are insufficient or error happened during
+  ///         statistics collection.
+  NetworkStats_Bucket querySummaryForUser(int networkType,
+          jni.JniString subscriberId, int startTime, int endTime) =>
+      NetworkStats_Bucket.fromRef(_querySummaryForUser(reference, networkType,
+              subscriberId.reference, startTime, endTime)
+          .object);
+
+  static final _querySummary = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int64,
+                  ffi.Int64)>>("NetworkStatsManager__querySummary")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>, int, int)>();
+
+  /// from: public android.app.usage.NetworkStats querySummary(int networkType, java.lang.String subscriberId, long startTime, long endTime)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Query network usage statistics summaries. Result filtered to include only uids belonging to
+  /// calling user. Result is aggregated over time, hence all buckets will have the same start and
+  /// end timestamps. Not aggregated over state, uid, default network, metered, or roaming. This
+  /// means buckets' start and end timestamps are going to be the same as the 'startTime' and
+  /// 'endTime' parameters. State, uid, metered, and roaming are going to vary, and tag is going to
+  /// be the same.
+  ///@param networkType As defined in ConnectivityManager, e.g.
+  ///            ConnectivityManager\#TYPE_MOBILE, ConnectivityManager\#TYPE_WIFI
+  ///            etc.
+  ///@param subscriberId If applicable, the subscriber id of the network interface.
+  ///@param startTime Start of period. Defined in terms of "Unix time", see
+  ///            java.lang.System\#currentTimeMillis.
+  ///@param endTime End of period. Defined in terms of "Unix time", see
+  ///            java.lang.System\#currentTimeMillis.
+  ///@return Statistics object or null if permissions are insufficient or error happened during
+  ///         statistics collection.
+  NetworkStats querySummary(int networkType, jni.JniString subscriberId,
+          int startTime, int endTime) =>
+      NetworkStats.fromRef(_querySummary(reference, networkType,
+              subscriberId.reference, startTime, endTime)
+          .object);
+
+  static final _queryDetailsForUid = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int64,
+                  ffi.Int64,
+                  ffi.Int32)>>("NetworkStatsManager__queryDetailsForUid")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, int,
+              ffi.Pointer<ffi.Void>, int, int, int)>();
+
+  /// from: public android.app.usage.NetworkStats queryDetailsForUid(int networkType, java.lang.String subscriberId, long startTime, long endTime, int uid)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Query network usage statistics details for a given uid.
+  ///
+  /// \#see queryDetailsForUidTagState(int, String, long, long, int, int, int)
+  NetworkStats queryDetailsForUid(int networkType, jni.JniString subscriberId,
+          int startTime, int endTime, int uid) =>
+      NetworkStats.fromRef(_queryDetailsForUid(reference, networkType,
+              subscriberId.reference, startTime, endTime, uid)
+          .object);
+
+  static final _queryDetailsForUidTag = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int64,
+                  ffi.Int64,
+                  ffi.Int32,
+                  ffi.Int32)>>("NetworkStatsManager__queryDetailsForUidTag")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, int,
+              ffi.Pointer<ffi.Void>, int, int, int, int)>();
+
+  /// from: public android.app.usage.NetworkStats queryDetailsForUidTag(int networkType, java.lang.String subscriberId, long startTime, long endTime, int uid, int tag)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Query network usage statistics details for a given uid and tag.
+  ///
+  /// \#see queryDetailsForUidTagState(int, String, long, long, int, int, int)
+  NetworkStats queryDetailsForUidTag(
+          int networkType,
+          jni.JniString subscriberId,
+          int startTime,
+          int endTime,
+          int uid,
+          int tag) =>
+      NetworkStats.fromRef(_queryDetailsForUidTag(reference, networkType,
+              subscriberId.reference, startTime, endTime, uid, tag)
+          .object);
+
+  static final _queryDetailsForUidTagState = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Int32,
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Int64,
+                      ffi.Int64,
+                      ffi.Int32,
+                      ffi.Int32,
+                      ffi.Int32)>>(
+          "NetworkStatsManager__queryDetailsForUidTagState")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, int,
+              ffi.Pointer<ffi.Void>, int, int, int, int, int)>();
+
+  /// from: public android.app.usage.NetworkStats queryDetailsForUidTagState(int networkType, java.lang.String subscriberId, long startTime, long endTime, int uid, int tag, int state)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Query network usage statistics details for a given uid, tag, and state. Only usable for uids
+  /// belonging to calling user. Result is not aggregated over time. This means buckets' start and
+  /// end timestamps are going to be between 'startTime' and 'endTime' parameters. The uid is going
+  /// to be the same as the 'uid' parameter, the tag the same as the 'tag' parameter, and the state
+  /// the same as the 'state' parameter.
+  /// defaultNetwork is going to be NetworkStats.Bucket\#DEFAULT_NETWORK_ALL,
+  /// metered is going to be NetworkStats.Bucket\#METERED_ALL, and
+  /// roaming is going to be NetworkStats.Bucket\#ROAMING_ALL.
+  /// Only includes buckets that atomically occur in the inclusive time range. Doesn't
+  /// interpolate across partial buckets. Since bucket length is in the order of hours, this
+  /// method cannot be used to measure data usage on a fine grained time scale.
+  ///@param networkType As defined in ConnectivityManager, e.g.
+  ///            ConnectivityManager\#TYPE_MOBILE, ConnectivityManager\#TYPE_WIFI
+  ///            etc.
+  ///@param subscriberId If applicable, the subscriber id of the network interface.
+  ///@param startTime Start of period. Defined in terms of "Unix time", see
+  ///            java.lang.System\#currentTimeMillis.
+  ///@param endTime End of period. Defined in terms of "Unix time", see
+  ///            java.lang.System\#currentTimeMillis.
+  ///@param uid UID of app
+  ///@param tag TAG of interest. Use NetworkStats.Bucket\#TAG_NONE for no tags.
+  ///@param state state of interest. Use NetworkStats.Bucket\#STATE_ALL to aggregate
+  ///            traffic from all states.
+  ///@return Statistics object or null if an error happened during statistics collection.
+  ///@throws SecurityException if permissions are insufficient to read network statistics.
+  NetworkStats queryDetailsForUidTagState(
+          int networkType,
+          jni.JniString subscriberId,
+          int startTime,
+          int endTime,
+          int uid,
+          int tag,
+          int state) =>
+      NetworkStats.fromRef(_queryDetailsForUidTagState(reference, networkType,
+              subscriberId.reference, startTime, endTime, uid, tag, state)
+          .object);
+
+  static final _queryDetails = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int64,
+                  ffi.Int64)>>("NetworkStatsManager__queryDetails")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>, int, int)>();
+
+  /// from: public android.app.usage.NetworkStats queryDetails(int networkType, java.lang.String subscriberId, long startTime, long endTime)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Query network usage statistics details. Result filtered to include only uids belonging to
+  /// calling user. Result is aggregated over state but not aggregated over time, uid, tag,
+  /// metered, nor roaming. This means buckets' start and end timestamps are going to be between
+  /// 'startTime' and 'endTime' parameters. State is going to be
+  /// NetworkStats.Bucket\#STATE_ALL, uid will vary,
+  /// tag NetworkStats.Bucket\#TAG_NONE,
+  /// default network is going to be NetworkStats.Bucket\#DEFAULT_NETWORK_ALL,
+  /// metered is going to be NetworkStats.Bucket\#METERED_ALL,
+  /// and roaming is going to be NetworkStats.Bucket\#ROAMING_ALL.
+  /// Only includes buckets that atomically occur in the inclusive time range. Doesn't
+  /// interpolate across partial buckets. Since bucket length is in the order of hours, this
+  /// method cannot be used to measure data usage on a fine grained time scale.
+  ///@param networkType As defined in ConnectivityManager, e.g.
+  ///            ConnectivityManager\#TYPE_MOBILE, ConnectivityManager\#TYPE_WIFI
+  ///            etc.
+  ///@param subscriberId If applicable, the subscriber id of the network interface.
+  ///@param startTime Start of period. Defined in terms of "Unix time", see
+  ///            java.lang.System\#currentTimeMillis.
+  ///@param endTime End of period. Defined in terms of "Unix time", see
+  ///            java.lang.System\#currentTimeMillis.
+  ///@return Statistics object or null if permissions are insufficient or error happened during
+  ///         statistics collection.
+  NetworkStats queryDetails(int networkType, jni.JniString subscriberId,
+          int startTime, int endTime) =>
+      NetworkStats.fromRef(_queryDetails(reference, networkType,
+              subscriberId.reference, startTime, endTime)
+          .object);
+
+  static final _registerUsageCallback = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Int32,
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Int64,
+                      ffi.Pointer<ffi.Void>)>>(
+          "NetworkStatsManager__registerUsageCallback")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, int,
+              ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void registerUsageCallback(int networkType, java.lang.String subscriberId, long thresholdBytes, android.app.usage.NetworkStatsManager.UsageCallback callback)
+  ///
+  /// Registers to receive notifications about data usage on specified networks.
+  ///
+  /// \#see registerUsageCallback(int, String[], long, UsageCallback, Handler)
+  void registerUsageCallback(int networkType, jni.JniString subscriberId,
+          int thresholdBytes, NetworkStatsManager_UsageCallback callback) =>
+      _registerUsageCallback(reference, networkType, subscriberId.reference,
+              thresholdBytes, callback.reference)
+          .check();
+
+  static final _registerUsageCallback1 = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Int32,
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Int64,
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>)>>(
+          "NetworkStatsManager__registerUsageCallback1")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>,
+              int,
+              ffi.Pointer<ffi.Void>,
+              int,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void registerUsageCallback(int networkType, java.lang.String subscriberId, long thresholdBytes, android.app.usage.NetworkStatsManager.UsageCallback callback, android.os.Handler handler)
+  ///
+  /// Registers to receive notifications about data usage on specified networks.
+  ///
+  /// The callbacks will continue to be called as long as the process is live or
+  /// \#unregisterUsageCallback is called.
+  ///@param networkType Type of network to monitor. Either
+  ///             ConnectivityManager\#TYPE_MOBILE or ConnectivityManager\#TYPE_WIFI.
+  ///@param subscriberId If applicable, the subscriber id of the network interface.
+  ///@param thresholdBytes Threshold in bytes to be notified on.
+  ///@param callback The UsageCallback that the system will call when data usage
+  ///            has exceeded the specified threshold.
+  ///@param handler to dispatch callback events through, otherwise if {@code null} it uses
+  ///            the calling thread.
+  ///
+  /// This value may be {@code null}.
+  void registerUsageCallback1(
+          int networkType,
+          jni.JniString subscriberId,
+          int thresholdBytes,
+          NetworkStatsManager_UsageCallback callback,
+          os_.Handler handler) =>
+      _registerUsageCallback1(reference, networkType, subscriberId.reference,
+              thresholdBytes, callback.reference, handler.reference)
+          .check();
+
+  static final _unregisterUsageCallback = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
+          "NetworkStatsManager__unregisterUsageCallback")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void unregisterUsageCallback(android.app.usage.NetworkStatsManager.UsageCallback callback)
+  ///
+  /// Unregisters callbacks on data usage.
+  ///@param callback The UsageCallback used when registering.
+  void unregisterUsageCallback(NetworkStatsManager_UsageCallback callback) =>
+      _unregisterUsageCallback(reference, callback.reference).check();
+}
+
+/// from: android.app.usage.NetworkStatsManager$UsageCallback
+///
+/// Base class for usage callbacks. Should be extended by applications wanting notifications.
+class NetworkStatsManager_UsageCallback extends jni.JniObject {
+  NetworkStatsManager_UsageCallback.fromRef(ffi.Pointer<ffi.Void> ref)
+      : super.fromRef(ref);
+
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "NetworkStatsManager_UsageCallback__ctor")
+      .asFunction<jni.JniResult Function()>();
+
+  /// from: public void <init>()
+  NetworkStatsManager_UsageCallback() : super.fromRef(_ctor().object);
+
+  static final _onThresholdReached = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                      ffi.Pointer<ffi.Void>)>>(
+          "NetworkStatsManager_UsageCallback__onThresholdReached")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public abstract void onThresholdReached(int networkType, java.lang.String subscriberId)
+  ///
+  /// Called when data usage has reached the given threshold.
+  void onThresholdReached(int networkType, jni.JniString subscriberId) =>
+      _onThresholdReached(reference, networkType, subscriberId.reference)
+          .check();
+}
+
+/// from: android.app.usage.StorageStats
+///
+/// Storage statistics for a UID, package, or UserHandle on a single
+/// storage volume.
+///@see StorageStatsManager
+class StorageStats extends jni.JniObject {
+  StorageStats.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   static final _get_CREATOR =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "get_android_app_usage_ConfigurationStats_CREATOR")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_StorageStats__CREATOR")
+          .asFunction<jni.JniResult Function()>();
 
-  /// from: static public final android.os.Parcelable.Creator<android.app.usage.ConfigurationStats> CREATOR
+  /// from: static public final android.os.Parcelable.Creator<android.app.usage.StorageStats> CREATOR
   /// The returned object must be deleted after use, by calling the `delete` method.
   static os_.Parcelable_Creator get CREATOR =>
-      os_.Parcelable_Creator.fromRef(_get_CREATOR());
+      os_.Parcelable_Creator.fromRef(_get_CREATOR().object);
 
-  static final _ctor = jniLookup<
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "StorageStats__ctor")
+      .asFunction<jni.JniResult Function()>();
+
+  /// from: void <init>()
+  ///
+  /// {@hide }
+  StorageStats() : super.fromRef(_ctor().object);
+
+  static final _getAppBytes = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("StorageStats__getAppBytes")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public long getAppBytes()
+  ///
+  /// Return the size of app. This includes {@code APK} files, optimized
+  /// compiler output, and unpacked native libraries.
+  ///
+  /// If the primary external/shared storage is hosted on this storage device,
+  /// then this includes files stored under Context\#getObbDir().
+  ///
+  /// Code is shared between all users on a multiuser device.
+  ///
+  /// Value is a non-negative number of bytes.
+  ///@return Value is a non-negative number of bytes.
+  int getAppBytes() => _getAppBytes(reference).long;
+
+  static final _getDataBytes = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("StorageStats__getDataBytes")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public long getDataBytes()
+  ///
+  /// Return the size of all data. This includes files stored under
+  /// Context\#getDataDir(), Context\#getCacheDir(),
+  /// Context\#getCodeCacheDir().
+  ///
+  /// If the primary external/shared storage is hosted on this storage device,
+  /// then this includes files stored under
+  /// Context\#getExternalFilesDir(String),
+  /// Context\#getExternalCacheDir(), and
+  /// Context\#getExternalMediaDirs().
+  ///
+  /// Data is isolated for each user on a multiuser device.
+  ///
+  /// Value is a non-negative number of bytes.
+  ///@return Value is a non-negative number of bytes.
+  int getDataBytes() => _getDataBytes(reference).long;
+
+  static final _getCacheBytes = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("StorageStats__getCacheBytes")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public long getCacheBytes()
+  ///
+  /// Return the size of all cached data. This includes files stored under
+  /// Context\#getCacheDir() and Context\#getCodeCacheDir().
+  ///
+  /// If the primary external/shared storage is hosted on this storage device,
+  /// then this includes files stored under
+  /// Context\#getExternalCacheDir().
+  ///
+  /// Cached data is isolated for each user on a multiuser device.
+  ///
+  /// Value is a non-negative number of bytes.
+  ///@return Value is a non-negative number of bytes.
+  int getCacheBytes() => _getCacheBytes(reference).long;
+
+  static final _describeContents = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("StorageStats__describeContents")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int describeContents()
+  int describeContents() => _describeContents(reference).integer;
+
+  static final _writeToParcel = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("StorageStats__writeToParcel")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public void writeToParcel(android.os.Parcel dest, int flags)
+  void writeToParcel(os_.Parcel dest, int flags) =>
+      _writeToParcel(reference, dest.reference, flags).check();
+}
+
+/// from: android.app.usage.StorageStatsManager
+///
+/// Access to detailed storage statistics. This provides a summary of how apps,
+/// users, and external/shared storage is utilizing disk space.
+/// <p class="note">
+/// Note: no permissions are required when calling these APIs for your own
+/// package or UID. However, requesting details for any other package requires
+/// the {@code android.Manifest.permission\#PACKAGE_USAGE_STATS} permission, which
+/// is a system-level permission that will not be granted to normal apps.
+/// Declaring that permission expresses your intention to use this API and an end
+/// user can then choose to grant this permission through the Settings
+/// application.
+///
+///
+class StorageStatsManager extends jni.JniObject {
+  StorageStatsManager.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "StorageStatsManager__ctor")
+      .asFunction<jni.JniResult Function()>();
+
+  /// from: void <init>()
+  StorageStatsManager() : super.fromRef(_ctor().object);
+
+  static final _getTotalBytes = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("StorageStatsManager__getTotalBytes")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public long getTotalBytes(java.util.UUID storageUuid)
+  ///
+  /// Return the total size of the underlying physical media that is hosting
+  /// this storage volume.
+  ///
+  /// This value is best suited for visual display to end users, since it's
+  /// designed to reflect the total storage size advertised in a retail
+  /// environment.
+  ///
+  /// Apps making logical decisions about disk space should always use
+  /// File\#getTotalSpace() instead of this value.
+  ///
+  /// This method may take several seconds to complete, so it should
+  ///  *            only be called from a worker thread.
+  /// Value is a non-negative number of bytes.
+  ///@param storageUuid the UUID of the storage volume you're interested in,
+  ///            such as StorageManager\#UUID_DEFAULT.
+  /// This value must never be {@code null}.
+  ///@throws IOException when the storage device isn't present.
+  ///@return Value is a non-negative number of bytes.
+  int getTotalBytes(jni.JniObject storageUuid) =>
+      _getTotalBytes(reference, storageUuid.reference).long;
+
+  static final _getFreeBytes = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("StorageStatsManager__getFreeBytes")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public long getFreeBytes(java.util.UUID storageUuid)
+  ///
+  /// Return the free space on the requested storage volume.
+  ///
+  /// This value is best suited for visual display to end users, since it's
+  /// designed to reflect both unused space _and_ and cached space that
+  /// could be reclaimed by the system.
+  ///
+  /// Apps making logical decisions about disk space should always use
+  /// StorageManager\#getAllocatableBytes(UUID) instead of this value.
+  ///
+  /// This method may take several seconds to complete, so it should
+  ///  *            only be called from a worker thread.
+  /// Value is a non-negative number of bytes.
+  ///@param storageUuid the UUID of the storage volume you're interested in,
+  ///            such as StorageManager\#UUID_DEFAULT.
+  /// This value must never be {@code null}.
+  ///@throws IOException when the storage device isn't present.
+  ///@return Value is a non-negative number of bytes.
+  int getFreeBytes(jni.JniObject storageUuid) =>
+      _getFreeBytes(reference, storageUuid.reference).long;
+
+  static final _queryStatsForPackage = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_usage_ConfigurationStats_ctor")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>)>>(
+          "StorageStatsManager__queryStatsForPackage")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void <init>(android.app.usage.ConfigurationStats stats)
-  ConfigurationStats(ConfigurationStats stats)
-      : super.fromRef(_ctor(stats.reference)) {
-    jni.Jni.env.checkException();
-  }
+  /// from: public android.app.usage.StorageStats queryStatsForPackage(java.util.UUID storageUuid, java.lang.String packageName, android.os.UserHandle user)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Return storage statistics for a specific package on the requested storage
+  /// volume.
+  /// <p class="note">
+  /// Note: no permissions are required when calling this API for your own
+  /// package. However, requesting details for any other package requires the
+  /// {@code android.Manifest.permission\#PACKAGE_USAGE_STATS} permission, which
+  /// is a system-level permission that will not be granted to normal apps.
+  /// Declaring that permission expresses your intention to use this API and an
+  /// end user can then choose to grant this permission through the Settings
+  /// application.
+  ///
+  ///
+  /// <p class="note">
+  /// Note: if the requested package uses the {@code android:sharedUserId}
+  /// manifest feature, this call will be forced into a slower manual
+  /// calculation path. If possible, consider always using
+  /// \#queryStatsForUid(UUID, int), which is typically faster.
+  ///
+  ///
+  ///
+  /// This method may take several seconds to complete, so it should
+  ///  *            only be called from a worker thread.
+  ///@param storageUuid the UUID of the storage volume you're interested in,
+  ///            such as StorageManager\#UUID_DEFAULT.
+  /// This value must never be {@code null}.
+  ///@param packageName the package name you're interested in.
+  /// This value must never be {@code null}.
+  ///@param user the user you're interested in.
+  /// This value must never be {@code null}.
+  ///@throws PackageManager.NameNotFoundException when the requested package
+  ///             name isn't installed for the requested user.
+  ///@throws IOException when the storage device isn't present.
+  ///@see ApplicationInfo\#storageUuid
+  ///@see PackageInfo\#packageName
+  ///@return This value will never be {@code null}.
+  StorageStats queryStatsForPackage(jni.JniObject storageUuid,
+          jni.JniString packageName, os_.UserHandle user) =>
+      StorageStats.fromRef(_queryStatsForPackage(reference,
+              storageUuid.reference, packageName.reference, user.reference)
+          .object);
+
+  static final _queryStatsForUid = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("StorageStatsManager__queryStatsForUid")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public android.app.usage.StorageStats queryStatsForUid(java.util.UUID storageUuid, int uid)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Return storage statistics for a specific UID on the requested storage
+  /// volume.
+  /// <p class="note">
+  /// Note: no permissions are required when calling this API for your own UID.
+  /// However, requesting details for any other UID requires the
+  /// {@code android.Manifest.permission\#PACKAGE_USAGE_STATS} permission, which
+  /// is a system-level permission that will not be granted to normal apps.
+  /// Declaring that permission expresses your intention to use this API and an
+  /// end user can then choose to grant this permission through the Settings
+  /// application.
+  ///
+  ///
+  ///
+  /// This method may take several seconds to complete, so it should
+  ///  *            only be called from a worker thread.
+  ///@param storageUuid the UUID of the storage volume you're interested in,
+  ///            such as StorageManager\#UUID_DEFAULT.
+  /// This value must never be {@code null}.
+  ///@param uid the UID you're interested in.
+  ///@throws IOException when the storage device isn't present.
+  ///@see ApplicationInfo\#storageUuid
+  ///@see ApplicationInfo\#uid
+  ///@return This value will never be {@code null}.
+  StorageStats queryStatsForUid(jni.JniObject storageUuid, int uid) =>
+      StorageStats.fromRef(
+          _queryStatsForUid(reference, storageUuid.reference, uid).object);
+
+  static final _queryStatsForUser = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
+          "StorageStatsManager__queryStatsForUser")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.app.usage.StorageStats queryStatsForUser(java.util.UUID storageUuid, android.os.UserHandle user)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Return storage statistics for a specific UserHandle on the
+  /// requested storage volume.
+  /// <p class="note">
+  /// Note: this API requires the
+  /// {@code android.Manifest.permission\#PACKAGE_USAGE_STATS} permission, which
+  /// is a system-level permission that will not be granted to normal apps.
+  /// Declaring that permission expresses your intention to use this API and an
+  /// end user can then choose to grant this permission through the Settings
+  /// application.
+  ///
+  ///
+  ///
+  /// This method may take several seconds to complete, so it should
+  ///  *            only be called from a worker thread.
+  ///@param storageUuid the UUID of the storage volume you're interested in,
+  ///            such as StorageManager\#UUID_DEFAULT.
+  /// This value must never be {@code null}.
+  ///@param user the user you're interested in.
+  /// This value must never be {@code null}.
+  ///@throws IOException when the storage device isn't present.
+  ///@see android.os.Process\#myUserHandle()
+  ///@return This value will never be {@code null}.
+  StorageStats queryStatsForUser(
+          jni.JniObject storageUuid, os_.UserHandle user) =>
+      StorageStats.fromRef(
+          _queryStatsForUser(reference, storageUuid.reference, user.reference)
+              .object);
+
+  static final _queryExternalStatsForUser = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
+          "StorageStatsManager__queryExternalStatsForUser")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.app.usage.ExternalStorageStats queryExternalStatsForUser(java.util.UUID storageUuid, android.os.UserHandle user)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Return shared/external storage statistics for a specific
+  /// UserHandle on the requested storage volume.
+  /// <p class="note">
+  /// Note: this API requires the
+  /// {@code android.Manifest.permission\#PACKAGE_USAGE_STATS} permission, which
+  /// is a system-level permission that will not be granted to normal apps.
+  /// Declaring that permission expresses your intention to use this API and an
+  /// end user can then choose to grant this permission through the Settings
+  /// application.
+  ///
+  ///
+  ///
+  /// This method may take several seconds to complete, so it should
+  ///  *            only be called from a worker thread.
+  ///@param storageUuid the UUID of the storage volume you're interested in,
+  ///            such as StorageManager\#UUID_DEFAULT.
+  /// This value must never be {@code null}.
+  ///@throws IOException when the storage device isn't present.
+  ///@see android.os.Process\#myUserHandle()
+  ///@param user This value must never be {@code null}.
+  ///@return This value will never be {@code null}.
+  ExternalStorageStats queryExternalStatsForUser(
+          jni.JniObject storageUuid, os_.UserHandle user) =>
+      ExternalStorageStats.fromRef(_queryExternalStatsForUser(
+              reference, storageUuid.reference, user.reference)
+          .object);
+}
+
+/// from: android.app.usage.UsageEvents
+///
+/// A result returned from android.app.usage.UsageStatsManager\#queryEvents(long, long)
+/// from which to read android.app.usage.UsageEvents.Event objects.
+class UsageEvents extends jni.JniObject {
+  UsageEvents.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  static final _get_CREATOR =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_UsageEvents__CREATOR")
+          .asFunction<jni.JniResult Function()>();
+
+  /// from: static public final android.os.Parcelable.Creator<android.app.usage.UsageEvents> CREATOR
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  static os_.Parcelable_Creator get CREATOR =>
+      os_.Parcelable_Creator.fromRef(_get_CREATOR().object);
+
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "UsageEvents__ctor")
+      .asFunction<jni.JniResult Function()>();
+
+  /// from: void <init>()
+  ///
+  /// Create an empty iterator.
+  /// {@hide }
+  UsageEvents() : super.fromRef(_ctor().object);
+
+  static final _hasNextEvent = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("UsageEvents__hasNextEvent")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public boolean hasNextEvent()
+  ///
+  /// Returns whether or not there are more events to read using
+  /// \#getNextEvent(android.app.usage.UsageEvents.Event).
+  ///@return true if there are more events, false otherwise.
+  bool hasNextEvent() => _hasNextEvent(reference).boolean;
+
+  static final _getNextEvent = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("UsageEvents__getNextEvent")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public boolean getNextEvent(android.app.usage.UsageEvents.Event eventOut)
+  ///
+  /// Retrieve the next android.app.usage.UsageEvents.Event from the collection and put the
+  /// resulting data into {@code eventOut}.
+  ///@param eventOut The android.app.usage.UsageEvents.Event object that will receive the
+  ///                 next event data.
+  ///@return true if an event was available, false if there are no more events.
+  bool getNextEvent(UsageEvents_Event eventOut) =>
+      _getNextEvent(reference, eventOut.reference).boolean;
+
+  static final _describeContents = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("UsageEvents__describeContents")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int describeContents()
+  int describeContents() => _describeContents(reference).integer;
+
+  static final _writeToParcel = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("UsageEvents__writeToParcel")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public void writeToParcel(android.os.Parcel dest, int flags)
+  void writeToParcel(os_.Parcel dest, int flags) =>
+      _writeToParcel(reference, dest.reference, flags).check();
+}
+
+/// from: android.app.usage.UsageEvents$Event
+///
+/// An event representing a state change for a component.
+class UsageEvents_Event extends jni.JniObject {
+  UsageEvents_Event.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  /// from: static public final int CONFIGURATION_CHANGE
+  ///
+  /// An event type denoting that the device configuration has changed.
+  static const CONFIGURATION_CHANGE = 5;
+
+  /// from: static public final int KEYGUARD_HIDDEN
+  ///
+  /// An event type denoting that the screen's keyguard has been hidden.  This typically
+  /// happens when the user unlocks their phone after turning it on.
+  static const KEYGUARD_HIDDEN = 18;
+
+  /// from: static public final int KEYGUARD_SHOWN
+  ///
+  /// An event type denoting that the screen's keyguard has been shown, whether or not
+  /// the screen is off.
+  static const KEYGUARD_SHOWN = 17;
+
+  /// from: static public final int MOVE_TO_BACKGROUND
+  ///
+  /// An event type denoting that a component moved to the background.
+  static const MOVE_TO_BACKGROUND = 2;
+
+  /// from: static public final int MOVE_TO_FOREGROUND
+  ///
+  /// An event type denoting that a component moved to the foreground.
+  static const MOVE_TO_FOREGROUND = 1;
+
+  /// from: static public final int NONE
+  ///
+  /// No event type.
+  static const NONE = 0;
+
+  /// from: static public final int SCREEN_INTERACTIVE
+  ///
+  /// An event type denoting that the screen has gone in to an interactive state (turned
+  /// on for full user interaction, not ambient display or other non-interactive state).
+  static const SCREEN_INTERACTIVE = 15;
+
+  /// from: static public final int SCREEN_NON_INTERACTIVE
+  ///
+  /// An event type denoting that the screen has gone in to a non-interactive state
+  /// (completely turned off or turned on only in a non-interactive state like ambient
+  /// display).
+  static const SCREEN_NON_INTERACTIVE = 16;
+
+  /// from: static public final int SHORTCUT_INVOCATION
+  ///
+  /// An event type denoting that an action equivalent to a ShortcutInfo is taken by the user.
+  ///@see android.content.pm.ShortcutManager\#reportShortcutUsed(String)
+  static const SHORTCUT_INVOCATION = 8;
+
+  /// from: static public final int STANDBY_BUCKET_CHANGED
+  ///
+  /// An event type denoting a change in App Standby Bucket. The new bucket can be
+  /// retrieved by calling \#getAppStandbyBucket().
+  ///@see UsageStatsManager\#getAppStandbyBucket()
+  static const STANDBY_BUCKET_CHANGED = 11;
+
+  /// from: static public final int USER_INTERACTION
+  ///
+  /// An event type denoting that a package was interacted with in some way by the user.
+  static const USER_INTERACTION = 7;
+
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "UsageEvents_Event__ctor")
+      .asFunction<jni.JniResult Function()>();
+
+  /// from: public void <init>()
+  UsageEvents_Event() : super.fromRef(_ctor().object);
+
+  static final _getPackageName = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("UsageEvents_Event__getPackageName")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.lang.String getPackageName()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// The package name of the source of this event.
+  jni.JniString getPackageName() =>
+      jni.JniString.fromRef(_getPackageName(reference).object);
+
+  static final _getClassName = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("UsageEvents_Event__getClassName")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.lang.String getClassName()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// The class name of the source of this event. This may be null for
+  /// certain events.
+  jni.JniString getClassName() =>
+      jni.JniString.fromRef(_getClassName(reference).object);
+
+  static final _getTimeStamp = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("UsageEvents_Event__getTimeStamp")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public long getTimeStamp()
+  ///
+  /// The time at which this event occurred, measured in milliseconds since the epoch.
+  /// <p/>
+  /// See System\#currentTimeMillis().
+  int getTimeStamp() => _getTimeStamp(reference).long;
+
+  static final _getEventType = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("UsageEvents_Event__getEventType")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int getEventType()
+  ///
+  /// The event type.
+  ///@see \#MOVE_TO_BACKGROUND
+  ///@see \#MOVE_TO_FOREGROUND
+  ///@see \#CONFIGURATION_CHANGE
+  ///@see \#USER_INTERACTION
+  ///@see \#STANDBY_BUCKET_CHANGED
+  int getEventType() => _getEventType(reference).integer;
 
   static final _getConfiguration = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_usage_ConfigurationStats_getConfiguration")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "UsageEvents_Event__getConfiguration")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.res.Configuration getConfiguration()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  res_.Configuration getConfiguration() {
-    final result__ = res_.Configuration.fromRef(_getConfiguration(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  ///
+  /// Returns a Configuration for this event if the event is of type
+  /// \#CONFIGURATION_CHANGE, otherwise it returns null.
+  res_.Configuration getConfiguration() =>
+      res_.Configuration.fromRef(_getConfiguration(reference).object);
 
-  static final _getFirstTimeStamp =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_ConfigurationStats_getFirstTimeStamp")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getShortcutId = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("UsageEvents_Event__getShortcutId")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.lang.String getShortcutId()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Returns the ID of a android.content.pm.ShortcutInfo for this event
+  /// if the event is of type \#SHORTCUT_INVOCATION, otherwise it returns null.
+  ///@see android.content.pm.ShortcutManager\#reportShortcutUsed(String)
+  jni.JniString getShortcutId() =>
+      jni.JniString.fromRef(_getShortcutId(reference).object);
+
+  static final _getAppStandbyBucket = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "UsageEvents_Event__getAppStandbyBucket")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int getAppStandbyBucket()
+  ///
+  /// Returns the standby bucket of the app, if the event is of type
+  /// \#STANDBY_BUCKET_CHANGED, otherwise returns 0.
+  ///@return the standby bucket associated with the event.
+  int getAppStandbyBucket() => _getAppStandbyBucket(reference).integer;
+}
+
+/// from: android.app.usage.UsageStats
+///
+/// Contains usage statistics for an app package for a specific
+/// time range.
+class UsageStats extends jni.JniObject {
+  UsageStats.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  static final _get_CREATOR =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_UsageStats__CREATOR")
+          .asFunction<jni.JniResult Function()>();
+
+  /// from: static public final android.os.Parcelable.Creator<android.app.usage.UsageStats> CREATOR
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  static os_.Parcelable_Creator get CREATOR =>
+      os_.Parcelable_Creator.fromRef(_get_CREATOR().object);
+
+  static final _ctor = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("UsageStats__ctor")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void <init>(android.app.usage.UsageStats stats)
+  UsageStats(UsageStats stats) : super.fromRef(_ctor(stats.reference).object);
+
+  static final _getPackageName = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("UsageStats__getPackageName")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.lang.String getPackageName()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  jni.JniString getPackageName() =>
+      jni.JniString.fromRef(_getPackageName(reference).object);
+
+  static final _getFirstTimeStamp = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("UsageStats__getFirstTimeStamp")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getFirstTimeStamp()
   ///
-  /// Get the beginning of the time range this ConfigurationStats represents,
+  /// Get the beginning of the time range this android.app.usage.UsageStats represents,
   /// measured in milliseconds since the epoch.
   /// <p/>
   /// See System\#currentTimeMillis().
-  int getFirstTimeStamp() {
-    final result__ = _getFirstTimeStamp(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getFirstTimeStamp() => _getFirstTimeStamp(reference).long;
 
-  static final _getLastTimeStamp =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_ConfigurationStats_getLastTimeStamp")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getLastTimeStamp = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("UsageStats__getLastTimeStamp")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getLastTimeStamp()
   ///
-  /// Get the end of the time range this ConfigurationStats represents,
+  /// Get the end of the time range this android.app.usage.UsageStats represents,
   /// measured in milliseconds since the epoch.
   /// <p/>
   /// See System\#currentTimeMillis().
-  int getLastTimeStamp() {
-    final result__ = _getLastTimeStamp(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getLastTimeStamp() => _getLastTimeStamp(reference).long;
 
-  static final _getLastTimeActive =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_ConfigurationStats_getLastTimeActive")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getLastTimeUsed = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("UsageStats__getLastTimeUsed")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
-  /// from: public long getLastTimeActive()
+  /// from: public long getLastTimeUsed()
   ///
-  /// Get the last time this configuration was active, measured in milliseconds since the epoch.
+  /// Get the last time this package was used, measured in milliseconds since the epoch.
   /// <p/>
   /// See System\#currentTimeMillis().
-  int getLastTimeActive() {
-    final result__ = _getLastTimeActive(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getLastTimeUsed() => _getLastTimeUsed(reference).long;
 
-  static final _getTotalTimeActive =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_ConfigurationStats_getTotalTimeActive")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getTotalTimeInForeground = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "UsageStats__getTotalTimeInForeground")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
-  /// from: public long getTotalTimeActive()
+  /// from: public long getTotalTimeInForeground()
   ///
-  /// Get the total time this configuration was active, measured in milliseconds.
-  int getTotalTimeActive() {
-    final result__ = _getTotalTimeActive(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  /// Get the total time this package spent in the foreground, measured in milliseconds.
+  int getTotalTimeInForeground() => _getTotalTimeInForeground(reference).long;
 
-  static final _getActivationCount =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_ConfigurationStats_getActivationCount")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _add = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("UsageStats__add")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
-  /// from: public int getActivationCount()
+  /// from: public void add(android.app.usage.UsageStats right)
   ///
-  /// Get the number of times this configuration was active.
-  int getActivationCount() {
-    final result__ = _getActivationCount(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  /// Add the statistics from the right UsageStats to the left. The package name for
+  /// both UsageStats objects must be the same.
+  ///@param right The UsageStats object to merge into this one.
+  ///@throws java.lang.IllegalArgumentException if the package names of the two
+  ///         UsageStats objects are different.
+  void add(UsageStats right) => _add(reference, right.reference).check();
 
-  static final _describeContents =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_usage_ConfigurationStats_describeContents")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _describeContents = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("UsageStats__describeContents")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int describeContents()
-  int describeContents() {
-    final result__ = _describeContents(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int describeContents() => _describeContents(reference).integer;
 
   static final _writeToParcel = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_usage_ConfigurationStats_writeToParcel")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("UsageStats__writeToParcel")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(os_.Parcel dest, int flags) {
-    final result__ = _writeToParcel(reference, dest.reference, flags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void writeToParcel(os_.Parcel dest, int flags) =>
+      _writeToParcel(reference, dest.reference, flags).check();
+}
+
+/// from: android.app.usage.UsageStatsManager
+///
+/// Provides access to device usage history and statistics. Usage data is aggregated into
+/// time intervals: days, weeks, months, and years.
+/// <p/>
+/// When requesting usage data since a particular time, the request might look something like this:
+/// <pre>
+/// PAST                   REQUEST_TIME                    TODAY                   FUTURE
+/// \u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014||\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014¦-----------------------|
+///                        YEAR ||                           ¦                       |
+/// \u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014||\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014¦-----------------------|
+///  MONTH            |         ||                MONTH      ¦                       |
+/// \u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014|\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014||\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014¦-----------------------|
+///   |      WEEK     |     WEEK||    |     WEEK     |     WE¦EK     |      WEEK     |
+/// \u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014||\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014|\u2014\u2014\u2014\u2014\u2014\u2014\u2014¦-----------------------|
+///                             ||           |DAY|DAY|DAY|DAY¦DAY|DAY|DAY|DAY|DAY|DAY|
+/// \u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014||\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014\u2014¦-----------------------|
+/// </pre>
+/// A request for data in the middle of a time interval will include that interval.
+/// <p/>
+/// __NOTE:__ Most methods on this API require the permission
+/// android.permission.PACKAGE_USAGE_STATS. However, declaring the permission implies intention to
+/// use the API and the user of the device still needs to grant permission through the Settings
+/// application.
+/// See android.provider.Settings\#ACTION_USAGE_ACCESS_SETTINGS.
+/// Methods which only return the information for the calling package do not require this permission.
+/// E.g. \#getAppStandbyBucket() and \#queryEventsForSelf(long, long).
+class UsageStatsManager extends jni.JniObject {
+  UsageStatsManager.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  /// from: static public final int INTERVAL_BEST
+  ///
+  /// An interval type that will use the best fit interval for the given time range.
+  /// See \#queryUsageStats(int, long, long).
+  static const INTERVAL_BEST = 4;
+
+  /// from: static public final int INTERVAL_DAILY
+  ///
+  /// An interval type that spans a day. See \#queryUsageStats(int, long, long).
+  static const INTERVAL_DAILY = 0;
+
+  /// from: static public final int INTERVAL_MONTHLY
+  ///
+  /// An interval type that spans a month. See \#queryUsageStats(int, long, long).
+  static const INTERVAL_MONTHLY = 2;
+
+  /// from: static public final int INTERVAL_WEEKLY
+  ///
+  /// An interval type that spans a week. See \#queryUsageStats(int, long, long).
+  static const INTERVAL_WEEKLY = 1;
+
+  /// from: static public final int INTERVAL_YEARLY
+  ///
+  /// An interval type that spans a year. See \#queryUsageStats(int, long, long).
+  static const INTERVAL_YEARLY = 3;
+
+  /// from: static public final int STANDBY_BUCKET_ACTIVE
+  ///
+  /// The app was used very recently, currently in use or likely to be used very soon. Standby
+  /// bucket values that are &le; \#STANDBY_BUCKET_ACTIVE will not be throttled by the
+  /// system while they are in this bucket. Buckets &gt; \#STANDBY_BUCKET_ACTIVE will most
+  /// likely be restricted in some way. For instance, jobs and alarms may be deferred.
+  ///@see \#getAppStandbyBucket()
+  static const STANDBY_BUCKET_ACTIVE = 10;
+
+  /// from: static public final int STANDBY_BUCKET_FREQUENT
+  ///
+  /// The app was used in the last few days and/or likely to be used in the next few days.
+  /// Restrictions will apply to these apps, such as deferral of jobs and alarms. The delays may be
+  /// greater than for apps in higher buckets (lower bucket value). Bucket values &gt;
+  /// \#STANDBY_BUCKET_FREQUENT may additionally have network access limited.
+  ///@see \#getAppStandbyBucket()
+  static const STANDBY_BUCKET_FREQUENT = 30;
+
+  /// from: static public final int STANDBY_BUCKET_RARE
+  ///
+  /// The app has not be used for several days and/or is unlikely to be used for several days.
+  /// Apps in this bucket will have the most restrictions, including network restrictions, except
+  /// during certain short periods (at a minimum, once a day) when they are allowed to execute
+  /// jobs, access the network, etc.
+  ///@see \#getAppStandbyBucket()
+  static const STANDBY_BUCKET_RARE = 40;
+
+  /// from: static public final int STANDBY_BUCKET_WORKING_SET
+  ///
+  /// The app was used recently and/or likely to be used in the next few hours. Restrictions will
+  /// apply to these apps, such as deferral of jobs and alarms.
+  ///@see \#getAppStandbyBucket()
+  static const STANDBY_BUCKET_WORKING_SET = 20;
+
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "UsageStatsManager__ctor")
+      .asFunction<jni.JniResult Function()>();
+
+  /// from: void <init>()
+  UsageStatsManager() : super.fromRef(_ctor().object);
+
+  static final _queryUsageStats = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Int64, ffi.Int64)>>("UsageStatsManager__queryUsageStats")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, int, int, int)>();
+
+  /// from: public java.util.List<android.app.usage.UsageStats> queryUsageStats(int intervalType, long beginTime, long endTime)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Gets application usage stats for the given time range, aggregated by the specified interval.
+  /// The returned list will contain a UsageStats object for each package that
+  /// has data for an interval that is a subset of the time range given. To illustrate:
+  ///
+  /// <pre>
+  /// intervalType = INTERVAL_YEARLY
+  /// beginTime = 2013
+  /// endTime = 2015 (exclusive)
+  ///
+  /// Results:
+  /// 2013 - com.example.alpha
+  /// 2013 - com.example.beta
+  /// 2014 - com.example.alpha
+  /// 2014 - com.example.beta
+  /// 2014 - com.example.charlie
+  /// </pre>
+  ///
+  ///  The caller must have android.Manifest.permission\#PACKAGE_USAGE_STATS
+  ///
+  ///@param intervalType The time interval by which the stats are aggregated.
+  ///@param beginTime The inclusive beginning of the range of stats to include in the results.
+  ///@param endTime The exclusive end of the range of stats to include in the results.
+  ///@return A list of UsageStats
+  ///@see \#INTERVAL_DAILY
+  ///@see \#INTERVAL_WEEKLY
+  ///@see \#INTERVAL_MONTHLY
+  ///@see \#INTERVAL_YEARLY
+  ///@see \#INTERVAL_BEST
+  jni.JniObject queryUsageStats(int intervalType, int beginTime, int endTime) =>
+      jni.JniObject.fromRef(
+          _queryUsageStats(reference, intervalType, beginTime, endTime).object);
+
+  static final _queryConfigurations = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32,
+                  ffi.Int64,
+                  ffi.Int64)>>("UsageStatsManager__queryConfigurations")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, int, int, int)>();
+
+  /// from: public java.util.List<android.app.usage.ConfigurationStats> queryConfigurations(int intervalType, long beginTime, long endTime)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Gets the hardware configurations the device was in for the given time range, aggregated by
+  /// the specified interval. The results are ordered as in
+  /// \#queryUsageStats(int, long, long).
+  ///  The caller must have android.Manifest.permission\#PACKAGE_USAGE_STATS
+  ///
+  ///@param intervalType The time interval by which the stats are aggregated.
+  ///@param beginTime The inclusive beginning of the range of stats to include in the results.
+  ///@param endTime The exclusive end of the range of stats to include in the results.
+  ///@return A list of ConfigurationStats
+  jni.JniObject queryConfigurations(
+          int intervalType, int beginTime, int endTime) =>
+      jni.JniObject.fromRef(
+          _queryConfigurations(reference, intervalType, beginTime, endTime)
+              .object);
+
+  static final _queryEventStats = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Int64, ffi.Int64)>>("UsageStatsManager__queryEventStats")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, int, int, int)>();
+
+  /// from: public java.util.List<android.app.usage.EventStats> queryEventStats(int intervalType, long beginTime, long endTime)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Gets aggregated event stats for the given time range, aggregated by the specified interval.
+  /// The returned list will contain a EventStats object for each event type that
+  /// is being aggregated and has data for an interval that is a subset of the time range given.
+  ///
+  /// The current event types that will be aggregated here are:
+  ///
+  /// <ul>
+  ///     <li>UsageEvents.Event\#SCREEN_INTERACTIVE</li>
+  ///     <li>UsageEvents.Event\#SCREEN_NON_INTERACTIVE</li>
+  ///     <li>UsageEvents.Event\#KEYGUARD_SHOWN</li>
+  ///     <li>UsageEvents.Event\#KEYGUARD_HIDDEN</li>
+  /// </ul>
+  ///
+  ///  The caller must have android.Manifest.permission\#PACKAGE_USAGE_STATS
+  ///
+  ///@param intervalType The time interval by which the stats are aggregated.
+  ///@param beginTime The inclusive beginning of the range of stats to include in the results.
+  ///@param endTime The exclusive end of the range of stats to include in the results.
+  ///@return A list of EventStats
+  ///@see \#INTERVAL_DAILY
+  ///@see \#INTERVAL_WEEKLY
+  ///@see \#INTERVAL_MONTHLY
+  ///@see \#INTERVAL_YEARLY
+  ///@see \#INTERVAL_BEST
+  jni.JniObject queryEventStats(int intervalType, int beginTime, int endTime) =>
+      jni.JniObject.fromRef(
+          _queryEventStats(reference, intervalType, beginTime, endTime).object);
+
+  static final _queryEvents = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int64,
+                  ffi.Int64)>>("UsageStatsManager__queryEvents")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int, int)>();
+
+  /// from: public android.app.usage.UsageEvents queryEvents(long beginTime, long endTime)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Query for events in the given time range. Events are only kept by the system for a few
+  /// days.
+  ///  The caller must have android.Manifest.permission\#PACKAGE_USAGE_STATS
+  ///
+  ///@param beginTime The inclusive beginning of the range of events to include in the results.
+  ///@param endTime The exclusive end of the range of events to include in the results.
+  ///@return A UsageEvents.
+  UsageEvents queryEvents(int beginTime, int endTime) =>
+      UsageEvents.fromRef(_queryEvents(reference, beginTime, endTime).object);
+
+  static final _queryEventsForSelf = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int64,
+                  ffi.Int64)>>("UsageStatsManager__queryEventsForSelf")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int, int)>();
+
+  /// from: public android.app.usage.UsageEvents queryEventsForSelf(long beginTime, long endTime)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Like \#queryEvents(long, long), but only returns events for the calling package.
+  ///@param beginTime The inclusive beginning of the range of events to include in the results.
+  ///@param endTime The exclusive end of the range of events to include in the results.
+  ///@return A UsageEvents object.
+  ///@see \#queryEvents(long, long)
+  UsageEvents queryEventsForSelf(int beginTime, int endTime) =>
+      UsageEvents.fromRef(
+          _queryEventsForSelf(reference, beginTime, endTime).object);
+
+  static final _queryAndAggregateUsageStats = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int64,
+                  ffi.Int64)>>("UsageStatsManager__queryAndAggregateUsageStats")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int, int)>();
+
+  /// from: public java.util.Map<java.lang.String,android.app.usage.UsageStats> queryAndAggregateUsageStats(long beginTime, long endTime)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// A convenience method that queries for all stats in the given range (using the best interval
+  /// for that range), merges the resulting data, and keys it by package name.
+  /// See \#queryUsageStats(int, long, long).
+  ///  The caller must have android.Manifest.permission\#PACKAGE_USAGE_STATS
+  ///
+  ///@param beginTime The inclusive beginning of the range of stats to include in the results.
+  ///@param endTime The exclusive end of the range of stats to include in the results.
+  ///@return A java.util.Map keyed by package name
+  jni.JniObject queryAndAggregateUsageStats(int beginTime, int endTime) =>
+      jni.JniObject.fromRef(
+          _queryAndAggregateUsageStats(reference, beginTime, endTime).object);
+
+  static final _isAppInactive = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("UsageStatsManager__isAppInactive")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public boolean isAppInactive(java.lang.String packageName)
+  ///
+  /// Returns whether the specified app is currently considered inactive. This will be true if the
+  /// app hasn't been used directly or indirectly for a period of time defined by the system. This
+  /// could be of the order of several hours or days.
+  ///@param packageName The package name of the app to query
+  ///@return whether the app is currently considered inactive
+  bool isAppInactive(jni.JniString packageName) =>
+      _isAppInactive(reference, packageName.reference).boolean;
+
+  static final _getAppStandbyBucket = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "UsageStatsManager__getAppStandbyBucket")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int getAppStandbyBucket()
+  ///
+  /// Returns the current standby bucket of the calling app. The system determines the standby
+  /// state of the app based on app usage patterns. Standby buckets determine how much an app will
+  /// be restricted from running background tasks such as jobs and alarms.
+  /// Restrictions increase progressively from \#STANDBY_BUCKET_ACTIVE to
+  /// \#STANDBY_BUCKET_RARE, with \#STANDBY_BUCKET_ACTIVE being the least
+  /// restrictive. The battery level of the device might also affect the restrictions.
+  /// Apps in buckets &le; \#STANDBY_BUCKET_ACTIVE have no standby restrictions imposed.
+  /// Apps in buckets &gt; \#STANDBY_BUCKET_FREQUENT may have network access restricted when
+  /// running in the background.
+  /// The standby state of an app can change at any time either due to a user interaction or a
+  /// system interaction or some algorithm determining that the app can be restricted for a period
+  /// of time before the user has a need for it.
+  /// You can also query the recent history of standby bucket changes by calling
+  /// \#queryEventsForSelf(long, long) and searching for
+  /// UsageEvents.Event\#STANDBY_BUCKET_CHANGED.
+  ///@return the current standby bucket of the calling app. One of STANDBY_BUCKET_* constants.
+  ///
+  /// Value is android.app.usage.UsageStatsManager.STANDBY_BUCKET_EXEMPTED, android.app.usage.UsageStatsManager\#STANDBY_BUCKET_ACTIVE, android.app.usage.UsageStatsManager\#STANDBY_BUCKET_WORKING_SET, android.app.usage.UsageStatsManager\#STANDBY_BUCKET_FREQUENT, android.app.usage.UsageStatsManager\#STANDBY_BUCKET_RARE, or android.app.usage.UsageStatsManager.STANDBY_BUCKET_NEVER
+  int getAppStandbyBucket() => _getAppStandbyBucket(reference).integer;
 }

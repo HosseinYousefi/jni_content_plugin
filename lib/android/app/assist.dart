@@ -8,12 +8,225 @@
 // ignore_for_file: unused_element
 
 import "dart:ffi" as ffi;
+import "package:jni/internal_helpers_for_jnigen.dart";
 import "package:jni/jni.dart" as jni;
 
-import "../../android/os.dart" as os_;
+import "../os.dart" as os_;
 
-import "../../android/content.dart" as content_;
+import "../content.dart" as content_;
 import "../../_init.dart" show jniLookup;
+
+/// from: android.app.assist.AssistContent
+///
+/// Holds information about the content an application is viewing, to hand to an
+/// assistant at the user's request.  This is filled in by
+/// android.app.Activity\#onProvideAssistContent Activity.onProvideAssistContent.
+class AssistContent extends jni.JniObject {
+  AssistContent.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  static final _get_CREATOR =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_AssistContent__CREATOR")
+          .asFunction<jni.JniResult Function()>();
+
+  /// from: static public final android.os.Parcelable.Creator<android.app.assist.AssistContent> CREATOR
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  static os_.Parcelable_Creator get CREATOR =>
+      os_.Parcelable_Creator.fromRef(_get_CREATOR().object);
+
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "AssistContent__ctor")
+      .asFunction<jni.JniResult Function()>();
+
+  /// from: public void <init>()
+  AssistContent() : super.fromRef(_ctor().object);
+
+  static final _setIntent = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("AssistContent__setIntent")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void setIntent(android.content.Intent intent)
+  ///
+  /// Sets the Intent associated with the content, describing the current top-level context of
+  /// the activity.  If this contains a reference to a piece of data related to the activity,
+  /// be sure to set Intent\#FLAG_GRANT_READ_URI_PERMISSION so the accessibility
+  /// service can access it.
+  void setIntent(content_.Intent intent) =>
+      _setIntent(reference, intent.reference).check();
+
+  static final _getIntent = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("AssistContent__getIntent")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.content.Intent getIntent()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Returns the current \#setIntent if one is set, else the default Intent obtained from
+  /// android.app.Activity\#getIntent Activity.getIntent. Can be modified in-place.
+  content_.Intent getIntent() =>
+      content_.Intent.fromRef(_getIntent(reference).object);
+
+  static final _isAppProvidedIntent = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("AssistContent__isAppProvidedIntent")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public boolean isAppProvidedIntent()
+  ///
+  /// Returns whether or not the current Intent was explicitly provided in
+  /// android.app.Activity\#onProvideAssistContent Activity.onProvideAssistContent. If not,
+  /// the Intent was automatically set based on
+  /// android.app.Activity\#getIntent Activity.getIntent.
+  bool isAppProvidedIntent() => _isAppProvidedIntent(reference).boolean;
+
+  static final _setClipData = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("AssistContent__setClipData")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void setClipData(android.content.ClipData clip)
+  ///
+  /// Optional additional content items that are involved with
+  /// the current UI.  Access to this content will be granted to the assistant as if you
+  /// are sending it through an Intent with Intent\#FLAG_GRANT_READ_URI_PERMISSION.
+  void setClipData(content_.ClipData clip) =>
+      _setClipData(reference, clip.reference).check();
+
+  static final _getClipData = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("AssistContent__getClipData")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.content.ClipData getClipData()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Return the current \#setClipData, which you can modify in-place.
+  content_.ClipData getClipData() =>
+      content_.ClipData.fromRef(_getClipData(reference).object);
+
+  static final _setStructuredData = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("AssistContent__setStructuredData")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void setStructuredData(java.lang.String structuredData)
+  ///
+  /// Sets optional structured data regarding the content being viewed. The provided data
+  /// must be a string represented with <a href="http://json-ld.org/">JSON-LD</a> using the
+  /// <a href="http://schema.org/">schema.org</a> vocabulary.
+  void setStructuredData(jni.JniString structuredData) =>
+      _setStructuredData(reference, structuredData.reference).check();
+
+  static final _getStructuredData = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("AssistContent__getStructuredData")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.lang.String getStructuredData()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Returns the current \#setStructuredData.
+  jni.JniString getStructuredData() =>
+      jni.JniString.fromRef(_getStructuredData(reference).object);
+
+  static final _setWebUri = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("AssistContent__setWebUri")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void setWebUri(android.net.Uri uri)
+  ///
+  /// Set a web URI associated with the current data being shown to the user.
+  /// This URI could be opened in a web browser, or in the app as an
+  /// Intent\#ACTION_VIEW Intent, to show the same data that is currently
+  /// being displayed by it.  The URI here should be something that is transportable
+  /// off the device into other environments to acesss the same data as is currently
+  /// being shown in the app; if the app does not have such a representation, it should
+  /// leave the null and only report the local intent and clip data.
+  void setWebUri(jni.JniObject uri) =>
+      _setWebUri(reference, uri.reference).check();
+
+  static final _getWebUri = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("AssistContent__getWebUri")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.net.Uri getWebUri()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Return the content's web URI as per \#setWebUri(android.net.Uri), or null if
+  /// there is none.
+  jni.JniObject getWebUri() =>
+      jni.JniObject.fromRef(_getWebUri(reference).object);
+
+  static final _isAppProvidedWebUri = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("AssistContent__isAppProvidedWebUri")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public boolean isAppProvidedWebUri()
+  ///
+  /// Returns whether or not the current \#getWebUri was explicitly provided in
+  /// android.app.Activity\#onProvideAssistContent Activity.onProvideAssistContent. If not,
+  /// the Intent was automatically set based on
+  /// android.app.Activity\#getIntent Activity.getIntent.
+  bool isAppProvidedWebUri() => _isAppProvidedWebUri(reference).boolean;
+
+  static final _getExtras = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("AssistContent__getExtras")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.os.Bundle getExtras()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Return Bundle for extra vendor-specific data that can be modified and examined.
+  os_.Bundle getExtras() => os_.Bundle.fromRef(_getExtras(reference).object);
+
+  static final _describeContents = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("AssistContent__describeContents")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int describeContents()
+  int describeContents() => _describeContents(reference).integer;
+
+  static final _writeToParcel = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("AssistContent__writeToParcel")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public void writeToParcel(android.os.Parcel dest, int flags)
+  void writeToParcel(os_.Parcel dest, int flags) =>
+      _writeToParcel(reference, dest.reference, flags).check();
+}
 
 /// from: android.app.assist.AssistStructure
 ///
@@ -33,29 +246,27 @@ class AssistStructure extends jni.JniObject {
   AssistStructure.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   static final _get_CREATOR =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "get_android_app_assist_AssistStructure_CREATOR")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_AssistStructure__CREATOR")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: static public final android.os.Parcelable.Creator<android.app.assist.AssistStructure> CREATOR
   /// The returned object must be deleted after use, by calling the `delete` method.
   static os_.Parcelable_Creator get CREATOR =>
-      os_.Parcelable_Creator.fromRef(_get_CREATOR());
+      os_.Parcelable_Creator.fromRef(_get_CREATOR().object);
 
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_app_assist_AssistStructure_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "AssistStructure__ctor")
+      .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  AssistStructure() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
+  AssistStructure() : super.fromRef(_ctor().object);
 
-  static final _getAcquisitionStartTime =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure_getAcquisitionStartTime")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getAcquisitionStartTime = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure__getAcquisitionStartTime")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getAcquisitionStartTime()
   ///
@@ -63,16 +274,13 @@ class AssistStructure extends jni.JniObject {
   /// AssistStructure. The time is as specified by SystemClock\#uptimeMillis().
   ///@see \#getAcquisitionEndTime()
   ///@return Returns the acquisition start time of the assist data, in milliseconds.
-  int getAcquisitionStartTime() {
-    final result__ = _getAcquisitionStartTime(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getAcquisitionStartTime() => _getAcquisitionStartTime(reference).long;
 
-  static final _getAcquisitionEndTime =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure_getAcquisitionEndTime")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getAcquisitionEndTime = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure__getAcquisitionEndTime")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getAcquisitionEndTime()
   ///
@@ -80,33 +288,26 @@ class AssistStructure extends jni.JniObject {
   /// AssistStructure. The time is as specified by SystemClock\#uptimeMillis().
   ///@see \#getAcquisitionStartTime()
   ///@return Returns the acquisition end time of the assist data, in milliseconds.
-  int getAcquisitionEndTime() {
-    final result__ = _getAcquisitionEndTime(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getAcquisitionEndTime() => _getAcquisitionEndTime(reference).long;
 
   static final _getActivityComponent = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistStructure_getActivityComponent")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure__getActivityComponent")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.ComponentName getActivityComponent()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Return the activity this AssistStructure came from.
-  content_.ComponentName getActivityComponent() {
-    final result__ =
-        content_.ComponentName.fromRef(_getActivityComponent(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  content_.ComponentName getActivityComponent() =>
+      content_.ComponentName.fromRef(_getActivityComponent(reference).object);
 
-  static final _isHomeActivity =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure_isHomeActivity")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isHomeActivity = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("AssistStructure__isHomeActivity")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isHomeActivity()
   ///
@@ -114,71 +315,56 @@ class AssistStructure extends jni.JniObject {
   /// (Launcher) at the time the assist data was acquired.
   ///@return Whether the activity was the home activity.
   ///@see android.content.Intent\#CATEGORY_HOME
-  bool isHomeActivity() {
-    final result__ = _isHomeActivity(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isHomeActivity() => _isHomeActivity(reference).boolean;
 
-  static final _getWindowNodeCount =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure_getWindowNodeCount")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getWindowNodeCount = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure__getWindowNodeCount")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getWindowNodeCount()
   ///
   /// Return the number of window contents that have been collected in this assist data.
-  int getWindowNodeCount() {
-    final result__ = _getWindowNodeCount(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getWindowNodeCount() => _getWindowNodeCount(reference).integer;
 
   static final _getWindowNodeAt = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_assist_AssistStructure_getWindowNodeAt")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("AssistStructure__getWindowNodeAt")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.app.assist.AssistStructure.WindowNode getWindowNodeAt(int index)
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Return one of the windows in the assist data.
   ///@param index Which window to retrieve, may be 0 to \#getWindowNodeCount()-1.
-  AssistStructure_WindowNode getWindowNodeAt(int index) {
-    final result__ =
-        AssistStructure_WindowNode.fromRef(_getWindowNodeAt(reference, index));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  AssistStructure_WindowNode getWindowNodeAt(int index) =>
+      AssistStructure_WindowNode.fromRef(
+          _getWindowNodeAt(reference, index).object);
 
-  static final _describeContents =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure_describeContents")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _describeContents = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("AssistStructure__describeContents")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int describeContents()
-  int describeContents() {
-    final result__ = _describeContents(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int describeContents() => _describeContents(reference).integer;
 
   static final _writeToParcel = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_assist_AssistStructure_writeToParcel")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("AssistStructure__writeToParcel")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel out, int flags)
-  void writeToParcel(os_.Parcel out, int flags) {
-    final result__ = _writeToParcel(reference, out.reference, flags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void writeToParcel(os_.Parcel out, int flags) =>
+      _writeToParcel(reference, out.reference, flags).check();
 }
 
 /// from: android.app.assist.AssistStructure$WindowNode
@@ -188,121 +374,96 @@ class AssistStructure_WindowNode extends jni.JniObject {
   AssistStructure_WindowNode.fromRef(ffi.Pointer<ffi.Void> ref)
       : super.fromRef(ref);
 
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_app_assist_AssistStructure__WindowNode_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "AssistStructure_WindowNode__ctor")
+      .asFunction<jni.JniResult Function()>();
 
   /// from: void <init>()
-  AssistStructure_WindowNode() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
+  AssistStructure_WindowNode() : super.fromRef(_ctor().object);
 
-  static final _getLeft =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__WindowNode_getLeft")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getLeft = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_WindowNode__getLeft")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getLeft()
   ///
   /// Returns the left edge of the window, in pixels, relative to the left
   /// edge of the screen.
-  int getLeft() {
-    final result__ = _getLeft(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getLeft() => _getLeft(reference).integer;
 
-  static final _getTop =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__WindowNode_getTop")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getTop = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("AssistStructure_WindowNode__getTop")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getTop()
   ///
   /// Returns the top edge of the window, in pixels, relative to the top
   /// edge of the screen.
-  int getTop() {
-    final result__ = _getTop(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getTop() => _getTop(reference).integer;
 
-  static final _getWidth =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__WindowNode_getWidth")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getWidth = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_WindowNode__getWidth")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getWidth()
   ///
   /// Returns the total width of the window in pixels.
-  int getWidth() {
-    final result__ = _getWidth(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getWidth() => _getWidth(reference).integer;
 
-  static final _getHeight =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__WindowNode_getHeight")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getHeight = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_WindowNode__getHeight")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getHeight()
   ///
   /// Returns the total height of the window in pixels.
-  int getHeight() {
-    final result__ = _getHeight(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getHeight() => _getHeight(reference).integer;
 
   static final _getTitle = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistStructure__WindowNode_getTitle")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_WindowNode__getTitle")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.CharSequence getTitle()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Returns the title associated with the window, if it has one.
-  jni.JniObject getTitle() {
-    final result__ = jni.JniObject.fromRef(_getTitle(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getTitle() =>
+      jni.JniObject.fromRef(_getTitle(reference).object);
 
-  static final _getDisplayId =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__WindowNode_getDisplayId")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getDisplayId = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_WindowNode__getDisplayId")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getDisplayId()
   ///
   /// Returns the ID of the display this window is on, for use with
   /// android.hardware.display.DisplayManager\#getDisplay DisplayManager.getDisplay().
-  int getDisplayId() {
-    final result__ = _getDisplayId(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getDisplayId() => _getDisplayId(reference).integer;
 
   static final _getRootViewNode = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistStructure__WindowNode_getRootViewNode")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_WindowNode__getRootViewNode")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.assist.AssistStructure.ViewNode getRootViewNode()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Returns the ViewNode containing the root content of the window.
-  AssistStructure_ViewNode getRootViewNode() {
-    final result__ =
-        AssistStructure_ViewNode.fromRef(_getRootViewNode(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  AssistStructure_ViewNode getRootViewNode() =>
+      AssistStructure_ViewNode.fromRef(_getRootViewNode(reference).object);
 }
 
 /// from: android.app.assist.AssistStructure$ViewNode
@@ -330,35 +491,29 @@ class AssistStructure_ViewNode extends jni.JniObject {
   /// from: static public final int TEXT_STYLE_UNDERLINE
   static const TEXT_STYLE_UNDERLINE = 4;
 
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_app_assist_AssistStructure__ViewNode_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "AssistStructure_ViewNode__ctor")
+      .asFunction<jni.JniResult Function()>();
 
   /// from: void <init>()
-  AssistStructure_ViewNode() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
+  AssistStructure_ViewNode() : super.fromRef(_ctor().object);
 
-  static final _getId =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__ViewNode_getId")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getId = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("AssistStructure_ViewNode__getId")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getId()
   ///
   /// Returns the ID associated with this view, as per View\#getId() View.getId().
-  int getId() {
-    final result__ = _getId(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getId() => _getId(reference).integer;
 
   static final _getIdPackage = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistStructure__ViewNode_getIdPackage")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getIdPackage")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getIdPackage()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -366,17 +521,14 @@ class AssistStructure_ViewNode extends jni.JniObject {
   /// If \#getId() is a resource identifier, this is the package name of that
   /// identifier.  See android.view.ViewStructure\#setId ViewStructure.setId
   /// for more information.
-  jni.JniString getIdPackage() {
-    final result__ = jni.JniString.fromRef(_getIdPackage(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getIdPackage() =>
+      jni.JniString.fromRef(_getIdPackage(reference).object);
 
   static final _getIdType = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistStructure__ViewNode_getIdType")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getIdType")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getIdType()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -384,17 +536,14 @@ class AssistStructure_ViewNode extends jni.JniObject {
   /// If \#getId() is a resource identifier, this is the type name of that
   /// identifier.  See android.view.ViewStructure\#setId ViewStructure.setId
   /// for more information.
-  jni.JniString getIdType() {
-    final result__ = jni.JniString.fromRef(_getIdType(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getIdType() =>
+      jni.JniString.fromRef(_getIdType(reference).object);
 
   static final _getIdEntry = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistStructure__ViewNode_getIdEntry")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getIdEntry")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getIdEntry()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -402,17 +551,14 @@ class AssistStructure_ViewNode extends jni.JniObject {
   /// If \#getId() is a resource identifier, this is the entry name of that
   /// identifier.  See android.view.ViewStructure\#setId ViewStructure.setId
   /// for more information.
-  jni.JniString getIdEntry() {
-    final result__ = jni.JniString.fromRef(_getIdEntry(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getIdEntry() =>
+      jni.JniString.fromRef(_getIdEntry(reference).object);
 
   static final _getAutofillId = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistStructure__ViewNode_getAutofillId")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getAutofillId")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.view.autofill.AutofillId getAutofillId()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -422,16 +568,14 @@ class AssistStructure_ViewNode extends jni.JniObject {
   /// It's only relevant when the AssistStructure is used for autofill purposes.
   ///@return id that can be used to autofill the view contents, or {@code null} if the
   /// structure was created for assist purposes.
-  jni.JniObject getAutofillId() {
-    final result__ = jni.JniObject.fromRef(_getAutofillId(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getAutofillId() =>
+      jni.JniObject.fromRef(_getAutofillId(reference).object);
 
-  static final _getAutofillType =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__ViewNode_getAutofillType")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getAutofillType = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getAutofillType")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getAutofillType()
   ///
@@ -442,17 +586,13 @@ class AssistStructure_ViewNode extends jni.JniObject {
   /// or View\#AUTOFILL_TYPE_NONE if the structure was created for assist purposes.
   ///
   /// Value is android.view.View\#AUTOFILL_TYPE_NONE, android.view.View\#AUTOFILL_TYPE_TEXT, android.view.View\#AUTOFILL_TYPE_TOGGLE, android.view.View\#AUTOFILL_TYPE_LIST, or android.view.View\#AUTOFILL_TYPE_DATE
-  int getAutofillType() {
-    final result__ = _getAutofillType(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getAutofillType() => _getAutofillType(reference).integer;
 
   static final _getAutofillHints = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistStructure__ViewNode_getAutofillHints")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getAutofillHints")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String[] getAutofillHints()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -464,17 +604,14 @@ class AssistStructure_ViewNode extends jni.JniObject {
   /// not for Assist - see View\#getAutofillHints() for more info.
   ///@return The autofill hints for this view, or {@code null} if the structure was created
   /// for assist purposes.
-  jni.JniObject getAutofillHints() {
-    final result__ = jni.JniObject.fromRef(_getAutofillHints(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getAutofillHints() =>
+      jni.JniObject.fromRef(_getAutofillHints(reference).object);
 
   static final _getAutofillValue = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistStructure__ViewNode_getAutofillValue")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getAutofillValue")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.view.autofill.AutofillValue getAutofillValue()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -485,17 +622,14 @@ class AssistStructure_ViewNode extends jni.JniObject {
   /// not for assist purposes.
   ///@return the autofill value of this view, or {@code null} if the structure was created
   /// for assist purposes.
-  jni.JniObject getAutofillValue() {
-    final result__ = jni.JniObject.fromRef(_getAutofillValue(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getAutofillValue() =>
+      jni.JniObject.fromRef(_getAutofillValue(reference).object);
 
   static final _getAutofillOptions = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistStructure__ViewNode_getAutofillOptions")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getAutofillOptions")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.CharSequence[] getAutofillOptions()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -509,118 +643,94 @@ class AssistStructure_ViewNode extends jni.JniObject {
   /// for assist purposes.
   ///@return the options that can be used to autofill this view, or {@code null} if the
   /// structure was created for assist purposes.
-  jni.JniObject getAutofillOptions() {
-    final result__ = jni.JniObject.fromRef(_getAutofillOptions(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getAutofillOptions() =>
+      jni.JniObject.fromRef(_getAutofillOptions(reference).object);
 
-  static final _getInputType =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__ViewNode_getInputType")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getInputType = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getInputType")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getInputType()
   ///
   /// Gets the android.text.InputType bits of this structure.
   ///@return bits as defined by android.text.InputType.
-  int getInputType() {
-    final result__ = _getInputType(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getInputType() => _getInputType(reference).integer;
 
-  static final _getLeft =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__ViewNode_getLeft")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getLeft = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("AssistStructure_ViewNode__getLeft")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getLeft()
   ///
   /// Returns the left edge of this view, in pixels, relative to the left edge of its parent.
-  int getLeft() {
-    final result__ = _getLeft(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getLeft() => _getLeft(reference).integer;
 
-  static final _getTop =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__ViewNode_getTop")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getTop = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("AssistStructure_ViewNode__getTop")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getTop()
   ///
   /// Returns the top edge of this view, in pixels, relative to the top edge of its parent.
-  int getTop() {
-    final result__ = _getTop(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getTop() => _getTop(reference).integer;
 
-  static final _getScrollX =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__ViewNode_getScrollX")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getScrollX = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getScrollX")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getScrollX()
   ///
   /// Returns the current X scroll offset of this view, as per
   /// android.view.View\#getScrollX() View.getScrollX().
-  int getScrollX() {
-    final result__ = _getScrollX(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getScrollX() => _getScrollX(reference).integer;
 
-  static final _getScrollY =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__ViewNode_getScrollY")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getScrollY = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getScrollY")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getScrollY()
   ///
   /// Returns the current Y scroll offset of this view, as per
   /// android.view.View\#getScrollX() View.getScrollY().
-  int getScrollY() {
-    final result__ = _getScrollY(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getScrollY() => _getScrollY(reference).integer;
 
-  static final _getWidth =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__ViewNode_getWidth")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getWidth = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("AssistStructure_ViewNode__getWidth")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getWidth()
   ///
   /// Returns the width of this view, in pixels.
-  int getWidth() {
-    final result__ = _getWidth(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getWidth() => _getWidth(reference).integer;
 
-  static final _getHeight =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__ViewNode_getHeight")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getHeight = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getHeight")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getHeight()
   ///
   /// Returns the height of this view, in pixels.
-  int getHeight() {
-    final result__ = _getHeight(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getHeight() => _getHeight(reference).integer;
 
   static final _getTransformation = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistStructure__ViewNode_getTransformation")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getTransformation")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.graphics.Matrix getTransformation()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -631,16 +741,14 @@ class AssistStructure_ViewNode extends jni.JniObject {
   ///
   /// It's only relevant when the AssistStructure is used for assist purposes,
   /// not for autofill purposes.
-  jni.JniObject getTransformation() {
-    final result__ = jni.JniObject.fromRef(_getTransformation(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getTransformation() =>
+      jni.JniObject.fromRef(_getTransformation(reference).object);
 
-  static final _getElevation =
-      jniLookup<ffi.NativeFunction<ffi.Float Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__ViewNode_getElevation")
-          .asFunction<double Function(ffi.Pointer<ffi.Void>)>();
+  static final _getElevation = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getElevation")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public float getElevation()
   ///
@@ -649,16 +757,13 @@ class AssistStructure_ViewNode extends jni.JniObject {
   ///
   /// It's only relevant when the AssistStructure is used for assist purposes,
   /// not for autofill purposes.
-  double getElevation() {
-    final result__ = _getElevation(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  double getElevation() => _getElevation(reference).float;
 
-  static final _getAlpha =
-      jniLookup<ffi.NativeFunction<ffi.Float Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__ViewNode_getAlpha")
-          .asFunction<double Function(ffi.Pointer<ffi.Void>)>();
+  static final _getAlpha = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("AssistStructure_ViewNode__getAlpha")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public float getAlpha()
   ///
@@ -667,216 +772,170 @@ class AssistStructure_ViewNode extends jni.JniObject {
   ///
   /// It's only relevant when the AssistStructure is used for assist purposes,
   /// not for autofill purposes.
-  double getAlpha() {
-    final result__ = _getAlpha(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  double getAlpha() => _getAlpha(reference).float;
 
-  static final _getVisibility =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__ViewNode_getVisibility")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getVisibility = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getVisibility")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getVisibility()
   ///
   /// Returns the visibility mode of this view, as per
   /// android.view.View\#getVisibility() View.getVisibility().
-  int getVisibility() {
-    final result__ = _getVisibility(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getVisibility() => _getVisibility(reference).integer;
 
-  static final _isAssistBlocked =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__ViewNode_isAssistBlocked")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isAssistBlocked = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__isAssistBlocked")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isAssistBlocked()
   ///
   /// Returns true if assist data has been blocked starting at this node in the hierarchy.
-  bool isAssistBlocked() {
-    final result__ = _isAssistBlocked(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isAssistBlocked() => _isAssistBlocked(reference).boolean;
 
-  static final _isEnabled =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__ViewNode_isEnabled")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isEnabled = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__isEnabled")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isEnabled()
   ///
   /// Returns true if this node is in an enabled state.
-  bool isEnabled() {
-    final result__ = _isEnabled(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isEnabled() => _isEnabled(reference).boolean;
 
-  static final _isClickable =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__ViewNode_isClickable")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isClickable = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__isClickable")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isClickable()
   ///
   /// Returns true if this node is clickable by the user.
-  bool isClickable() {
-    final result__ = _isClickable(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isClickable() => _isClickable(reference).boolean;
 
-  static final _isFocusable =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__ViewNode_isFocusable")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isFocusable = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__isFocusable")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isFocusable()
   ///
   /// Returns true if this node can take input focus.
-  bool isFocusable() {
-    final result__ = _isFocusable(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isFocusable() => _isFocusable(reference).boolean;
 
-  static final _isFocused =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__ViewNode_isFocused")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isFocused = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__isFocused")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isFocused()
   ///
   /// Returns true if this node currently had input focus at the time that the
   /// structure was collected.
-  bool isFocused() {
-    final result__ = _isFocused(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isFocused() => _isFocused(reference).boolean;
 
   static final _isAccessibilityFocused = jniLookup<
-              ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistStructure__ViewNode_isAccessibilityFocused")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__isAccessibilityFocused")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isAccessibilityFocused()
   ///
   /// Returns true if this node currently had accessibility focus at the time that the
   /// structure was collected.
-  bool isAccessibilityFocused() {
-    final result__ = _isAccessibilityFocused(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isAccessibilityFocused() => _isAccessibilityFocused(reference).boolean;
 
-  static final _isCheckable =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__ViewNode_isCheckable")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isCheckable = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__isCheckable")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isCheckable()
   ///
   /// Returns true if this node represents something that is checkable by the user.
-  bool isCheckable() {
-    final result__ = _isCheckable(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isCheckable() => _isCheckable(reference).boolean;
 
-  static final _isChecked =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__ViewNode_isChecked")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isChecked = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__isChecked")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isChecked()
   ///
   /// Returns true if this node is currently in a checked state.
-  bool isChecked() {
-    final result__ = _isChecked(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isChecked() => _isChecked(reference).boolean;
 
-  static final _isSelected =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__ViewNode_isSelected")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isSelected = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__isSelected")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isSelected()
   ///
   /// Returns true if this node has currently been selected by the user.
-  bool isSelected() {
-    final result__ = _isSelected(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isSelected() => _isSelected(reference).boolean;
 
-  static final _isActivated =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__ViewNode_isActivated")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isActivated = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__isActivated")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isActivated()
   ///
   /// Returns true if this node has currently been activated by the user.
-  bool isActivated() {
-    final result__ = _isActivated(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isActivated() => _isActivated(reference).boolean;
 
-  static final _isOpaque =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__ViewNode_isOpaque")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isOpaque = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("AssistStructure_ViewNode__isOpaque")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isOpaque()
   ///
   /// Returns true if this node is opaque.
-  bool isOpaque() {
-    final result__ = _isOpaque(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isOpaque() => _isOpaque(reference).boolean;
 
-  static final _isLongClickable =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__ViewNode_isLongClickable")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isLongClickable = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__isLongClickable")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isLongClickable()
   ///
   /// Returns true if this node is something the user can perform a long click/press on.
-  bool isLongClickable() {
-    final result__ = _isLongClickable(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isLongClickable() => _isLongClickable(reference).boolean;
 
-  static final _isContextClickable =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__ViewNode_isContextClickable")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isContextClickable = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__isContextClickable")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isContextClickable()
   ///
   /// Returns true if this node is something the user can perform a context click on.
-  bool isContextClickable() {
-    final result__ = _isContextClickable(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isContextClickable() => _isContextClickable(reference).boolean;
 
   static final _getClassName = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistStructure__ViewNode_getClassName")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getClassName")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getClassName()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -884,34 +943,28 @@ class AssistStructure_ViewNode extends jni.JniObject {
   /// Returns the class name of the node's implementation, indicating its behavior.
   /// For example, a button will report "android.widget.Button" meaning it behaves
   /// like a android.widget.Button.
-  jni.JniString getClassName() {
-    final result__ = jni.JniString.fromRef(_getClassName(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getClassName() =>
+      jni.JniString.fromRef(_getClassName(reference).object);
 
   static final _getContentDescription = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistStructure__ViewNode_getContentDescription")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getContentDescription")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.CharSequence getContentDescription()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Returns any content description associated with the node, which semantically describes
   /// its purpose for accessibility and other uses.
-  jni.JniObject getContentDescription() {
-    final result__ = jni.JniObject.fromRef(_getContentDescription(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getContentDescription() =>
+      jni.JniObject.fromRef(_getContentDescription(reference).object);
 
   static final _getWebDomain = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistStructure__ViewNode_getWebDomain")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getWebDomain")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getWebDomain()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -928,17 +981,14 @@ class AssistStructure_ViewNode extends jni.JniObject {
   /// {@code https://example.com/login?user=my_user}, it returns {@code example.com}.
   ///
   /// This value may be {@code null}.
-  jni.JniString getWebDomain() {
-    final result__ = jni.JniString.fromRef(_getWebDomain(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getWebDomain() =>
+      jni.JniString.fromRef(_getWebDomain(reference).object);
 
   static final _getWebScheme = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistStructure__ViewNode_getWebScheme")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getWebScheme")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getWebScheme()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -951,17 +1001,14 @@ class AssistStructure_ViewNode extends jni.JniObject {
   /// {@code https://example.com/login?user=my_user}, it returns {@code https}.
   ///
   /// This value may be {@code null}.
-  jni.JniString getWebScheme() {
-    final result__ = jni.JniString.fromRef(_getWebScheme(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getWebScheme() =>
+      jni.JniString.fromRef(_getWebScheme(reference).object);
 
   static final _getHtmlInfo = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistStructure__ViewNode_getHtmlInfo")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getHtmlInfo")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.view.ViewStructure.HtmlInfo getHtmlInfo()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -972,50 +1019,41 @@ class AssistStructure_ViewNode extends jni.JniObject {
   /// not for assist purposes.
   ///@return the HTML properties associated with this view, or {@code null} if the
   /// structure was created for assist purposes.
-  jni.JniObject getHtmlInfo() {
-    final result__ = jni.JniObject.fromRef(_getHtmlInfo(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getHtmlInfo() =>
+      jni.JniObject.fromRef(_getHtmlInfo(reference).object);
 
   static final _getLocaleList = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistStructure__ViewNode_getLocaleList")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getLocaleList")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.LocaleList getLocaleList()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Returns the the list of locales associated with this view.
   ///@return This value may be {@code null}.
-  os_.LocaleList getLocaleList() {
-    final result__ = os_.LocaleList.fromRef(_getLocaleList(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  os_.LocaleList getLocaleList() =>
+      os_.LocaleList.fromRef(_getLocaleList(reference).object);
 
   static final _getText = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistStructure__ViewNode_getText")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("AssistStructure_ViewNode__getText")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.CharSequence getText()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Returns any text associated with the node that is displayed to the user, or null
   /// if there is none.
-  jni.JniObject getText() {
-    final result__ = jni.JniObject.fromRef(_getText(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getText() => jni.JniObject.fromRef(_getText(reference).object);
 
   static final _getTextSelectionStart = jniLookup<
-              ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistStructure__ViewNode_getTextSelectionStart")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getTextSelectionStart")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getTextSelectionStart()
   ///
@@ -1023,16 +1061,13 @@ class AssistStructure_ViewNode extends jni.JniObject {
   ///
   /// It's only relevant when the AssistStructure is used for assist purposes,
   /// not for autofill purposes.
-  int getTextSelectionStart() {
-    final result__ = _getTextSelectionStart(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getTextSelectionStart() => _getTextSelectionStart(reference).integer;
 
   static final _getTextSelectionEnd = jniLookup<
-              ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistStructure__ViewNode_getTextSelectionEnd")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getTextSelectionEnd")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getTextSelectionEnd()
   ///
@@ -1042,16 +1077,13 @@ class AssistStructure_ViewNode extends jni.JniObject {
   ///
   /// It's only relevant when the AssistStructure is used for assist purposes,
   /// not for autofill purposes.
-  int getTextSelectionEnd() {
-    final result__ = _getTextSelectionEnd(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getTextSelectionEnd() => _getTextSelectionEnd(reference).integer;
 
-  static final _getTextColor =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__ViewNode_getTextColor")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getTextColor = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getTextColor")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getTextColor()
   ///
@@ -1059,16 +1091,13 @@ class AssistStructure_ViewNode extends jni.JniObject {
   /// If there is no text color, \#TEXT_COLOR_UNDEFINED is returned.
   /// Note that the text may also contain style spans that modify the color of specific
   /// parts of the text.
-  int getTextColor() {
-    final result__ = _getTextColor(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getTextColor() => _getTextColor(reference).integer;
 
   static final _getTextBackgroundColor = jniLookup<
-              ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistStructure__ViewNode_getTextBackgroundColor")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getTextBackgroundColor")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getTextBackgroundColor()
   ///
@@ -1080,16 +1109,13 @@ class AssistStructure_ViewNode extends jni.JniObject {
   ///
   /// It's only relevant when the AssistStructure is used for assist purposes,
   /// not for autofill purposes.
-  int getTextBackgroundColor() {
-    final result__ = _getTextBackgroundColor(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getTextBackgroundColor() => _getTextBackgroundColor(reference).integer;
 
-  static final _getTextSize =
-      jniLookup<ffi.NativeFunction<ffi.Float Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__ViewNode_getTextSize")
-          .asFunction<double Function(ffi.Pointer<ffi.Void>)>();
+  static final _getTextSize = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getTextSize")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public float getTextSize()
   ///
@@ -1100,16 +1126,13 @@ class AssistStructure_ViewNode extends jni.JniObject {
   ///
   /// It's only relevant when the AssistStructure is used for assist purposes,
   /// not for autofill purposes.
-  double getTextSize() {
-    final result__ = _getTextSize(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  double getTextSize() => _getTextSize(reference).float;
 
-  static final _getTextStyle =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__ViewNode_getTextStyle")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getTextStyle = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getTextStyle")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getTextStyle()
   ///
@@ -1122,17 +1145,13 @@ class AssistStructure_ViewNode extends jni.JniObject {
   ///
   /// It's only relevant when the AssistStructure is used for assist purposes,
   /// not for autofill purposes.
-  int getTextStyle() {
-    final result__ = _getTextStyle(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getTextStyle() => _getTextStyle(reference).integer;
 
   static final _getTextLineCharOffsets = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistStructure__ViewNode_getTextLineCharOffsets")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getTextLineCharOffsets")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int[] getTextLineCharOffsets()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1144,17 +1163,14 @@ class AssistStructure_ViewNode extends jni.JniObject {
   ///
   /// It's only relevant when the AssistStructure is used for assist purposes,
   /// not for autofill purposes.
-  jni.JniObject getTextLineCharOffsets() {
-    final result__ = jni.JniObject.fromRef(_getTextLineCharOffsets(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getTextLineCharOffsets() =>
+      jni.JniObject.fromRef(_getTextLineCharOffsets(reference).object);
 
   static final _getTextLineBaselines = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistStructure__ViewNode_getTextLineBaselines")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getTextLineBaselines")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int[] getTextLineBaselines()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1166,17 +1182,14 @@ class AssistStructure_ViewNode extends jni.JniObject {
   ///
   /// It's only relevant when the AssistStructure is used for assist purposes,
   /// not for autofill purposes.
-  jni.JniObject getTextLineBaselines() {
-    final result__ = jni.JniObject.fromRef(_getTextLineBaselines(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getTextLineBaselines() =>
+      jni.JniObject.fromRef(_getTextLineBaselines(reference).object);
 
   static final _getTextIdEntry = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistStructure__ViewNode_getTextIdEntry")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getTextIdEntry")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getTextIdEntry()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1186,82 +1199,64 @@ class AssistStructure_ViewNode extends jni.JniObject {
   /// It's only relevant when the AssistStructure is used for autofill purposes,
   /// not for assist purposes.
   ///@return This value may be {@code null}.
-  jni.JniString getTextIdEntry() {
-    final result__ = jni.JniString.fromRef(_getTextIdEntry(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getTextIdEntry() =>
+      jni.JniString.fromRef(_getTextIdEntry(reference).object);
 
   static final _getHint = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistStructure__ViewNode_getHint")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("AssistStructure_ViewNode__getHint")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getHint()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Return additional hint text associated with the node; this is typically used with
   /// a node that takes user input, describing to the user what the input means.
-  jni.JniString getHint() {
-    final result__ = jni.JniString.fromRef(_getHint(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getHint() => jni.JniString.fromRef(_getHint(reference).object);
 
   static final _getExtras = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistStructure__ViewNode_getExtras")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getExtras")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle getExtras()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Return a Bundle containing optional vendor-specific extension information.
-  os_.Bundle getExtras() {
-    final result__ = os_.Bundle.fromRef(_getExtras(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  os_.Bundle getExtras() => os_.Bundle.fromRef(_getExtras(reference).object);
 
-  static final _getChildCount =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__ViewNode_getChildCount")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getChildCount = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getChildCount")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getChildCount()
   ///
   /// Return the number of children this node has.
-  int getChildCount() {
-    final result__ = _getChildCount(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getChildCount() => _getChildCount(reference).integer;
 
   static final _getChildAt = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_assist_AssistStructure__ViewNode_getChildAt")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("AssistStructure_ViewNode__getChildAt")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.app.assist.AssistStructure.ViewNode getChildAt(int index)
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Return a child of this node, given an index value from 0 to
   /// \#getChildCount()-1.
-  AssistStructure_ViewNode getChildAt(int index) {
-    final result__ =
-        AssistStructure_ViewNode.fromRef(_getChildAt(reference, index));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  AssistStructure_ViewNode getChildAt(int index) =>
+      AssistStructure_ViewNode.fromRef(_getChildAt(reference, index).object);
 
-  static final _getMinTextEms =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__ViewNode_getMinTextEms")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getMinTextEms = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getMinTextEms")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getMinTextEms()
   ///
@@ -1270,16 +1265,13 @@ class AssistStructure_ViewNode extends jni.JniObject {
   ///
   /// It's only relevant when the AssistStructure is used for autofill purposes,
   /// not for assist purposes.
-  int getMinTextEms() {
-    final result__ = _getMinTextEms(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getMinTextEms() => _getMinTextEms(reference).integer;
 
-  static final _getMaxTextEms =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__ViewNode_getMaxTextEms")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getMaxTextEms = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getMaxTextEms")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getMaxTextEms()
   ///
@@ -1288,16 +1280,13 @@ class AssistStructure_ViewNode extends jni.JniObject {
   ///
   /// It's only relevant when the AssistStructure is used for autofill purposes,
   /// not for assist purposes.
-  int getMaxTextEms() {
-    final result__ = _getMaxTextEms(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getMaxTextEms() => _getMaxTextEms(reference).integer;
 
-  static final _getMaxTextLength =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistStructure__ViewNode_getMaxTextLength")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getMaxTextLength = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getMaxTextLength")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getMaxTextLength()
   ///
@@ -1306,16 +1295,13 @@ class AssistStructure_ViewNode extends jni.JniObject {
   ///
   /// It's only relevant when the AssistStructure is used for autofill purposes,
   /// not for assist purposes.
-  int getMaxTextLength() {
-    final result__ = _getMaxTextLength(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getMaxTextLength() => _getMaxTextLength(reference).integer;
 
   static final _getImportantForAutofill = jniLookup<
-              ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistStructure__ViewNode_getImportantForAutofill")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssistStructure_ViewNode__getImportantForAutofill")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getImportantForAutofill()
   ///
@@ -1324,261 +1310,5 @@ class AssistStructure_ViewNode extends jni.JniObject {
   ///
   /// It's only relevant when the AssistStructure is used for autofill purposes.
   ///@return Value is android.view.View\#IMPORTANT_FOR_AUTOFILL_AUTO, android.view.View\#IMPORTANT_FOR_AUTOFILL_YES, android.view.View\#IMPORTANT_FOR_AUTOFILL_NO, android.view.View\#IMPORTANT_FOR_AUTOFILL_YES_EXCLUDE_DESCENDANTS, or android.view.View\#IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS
-  int getImportantForAutofill() {
-    final result__ = _getImportantForAutofill(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
-
-/// from: android.app.assist.AssistContent
-///
-/// Holds information about the content an application is viewing, to hand to an
-/// assistant at the user's request.  This is filled in by
-/// android.app.Activity\#onProvideAssistContent Activity.onProvideAssistContent.
-class AssistContent extends jni.JniObject {
-  AssistContent.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  static final _get_CREATOR =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "get_android_app_assist_AssistContent_CREATOR")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: static public final android.os.Parcelable.Creator<android.app.assist.AssistContent> CREATOR
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  static os_.Parcelable_Creator get CREATOR =>
-      os_.Parcelable_Creator.fromRef(_get_CREATOR());
-
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_app_assist_AssistContent_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: public void <init>()
-  AssistContent() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _setIntent = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistContent_setIntent")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void setIntent(android.content.Intent intent)
-  ///
-  /// Sets the Intent associated with the content, describing the current top-level context of
-  /// the activity.  If this contains a reference to a piece of data related to the activity,
-  /// be sure to set Intent\#FLAG_GRANT_READ_URI_PERMISSION so the accessibility
-  /// service can access it.
-  void setIntent(content_.Intent intent) {
-    final result__ = _setIntent(reference, intent.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getIntent = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistContent_getIntent")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.content.Intent getIntent()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Returns the current \#setIntent if one is set, else the default Intent obtained from
-  /// android.app.Activity\#getIntent Activity.getIntent. Can be modified in-place.
-  content_.Intent getIntent() {
-    final result__ = content_.Intent.fromRef(_getIntent(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _isAppProvidedIntent =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistContent_isAppProvidedIntent")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public boolean isAppProvidedIntent()
-  ///
-  /// Returns whether or not the current Intent was explicitly provided in
-  /// android.app.Activity\#onProvideAssistContent Activity.onProvideAssistContent. If not,
-  /// the Intent was automatically set based on
-  /// android.app.Activity\#getIntent Activity.getIntent.
-  bool isAppProvidedIntent() {
-    final result__ = _isAppProvidedIntent(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _setClipData = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistContent_setClipData")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void setClipData(android.content.ClipData clip)
-  ///
-  /// Optional additional content items that are involved with
-  /// the current UI.  Access to this content will be granted to the assistant as if you
-  /// are sending it through an Intent with Intent\#FLAG_GRANT_READ_URI_PERMISSION.
-  void setClipData(content_.ClipData clip) {
-    final result__ = _setClipData(reference, clip.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getClipData = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistContent_getClipData")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.content.ClipData getClipData()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Return the current \#setClipData, which you can modify in-place.
-  content_.ClipData getClipData() {
-    final result__ = content_.ClipData.fromRef(_getClipData(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _setStructuredData = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistContent_setStructuredData")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void setStructuredData(java.lang.String structuredData)
-  ///
-  /// Sets optional structured data regarding the content being viewed. The provided data
-  /// must be a string represented with <a href="http://json-ld.org/">JSON-LD</a> using the
-  /// <a href="http://schema.org/">schema.org</a> vocabulary.
-  void setStructuredData(jni.JniString structuredData) {
-    final result__ = _setStructuredData(reference, structuredData.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getStructuredData = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistContent_getStructuredData")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.lang.String getStructuredData()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Returns the current \#setStructuredData.
-  jni.JniString getStructuredData() {
-    final result__ = jni.JniString.fromRef(_getStructuredData(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _setWebUri = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistContent_setWebUri")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void setWebUri(android.net.Uri uri)
-  ///
-  /// Set a web URI associated with the current data being shown to the user.
-  /// This URI could be opened in a web browser, or in the app as an
-  /// Intent\#ACTION_VIEW Intent, to show the same data that is currently
-  /// being displayed by it.  The URI here should be something that is transportable
-  /// off the device into other environments to acesss the same data as is currently
-  /// being shown in the app; if the app does not have such a representation, it should
-  /// leave the null and only report the local intent and clip data.
-  void setWebUri(jni.JniObject uri) {
-    final result__ = _setWebUri(reference, uri.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getWebUri = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistContent_getWebUri")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.net.Uri getWebUri()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Return the content's web URI as per \#setWebUri(android.net.Uri), or null if
-  /// there is none.
-  jni.JniObject getWebUri() {
-    final result__ = jni.JniObject.fromRef(_getWebUri(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _isAppProvidedWebUri =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistContent_isAppProvidedWebUri")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public boolean isAppProvidedWebUri()
-  ///
-  /// Returns whether or not the current \#getWebUri was explicitly provided in
-  /// android.app.Activity\#onProvideAssistContent Activity.onProvideAssistContent. If not,
-  /// the Intent was automatically set based on
-  /// android.app.Activity\#getIntent Activity.getIntent.
-  bool isAppProvidedWebUri() {
-    final result__ = _isAppProvidedWebUri(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getExtras = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_assist_AssistContent_getExtras")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.os.Bundle getExtras()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Return Bundle for extra vendor-specific data that can be modified and examined.
-  os_.Bundle getExtras() {
-    final result__ = os_.Bundle.fromRef(_getExtras(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _describeContents =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_assist_AssistContent_describeContents")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int describeContents()
-  int describeContents() {
-    final result__ = _describeContents(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _writeToParcel = jniLookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_app_assist_AssistContent_writeToParcel")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(os_.Parcel dest, int flags) {
-    final result__ = _writeToParcel(reference, dest.reference, flags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getImportantForAutofill() => _getImportantForAutofill(reference).integer;
 }

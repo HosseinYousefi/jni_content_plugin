@@ -30,7 +30,7 @@ dependencies:
     sdk: flutter
 
   jni:
-    path: ../../jnigen_devel/jni
+    path: ../../jnigen/jni
     #git:
     #url: https://github.com/mahesh-hegde/jnigen_devel
     #path: jni

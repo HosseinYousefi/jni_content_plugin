@@ -8,1431 +8,17 @@
 // ignore_for_file: unused_element
 
 import "dart:ffi" as ffi;
+import "package:jni/internal_helpers_for_jnigen.dart";
 import "package:jni/jni.dart" as jni;
 
-import "../../android/content.dart" as content_;
-
-import "../../android/os.dart" as os_;
+import "../os.dart" as os_;
 
 import "../app.dart" as app_;
 
-import "../../android/content/pm.dart" as pm_;
+import "../content.dart" as content_;
+
+import "../content/pm.dart" as pm_;
 import "../../_init.dart" show jniLookup;
-
-/// from: android.app.slice.SliceManager
-///
-/// Class to handle interactions with Slices.
-///
-/// The SliceManager manages permissions and pinned state for slices.
-class SliceManager extends jni.JniObject {
-  SliceManager.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  /// from: static public final java.lang.String CATEGORY_SLICE
-  ///
-  /// Category used to resolve intents that can be rendered as slices.
-  ///
-  /// This category should be included on intent filters on providers that extend
-  /// SliceProvider.
-  ///@see SliceProvider
-  ///@see SliceProvider\#onMapIntentToUri(Intent)
-  ///@see \#mapIntentToUri(Intent)
-  static const CATEGORY_SLICE = "android.app.slice.category.SLICE";
-
-  /// from: static public final java.lang.String SLICE_METADATA_KEY
-  ///
-  /// The meta-data key that allows an activity to easily be linked directly to a slice.
-  ///
-  /// An activity can be statically linked to a slice uri by including a meta-data item
-  /// for this key that contains a valid slice uri for the same application declaring
-  /// the activity.
-  ///
-  /// <pre class="prettyprint">
-  /// {@literal
-  /// <activity android:name="com.example.mypkg.MyActivity">
-  ///     <meta-data android:name="android.metadata.SLICE_URI"
-  ///                android:value="content://com.example.mypkg/main_slice" />
-  ///  </activity>}
-  /// </pre>
-  ///@see \#mapIntentToUri(Intent)
-  ///@see SliceProvider\#onMapIntentToUri(Intent)
-  static const SLICE_METADATA_KEY = "android.metadata.SLICE_URI";
-
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_app_slice_SliceManager_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: void <init>()
-  SliceManager() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _pinSlice = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceManager_pinSlice")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void pinSlice(android.net.Uri uri, java.util.Set<android.app.slice.SliceSpec> specs)
-  ///
-  /// Ensures that a slice is in a pinned state.
-  ///
-  /// Pinned state is not persisted across reboots, so apps are expected to re-pin any slices
-  /// they still care about after a reboot.
-  ///
-  /// This may only be called by apps that are the default launcher for the device
-  /// or the default voice interaction service. Otherwise will throw SecurityException.
-  ///@param uri The uri of the slice being pinned.
-  /// This value must never be {@code null}.
-  ///@param specs The list of supported SliceSpecs of the callback.
-  /// This value must never be {@code null}.
-  ///@see SliceProvider\#onSlicePinned(Uri)
-  ///@see Intent\#ACTION_ASSIST
-  ///@see Intent\#CATEGORY_HOME
-  void pinSlice(jni.JniObject uri, jni.JniObject specs) {
-    final result__ = _pinSlice(reference, uri.reference, specs.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _unpinSlice = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceManager_unpinSlice")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void unpinSlice(android.net.Uri uri)
-  ///
-  /// Remove a pin for a slice.
-  ///
-  /// If the slice has no other pins/callbacks then the slice will be unpinned.
-  ///
-  /// This may only be called by apps that are the default launcher for the device
-  /// or the default voice interaction service. Otherwise will throw SecurityException.
-  ///@param uri The uri of the slice being unpinned.
-  /// This value must never be {@code null}.
-  ///@see \#pinSlice
-  ///@see SliceProvider\#onSliceUnpinned(Uri)
-  ///@see Intent\#ACTION_ASSIST
-  ///@see Intent\#CATEGORY_HOME
-  void unpinSlice(jni.JniObject uri) {
-    final result__ = _unpinSlice(reference, uri.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getPinnedSpecs = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceManager_getPinnedSpecs")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.util.Set<android.app.slice.SliceSpec> getPinnedSpecs(android.net.Uri uri)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Get the current set of specs for a pinned slice.
-  ///
-  /// This is the set of specs supported for a specific pinned slice. It will take
-  /// into account all clients and returns only specs supported by all.
-  ///@see SliceSpec
-  ///@return This value will never be {@code null}.
-  jni.JniObject getPinnedSpecs(jni.JniObject uri) {
-    final result__ =
-        jni.JniObject.fromRef(_getPinnedSpecs(reference, uri.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getPinnedSlices = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceManager_getPinnedSlices")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.util.List<android.net.Uri> getPinnedSlices()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Get the list of currently pinned slices for this app.
-  ///@see SliceProvider\#onSlicePinned
-  ///@return This value will never be {@code null}.
-  jni.JniObject getPinnedSlices() {
-    final result__ = jni.JniObject.fromRef(_getPinnedSlices(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getSliceDescendants = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceManager_getSliceDescendants")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.util.Collection<android.net.Uri> getSliceDescendants(android.net.Uri uri)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Obtains a list of slices that are descendants of the specified Uri.
-  ///
-  /// Not all slice providers will implement this functionality, in which case,
-  /// an empty collection will be returned.
-  ///
-  /// This method may take several seconds to complete, so it should
-  ///  *            only be called from a worker thread.
-  ///@param uri The uri to look for descendants under.
-  /// This value must never be {@code null}.
-  ///@return All slices within the space.
-  /// This value will never be {@code null}.
-  ///@see SliceProvider\#onGetSliceDescendants(Uri)
-  jni.JniObject getSliceDescendants(jni.JniObject uri) {
-    final result__ =
-        jni.JniObject.fromRef(_getSliceDescendants(reference, uri.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _bindSlice = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceManager_bindSlice")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.app.slice.Slice bindSlice(android.net.Uri uri, java.util.Set<android.app.slice.SliceSpec> supportedSpecs)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Turns a slice Uri into slice content.
-  ///@param uri The URI to a slice provider
-  /// This value must never be {@code null}.
-  ///@param supportedSpecs List of supported specs.
-  /// This value must never be {@code null}.
-  ///@return The Slice provided by the app or null if none is given.
-  ///@see Slice
-  Slice bindSlice(jni.JniObject uri, jni.JniObject supportedSpecs) {
-    final result__ = Slice.fromRef(
-        _bindSlice(reference, uri.reference, supportedSpecs.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _mapIntentToUri = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceManager_mapIntentToUri")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.net.Uri mapIntentToUri(android.content.Intent intent)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Turns a slice intent into a slice uri. Expects an explicit intent.
-  ///
-  /// This goes through a several stage resolution process to determine if any slice
-  /// can represent this intent.
-  /// <ol>
-  ///  <li> If the intent contains data that ContentResolver\#getType is
-  ///  SliceProvider\#SLICE_TYPE then the data will be returned.</li>
-  ///  <li>If the intent explicitly points at an activity, and that activity has
-  ///  meta-data for key \#SLICE_METADATA_KEY, then the Uri specified there will be
-  ///  returned.</li>
-  ///  <li>Lastly, if the intent with \#CATEGORY_SLICE added resolves to a provider, then
-  ///  the provider will be asked to SliceProvider\#onMapIntentToUri and that result
-  ///  will be returned.</li>
-  ///  <li>If no slice is found, then {@code null} is returned.</li>
-  /// </ol>
-  ///@param intent The intent associated with a slice.
-  /// This value must never be {@code null}.
-  ///@return The Slice Uri provided by the app or null if none exists.
-  ///@see Slice
-  ///@see SliceProvider\#onMapIntentToUri(Intent)
-  ///@see Intent
-  jni.JniObject mapIntentToUri(content_.Intent intent) {
-    final result__ =
-        jni.JniObject.fromRef(_mapIntentToUri(reference, intent.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _bindSlice1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceManager_bindSlice1")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.app.slice.Slice bindSlice(android.content.Intent intent, java.util.Set<android.app.slice.SliceSpec> supportedSpecs)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Turns a slice intent into slice content. Is a shortcut to perform the action
-  /// of both \#mapIntentToUri(Intent) and \#bindSlice(Uri, Set) at once.
-  ///@param intent The intent associated with a slice.
-  /// This value must never be {@code null}.
-  ///@param supportedSpecs List of supported specs.
-  /// This value must never be {@code null}.
-  ///@return The Slice provided by the app or null if none is given.
-  ///@see Slice
-  ///@see SliceProvider\#onMapIntentToUri(Intent)
-  ///@see Intent
-  Slice bindSlice1(content_.Intent intent, jni.JniObject supportedSpecs) {
-    final result__ = Slice.fromRef(
-        _bindSlice1(reference, intent.reference, supportedSpecs.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _checkSlicePermission = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32, ffi.Int32)>>(
-          "android_app_slice_SliceManager_checkSlicePermission")
-      .asFunction<
-          int Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int, int)>();
-
-  /// from: public int checkSlicePermission(android.net.Uri uri, int pid, int uid)
-  ///
-  /// Determine whether a particular process and user ID has been granted
-  /// permission to access a specific slice URI.
-  ///@param uri The uri that is being checked.
-  /// This value must never be {@code null}.
-  ///@param pid The process ID being checked against.  Must be &gt; 0.
-  ///@param uid The user ID being checked against.  A uid of 0 is the root
-  /// user, which will pass every permission check.
-  ///@return PackageManager\#PERMISSION_GRANTED if the given
-  /// pid/uid is allowed to access that uri, or
-  /// PackageManager\#PERMISSION_DENIED if it is not.
-  ///
-  /// Value is android.content.pm.PackageManager\#PERMISSION_GRANTED, or android.content.pm.PackageManager\#PERMISSION_DENIED
-  ///@see \#grantSlicePermission(String, Uri)
-  int checkSlicePermission(jni.JniObject uri, int pid, int uid) {
-    final result__ = _checkSlicePermission(reference, uri.reference, pid, uid);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _grantSlicePermission = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceManager_grantSlicePermission")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void grantSlicePermission(java.lang.String toPackage, android.net.Uri uri)
-  ///
-  /// Grant permission to access a specific slice Uri to another package.
-  ///@param toPackage The package you would like to allow to access the Uri.
-  /// This value must never be {@code null}.
-  ///@param uri The Uri you would like to grant access to.
-  ///
-  /// This value must never be {@code null}.
-  ///@see \#revokeSlicePermission
-  void grantSlicePermission(jni.JniString toPackage, jni.JniObject uri) {
-    final result__ =
-        _grantSlicePermission(reference, toPackage.reference, uri.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _revokeSlicePermission = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceManager_revokeSlicePermission")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void revokeSlicePermission(java.lang.String toPackage, android.net.Uri uri)
-  ///
-  /// Remove permissions to access a particular content provider Uri
-  /// that were previously added with \#grantSlicePermission for a specific target
-  /// package.  The given Uri will match all previously granted Uris that are the same or a
-  /// sub-path of the given Uri.  That is, revoking "content://foo/target" will
-  /// revoke both "content://foo/target" and "content://foo/target/sub", but not
-  /// "content://foo".  It will not remove any prefix grants that exist at a
-  /// higher level.
-  ///@param toPackage The package you would like to allow to access the Uri.
-  /// This value must never be {@code null}.
-  ///@param uri The Uri you would like to revoke access to.
-  ///
-  /// This value must never be {@code null}.
-  ///@see \#grantSlicePermission
-  void revokeSlicePermission(jni.JniString toPackage, jni.JniObject uri) {
-    final result__ =
-        _revokeSlicePermission(reference, toPackage.reference, uri.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
-
-/// from: android.app.slice.SliceMetrics
-///
-/// Metrics interface for slices.
-///
-/// This is called by SliceView, so Slice developers should
-/// not need to reference this class.
-///@see androidx.slice.widget.SliceView
-class SliceMetrics extends jni.JniObject {
-  SliceMetrics.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  static final _ctor = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceMetrics_ctor")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void <init>(android.content.Context context, android.net.Uri uri)
-  ///
-  /// An object to be used throughout the life of a slice to register events.
-  ///@param context This value must never be {@code null}.
-  ///@param uri This value must never be {@code null}.
-  SliceMetrics(content_.Context context, jni.JniObject uri)
-      : super.fromRef(_ctor(context.reference, uri.reference)) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _logVisible =
-      jniLookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_slice_SliceMetrics_logVisible")
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void logVisible()
-  ///
-  /// To be called whenever the slice becomes visible to the user.
-  void logVisible() {
-    final result__ = _logVisible(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _logHidden =
-      jniLookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_slice_SliceMetrics_logHidden")
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void logHidden()
-  ///
-  /// To be called whenever the slice becomes invisible to the user.
-  void logHidden() {
-    final result__ = _logHidden(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _logTouch = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceMetrics_logTouch")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void logTouch(int actionType, android.net.Uri subSlice)
-  ///
-  /// To be called whenever the user invokes a discrete action via a slice.
-  ///
-  /// <P>
-  ///     Use this for discrete events like a tap or the end of a drag,
-  ///     not for a continuous streams of events, such as the motion during a gesture.
-  /// </P>
-  ///@see androidx.slice.widget.EventInfo\#actionType
-  ///@param actionType The type of the event.
-  ///@param subSlice The URI of the sub-slice that is the subject of the interaction.
-  ///
-  /// This value must never be {@code null}.
-  void logTouch(int actionType, jni.JniObject subSlice) {
-    final result__ = _logTouch(reference, actionType, subSlice.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
-
-/// from: android.app.slice.SliceItem
-///
-/// A SliceItem is a single unit in the tree structure of a Slice.
-///
-/// A SliceItem a piece of content and some hints about what that content
-/// means or how it should be displayed. The types of content can be:
-/// <li>\#FORMAT_SLICE</li>
-/// <li>\#FORMAT_TEXT</li>
-/// <li>\#FORMAT_IMAGE</li>
-/// <li>\#FORMAT_ACTION</li>
-/// <li>\#FORMAT_INT</li>
-/// <li>\#FORMAT_LONG</li>
-/// <li>\#FORMAT_REMOTE_INPUT</li>
-/// <li>\#FORMAT_BUNDLE</li>
-///
-/// The hints that a SliceItem are a set of strings which annotate
-/// the content. The hints that are guaranteed to be understood by the system
-/// are defined on Slice.
-class SliceItem extends jni.JniObject {
-  SliceItem.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  static final _get_CREATOR =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "get_android_app_slice_SliceItem_CREATOR")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: static public final android.os.Parcelable.Creator<android.app.slice.SliceItem> CREATOR
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  static os_.Parcelable_Creator get CREATOR =>
-      os_.Parcelable_Creator.fromRef(_get_CREATOR());
-
-  /// from: static public final java.lang.String FORMAT_ACTION
-  ///
-  /// A SliceItem that contains a PendingIntent
-  ///
-  /// Note: Actions contain 2 pieces of data, In addition to the pending intent, the
-  /// item contains a Slice that the action applies to.
-  static const FORMAT_ACTION = "action";
-
-  /// from: static public final java.lang.String FORMAT_BUNDLE
-  ///
-  /// A SliceItem that contains a Bundle.
-  static const FORMAT_BUNDLE = "bundle";
-
-  /// from: static public final java.lang.String FORMAT_IMAGE
-  ///
-  /// A SliceItem that contains an Icon
-  static const FORMAT_IMAGE = "image";
-
-  /// from: static public final java.lang.String FORMAT_INT
-  ///
-  /// A SliceItem that contains an int.
-  static const FORMAT_INT = "int";
-
-  /// from: static public final java.lang.String FORMAT_LONG
-  ///
-  /// A SliceItem that contains a long.
-  static const FORMAT_LONG = "long";
-
-  /// from: static public final java.lang.String FORMAT_REMOTE_INPUT
-  ///
-  /// A SliceItem that contains a RemoteInput.
-  static const FORMAT_REMOTE_INPUT = "input";
-
-  /// from: static public final java.lang.String FORMAT_SLICE
-  ///
-  /// A SliceItem that contains a Slice
-  static const FORMAT_SLICE = "slice";
-
-  /// from: static public final java.lang.String FORMAT_TEXT
-  ///
-  /// A SliceItem that contains a CharSequence
-  static const FORMAT_TEXT = "text";
-
-  static final _ctor = jniLookup<
-          ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-                  ffi.Pointer<ffi.Void>)>>("android_app_slice_SliceItem_ctor")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: void <init>(android.os.Parcel in)
-  ///
-  /// @hide
-  SliceItem(os_.Parcel in0) : super.fromRef(_ctor(in0.reference)) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _getHints = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceItem_getHints")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.util.List<java.lang.String> getHints()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Gets all hints associated with this SliceItem.
-  ///@return Array of hints.
-  ///
-  /// This value will never be {@code null}.
-  ///
-  /// Value is android.app.slice.Slice\#HINT_TITLE, android.app.slice.Slice\#HINT_LIST, android.app.slice.Slice\#HINT_LIST_ITEM, android.app.slice.Slice\#HINT_LARGE, android.app.slice.Slice\#HINT_ACTIONS, android.app.slice.Slice\#HINT_SELECTED, android.app.slice.Slice\#HINT_NO_TINT, android.app.slice.Slice\#HINT_SHORTCUT, android.app.slice.Slice.HINT_TOGGLE, android.app.slice.Slice\#HINT_HORIZONTAL, android.app.slice.Slice\#HINT_PARTIAL, android.app.slice.Slice\#HINT_SEE_MORE, android.app.slice.Slice\#HINT_KEYWORDS, android.app.slice.Slice\#HINT_ERROR, android.app.slice.Slice\#HINT_TTL, android.app.slice.Slice\#HINT_LAST_UPDATED, or android.app.slice.Slice\#HINT_PERMISSION_REQUEST
-  jni.JniObject getHints() {
-    final result__ = jni.JniObject.fromRef(_getHints(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getFormat = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceItem_getFormat")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.lang.String getFormat()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Get the format of this SliceItem.
-  ///
-  /// The format will be one of the following types supported by the platform:
-  /// <li>\#FORMAT_SLICE</li>
-  /// <li>\#FORMAT_TEXT</li>
-  /// <li>\#FORMAT_IMAGE</li>
-  /// <li>\#FORMAT_ACTION</li>
-  /// <li>\#FORMAT_INT</li>
-  /// <li>\#FORMAT_LONG</li>
-  /// <li>\#FORMAT_REMOTE_INPUT</li>
-  /// <li>\#FORMAT_BUNDLE</li>
-  ///@see \#getSubType() ()
-  jni.JniString getFormat() {
-    final result__ = jni.JniString.fromRef(_getFormat(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getSubType = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceItem_getSubType")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.lang.String getSubType()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Get the sub-type of this SliceItem.
-  ///
-  /// Subtypes provide additional information about the type of this information beyond basic
-  /// interpretations inferred by \#getFormat(). For example a slice may contain
-  /// many \#FORMAT_TEXT items, but only some of them may be Slice\#SUBTYPE_MESSAGE.
-  ///@see \#getFormat()
-  jni.JniString getSubType() {
-    final result__ = jni.JniString.fromRef(_getSubType(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getText = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceItem_getText")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.lang.CharSequence getText()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// @return The text held by this \#FORMAT_TEXT SliceItem
-  jni.JniObject getText() {
-    final result__ = jni.JniObject.fromRef(_getText(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getBundle = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceItem_getBundle")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.os.Bundle getBundle()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// @return The parcelable held by this \#FORMAT_BUNDLE SliceItem
-  os_.Bundle getBundle() {
-    final result__ = os_.Bundle.fromRef(_getBundle(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getIcon = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceItem_getIcon")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.graphics.drawable.Icon getIcon()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// @return The icon held by this \#FORMAT_IMAGE SliceItem
-  jni.JniObject getIcon() {
-    final result__ = jni.JniObject.fromRef(_getIcon(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getAction = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceItem_getAction")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.app.PendingIntent getAction()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// @return The pending intent held by this \#FORMAT_ACTION SliceItem
-  app_.PendingIntent getAction() {
-    final result__ = app_.PendingIntent.fromRef(_getAction(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getRemoteInput = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceItem_getRemoteInput")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.app.RemoteInput getRemoteInput()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// @return The remote input held by this \#FORMAT_REMOTE_INPUT SliceItem
-  app_.RemoteInput getRemoteInput() {
-    final result__ = app_.RemoteInput.fromRef(_getRemoteInput(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getInt =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_slice_SliceItem_getInt")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int getInt()
-  ///
-  /// @return The color held by this \#FORMAT_INT SliceItem
-  int getInt() {
-    final result__ = _getInt(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getSlice = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceItem_getSlice")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.app.slice.Slice getSlice()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// @return The slice held by this \#FORMAT_ACTION or \#FORMAT_SLICE SliceItem
-  Slice getSlice() {
-    final result__ = Slice.fromRef(_getSlice(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getLong =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_slice_SliceItem_getLong")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public long getLong()
-  ///
-  /// @return The long held by this \#FORMAT_LONG SliceItem
-  int getLong() {
-    final result__ = _getLong(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _hasHint = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceItem_hasHint")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public boolean hasHint(java.lang.String hint)
-  ///
-  /// @param hint The hint to check for
-  /// Value is android.app.slice.Slice\#HINT_TITLE, android.app.slice.Slice\#HINT_LIST, android.app.slice.Slice\#HINT_LIST_ITEM, android.app.slice.Slice\#HINT_LARGE, android.app.slice.Slice\#HINT_ACTIONS, android.app.slice.Slice\#HINT_SELECTED, android.app.slice.Slice\#HINT_NO_TINT, android.app.slice.Slice\#HINT_SHORTCUT, android.app.slice.Slice.HINT_TOGGLE, android.app.slice.Slice\#HINT_HORIZONTAL, android.app.slice.Slice\#HINT_PARTIAL, android.app.slice.Slice\#HINT_SEE_MORE, android.app.slice.Slice\#HINT_KEYWORDS, android.app.slice.Slice\#HINT_ERROR, android.app.slice.Slice\#HINT_TTL, android.app.slice.Slice\#HINT_LAST_UPDATED, or android.app.slice.Slice\#HINT_PERMISSION_REQUEST
-  ///@return true if this item contains the given hint
-  bool hasHint(jni.JniString hint) {
-    final result__ = _hasHint(reference, hint.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _describeContents =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_slice_SliceItem_describeContents")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int describeContents()
-  int describeContents() {
-    final result__ = _describeContents(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _writeToParcel = jniLookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_app_slice_SliceItem_writeToParcel")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(os_.Parcel dest, int flags) {
-    final result__ = _writeToParcel(reference, dest.reference, flags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
-
-/// from: android.app.slice.SliceProvider
-///
-/// A SliceProvider allows an app to provide content to be displayed in system spaces. This content
-/// is templated and can contain actions, and the behavior of how it is surfaced is specific to the
-/// system surface.
-///
-/// Slices are not currently live content. They are bound once and shown to the user. If the content
-/// changes due to a callback from user interaction, then
-/// ContentResolver\#notifyChange(Uri, ContentObserver) should be used to notify the system.
-///
-///
-///
-/// The provider needs to be declared in the manifest to provide the authority for the app. The
-/// authority for most slices is expected to match the package of the application.
-///
-///
-///
-/// <pre class="prettyprint">
-/// {@literal
-/// <provider
-///     android:name="com.example.mypkg.MySliceProvider"
-///     android:authorities="com.example.mypkg" />}
-/// </pre>
-///
-/// Slices can be identified by a Uri or by an Intent. To link an Intent with a slice, the provider
-/// must have an IntentFilter matching the slice intent. When a slice is being requested via
-/// an intent, \#onMapIntentToUri(Intent) can be called and is expected to return an
-/// appropriate Uri representing the slice.
-///
-/// <pre class="prettyprint">
-/// {@literal
-/// <provider
-///     android:name="com.example.mypkg.MySliceProvider"
-///     android:authorities="com.example.mypkg">
-///     <intent-filter>
-///         <action android:name="com.example.mypkg.intent.action.MY_SLICE_INTENT" />
-///         <category android:name="android.app.slice.category.SLICE" />
-///     </intent-filter>
-/// </provider>}
-/// </pre>
-///@see Slice
-class SliceProvider extends content_.ContentProvider {
-  SliceProvider.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  /// from: static public final java.lang.String SLICE_TYPE
-  ///
-  /// This is the Android platform's MIME type for a URI
-  /// containing a slice implemented through SliceProvider.
-  static const SLICE_TYPE = "vnd.android.slice";
-
-  static final _ctor1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceProvider_ctor1")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void <init>(java.lang.String[] autoGrantPermissions)
-  ///
-  /// A version of constructing a SliceProvider that allows autogranting slice permissions
-  /// to apps that hold specific platform permissions.
-  ///
-  /// When an app tries to bind a slice from this provider that it does not have access to,
-  /// This provider will check if the caller holds permissions to any of the autoGrantPermissions
-  /// specified, if they do they will be granted persisted uri access to all slices of this
-  /// provider.
-  ///@param autoGrantPermissions List of permissions that holders are auto-granted access
-  ///                             to slices.
-  ///
-  /// This value must never be {@code null}.
-  SliceProvider.ctor1(jni.JniObject autoGrantPermissions)
-      : super.fromRef(_ctor1(autoGrantPermissions.reference)) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_app_slice_SliceProvider_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: public void <init>()
-  SliceProvider() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _attachInfo = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceProvider_attachInfo")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void attachInfo(android.content.Context context, android.content.pm.ProviderInfo info)
-  void attachInfo(content_.Context context, pm_.ProviderInfo info) {
-    final result__ = _attachInfo(reference, context.reference, info.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onBindSlice = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceProvider_onBindSlice")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.app.slice.Slice onBindSlice(android.net.Uri sliceUri, java.util.Set<android.app.slice.SliceSpec> supportedSpecs)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Implemented to create a slice.
-  ///
-  /// onBindSlice should return as quickly as possible so that the UI tied
-  /// to this slice can be responsive. No network or other IO will be allowed
-  /// during onBindSlice. Any loading that needs to be done should happen
-  /// in the background with a call to ContentResolver\#notifyChange(Uri, ContentObserver)
-  /// when the app is ready to provide the complete data in onBindSlice.
-  ///
-  /// The slice returned should have a spec that is compatible with one of
-  /// the supported specs.
-  ///@param sliceUri Uri to bind.
-  ///@param supportedSpecs List of supported specs.
-  ///@see Slice.
-  ///@see Slice\#HINT_PARTIAL
-  Slice onBindSlice(jni.JniObject sliceUri, jni.JniObject supportedSpecs) {
-    final result__ = Slice.fromRef(
-        _onBindSlice(reference, sliceUri.reference, supportedSpecs.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onSlicePinned = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceProvider_onSlicePinned")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void onSlicePinned(android.net.Uri sliceUri)
-  ///
-  /// Called to inform an app that a slice has been pinned.
-  ///
-  /// Pinning is a way that slice hosts use to notify apps of which slices
-  /// they care about updates for. When a slice is pinned the content is
-  /// expected to be relatively fresh and kept up to date.
-  ///
-  /// Being pinned does not provide any escalated privileges for the slice
-  /// provider. So apps should do things such as turn on syncing or schedule
-  /// a job in response to a onSlicePinned.
-  ///
-  /// Pinned state is not persisted through a reboot, and apps can expect a
-  /// new call to onSlicePinned for any slices that should remain pinned
-  /// after a reboot occurs.
-  ///@param sliceUri The uri of the slice being unpinned.
-  ///@see \#onSliceUnpinned(Uri)
-  void onSlicePinned(jni.JniObject sliceUri) {
-    final result__ = _onSlicePinned(reference, sliceUri.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onSliceUnpinned = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceProvider_onSliceUnpinned")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void onSliceUnpinned(android.net.Uri sliceUri)
-  ///
-  /// Called to inform an app that a slices is no longer pinned.
-  ///
-  /// This means that no other apps on the device care about updates to this
-  /// slice anymore and therefore it is not important to be updated. Any syncs
-  /// or jobs related to this slice should be cancelled.
-  ///@see \#onSlicePinned(Uri)
-  void onSliceUnpinned(jni.JniObject sliceUri) {
-    final result__ = _onSliceUnpinned(reference, sliceUri.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onGetSliceDescendants = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceProvider_onGetSliceDescendants")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.util.Collection<android.net.Uri> onGetSliceDescendants(android.net.Uri uri)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Obtains a list of slices that are descendants of the specified Uri.
-  ///
-  /// Implementing this is optional for a SliceProvider, but does provide a good
-  /// discovery mechanism for finding slice Uris.
-  ///@param uri The uri to look for descendants under.
-  /// This value must never be {@code null}.
-  ///@return All slices within the space.
-  /// This value will never be {@code null}.
-  ///@see SliceManager\#getSliceDescendants(Uri)
-  jni.JniObject onGetSliceDescendants(jni.JniObject uri) {
-    final result__ =
-        jni.JniObject.fromRef(_onGetSliceDescendants(reference, uri.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onMapIntentToUri = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceProvider_onMapIntentToUri")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.net.Uri onMapIntentToUri(android.content.Intent intent)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// This method must be overridden if an IntentFilter is specified on the SliceProvider.
-  /// In that case, this method can be called and is expected to return a non-null Uri representing
-  /// a slice. Otherwise this will throw UnsupportedOperationException.
-  ///
-  /// Any intent filter added to a slice provider should also contain
-  /// SliceManager\#CATEGORY_SLICE, because otherwise it will not be detected by
-  /// SliceManager\#mapIntentToUri(Intent).
-  ///@return Uri representing the slice associated with the provided intent.
-  ///@see Slice
-  ///@see SliceManager\#mapIntentToUri(Intent)
-  jni.JniObject onMapIntentToUri(content_.Intent intent) {
-    final result__ =
-        jni.JniObject.fromRef(_onMapIntentToUri(reference, intent.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onCreatePermissionRequest = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceProvider_onCreatePermissionRequest")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.app.PendingIntent onCreatePermissionRequest(android.net.Uri sliceUri)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Called when an app requests a slice it does not have write permission
-  /// to the uri for.
-  ///
-  /// The return value will be the action on a slice that prompts the user that
-  /// the calling app wants to show slices from this app. The default implementation
-  /// launches a dialog that allows the user to grant access to this slice. Apps
-  /// that do not want to allow this user grant, can override this and instead
-  /// launch their own dialog with different behavior.
-  ///@param sliceUri the Uri of the slice attempting to be bound.
-  ///@see \#getCallingPackage()
-  ///@return This value will never be {@code null}.
-  app_.PendingIntent onCreatePermissionRequest(jni.JniObject sliceUri) {
-    final result__ = app_.PendingIntent.fromRef(
-        _onCreatePermissionRequest(reference, sliceUri.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _update = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceProvider_update")
-      .asFunction<
-          int Function(
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
-
-  /// from: public final int update(android.net.Uri uri, android.content.ContentValues values, java.lang.String selection, java.lang.String[] selectionArgs)
-  int update(jni.JniObject uri, content_.ContentValues values,
-      jni.JniString selection, jni.JniObject selectionArgs) {
-    final result__ = _update(reference, uri.reference, values.reference,
-        selection.reference, selectionArgs.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _delete1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceProvider_delete1")
-      .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public final int delete(android.net.Uri uri, java.lang.String selection, java.lang.String[] selectionArgs)
-  int delete1(
-      jni.JniObject uri, jni.JniString selection, jni.JniObject selectionArgs) {
-    final result__ = _delete1(
-        reference, uri.reference, selection.reference, selectionArgs.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _query = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceProvider_query")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
-
-  /// from: public final android.database.Cursor query(android.net.Uri uri, java.lang.String[] projection, java.lang.String selection, java.lang.String[] selectionArgs, java.lang.String sortOrder)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniObject query(
-      jni.JniObject uri,
-      jni.JniObject projection,
-      jni.JniString selection,
-      jni.JniObject selectionArgs,
-      jni.JniString sortOrder) {
-    final result__ = jni.JniObject.fromRef(_query(
-        reference,
-        uri.reference,
-        projection.reference,
-        selection.reference,
-        selectionArgs.reference,
-        sortOrder.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _query1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceProvider_query1")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
-
-  /// from: public final android.database.Cursor query(android.net.Uri uri, java.lang.String[] projection, java.lang.String selection, java.lang.String[] selectionArgs, java.lang.String sortOrder, android.os.CancellationSignal cancellationSignal)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniObject query1(
-      jni.JniObject uri,
-      jni.JniObject projection,
-      jni.JniString selection,
-      jni.JniObject selectionArgs,
-      jni.JniString sortOrder,
-      os_.CancellationSignal cancellationSignal) {
-    final result__ = jni.JniObject.fromRef(_query1(
-        reference,
-        uri.reference,
-        projection.reference,
-        selection.reference,
-        selectionArgs.reference,
-        sortOrder.reference,
-        cancellationSignal.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _query2 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceProvider_query2")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
-
-  /// from: public final android.database.Cursor query(android.net.Uri uri, java.lang.String[] projection, android.os.Bundle queryArgs, android.os.CancellationSignal cancellationSignal)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniObject query2(jni.JniObject uri, jni.JniObject projection,
-      os_.Bundle queryArgs, os_.CancellationSignal cancellationSignal) {
-    final result__ = jni.JniObject.fromRef(_query2(
-        reference,
-        uri.reference,
-        projection.reference,
-        queryArgs.reference,
-        cancellationSignal.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _insert = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceProvider_insert")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public final android.net.Uri insert(android.net.Uri uri, android.content.ContentValues values)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniObject insert(jni.JniObject uri, content_.ContentValues values) {
-    final result__ = jni.JniObject.fromRef(
-        _insert(reference, uri.reference, values.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getType = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceProvider_getType")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public final java.lang.String getType(android.net.Uri uri)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniString getType(jni.JniObject uri) {
-    final result__ = jni.JniString.fromRef(_getType(reference, uri.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _call = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceProvider_call")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.os.Bundle call(java.lang.String method, java.lang.String arg, android.os.Bundle extras)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  os_.Bundle call(jni.JniString method, jni.JniString arg, os_.Bundle extras) {
-    final result__ = os_.Bundle.fromRef(
-        _call(reference, method.reference, arg.reference, extras.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
-
-/// from: android.app.slice.SliceSpec
-///
-/// Class describing the structure of the data contained within a slice.
-///
-/// A data version contains a string which describes the type of structure
-/// and a revision which denotes this specific implementation. Revisions are expected
-/// to be backwards compatible and monotonically increasing. Meaning if a
-/// SliceSpec has the same type and an equal or lesser revision,
-/// it is expected to be compatible.
-///
-/// Apps rendering slices will provide a list of supported versions to the OS which
-/// will also be given to the app. Apps should only return a Slice with a
-/// SliceSpec that one of the supported SliceSpecs provided
-/// \#canRender.
-///@see Slice
-///@see SliceProvider\#onBindSlice(Uri)
-class SliceSpec extends jni.JniObject {
-  SliceSpec.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  static final _get_CREATOR =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "get_android_app_slice_SliceSpec_CREATOR")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: static public final android.os.Parcelable.Creator<android.app.slice.SliceSpec> CREATOR
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  static os_.Parcelable_Creator get CREATOR =>
-      os_.Parcelable_Creator.fromRef(_get_CREATOR());
-
-  static final _ctor = jniLookup<
-          ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_app_slice_SliceSpec_ctor")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public void <init>(java.lang.String type, int revision)
-  ///
-  /// @param type This value must never be {@code null}.
-  SliceSpec(jni.JniString type, int revision)
-      : super.fromRef(_ctor(type.reference, revision)) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _describeContents =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_slice_SliceSpec_describeContents")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int describeContents()
-  int describeContents() {
-    final result__ = _describeContents(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _writeToParcel = jniLookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_app_slice_SliceSpec_writeToParcel")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(os_.Parcel dest, int flags) {
-    final result__ = _writeToParcel(reference, dest.reference, flags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getType = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceSpec_getType")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.lang.String getType()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Gets the type of the version.
-  jni.JniString getType() {
-    final result__ = jni.JniString.fromRef(_getType(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getRevision =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_slice_SliceSpec_getRevision")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int getRevision()
-  ///
-  /// Gets the revision of the version.
-  int getRevision() {
-    final result__ = _getRevision(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _canRender = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceSpec_canRender")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public boolean canRender(android.app.slice.SliceSpec candidate)
-  ///
-  /// Indicates that this spec can be used to render the specified spec.
-  ///
-  /// Rendering support is not bi-directional (e.g. Spec v3 can render
-  /// Spec v2, but Spec v2 cannot render Spec v3).
-  ///@param candidate candidate format of data.
-  /// This value must never be {@code null}.
-  ///@return true if versions are compatible.
-  ///@see androidx.slice.widget.SliceView
-  bool canRender(SliceSpec candidate) {
-    final result__ = _canRender(reference, candidate.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _equals1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceSpec_equals1")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public boolean equals(java.lang.Object obj)
-  bool equals1(jni.JniObject obj) {
-    final result__ = _equals1(reference, obj.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _toString1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_SliceSpec_toString1")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.lang.String toString()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniString toString1() {
-    final result__ = jni.JniString.fromRef(_toString1(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
 
 /// from: android.app.slice.Slice
 ///
@@ -1444,14 +30,14 @@ class Slice extends jni.JniObject {
   Slice.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   static final _get_CREATOR =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "get_android_app_slice_Slice_CREATOR")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_Slice__CREATOR")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: static public final android.os.Parcelable.Creator<android.app.slice.Slice> CREATOR
   /// The returned object must be deleted after use, by calling the `delete` method.
   static os_.Parcelable_Creator get CREATOR =>
-      os_.Parcelable_Creator.fromRef(_get_CREATOR());
+      os_.Parcelable_Creator.fromRef(_get_CREATOR().object);
 
   /// from: static public final java.lang.String EXTRA_RANGE_VALUE
   ///
@@ -1638,20 +224,16 @@ class Slice extends jni.JniObject {
 
   static final _ctor = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-                  ffi.Pointer<ffi.Void>)>>("android_app_slice_Slice_ctor")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("Slice__ctor")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void <init>(android.os.Parcel in)
-  Slice(os_.Parcel in0) : super.fromRef(_ctor(in0.reference)) {
-    jni.Jni.env.checkException();
-  }
+  Slice(os_.Parcel in0) : super.fromRef(_ctor(in0.reference).object);
 
   static final _getSpec = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-                  ffi.Pointer<ffi.Void>)>>("android_app_slice_Slice_getSpec")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("Slice__getSpec")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.slice.SliceSpec getSpec()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1659,49 +241,35 @@ class Slice extends jni.JniObject {
   /// @return The spec for this slice
   ///
   /// This value may be {@code null}.
-  SliceSpec getSpec() {
-    final result__ = SliceSpec.fromRef(_getSpec(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  SliceSpec getSpec() => SliceSpec.fromRef(_getSpec(reference).object);
 
   static final _getUri = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-                  ffi.Pointer<ffi.Void>)>>("android_app_slice_Slice_getUri")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("Slice__getUri")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.net.Uri getUri()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// @return The Uri that this Slice represents.
-  jni.JniObject getUri() {
-    final result__ = jni.JniObject.fromRef(_getUri(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getUri() => jni.JniObject.fromRef(_getUri(reference).object);
 
   static final _getItems = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-                  ffi.Pointer<ffi.Void>)>>("android_app_slice_Slice_getItems")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("Slice__getItems")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<android.app.slice.SliceItem> getItems()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// @return All child SliceItems that this Slice contains.
-  jni.JniObject getItems() {
-    final result__ = jni.JniObject.fromRef(_getItems(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getItems() =>
+      jni.JniObject.fromRef(_getItems(reference).object);
 
   static final _getHints = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-                  ffi.Pointer<ffi.Void>)>>("android_app_slice_Slice_getHints")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("Slice__getHints")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<java.lang.String> getHints()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1709,69 +277,55 @@ class Slice extends jni.JniObject {
   /// @return All hints associated with this Slice.
   ///
   /// Value is android.app.slice.Slice\#HINT_TITLE, android.app.slice.Slice\#HINT_LIST, android.app.slice.Slice\#HINT_LIST_ITEM, android.app.slice.Slice\#HINT_LARGE, android.app.slice.Slice\#HINT_ACTIONS, android.app.slice.Slice\#HINT_SELECTED, android.app.slice.Slice\#HINT_NO_TINT, android.app.slice.Slice\#HINT_SHORTCUT, android.app.slice.Slice.HINT_TOGGLE, android.app.slice.Slice\#HINT_HORIZONTAL, android.app.slice.Slice\#HINT_PARTIAL, android.app.slice.Slice\#HINT_SEE_MORE, android.app.slice.Slice\#HINT_KEYWORDS, android.app.slice.Slice\#HINT_ERROR, android.app.slice.Slice\#HINT_TTL, android.app.slice.Slice\#HINT_LAST_UPDATED, or android.app.slice.Slice\#HINT_PERMISSION_REQUEST
-  jni.JniObject getHints() {
-    final result__ = jni.JniObject.fromRef(_getHints(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getHints() =>
+      jni.JniObject.fromRef(_getHints(reference).object);
 
   static final _writeToParcel = jniLookup<
           ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_app_slice_Slice_writeToParcel")
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("Slice__writeToParcel")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(os_.Parcel dest, int flags) {
-    final result__ = _writeToParcel(reference, dest.reference, flags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void writeToParcel(os_.Parcel dest, int flags) =>
+      _writeToParcel(reference, dest.reference, flags).check();
 
-  static final _describeContents =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_slice_Slice_describeContents")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _describeContents = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("Slice__describeContents")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int describeContents()
-  int describeContents() {
-    final result__ = _describeContents(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int describeContents() => _describeContents(reference).integer;
 
-  static final _isCallerNeeded =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_slice_Slice_isCallerNeeded")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isCallerNeeded = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("Slice__isCallerNeeded")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isCallerNeeded()
   ///
   /// Returns whether the caller for this slice matters.
   ///@see Builder\#setCallerNeeded
-  bool isCallerNeeded() {
-    final result__ = _isCallerNeeded(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isCallerNeeded() => _isCallerNeeded(reference).boolean;
 
   static final _toString1 = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-                  ffi.Pointer<ffi.Void>)>>("android_app_slice_Slice_toString1")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("Slice__toString1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String toString()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// @hide
   ///@return A string representation of this slice.
-  jni.JniString toString1() {
-    final result__ = jni.JniString.fromRef(_toString1(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString toString1() =>
+      jni.JniString.fromRef(_toString1(reference).object);
 }
 
 /// from: android.app.slice.Slice$Builder
@@ -1781,12 +335,11 @@ class Slice_Builder extends jni.JniObject {
   Slice_Builder.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   static final _ctor = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_Slice__Builder_ctor")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("Slice_Builder__ctor")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.net.Uri uri, android.app.slice.SliceSpec spec)
@@ -1796,15 +349,13 @@ class Slice_Builder extends jni.JniObject {
   /// This value must never be {@code null}.
   ///@param spec the spec for this slice.
   Slice_Builder(jni.JniObject uri, SliceSpec spec)
-      : super.fromRef(_ctor(uri.reference, spec.reference)) {
-    jni.Jni.env.checkException();
-  }
+      : super.fromRef(_ctor(uri.reference, spec.reference).object);
 
   static final _ctor1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_Slice__Builder_ctor1")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("Slice_Builder__ctor1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.app.slice.Slice.Builder parent)
   ///
@@ -1814,16 +365,13 @@ class Slice_Builder extends jni.JniObject {
   ///
   /// This value must never be {@code null}.
   Slice_Builder.ctor1(Slice_Builder parent)
-      : super.fromRef(_ctor1(parent.reference)) {
-    jni.Jni.env.checkException();
-  }
+      : super.fromRef(_ctor1(parent.reference).object);
 
   static final _setCallerNeeded = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "android_app_slice_Slice__Builder_setCallerNeeded")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("Slice_Builder__setCallerNeeded")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.app.slice.Slice.Builder setCallerNeeded(boolean callerNeeded)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1832,20 +380,15 @@ class Slice_Builder extends jni.JniObject {
   /// SliceProvider\#onBindSlice(Uri, java.util.Set) may be different depending on
   /// SliceProvider\#getCallingPackage() and should not be cached for multiple
   /// apps.
-  Slice_Builder setCallerNeeded(bool callerNeeded) {
-    final result__ = Slice_Builder.fromRef(
-        _setCallerNeeded(reference, callerNeeded ? 1 : 0));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  Slice_Builder setCallerNeeded(bool callerNeeded) => Slice_Builder.fromRef(
+      _setCallerNeeded(reference, callerNeeded ? 1 : 0).object);
 
   static final _addHints = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_Slice__Builder_addHints")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("Slice_Builder__addHints")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.slice.Slice.Builder addHints(java.util.List<java.lang.String> hints)
@@ -1853,21 +396,18 @@ class Slice_Builder extends jni.JniObject {
   ///
   /// Add hints to the Slice being constructed
   ///@param hints Value is android.app.slice.Slice\#HINT_TITLE, android.app.slice.Slice\#HINT_LIST, android.app.slice.Slice\#HINT_LIST_ITEM, android.app.slice.Slice\#HINT_LARGE, android.app.slice.Slice\#HINT_ACTIONS, android.app.slice.Slice\#HINT_SELECTED, android.app.slice.Slice\#HINT_NO_TINT, android.app.slice.Slice\#HINT_SHORTCUT, android.app.slice.Slice.HINT_TOGGLE, android.app.slice.Slice\#HINT_HORIZONTAL, android.app.slice.Slice\#HINT_PARTIAL, android.app.slice.Slice\#HINT_SEE_MORE, android.app.slice.Slice\#HINT_KEYWORDS, android.app.slice.Slice\#HINT_ERROR, android.app.slice.Slice\#HINT_TTL, android.app.slice.Slice\#HINT_LAST_UPDATED, or android.app.slice.Slice\#HINT_PERMISSION_REQUEST
-  Slice_Builder addHints(jni.JniObject hints) {
-    final result__ =
-        Slice_Builder.fromRef(_addHints(reference, hints.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  Slice_Builder addHints(jni.JniObject hints) =>
+      Slice_Builder.fromRef(_addHints(reference, hints.reference).object);
 
   static final _addSubSlice = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_Slice__Builder_addSubSlice")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("Slice_Builder__addSubSlice")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.slice.Slice.Builder addSubSlice(android.app.slice.Slice slice, java.lang.String subType)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1878,27 +418,20 @@ class Slice_Builder extends jni.JniObject {
   /// Value is android.app.slice.Slice\#SUBTYPE_COLOR, android.app.slice.Slice\#SUBTYPE_CONTENT_DESCRIPTION, android.app.slice.Slice\#SUBTYPE_MAX, android.app.slice.Slice\#SUBTYPE_MESSAGE, android.app.slice.Slice\#SUBTYPE_PRIORITY, android.app.slice.Slice\#SUBTYPE_RANGE, android.app.slice.Slice\#SUBTYPE_SOURCE, android.app.slice.Slice\#SUBTYPE_TOGGLE, android.app.slice.Slice\#SUBTYPE_VALUE, or android.app.slice.Slice\#SUBTYPE_LAYOUT_DIRECTION
   ///@see SliceItem\#getSubType()
   ///@param slice This value must never be {@code null}.
-  Slice_Builder addSubSlice(Slice slice, jni.JniString subType) {
-    final result__ = Slice_Builder.fromRef(
-        _addSubSlice(reference, slice.reference, subType.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  Slice_Builder addSubSlice(Slice slice, jni.JniString subType) =>
+      Slice_Builder.fromRef(
+          _addSubSlice(reference, slice.reference, subType.reference).object);
 
   static final _addAction = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_Slice__Builder_addAction")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("Slice_Builder__addAction")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.slice.Slice.Builder addAction(android.app.PendingIntent action, android.app.slice.Slice s, java.lang.String subType)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1911,27 +444,21 @@ class Slice_Builder extends jni.JniObject {
   ///@param action This value must never be {@code null}.
   ///@param s This value must never be {@code null}.
   Slice_Builder addAction(
-      app_.PendingIntent action, Slice s, jni.JniString subType) {
-    final result__ = Slice_Builder.fromRef(_addAction(
-        reference, action.reference, s.reference, subType.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          app_.PendingIntent action, Slice s, jni.JniString subType) =>
+      Slice_Builder.fromRef(_addAction(
+              reference, action.reference, s.reference, subType.reference)
+          .object);
 
   static final _addText = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_Slice__Builder_addText")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("Slice_Builder__addText")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.slice.Slice.Builder addText(java.lang.CharSequence text, java.lang.String subType, java.util.List<java.lang.String> hints)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1943,27 +470,21 @@ class Slice_Builder extends jni.JniObject {
   ///@see SliceItem\#getSubType()
   ///@param hints Value is android.app.slice.Slice\#HINT_TITLE, android.app.slice.Slice\#HINT_LIST, android.app.slice.Slice\#HINT_LIST_ITEM, android.app.slice.Slice\#HINT_LARGE, android.app.slice.Slice\#HINT_ACTIONS, android.app.slice.Slice\#HINT_SELECTED, android.app.slice.Slice\#HINT_NO_TINT, android.app.slice.Slice\#HINT_SHORTCUT, android.app.slice.Slice.HINT_TOGGLE, android.app.slice.Slice\#HINT_HORIZONTAL, android.app.slice.Slice\#HINT_PARTIAL, android.app.slice.Slice\#HINT_SEE_MORE, android.app.slice.Slice\#HINT_KEYWORDS, android.app.slice.Slice\#HINT_ERROR, android.app.slice.Slice\#HINT_TTL, android.app.slice.Slice\#HINT_LAST_UPDATED, or android.app.slice.Slice\#HINT_PERMISSION_REQUEST
   Slice_Builder addText(
-      jni.JniObject text, jni.JniString subType, jni.JniObject hints) {
-    final result__ = Slice_Builder.fromRef(_addText(
-        reference, text.reference, subType.reference, hints.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniObject text, jni.JniString subType, jni.JniObject hints) =>
+      Slice_Builder.fromRef(_addText(
+              reference, text.reference, subType.reference, hints.reference)
+          .object);
 
   static final _addIcon = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_Slice__Builder_addIcon")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("Slice_Builder__addIcon")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.slice.Slice.Builder addIcon(android.graphics.drawable.Icon icon, java.lang.String subType, java.util.List<java.lang.String> hints)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1975,27 +496,21 @@ class Slice_Builder extends jni.JniObject {
   ///@see SliceItem\#getSubType()
   ///@param hints Value is android.app.slice.Slice\#HINT_TITLE, android.app.slice.Slice\#HINT_LIST, android.app.slice.Slice\#HINT_LIST_ITEM, android.app.slice.Slice\#HINT_LARGE, android.app.slice.Slice\#HINT_ACTIONS, android.app.slice.Slice\#HINT_SELECTED, android.app.slice.Slice\#HINT_NO_TINT, android.app.slice.Slice\#HINT_SHORTCUT, android.app.slice.Slice.HINT_TOGGLE, android.app.slice.Slice\#HINT_HORIZONTAL, android.app.slice.Slice\#HINT_PARTIAL, android.app.slice.Slice\#HINT_SEE_MORE, android.app.slice.Slice\#HINT_KEYWORDS, android.app.slice.Slice\#HINT_ERROR, android.app.slice.Slice\#HINT_TTL, android.app.slice.Slice\#HINT_LAST_UPDATED, or android.app.slice.Slice\#HINT_PERMISSION_REQUEST
   Slice_Builder addIcon(
-      jni.JniObject icon, jni.JniString subType, jni.JniObject hints) {
-    final result__ = Slice_Builder.fromRef(_addIcon(
-        reference, icon.reference, subType.reference, hints.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniObject icon, jni.JniString subType, jni.JniObject hints) =>
+      Slice_Builder.fromRef(_addIcon(
+              reference, icon.reference, subType.reference, hints.reference)
+          .object);
 
   static final _addRemoteInput = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_Slice__Builder_addRemoteInput")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("Slice_Builder__addRemoteInput")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.slice.Slice.Builder addRemoteInput(android.app.RemoteInput remoteInput, java.lang.String subType, java.util.List<java.lang.String> hints)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -2007,23 +522,20 @@ class Slice_Builder extends jni.JniObject {
   ///@see SliceItem\#getSubType()
   ///@param hints Value is android.app.slice.Slice\#HINT_TITLE, android.app.slice.Slice\#HINT_LIST, android.app.slice.Slice\#HINT_LIST_ITEM, android.app.slice.Slice\#HINT_LARGE, android.app.slice.Slice\#HINT_ACTIONS, android.app.slice.Slice\#HINT_SELECTED, android.app.slice.Slice\#HINT_NO_TINT, android.app.slice.Slice\#HINT_SHORTCUT, android.app.slice.Slice.HINT_TOGGLE, android.app.slice.Slice\#HINT_HORIZONTAL, android.app.slice.Slice\#HINT_PARTIAL, android.app.slice.Slice\#HINT_SEE_MORE, android.app.slice.Slice\#HINT_KEYWORDS, android.app.slice.Slice\#HINT_ERROR, android.app.slice.Slice\#HINT_TTL, android.app.slice.Slice\#HINT_LAST_UPDATED, or android.app.slice.Slice\#HINT_PERMISSION_REQUEST
   Slice_Builder addRemoteInput(app_.RemoteInput remoteInput,
-      jni.JniString subType, jni.JniObject hints) {
-    final result__ = Slice_Builder.fromRef(_addRemoteInput(
-        reference, remoteInput.reference, subType.reference, hints.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniString subType, jni.JniObject hints) =>
+      Slice_Builder.fromRef(_addRemoteInput(reference, remoteInput.reference,
+              subType.reference, hints.reference)
+          .object);
 
   static final _addInt = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Int32,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_Slice__Builder_addInt")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("Slice_Builder__addInt")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, int,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.slice.Slice.Builder addInt(int value, java.lang.String subType, java.util.List<java.lang.String> hints)
@@ -2035,23 +547,19 @@ class Slice_Builder extends jni.JniObject {
   /// Value is android.app.slice.Slice\#SUBTYPE_COLOR, android.app.slice.Slice\#SUBTYPE_CONTENT_DESCRIPTION, android.app.slice.Slice\#SUBTYPE_MAX, android.app.slice.Slice\#SUBTYPE_MESSAGE, android.app.slice.Slice\#SUBTYPE_PRIORITY, android.app.slice.Slice\#SUBTYPE_RANGE, android.app.slice.Slice\#SUBTYPE_SOURCE, android.app.slice.Slice\#SUBTYPE_TOGGLE, android.app.slice.Slice\#SUBTYPE_VALUE, or android.app.slice.Slice\#SUBTYPE_LAYOUT_DIRECTION
   ///@see SliceItem\#getSubType()
   ///@param hints Value is android.app.slice.Slice\#HINT_TITLE, android.app.slice.Slice\#HINT_LIST, android.app.slice.Slice\#HINT_LIST_ITEM, android.app.slice.Slice\#HINT_LARGE, android.app.slice.Slice\#HINT_ACTIONS, android.app.slice.Slice\#HINT_SELECTED, android.app.slice.Slice\#HINT_NO_TINT, android.app.slice.Slice\#HINT_SHORTCUT, android.app.slice.Slice.HINT_TOGGLE, android.app.slice.Slice\#HINT_HORIZONTAL, android.app.slice.Slice\#HINT_PARTIAL, android.app.slice.Slice\#HINT_SEE_MORE, android.app.slice.Slice\#HINT_KEYWORDS, android.app.slice.Slice\#HINT_ERROR, android.app.slice.Slice\#HINT_TTL, android.app.slice.Slice\#HINT_LAST_UPDATED, or android.app.slice.Slice\#HINT_PERMISSION_REQUEST
-  Slice_Builder addInt(int value, jni.JniString subType, jni.JniObject hints) {
-    final result__ = Slice_Builder.fromRef(
-        _addInt(reference, value, subType.reference, hints.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  Slice_Builder addInt(int value, jni.JniString subType, jni.JniObject hints) =>
+      Slice_Builder.fromRef(
+          _addInt(reference, value, subType.reference, hints.reference).object);
 
   static final _addLong = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Int64,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_Slice__Builder_addLong")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int64,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("Slice_Builder__addLong")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, int,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.slice.Slice.Builder addLong(long value, java.lang.String subType, java.util.List<java.lang.String> hints)
@@ -2063,27 +571,22 @@ class Slice_Builder extends jni.JniObject {
   /// Value is android.app.slice.Slice\#SUBTYPE_COLOR, android.app.slice.Slice\#SUBTYPE_CONTENT_DESCRIPTION, android.app.slice.Slice\#SUBTYPE_MAX, android.app.slice.Slice\#SUBTYPE_MESSAGE, android.app.slice.Slice\#SUBTYPE_PRIORITY, android.app.slice.Slice\#SUBTYPE_RANGE, android.app.slice.Slice\#SUBTYPE_SOURCE, android.app.slice.Slice\#SUBTYPE_TOGGLE, android.app.slice.Slice\#SUBTYPE_VALUE, or android.app.slice.Slice\#SUBTYPE_LAYOUT_DIRECTION
   ///@see SliceItem\#getSubType()
   ///@param hints Value is android.app.slice.Slice\#HINT_TITLE, android.app.slice.Slice\#HINT_LIST, android.app.slice.Slice\#HINT_LIST_ITEM, android.app.slice.Slice\#HINT_LARGE, android.app.slice.Slice\#HINT_ACTIONS, android.app.slice.Slice\#HINT_SELECTED, android.app.slice.Slice\#HINT_NO_TINT, android.app.slice.Slice\#HINT_SHORTCUT, android.app.slice.Slice.HINT_TOGGLE, android.app.slice.Slice\#HINT_HORIZONTAL, android.app.slice.Slice\#HINT_PARTIAL, android.app.slice.Slice\#HINT_SEE_MORE, android.app.slice.Slice\#HINT_KEYWORDS, android.app.slice.Slice\#HINT_ERROR, android.app.slice.Slice\#HINT_TTL, android.app.slice.Slice\#HINT_LAST_UPDATED, or android.app.slice.Slice\#HINT_PERMISSION_REQUEST
-  Slice_Builder addLong(int value, jni.JniString subType, jni.JniObject hints) {
-    final result__ = Slice_Builder.fromRef(
-        _addLong(reference, value, subType.reference, hints.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  Slice_Builder addLong(
+          int value, jni.JniString subType, jni.JniObject hints) =>
+      Slice_Builder.fromRef(
+          _addLong(reference, value, subType.reference, hints.reference)
+              .object);
 
   static final _addBundle = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_Slice__Builder_addBundle")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("Slice_Builder__addBundle")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.slice.Slice.Builder addBundle(android.os.Bundle bundle, java.lang.String subType, java.util.List<java.lang.String> hints)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -2097,26 +600,1273 @@ class Slice_Builder extends jni.JniObject {
   ///@see SliceItem\#getSubType()
   ///@param hints Value is android.app.slice.Slice\#HINT_TITLE, android.app.slice.Slice\#HINT_LIST, android.app.slice.Slice\#HINT_LIST_ITEM, android.app.slice.Slice\#HINT_LARGE, android.app.slice.Slice\#HINT_ACTIONS, android.app.slice.Slice\#HINT_SELECTED, android.app.slice.Slice\#HINT_NO_TINT, android.app.slice.Slice\#HINT_SHORTCUT, android.app.slice.Slice.HINT_TOGGLE, android.app.slice.Slice\#HINT_HORIZONTAL, android.app.slice.Slice\#HINT_PARTIAL, android.app.slice.Slice\#HINT_SEE_MORE, android.app.slice.Slice\#HINT_KEYWORDS, android.app.slice.Slice\#HINT_ERROR, android.app.slice.Slice\#HINT_TTL, android.app.slice.Slice\#HINT_LAST_UPDATED, or android.app.slice.Slice\#HINT_PERMISSION_REQUEST
   Slice_Builder addBundle(
-      os_.Bundle bundle, jni.JniString subType, jni.JniObject hints) {
-    final result__ = Slice_Builder.fromRef(_addBundle(
-        reference, bundle.reference, subType.reference, hints.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          os_.Bundle bundle, jni.JniString subType, jni.JniObject hints) =>
+      Slice_Builder.fromRef(_addBundle(
+              reference, bundle.reference, subType.reference, hints.reference)
+          .object);
 
   static final _build = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_slice_Slice__Builder_build")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("Slice_Builder__build")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.slice.Slice build()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Construct the slice.
-  Slice build() {
-    final result__ = Slice.fromRef(_build(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  Slice build() => Slice.fromRef(_build(reference).object);
+}
+
+/// from: android.app.slice.SliceItem
+///
+/// A SliceItem is a single unit in the tree structure of a Slice.
+///
+/// A SliceItem a piece of content and some hints about what that content
+/// means or how it should be displayed. The types of content can be:
+/// <li>\#FORMAT_SLICE</li>
+/// <li>\#FORMAT_TEXT</li>
+/// <li>\#FORMAT_IMAGE</li>
+/// <li>\#FORMAT_ACTION</li>
+/// <li>\#FORMAT_INT</li>
+/// <li>\#FORMAT_LONG</li>
+/// <li>\#FORMAT_REMOTE_INPUT</li>
+/// <li>\#FORMAT_BUNDLE</li>
+///
+/// The hints that a SliceItem are a set of strings which annotate
+/// the content. The hints that are guaranteed to be understood by the system
+/// are defined on Slice.
+class SliceItem extends jni.JniObject {
+  SliceItem.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  static final _get_CREATOR =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_SliceItem__CREATOR")
+          .asFunction<jni.JniResult Function()>();
+
+  /// from: static public final android.os.Parcelable.Creator<android.app.slice.SliceItem> CREATOR
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  static os_.Parcelable_Creator get CREATOR =>
+      os_.Parcelable_Creator.fromRef(_get_CREATOR().object);
+
+  /// from: static public final java.lang.String FORMAT_ACTION
+  ///
+  /// A SliceItem that contains a PendingIntent
+  ///
+  /// Note: Actions contain 2 pieces of data, In addition to the pending intent, the
+  /// item contains a Slice that the action applies to.
+  static const FORMAT_ACTION = "action";
+
+  /// from: static public final java.lang.String FORMAT_BUNDLE
+  ///
+  /// A SliceItem that contains a Bundle.
+  static const FORMAT_BUNDLE = "bundle";
+
+  /// from: static public final java.lang.String FORMAT_IMAGE
+  ///
+  /// A SliceItem that contains an Icon
+  static const FORMAT_IMAGE = "image";
+
+  /// from: static public final java.lang.String FORMAT_INT
+  ///
+  /// A SliceItem that contains an int.
+  static const FORMAT_INT = "int";
+
+  /// from: static public final java.lang.String FORMAT_LONG
+  ///
+  /// A SliceItem that contains a long.
+  static const FORMAT_LONG = "long";
+
+  /// from: static public final java.lang.String FORMAT_REMOTE_INPUT
+  ///
+  /// A SliceItem that contains a RemoteInput.
+  static const FORMAT_REMOTE_INPUT = "input";
+
+  /// from: static public final java.lang.String FORMAT_SLICE
+  ///
+  /// A SliceItem that contains a Slice
+  static const FORMAT_SLICE = "slice";
+
+  /// from: static public final java.lang.String FORMAT_TEXT
+  ///
+  /// A SliceItem that contains a CharSequence
+  static const FORMAT_TEXT = "text";
+
+  static final _ctor = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("SliceItem__ctor")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: void <init>(android.os.Parcel in)
+  ///
+  /// @hide
+  SliceItem(os_.Parcel in0) : super.fromRef(_ctor(in0.reference).object);
+
+  static final _getHints = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("SliceItem__getHints")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.util.List<java.lang.String> getHints()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Gets all hints associated with this SliceItem.
+  ///@return Array of hints.
+  ///
+  /// This value will never be {@code null}.
+  ///
+  /// Value is android.app.slice.Slice\#HINT_TITLE, android.app.slice.Slice\#HINT_LIST, android.app.slice.Slice\#HINT_LIST_ITEM, android.app.slice.Slice\#HINT_LARGE, android.app.slice.Slice\#HINT_ACTIONS, android.app.slice.Slice\#HINT_SELECTED, android.app.slice.Slice\#HINT_NO_TINT, android.app.slice.Slice\#HINT_SHORTCUT, android.app.slice.Slice.HINT_TOGGLE, android.app.slice.Slice\#HINT_HORIZONTAL, android.app.slice.Slice\#HINT_PARTIAL, android.app.slice.Slice\#HINT_SEE_MORE, android.app.slice.Slice\#HINT_KEYWORDS, android.app.slice.Slice\#HINT_ERROR, android.app.slice.Slice\#HINT_TTL, android.app.slice.Slice\#HINT_LAST_UPDATED, or android.app.slice.Slice\#HINT_PERMISSION_REQUEST
+  jni.JniObject getHints() =>
+      jni.JniObject.fromRef(_getHints(reference).object);
+
+  static final _getFormat = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("SliceItem__getFormat")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.lang.String getFormat()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Get the format of this SliceItem.
+  ///
+  /// The format will be one of the following types supported by the platform:
+  /// <li>\#FORMAT_SLICE</li>
+  /// <li>\#FORMAT_TEXT</li>
+  /// <li>\#FORMAT_IMAGE</li>
+  /// <li>\#FORMAT_ACTION</li>
+  /// <li>\#FORMAT_INT</li>
+  /// <li>\#FORMAT_LONG</li>
+  /// <li>\#FORMAT_REMOTE_INPUT</li>
+  /// <li>\#FORMAT_BUNDLE</li>
+  ///@see \#getSubType() ()
+  jni.JniString getFormat() =>
+      jni.JniString.fromRef(_getFormat(reference).object);
+
+  static final _getSubType = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("SliceItem__getSubType")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.lang.String getSubType()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Get the sub-type of this SliceItem.
+  ///
+  /// Subtypes provide additional information about the type of this information beyond basic
+  /// interpretations inferred by \#getFormat(). For example a slice may contain
+  /// many \#FORMAT_TEXT items, but only some of them may be Slice\#SUBTYPE_MESSAGE.
+  ///@see \#getFormat()
+  jni.JniString getSubType() =>
+      jni.JniString.fromRef(_getSubType(reference).object);
+
+  static final _getText = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("SliceItem__getText")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.lang.CharSequence getText()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// @return The text held by this \#FORMAT_TEXT SliceItem
+  jni.JniObject getText() => jni.JniObject.fromRef(_getText(reference).object);
+
+  static final _getBundle = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("SliceItem__getBundle")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.os.Bundle getBundle()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// @return The parcelable held by this \#FORMAT_BUNDLE SliceItem
+  os_.Bundle getBundle() => os_.Bundle.fromRef(_getBundle(reference).object);
+
+  static final _getIcon = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("SliceItem__getIcon")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.graphics.drawable.Icon getIcon()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// @return The icon held by this \#FORMAT_IMAGE SliceItem
+  jni.JniObject getIcon() => jni.JniObject.fromRef(_getIcon(reference).object);
+
+  static final _getAction = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("SliceItem__getAction")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.app.PendingIntent getAction()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// @return The pending intent held by this \#FORMAT_ACTION SliceItem
+  app_.PendingIntent getAction() =>
+      app_.PendingIntent.fromRef(_getAction(reference).object);
+
+  static final _getRemoteInput = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("SliceItem__getRemoteInput")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.app.RemoteInput getRemoteInput()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// @return The remote input held by this \#FORMAT_REMOTE_INPUT SliceItem
+  app_.RemoteInput getRemoteInput() =>
+      app_.RemoteInput.fromRef(_getRemoteInput(reference).object);
+
+  static final _getInt = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("SliceItem__getInt")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int getInt()
+  ///
+  /// @return The color held by this \#FORMAT_INT SliceItem
+  int getInt() => _getInt(reference).integer;
+
+  static final _getSlice = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("SliceItem__getSlice")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.app.slice.Slice getSlice()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// @return The slice held by this \#FORMAT_ACTION or \#FORMAT_SLICE SliceItem
+  Slice getSlice() => Slice.fromRef(_getSlice(reference).object);
+
+  static final _getLong = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("SliceItem__getLong")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public long getLong()
+  ///
+  /// @return The long held by this \#FORMAT_LONG SliceItem
+  int getLong() => _getLong(reference).long;
+
+  static final _hasHint = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("SliceItem__hasHint")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public boolean hasHint(java.lang.String hint)
+  ///
+  /// @param hint The hint to check for
+  /// Value is android.app.slice.Slice\#HINT_TITLE, android.app.slice.Slice\#HINT_LIST, android.app.slice.Slice\#HINT_LIST_ITEM, android.app.slice.Slice\#HINT_LARGE, android.app.slice.Slice\#HINT_ACTIONS, android.app.slice.Slice\#HINT_SELECTED, android.app.slice.Slice\#HINT_NO_TINT, android.app.slice.Slice\#HINT_SHORTCUT, android.app.slice.Slice.HINT_TOGGLE, android.app.slice.Slice\#HINT_HORIZONTAL, android.app.slice.Slice\#HINT_PARTIAL, android.app.slice.Slice\#HINT_SEE_MORE, android.app.slice.Slice\#HINT_KEYWORDS, android.app.slice.Slice\#HINT_ERROR, android.app.slice.Slice\#HINT_TTL, android.app.slice.Slice\#HINT_LAST_UPDATED, or android.app.slice.Slice\#HINT_PERMISSION_REQUEST
+  ///@return true if this item contains the given hint
+  bool hasHint(jni.JniString hint) =>
+      _hasHint(reference, hint.reference).boolean;
+
+  static final _describeContents = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("SliceItem__describeContents")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int describeContents()
+  int describeContents() => _describeContents(reference).integer;
+
+  static final _writeToParcel = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("SliceItem__writeToParcel")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public void writeToParcel(android.os.Parcel dest, int flags)
+  void writeToParcel(os_.Parcel dest, int flags) =>
+      _writeToParcel(reference, dest.reference, flags).check();
+}
+
+/// from: android.app.slice.SliceManager
+///
+/// Class to handle interactions with Slices.
+///
+/// The SliceManager manages permissions and pinned state for slices.
+class SliceManager extends jni.JniObject {
+  SliceManager.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  /// from: static public final java.lang.String CATEGORY_SLICE
+  ///
+  /// Category used to resolve intents that can be rendered as slices.
+  ///
+  /// This category should be included on intent filters on providers that extend
+  /// SliceProvider.
+  ///@see SliceProvider
+  ///@see SliceProvider\#onMapIntentToUri(Intent)
+  ///@see \#mapIntentToUri(Intent)
+  static const CATEGORY_SLICE = "android.app.slice.category.SLICE";
+
+  /// from: static public final java.lang.String SLICE_METADATA_KEY
+  ///
+  /// The meta-data key that allows an activity to easily be linked directly to a slice.
+  ///
+  /// An activity can be statically linked to a slice uri by including a meta-data item
+  /// for this key that contains a valid slice uri for the same application declaring
+  /// the activity.
+  ///
+  /// <pre class="prettyprint">
+  /// {@literal
+  /// <activity android:name="com.example.mypkg.MyActivity">
+  ///     <meta-data android:name="android.metadata.SLICE_URI"
+  ///                android:value="content://com.example.mypkg/main_slice" />
+  ///  </activity>}
+  /// </pre>
+  ///@see \#mapIntentToUri(Intent)
+  ///@see SliceProvider\#onMapIntentToUri(Intent)
+  static const SLICE_METADATA_KEY = "android.metadata.SLICE_URI";
+
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "SliceManager__ctor")
+      .asFunction<jni.JniResult Function()>();
+
+  /// from: void <init>()
+  SliceManager() : super.fromRef(_ctor().object);
+
+  static final _pinSlice = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("SliceManager__pinSlice")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void pinSlice(android.net.Uri uri, java.util.Set<android.app.slice.SliceSpec> specs)
+  ///
+  /// Ensures that a slice is in a pinned state.
+  ///
+  /// Pinned state is not persisted across reboots, so apps are expected to re-pin any slices
+  /// they still care about after a reboot.
+  ///
+  /// This may only be called by apps that are the default launcher for the device
+  /// or the default voice interaction service. Otherwise will throw SecurityException.
+  ///@param uri The uri of the slice being pinned.
+  /// This value must never be {@code null}.
+  ///@param specs The list of supported SliceSpecs of the callback.
+  /// This value must never be {@code null}.
+  ///@see SliceProvider\#onSlicePinned(Uri)
+  ///@see Intent\#ACTION_ASSIST
+  ///@see Intent\#CATEGORY_HOME
+  void pinSlice(jni.JniObject uri, jni.JniObject specs) =>
+      _pinSlice(reference, uri.reference, specs.reference).check();
+
+  static final _unpinSlice = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("SliceManager__unpinSlice")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void unpinSlice(android.net.Uri uri)
+  ///
+  /// Remove a pin for a slice.
+  ///
+  /// If the slice has no other pins/callbacks then the slice will be unpinned.
+  ///
+  /// This may only be called by apps that are the default launcher for the device
+  /// or the default voice interaction service. Otherwise will throw SecurityException.
+  ///@param uri The uri of the slice being unpinned.
+  /// This value must never be {@code null}.
+  ///@see \#pinSlice
+  ///@see SliceProvider\#onSliceUnpinned(Uri)
+  ///@see Intent\#ACTION_ASSIST
+  ///@see Intent\#CATEGORY_HOME
+  void unpinSlice(jni.JniObject uri) =>
+      _unpinSlice(reference, uri.reference).check();
+
+  static final _getPinnedSpecs = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("SliceManager__getPinnedSpecs")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.util.Set<android.app.slice.SliceSpec> getPinnedSpecs(android.net.Uri uri)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Get the current set of specs for a pinned slice.
+  ///
+  /// This is the set of specs supported for a specific pinned slice. It will take
+  /// into account all clients and returns only specs supported by all.
+  ///@see SliceSpec
+  ///@return This value will never be {@code null}.
+  jni.JniObject getPinnedSpecs(jni.JniObject uri) =>
+      jni.JniObject.fromRef(_getPinnedSpecs(reference, uri.reference).object);
+
+  static final _getPinnedSlices = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("SliceManager__getPinnedSlices")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.util.List<android.net.Uri> getPinnedSlices()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Get the list of currently pinned slices for this app.
+  ///@see SliceProvider\#onSlicePinned
+  ///@return This value will never be {@code null}.
+  jni.JniObject getPinnedSlices() =>
+      jni.JniObject.fromRef(_getPinnedSlices(reference).object);
+
+  static final _getSliceDescendants = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("SliceManager__getSliceDescendants")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.util.Collection<android.net.Uri> getSliceDescendants(android.net.Uri uri)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Obtains a list of slices that are descendants of the specified Uri.
+  ///
+  /// Not all slice providers will implement this functionality, in which case,
+  /// an empty collection will be returned.
+  ///
+  /// This method may take several seconds to complete, so it should
+  ///  *            only be called from a worker thread.
+  ///@param uri The uri to look for descendants under.
+  /// This value must never be {@code null}.
+  ///@return All slices within the space.
+  /// This value will never be {@code null}.
+  ///@see SliceProvider\#onGetSliceDescendants(Uri)
+  jni.JniObject getSliceDescendants(jni.JniObject uri) => jni.JniObject.fromRef(
+      _getSliceDescendants(reference, uri.reference).object);
+
+  static final _bindSlice = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("SliceManager__bindSlice")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.app.slice.Slice bindSlice(android.net.Uri uri, java.util.Set<android.app.slice.SliceSpec> supportedSpecs)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Turns a slice Uri into slice content.
+  ///@param uri The URI to a slice provider
+  /// This value must never be {@code null}.
+  ///@param supportedSpecs List of supported specs.
+  /// This value must never be {@code null}.
+  ///@return The Slice provided by the app or null if none is given.
+  ///@see Slice
+  Slice bindSlice(jni.JniObject uri, jni.JniObject supportedSpecs) =>
+      Slice.fromRef(
+          _bindSlice(reference, uri.reference, supportedSpecs.reference)
+              .object);
+
+  static final _mapIntentToUri = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("SliceManager__mapIntentToUri")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.net.Uri mapIntentToUri(android.content.Intent intent)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Turns a slice intent into a slice uri. Expects an explicit intent.
+  ///
+  /// This goes through a several stage resolution process to determine if any slice
+  /// can represent this intent.
+  /// <ol>
+  ///  <li> If the intent contains data that ContentResolver\#getType is
+  ///  SliceProvider\#SLICE_TYPE then the data will be returned.</li>
+  ///  <li>If the intent explicitly points at an activity, and that activity has
+  ///  meta-data for key \#SLICE_METADATA_KEY, then the Uri specified there will be
+  ///  returned.</li>
+  ///  <li>Lastly, if the intent with \#CATEGORY_SLICE added resolves to a provider, then
+  ///  the provider will be asked to SliceProvider\#onMapIntentToUri and that result
+  ///  will be returned.</li>
+  ///  <li>If no slice is found, then {@code null} is returned.</li>
+  /// </ol>
+  ///@param intent The intent associated with a slice.
+  /// This value must never be {@code null}.
+  ///@return The Slice Uri provided by the app or null if none exists.
+  ///@see Slice
+  ///@see SliceProvider\#onMapIntentToUri(Intent)
+  ///@see Intent
+  jni.JniObject mapIntentToUri(content_.Intent intent) => jni.JniObject.fromRef(
+      _mapIntentToUri(reference, intent.reference).object);
+
+  static final _bindSlice1 = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("SliceManager__bindSlice1")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.app.slice.Slice bindSlice(android.content.Intent intent, java.util.Set<android.app.slice.SliceSpec> supportedSpecs)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Turns a slice intent into slice content. Is a shortcut to perform the action
+  /// of both \#mapIntentToUri(Intent) and \#bindSlice(Uri, Set) at once.
+  ///@param intent The intent associated with a slice.
+  /// This value must never be {@code null}.
+  ///@param supportedSpecs List of supported specs.
+  /// This value must never be {@code null}.
+  ///@return The Slice provided by the app or null if none is given.
+  ///@see Slice
+  ///@see SliceProvider\#onMapIntentToUri(Intent)
+  ///@see Intent
+  Slice bindSlice1(content_.Intent intent, jni.JniObject supportedSpecs) =>
+      Slice.fromRef(
+          _bindSlice1(reference, intent.reference, supportedSpecs.reference)
+              .object);
+
+  static final _checkSlicePermission = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32,
+                  ffi.Int32)>>("SliceManager__checkSlicePermission")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int, int)>();
+
+  /// from: public int checkSlicePermission(android.net.Uri uri, int pid, int uid)
+  ///
+  /// Determine whether a particular process and user ID has been granted
+  /// permission to access a specific slice URI.
+  ///@param uri The uri that is being checked.
+  /// This value must never be {@code null}.
+  ///@param pid The process ID being checked against.  Must be &gt; 0.
+  ///@param uid The user ID being checked against.  A uid of 0 is the root
+  /// user, which will pass every permission check.
+  ///@return PackageManager\#PERMISSION_GRANTED if the given
+  /// pid/uid is allowed to access that uri, or
+  /// PackageManager\#PERMISSION_DENIED if it is not.
+  ///
+  /// Value is android.content.pm.PackageManager\#PERMISSION_GRANTED, or android.content.pm.PackageManager\#PERMISSION_DENIED
+  ///@see \#grantSlicePermission(String, Uri)
+  int checkSlicePermission(jni.JniObject uri, int pid, int uid) =>
+      _checkSlicePermission(reference, uri.reference, pid, uid).integer;
+
+  static final _grantSlicePermission = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("SliceManager__grantSlicePermission")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void grantSlicePermission(java.lang.String toPackage, android.net.Uri uri)
+  ///
+  /// Grant permission to access a specific slice Uri to another package.
+  ///@param toPackage The package you would like to allow to access the Uri.
+  /// This value must never be {@code null}.
+  ///@param uri The Uri you would like to grant access to.
+  ///
+  /// This value must never be {@code null}.
+  ///@see \#revokeSlicePermission
+  void grantSlicePermission(jni.JniString toPackage, jni.JniObject uri) =>
+      _grantSlicePermission(reference, toPackage.reference, uri.reference)
+          .check();
+
+  static final _revokeSlicePermission = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
+          "SliceManager__revokeSlicePermission")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void revokeSlicePermission(java.lang.String toPackage, android.net.Uri uri)
+  ///
+  /// Remove permissions to access a particular content provider Uri
+  /// that were previously added with \#grantSlicePermission for a specific target
+  /// package.  The given Uri will match all previously granted Uris that are the same or a
+  /// sub-path of the given Uri.  That is, revoking "content://foo/target" will
+  /// revoke both "content://foo/target" and "content://foo/target/sub", but not
+  /// "content://foo".  It will not remove any prefix grants that exist at a
+  /// higher level.
+  ///@param toPackage The package you would like to allow to access the Uri.
+  /// This value must never be {@code null}.
+  ///@param uri The Uri you would like to revoke access to.
+  ///
+  /// This value must never be {@code null}.
+  ///@see \#grantSlicePermission
+  void revokeSlicePermission(jni.JniString toPackage, jni.JniObject uri) =>
+      _revokeSlicePermission(reference, toPackage.reference, uri.reference)
+          .check();
+}
+
+/// from: android.app.slice.SliceMetrics
+///
+/// Metrics interface for slices.
+///
+/// This is called by SliceView, so Slice developers should
+/// not need to reference this class.
+///@see androidx.slice.widget.SliceView
+class SliceMetrics extends jni.JniObject {
+  SliceMetrics.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  static final _ctor = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("SliceMetrics__ctor")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void <init>(android.content.Context context, android.net.Uri uri)
+  ///
+  /// An object to be used throughout the life of a slice to register events.
+  ///@param context This value must never be {@code null}.
+  ///@param uri This value must never be {@code null}.
+  SliceMetrics(content_.Context context, jni.JniObject uri)
+      : super.fromRef(_ctor(context.reference, uri.reference).object);
+
+  static final _logVisible = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("SliceMetrics__logVisible")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void logVisible()
+  ///
+  /// To be called whenever the slice becomes visible to the user.
+  void logVisible() => _logVisible(reference).check();
+
+  static final _logHidden = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("SliceMetrics__logHidden")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void logHidden()
+  ///
+  /// To be called whenever the slice becomes invisible to the user.
+  void logHidden() => _logHidden(reference).check();
+
+  static final _logTouch = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Pointer<ffi.Void>)>>("SliceMetrics__logTouch")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void logTouch(int actionType, android.net.Uri subSlice)
+  ///
+  /// To be called whenever the user invokes a discrete action via a slice.
+  ///
+  /// <P>
+  ///     Use this for discrete events like a tap or the end of a drag,
+  ///     not for a continuous streams of events, such as the motion during a gesture.
+  /// </P>
+  ///@see androidx.slice.widget.EventInfo\#actionType
+  ///@param actionType The type of the event.
+  ///@param subSlice The URI of the sub-slice that is the subject of the interaction.
+  ///
+  /// This value must never be {@code null}.
+  void logTouch(int actionType, jni.JniObject subSlice) =>
+      _logTouch(reference, actionType, subSlice.reference).check();
+}
+
+/// from: android.app.slice.SliceProvider
+///
+/// A SliceProvider allows an app to provide content to be displayed in system spaces. This content
+/// is templated and can contain actions, and the behavior of how it is surfaced is specific to the
+/// system surface.
+///
+/// Slices are not currently live content. They are bound once and shown to the user. If the content
+/// changes due to a callback from user interaction, then
+/// ContentResolver\#notifyChange(Uri, ContentObserver) should be used to notify the system.
+///
+///
+///
+/// The provider needs to be declared in the manifest to provide the authority for the app. The
+/// authority for most slices is expected to match the package of the application.
+///
+///
+///
+/// <pre class="prettyprint">
+/// {@literal
+/// <provider
+///     android:name="com.example.mypkg.MySliceProvider"
+///     android:authorities="com.example.mypkg" />}
+/// </pre>
+///
+/// Slices can be identified by a Uri or by an Intent. To link an Intent with a slice, the provider
+/// must have an IntentFilter matching the slice intent. When a slice is being requested via
+/// an intent, \#onMapIntentToUri(Intent) can be called and is expected to return an
+/// appropriate Uri representing the slice.
+///
+/// <pre class="prettyprint">
+/// {@literal
+/// <provider
+///     android:name="com.example.mypkg.MySliceProvider"
+///     android:authorities="com.example.mypkg">
+///     <intent-filter>
+///         <action android:name="com.example.mypkg.intent.action.MY_SLICE_INTENT" />
+///         <category android:name="android.app.slice.category.SLICE" />
+///     </intent-filter>
+/// </provider>}
+/// </pre>
+///@see Slice
+class SliceProvider extends content_.ContentProvider {
+  SliceProvider.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  /// from: static public final java.lang.String SLICE_TYPE
+  ///
+  /// This is the Android platform's MIME type for a URI
+  /// containing a slice implemented through SliceProvider.
+  static const SLICE_TYPE = "vnd.android.slice";
+
+  static final _ctor1 = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("SliceProvider__ctor1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void <init>(java.lang.String[] autoGrantPermissions)
+  ///
+  /// A version of constructing a SliceProvider that allows autogranting slice permissions
+  /// to apps that hold specific platform permissions.
+  ///
+  /// When an app tries to bind a slice from this provider that it does not have access to,
+  /// This provider will check if the caller holds permissions to any of the autoGrantPermissions
+  /// specified, if they do they will be granted persisted uri access to all slices of this
+  /// provider.
+  ///@param autoGrantPermissions List of permissions that holders are auto-granted access
+  ///                             to slices.
+  ///
+  /// This value must never be {@code null}.
+  SliceProvider.ctor1(jni.JniObject autoGrantPermissions)
+      : super.fromRef(_ctor1(autoGrantPermissions.reference).object);
+
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "SliceProvider__ctor")
+      .asFunction<jni.JniResult Function()>();
+
+  /// from: public void <init>()
+  SliceProvider() : super.fromRef(_ctor().object);
+
+  static final _attachInfo = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("SliceProvider__attachInfo")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void attachInfo(android.content.Context context, android.content.pm.ProviderInfo info)
+  void attachInfo(content_.Context context, pm_.ProviderInfo info) =>
+      _attachInfo(reference, context.reference, info.reference).check();
+
+  static final _onBindSlice = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("SliceProvider__onBindSlice")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.app.slice.Slice onBindSlice(android.net.Uri sliceUri, java.util.Set<android.app.slice.SliceSpec> supportedSpecs)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Implemented to create a slice.
+  ///
+  /// onBindSlice should return as quickly as possible so that the UI tied
+  /// to this slice can be responsive. No network or other IO will be allowed
+  /// during onBindSlice. Any loading that needs to be done should happen
+  /// in the background with a call to ContentResolver\#notifyChange(Uri, ContentObserver)
+  /// when the app is ready to provide the complete data in onBindSlice.
+  ///
+  /// The slice returned should have a spec that is compatible with one of
+  /// the supported specs.
+  ///@param sliceUri Uri to bind.
+  ///@param supportedSpecs List of supported specs.
+  ///@see Slice.
+  ///@see Slice\#HINT_PARTIAL
+  Slice onBindSlice(jni.JniObject sliceUri, jni.JniObject supportedSpecs) =>
+      Slice.fromRef(
+          _onBindSlice(reference, sliceUri.reference, supportedSpecs.reference)
+              .object);
+
+  static final _onSlicePinned = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("SliceProvider__onSlicePinned")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void onSlicePinned(android.net.Uri sliceUri)
+  ///
+  /// Called to inform an app that a slice has been pinned.
+  ///
+  /// Pinning is a way that slice hosts use to notify apps of which slices
+  /// they care about updates for. When a slice is pinned the content is
+  /// expected to be relatively fresh and kept up to date.
+  ///
+  /// Being pinned does not provide any escalated privileges for the slice
+  /// provider. So apps should do things such as turn on syncing or schedule
+  /// a job in response to a onSlicePinned.
+  ///
+  /// Pinned state is not persisted through a reboot, and apps can expect a
+  /// new call to onSlicePinned for any slices that should remain pinned
+  /// after a reboot occurs.
+  ///@param sliceUri The uri of the slice being unpinned.
+  ///@see \#onSliceUnpinned(Uri)
+  void onSlicePinned(jni.JniObject sliceUri) =>
+      _onSlicePinned(reference, sliceUri.reference).check();
+
+  static final _onSliceUnpinned = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("SliceProvider__onSliceUnpinned")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void onSliceUnpinned(android.net.Uri sliceUri)
+  ///
+  /// Called to inform an app that a slices is no longer pinned.
+  ///
+  /// This means that no other apps on the device care about updates to this
+  /// slice anymore and therefore it is not important to be updated. Any syncs
+  /// or jobs related to this slice should be cancelled.
+  ///@see \#onSlicePinned(Uri)
+  void onSliceUnpinned(jni.JniObject sliceUri) =>
+      _onSliceUnpinned(reference, sliceUri.reference).check();
+
+  static final _onGetSliceDescendants = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
+          "SliceProvider__onGetSliceDescendants")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.util.Collection<android.net.Uri> onGetSliceDescendants(android.net.Uri uri)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Obtains a list of slices that are descendants of the specified Uri.
+  ///
+  /// Implementing this is optional for a SliceProvider, but does provide a good
+  /// discovery mechanism for finding slice Uris.
+  ///@param uri The uri to look for descendants under.
+  /// This value must never be {@code null}.
+  ///@return All slices within the space.
+  /// This value will never be {@code null}.
+  ///@see SliceManager\#getSliceDescendants(Uri)
+  jni.JniObject onGetSliceDescendants(jni.JniObject uri) =>
+      jni.JniObject.fromRef(
+          _onGetSliceDescendants(reference, uri.reference).object);
+
+  static final _onMapIntentToUri = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("SliceProvider__onMapIntentToUri")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.net.Uri onMapIntentToUri(android.content.Intent intent)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// This method must be overridden if an IntentFilter is specified on the SliceProvider.
+  /// In that case, this method can be called and is expected to return a non-null Uri representing
+  /// a slice. Otherwise this will throw UnsupportedOperationException.
+  ///
+  /// Any intent filter added to a slice provider should also contain
+  /// SliceManager\#CATEGORY_SLICE, because otherwise it will not be detected by
+  /// SliceManager\#mapIntentToUri(Intent).
+  ///@return Uri representing the slice associated with the provided intent.
+  ///@see Slice
+  ///@see SliceManager\#mapIntentToUri(Intent)
+  jni.JniObject onMapIntentToUri(content_.Intent intent) =>
+      jni.JniObject.fromRef(
+          _onMapIntentToUri(reference, intent.reference).object);
+
+  static final _onCreatePermissionRequest = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
+          "SliceProvider__onCreatePermissionRequest")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.app.PendingIntent onCreatePermissionRequest(android.net.Uri sliceUri)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Called when an app requests a slice it does not have write permission
+  /// to the uri for.
+  ///
+  /// The return value will be the action on a slice that prompts the user that
+  /// the calling app wants to show slices from this app. The default implementation
+  /// launches a dialog that allows the user to grant access to this slice. Apps
+  /// that do not want to allow this user grant, can override this and instead
+  /// launch their own dialog with different behavior.
+  ///@param sliceUri the Uri of the slice attempting to be bound.
+  ///@see \#getCallingPackage()
+  ///@return This value will never be {@code null}.
+  app_.PendingIntent onCreatePermissionRequest(jni.JniObject sliceUri) =>
+      app_.PendingIntent.fromRef(
+          _onCreatePermissionRequest(reference, sliceUri.reference).object);
+
+  static final _update = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("SliceProvider__update")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public final int update(android.net.Uri uri, android.content.ContentValues values, java.lang.String selection, java.lang.String[] selectionArgs)
+  int update(jni.JniObject uri, content_.ContentValues values,
+          jni.JniString selection, jni.JniObject selectionArgs) =>
+      _update(reference, uri.reference, values.reference, selection.reference,
+              selectionArgs.reference)
+          .integer;
+
+  static final _delete1 = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("SliceProvider__delete1")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public final int delete(android.net.Uri uri, java.lang.String selection, java.lang.String[] selectionArgs)
+  int delete1(jni.JniObject uri, jni.JniString selection,
+          jni.JniObject selectionArgs) =>
+      _delete1(reference, uri.reference, selection.reference,
+              selectionArgs.reference)
+          .integer;
+
+  static final _query = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("SliceProvider__query")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public final android.database.Cursor query(android.net.Uri uri, java.lang.String[] projection, java.lang.String selection, java.lang.String[] selectionArgs, java.lang.String sortOrder)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  jni.JniObject query(
+          jni.JniObject uri,
+          jni.JniObject projection,
+          jni.JniString selection,
+          jni.JniObject selectionArgs,
+          jni.JniString sortOrder) =>
+      jni.JniObject.fromRef(_query(
+              reference,
+              uri.reference,
+              projection.reference,
+              selection.reference,
+              selectionArgs.reference,
+              sortOrder.reference)
+          .object);
+
+  static final _query1 = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("SliceProvider__query1")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public final android.database.Cursor query(android.net.Uri uri, java.lang.String[] projection, java.lang.String selection, java.lang.String[] selectionArgs, java.lang.String sortOrder, android.os.CancellationSignal cancellationSignal)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  jni.JniObject query1(
+          jni.JniObject uri,
+          jni.JniObject projection,
+          jni.JniString selection,
+          jni.JniObject selectionArgs,
+          jni.JniString sortOrder,
+          os_.CancellationSignal cancellationSignal) =>
+      jni.JniObject.fromRef(_query1(
+              reference,
+              uri.reference,
+              projection.reference,
+              selection.reference,
+              selectionArgs.reference,
+              sortOrder.reference,
+              cancellationSignal.reference)
+          .object);
+
+  static final _query2 = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("SliceProvider__query2")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public final android.database.Cursor query(android.net.Uri uri, java.lang.String[] projection, android.os.Bundle queryArgs, android.os.CancellationSignal cancellationSignal)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  jni.JniObject query2(jni.JniObject uri, jni.JniObject projection,
+          os_.Bundle queryArgs, os_.CancellationSignal cancellationSignal) =>
+      jni.JniObject.fromRef(_query2(
+              reference,
+              uri.reference,
+              projection.reference,
+              queryArgs.reference,
+              cancellationSignal.reference)
+          .object);
+
+  static final _insert = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("SliceProvider__insert")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public final android.net.Uri insert(android.net.Uri uri, android.content.ContentValues values)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  jni.JniObject insert(jni.JniObject uri, content_.ContentValues values) =>
+      jni.JniObject.fromRef(
+          _insert(reference, uri.reference, values.reference).object);
+
+  static final _getType = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("SliceProvider__getType")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public final java.lang.String getType(android.net.Uri uri)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  jni.JniString getType(jni.JniObject uri) =>
+      jni.JniString.fromRef(_getType(reference, uri.reference).object);
+
+  static final _call = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("SliceProvider__call")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.os.Bundle call(java.lang.String method, java.lang.String arg, android.os.Bundle extras)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  os_.Bundle call(jni.JniString method, jni.JniString arg, os_.Bundle extras) =>
+      os_.Bundle.fromRef(
+          _call(reference, method.reference, arg.reference, extras.reference)
+              .object);
+}
+
+/// from: android.app.slice.SliceSpec
+///
+/// Class describing the structure of the data contained within a slice.
+///
+/// A data version contains a string which describes the type of structure
+/// and a revision which denotes this specific implementation. Revisions are expected
+/// to be backwards compatible and monotonically increasing. Meaning if a
+/// SliceSpec has the same type and an equal or lesser revision,
+/// it is expected to be compatible.
+///
+/// Apps rendering slices will provide a list of supported versions to the OS which
+/// will also be given to the app. Apps should only return a Slice with a
+/// SliceSpec that one of the supported SliceSpecs provided
+/// \#canRender.
+///@see Slice
+///@see SliceProvider\#onBindSlice(Uri)
+class SliceSpec extends jni.JniObject {
+  SliceSpec.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  static final _get_CREATOR =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_SliceSpec__CREATOR")
+          .asFunction<jni.JniResult Function()>();
+
+  /// from: static public final android.os.Parcelable.Creator<android.app.slice.SliceSpec> CREATOR
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  static os_.Parcelable_Creator get CREATOR =>
+      os_.Parcelable_Creator.fromRef(_get_CREATOR().object);
+
+  static final _ctor = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("SliceSpec__ctor")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public void <init>(java.lang.String type, int revision)
+  ///
+  /// @param type This value must never be {@code null}.
+  SliceSpec(jni.JniString type, int revision)
+      : super.fromRef(_ctor(type.reference, revision).object);
+
+  static final _describeContents = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("SliceSpec__describeContents")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int describeContents()
+  int describeContents() => _describeContents(reference).integer;
+
+  static final _writeToParcel = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("SliceSpec__writeToParcel")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public void writeToParcel(android.os.Parcel dest, int flags)
+  void writeToParcel(os_.Parcel dest, int flags) =>
+      _writeToParcel(reference, dest.reference, flags).check();
+
+  static final _getType = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("SliceSpec__getType")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.lang.String getType()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Gets the type of the version.
+  jni.JniString getType() => jni.JniString.fromRef(_getType(reference).object);
+
+  static final _getRevision = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("SliceSpec__getRevision")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int getRevision()
+  ///
+  /// Gets the revision of the version.
+  int getRevision() => _getRevision(reference).integer;
+
+  static final _canRender = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("SliceSpec__canRender")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public boolean canRender(android.app.slice.SliceSpec candidate)
+  ///
+  /// Indicates that this spec can be used to render the specified spec.
+  ///
+  /// Rendering support is not bi-directional (e.g. Spec v3 can render
+  /// Spec v2, but Spec v2 cannot render Spec v3).
+  ///@param candidate candidate format of data.
+  /// This value must never be {@code null}.
+  ///@return true if versions are compatible.
+  ///@see androidx.slice.widget.SliceView
+  bool canRender(SliceSpec candidate) =>
+      _canRender(reference, candidate.reference).boolean;
+
+  static final _equals1 = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("SliceSpec__equals1")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public boolean equals(java.lang.Object obj)
+  bool equals1(jni.JniObject obj) => _equals1(reference, obj.reference).boolean;
+
+  static final _toString1 = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("SliceSpec__toString1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.lang.String toString()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  jni.JniString toString1() =>
+      jni.JniString.fromRef(_toString1(reference).object);
 }

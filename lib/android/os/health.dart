@@ -8,125 +8,11 @@
 // ignore_for_file: unused_element
 
 import "dart:ffi" as ffi;
+import "package:jni/internal_helpers_for_jnigen.dart";
 import "package:jni/jni.dart" as jni;
 
 import "../os.dart" as os_;
 import "../../_init.dart" show jniLookup;
-
-/// from: android.os.health.ProcessHealthStats
-///
-/// Keys for HealthStats returned from
-/// HealthStats\#getStats(int) HealthStats.getStats(int) with the
-/// UidHealthStats\#STATS_PROCESSES UidHealthStats.STATS_PROCESSES key.
-class ProcessHealthStats extends jni.JniObject {
-  ProcessHealthStats.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  /// from: static public final int MEASUREMENT_ANR_COUNT
-  ///
-  /// Key for a measurement of the number of ANRs that happened in this process.
-  static const MEASUREMENT_ANR_COUNT = 30005;
-
-  /// from: static public final int MEASUREMENT_CRASHES_COUNT
-  ///
-  /// Key for a measurement of the number of crashes that happened in this process.
-  static const MEASUREMENT_CRASHES_COUNT = 30004;
-
-  /// from: static public final int MEASUREMENT_FOREGROUND_MS
-  ///
-  /// Key for a measurement of the number of milliseconds this process spent with
-  /// an activity in the foreground.
-  static const MEASUREMENT_FOREGROUND_MS = 30006;
-
-  /// from: static public final int MEASUREMENT_STARTS_COUNT
-  ///
-  /// Key for a measurement of the number of times this process was started for any reason.
-  static const MEASUREMENT_STARTS_COUNT = 30003;
-
-  /// from: static public final int MEASUREMENT_SYSTEM_TIME_MS
-  ///
-  /// Key for a measurement of number of millseconds the CPU spent running in kernel space
-  /// for this process.
-  static const MEASUREMENT_SYSTEM_TIME_MS = 30002;
-
-  /// from: static public final int MEASUREMENT_USER_TIME_MS
-  ///
-  /// Key for a measurement of number of millseconds the CPU spent running in user space
-  /// for this process.
-  static const MEASUREMENT_USER_TIME_MS = 30001;
-
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_os_health_ProcessHealthStats_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: void <init>()
-  ProcessHealthStats() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
-}
-
-/// from: android.os.health.PidHealthStats
-///
-/// Keys for HealthStats returned from
-/// HealthStats\#getStats(int) HealthStats.getStats(int) with the
-/// UidHealthStats\#STATS_PIDS UidHealthStats.STATS_PIDS key.
-///
-/// The values coming from PidHealthStats are a little bit different from
-/// the other HealthStats values.  These values are not aggregate or historical
-/// values, but instead live values from when the snapshot is taken.  These
-/// tend to be more useful in debugging rogue processes than in gathering
-/// aggregate metrics across the fleet of devices.
-class PidHealthStats extends jni.JniObject {
-  PidHealthStats.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  /// from: static public final int MEASUREMENT_WAKE_NESTING_COUNT
-  ///
-  /// Key for a measurement of the current nesting depth of wakelocks for this process.
-  /// That is to say, the number of times a nested wakelock has been started but not
-  /// stopped.  A high number here indicates an improperly paired wakelock acquire/release
-  /// combination.
-  ///
-  /// More details on the individual wake locks is available
-  /// by getting the UidHealthStats\#TIMERS_WAKELOCKS_FULL,
-  /// UidHealthStats\#TIMERS_WAKELOCKS_PARTIAL,
-  /// UidHealthStats\#TIMERS_WAKELOCKS_WINDOW
-  /// and UidHealthStats\#TIMERS_WAKELOCKS_DRAW keys.
-  static const MEASUREMENT_WAKE_NESTING_COUNT = 20001;
-
-  /// from: static public final int MEASUREMENT_WAKE_START_MS
-  ///
-  /// Key for a measurement of the time in the android.os.SystemClock\#elapsedRealtime
-  /// timebase that a wakelock was first acquired in this process.
-  ///
-  /// More details on the individual wake locks is available
-  /// by getting the UidHealthStats\#TIMERS_WAKELOCKS_FULL,
-  /// UidHealthStats\#TIMERS_WAKELOCKS_PARTIAL,
-  /// UidHealthStats\#TIMERS_WAKELOCKS_WINDOW
-  /// and UidHealthStats\#TIMERS_WAKELOCKS_DRAW keys.
-  static const MEASUREMENT_WAKE_START_MS = 20003;
-
-  /// from: static public final int MEASUREMENT_WAKE_SUM_MS
-  ///
-  /// Key for a measurement of the total number of milleseconds that this process
-  /// has held a wake lock.
-  ///
-  /// More details on the individual wake locks is available
-  /// by getting the UidHealthStats\#TIMERS_WAKELOCKS_FULL,
-  /// UidHealthStats\#TIMERS_WAKELOCKS_PARTIAL,
-  /// UidHealthStats\#TIMERS_WAKELOCKS_WINDOW
-  /// and UidHealthStats\#TIMERS_WAKELOCKS_DRAW keys.
-  static const MEASUREMENT_WAKE_SUM_MS = 20002;
-
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_os_health_PidHealthStats_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: void <init>()
-  PidHealthStats() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
-}
 
 /// from: android.os.health.HealthStats
 ///
@@ -194,24 +80,21 @@ class PidHealthStats extends jni.JniObject {
 class HealthStats extends jni.JniObject {
   HealthStats.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_os_health_HealthStats_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "HealthStats__ctor")
+      .asFunction<jni.JniResult Function()>();
 
   /// from: void <init>()
   ///
   /// HealthStats empty constructor not implemented because this
   /// class is read-only.
-  HealthStats() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
+  HealthStats() : super.fromRef(_ctor().object);
 
   static final _getDataType = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_os_health_HealthStats_getDataType")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("HealthStats__getDataType")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getDataType()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -222,32 +105,25 @@ class HealthStats extends jni.JniObject {
   ///@see PidHealthStats
   ///@see ProcessHealthStats
   ///@see ServiceHealthStats
-  jni.JniString getDataType() {
-    final result__ = jni.JniString.fromRef(_getDataType(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getDataType() =>
+      jni.JniString.fromRef(_getDataType(reference).object);
 
   static final _hasTimer = jniLookup<
           ffi.NativeFunction<
-              ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_os_health_HealthStats_hasTimer")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("HealthStats__hasTimer")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public boolean hasTimer(int key)
   ///
   /// Return whether this object contains a TimerStat for the supplied key.
-  bool hasTimer(int key) {
-    final result__ = _hasTimer(reference, key) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool hasTimer(int key) => _hasTimer(reference, key).boolean;
 
   static final _getTimer = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_os_health_HealthStats_getTimer")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("HealthStats__getTimer")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.os.health.TimerStat getTimer(int key)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -258,164 +134,128 @@ class HealthStats extends jni.JniObject {
   /// \#getTimerCount and \#getTimerTime.
   ///@throws IndexOutOfBoundsException When the key is not present in this object.
   ///@see \#hasTimer hasTimer(int) To check if a value for the given key is present.
-  TimerStat getTimer(int key) {
-    final result__ = TimerStat.fromRef(_getTimer(reference, key));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  TimerStat getTimer(int key) =>
+      TimerStat.fromRef(_getTimer(reference, key).object);
 
   static final _getTimerCount = jniLookup<
           ffi.NativeFunction<
-              ffi.Int32 Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_os_health_HealthStats_getTimerCount")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("HealthStats__getTimerCount")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public int getTimerCount(int key)
   ///
   /// Get the count for the timer for the given key.
   ///@throws IndexOutOfBoundsException When the key is not present in this object.
   ///@see \#hasTimer hasTimer(int) To check if a value for the given key is present.
-  int getTimerCount(int key) {
-    final result__ = _getTimerCount(reference, key);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getTimerCount(int key) => _getTimerCount(reference, key).integer;
 
   static final _getTimerTime = jniLookup<
           ffi.NativeFunction<
-              ffi.Int64 Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_os_health_HealthStats_getTimerTime")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("HealthStats__getTimerTime")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public long getTimerTime(int key)
   ///
   /// Get the time for the timer for the given key, in milliseconds.
   ///@throws IndexOutOfBoundsException When the key is not present in this object.
   ///@see \#hasTimer hasTimer(int) To check if a value for the given key is present.
-  int getTimerTime(int key) {
-    final result__ = _getTimerTime(reference, key);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getTimerTime(int key) => _getTimerTime(reference, key).long;
 
-  static final _getTimerKeyCount =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_os_health_HealthStats_getTimerKeyCount")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getTimerKeyCount = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("HealthStats__getTimerKeyCount")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getTimerKeyCount()
   ///
   /// Get the number of timer values in this object. Can be used to iterate through
   /// the available timers.
   ///@see \#getTimerKeyAt
-  int getTimerKeyCount() {
-    final result__ = _getTimerKeyCount(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getTimerKeyCount() => _getTimerKeyCount(reference).integer;
 
   static final _getTimerKeyAt = jniLookup<
           ffi.NativeFunction<
-              ffi.Int32 Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_os_health_HealthStats_getTimerKeyAt")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("HealthStats__getTimerKeyAt")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public int getTimerKeyAt(int index)
   ///
   /// Get the key for the timer at the given index.  Index must be between 0 and the result
   /// of \#getTimerKeyCount getTimerKeyCount().
   ///@see \#getTimerKeyCount
-  int getTimerKeyAt(int index) {
-    final result__ = _getTimerKeyAt(reference, index);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getTimerKeyAt(int index) => _getTimerKeyAt(reference, index).integer;
 
   static final _hasMeasurement = jniLookup<
           ffi.NativeFunction<
-              ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_os_health_HealthStats_hasMeasurement")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("HealthStats__hasMeasurement")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public boolean hasMeasurement(int key)
   ///
   /// Return whether this object contains a measurement for the supplied key.
-  bool hasMeasurement(int key) {
-    final result__ = _hasMeasurement(reference, key) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool hasMeasurement(int key) => _hasMeasurement(reference, key).boolean;
 
   static final _getMeasurement = jniLookup<
           ffi.NativeFunction<
-              ffi.Int64 Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_os_health_HealthStats_getMeasurement")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("HealthStats__getMeasurement")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public long getMeasurement(int key)
   ///
   /// Get the measurement for the given key.
   ///@throws IndexOutOfBoundsException When the key is not present in this object.
   ///@see \#hasMeasurement hasMeasurement(int) To check if a value for the given key is present.
-  int getMeasurement(int key) {
-    final result__ = _getMeasurement(reference, key);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getMeasurement(int key) => _getMeasurement(reference, key).long;
 
-  static final _getMeasurementKeyCount =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_os_health_HealthStats_getMeasurementKeyCount")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getMeasurementKeyCount = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "HealthStats__getMeasurementKeyCount")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getMeasurementKeyCount()
   ///
   /// Get the number of measurement values in this object. Can be used to iterate through
   /// the available measurements.
   ///@see \#getMeasurementKeyAt
-  int getMeasurementKeyCount() {
-    final result__ = _getMeasurementKeyCount(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getMeasurementKeyCount() => _getMeasurementKeyCount(reference).integer;
 
   static final _getMeasurementKeyAt = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_os_health_HealthStats_getMeasurementKeyAt")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("HealthStats__getMeasurementKeyAt")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public int getMeasurementKeyAt(int index)
   ///
   /// Get the key for the measurement at the given index.  Index must be between 0 and the result
   /// of \#getMeasurementKeyCount getMeasurementKeyCount().
   ///@see \#getMeasurementKeyCount
-  int getMeasurementKeyAt(int index) {
-    final result__ = _getMeasurementKeyAt(reference, index);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getMeasurementKeyAt(int index) =>
+      _getMeasurementKeyAt(reference, index).integer;
 
   static final _hasStats = jniLookup<
           ffi.NativeFunction<
-              ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_os_health_HealthStats_hasStats")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("HealthStats__hasStats")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public boolean hasStats(int key)
   ///
   /// Return whether this object contains a HealthStats map for the supplied key.
-  bool hasStats(int key) {
-    final result__ = _hasStats(reference, key) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool hasStats(int key) => _hasStats(reference, key).boolean;
 
   static final _getStats = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_os_health_HealthStats_getStats")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("HealthStats__getStats")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public java.util.Map<java.lang.String,android.os.health.HealthStats> getStats(int key)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -423,65 +263,51 @@ class HealthStats extends jni.JniObject {
   /// Get the HealthStats map for the given key.
   ///@throws IndexOutOfBoundsException When the key is not present in this object.
   ///@see \#hasStats hasStats(int) To check if a value for the given key is present.
-  jni.JniObject getStats(int key) {
-    final result__ = jni.JniObject.fromRef(_getStats(reference, key));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getStats(int key) =>
+      jni.JniObject.fromRef(_getStats(reference, key).object);
 
-  static final _getStatsKeyCount =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_os_health_HealthStats_getStatsKeyCount")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getStatsKeyCount = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("HealthStats__getStatsKeyCount")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getStatsKeyCount()
   ///
   /// Get the number of HealthStat map values in this object. Can be used to iterate through
   /// the available measurements.
   ///@see \#getMeasurementKeyAt
-  int getStatsKeyCount() {
-    final result__ = _getStatsKeyCount(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getStatsKeyCount() => _getStatsKeyCount(reference).integer;
 
   static final _getStatsKeyAt = jniLookup<
           ffi.NativeFunction<
-              ffi.Int32 Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_os_health_HealthStats_getStatsKeyAt")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("HealthStats__getStatsKeyAt")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public int getStatsKeyAt(int index)
   ///
   /// Get the key for the timer at the given index.  Index must be between 0 and the result
   /// of \#getStatsKeyCount getStatsKeyCount().
   ///@see \#getStatsKeyCount
-  int getStatsKeyAt(int index) {
-    final result__ = _getStatsKeyAt(reference, index);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getStatsKeyAt(int index) => _getStatsKeyAt(reference, index).integer;
 
   static final _hasTimers = jniLookup<
           ffi.NativeFunction<
-              ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_os_health_HealthStats_hasTimers")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("HealthStats__hasTimers")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public boolean hasTimers(int key)
   ///
   /// Return whether this object contains a timers map for the supplied key.
-  bool hasTimers(int key) {
-    final result__ = _hasTimers(reference, key) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool hasTimers(int key) => _hasTimers(reference, key).boolean;
 
   static final _getTimers = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_os_health_HealthStats_getTimers")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("HealthStats__getTimers")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public java.util.Map<java.lang.String,android.os.health.TimerStat> getTimers(int key)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -489,65 +315,51 @@ class HealthStats extends jni.JniObject {
   /// Get the TimerStat map for the given key.
   ///@throws IndexOutOfBoundsException When the key is not present in this object.
   ///@see \#hasTimers hasTimers(int) To check if a value for the given key is present.
-  jni.JniObject getTimers(int key) {
-    final result__ = jni.JniObject.fromRef(_getTimers(reference, key));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getTimers(int key) =>
+      jni.JniObject.fromRef(_getTimers(reference, key).object);
 
-  static final _getTimersKeyCount =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_os_health_HealthStats_getTimersKeyCount")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getTimersKeyCount = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("HealthStats__getTimersKeyCount")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getTimersKeyCount()
   ///
   /// Get the number of timer map values in this object. Can be used to iterate through
   /// the available timer maps.
   ///@see \#getTimersKeyAt
-  int getTimersKeyCount() {
-    final result__ = _getTimersKeyCount(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getTimersKeyCount() => _getTimersKeyCount(reference).integer;
 
   static final _getTimersKeyAt = jniLookup<
           ffi.NativeFunction<
-              ffi.Int32 Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_os_health_HealthStats_getTimersKeyAt")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("HealthStats__getTimersKeyAt")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public int getTimersKeyAt(int index)
   ///
   /// Get the key for the timer map at the given index.  Index must be between 0 and the result
   /// of \#getTimersKeyCount getTimersKeyCount().
   ///@see \#getTimersKeyCount
-  int getTimersKeyAt(int index) {
-    final result__ = _getTimersKeyAt(reference, index);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getTimersKeyAt(int index) => _getTimersKeyAt(reference, index).integer;
 
   static final _hasMeasurements = jniLookup<
           ffi.NativeFunction<
-              ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_os_health_HealthStats_hasMeasurements")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("HealthStats__hasMeasurements")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public boolean hasMeasurements(int key)
   ///
   /// Return whether this object contains a measurements map for the supplied key.
-  bool hasMeasurements(int key) {
-    final result__ = _hasMeasurements(reference, key) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool hasMeasurements(int key) => _hasMeasurements(reference, key).boolean;
 
   static final _getMeasurements = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_os_health_HealthStats_getMeasurements")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("HealthStats__getMeasurements")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public java.util.Map<java.lang.String,java.lang.Long> getMeasurements(int key)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -555,33 +367,27 @@ class HealthStats extends jni.JniObject {
   /// Get the measurements map for the given key.
   ///@throws IndexOutOfBoundsException When the key is not present in this object.
   ///@see \#hasMeasurements To check if a value for the given key is present.
-  jni.JniObject getMeasurements(int key) {
-    final result__ = jni.JniObject.fromRef(_getMeasurements(reference, key));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getMeasurements(int key) =>
+      jni.JniObject.fromRef(_getMeasurements(reference, key).object);
 
-  static final _getMeasurementsKeyCount =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_os_health_HealthStats_getMeasurementsKeyCount")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getMeasurementsKeyCount = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "HealthStats__getMeasurementsKeyCount")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getMeasurementsKeyCount()
   ///
   /// Get the number of measurement map values in this object. Can be used to iterate through
   /// the available measurement maps.
   ///@see \#getMeasurementsKeyAt
-  int getMeasurementsKeyCount() {
-    final result__ = _getMeasurementsKeyCount(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getMeasurementsKeyCount() => _getMeasurementsKeyCount(reference).integer;
 
   static final _getMeasurementsKeyAt = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_os_health_HealthStats_getMeasurementsKeyAt")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("HealthStats__getMeasurementsKeyAt")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public int getMeasurementsKeyAt(int index)
   ///
@@ -589,11 +395,392 @@ class HealthStats extends jni.JniObject {
   /// Index must be between 0 and the result
   /// of \#getMeasurementsKeyCount getMeasurementsKeyCount().
   ///@see \#getMeasurementsKeyCount
-  int getMeasurementsKeyAt(int index) {
-    final result__ = _getMeasurementsKeyAt(reference, index);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getMeasurementsKeyAt(int index) =>
+      _getMeasurementsKeyAt(reference, index).integer;
+}
+
+/// from: android.os.health.PackageHealthStats
+///
+/// Keys for HealthStats returned from
+/// HealthStats\#getStats(int) HealthStats.getStats(int) with the
+/// UidHealthStats\#STATS_PACKAGES UidHealthStats.STATS_PACKAGES key.
+class PackageHealthStats extends jni.JniObject {
+  PackageHealthStats.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  /// from: static public final int MEASUREMENTS_WAKEUP_ALARMS_COUNT
+  ///
+  /// Key for a map of the number of times that a package's wakeup alarms have fired
+  /// while the device was on battery.
+  ///@see android.app.AlarmManager
+  static const MEASUREMENTS_WAKEUP_ALARMS_COUNT = 40002;
+
+  /// from: static public final int STATS_SERVICES
+  ///
+  /// Key for a HealthStats with ServiceHealthStats keys for each of the
+  /// services defined in this apk.
+  static const STATS_SERVICES = 40001;
+
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "PackageHealthStats__ctor")
+      .asFunction<jni.JniResult Function()>();
+
+  /// from: void <init>()
+  PackageHealthStats() : super.fromRef(_ctor().object);
+}
+
+/// from: android.os.health.PidHealthStats
+///
+/// Keys for HealthStats returned from
+/// HealthStats\#getStats(int) HealthStats.getStats(int) with the
+/// UidHealthStats\#STATS_PIDS UidHealthStats.STATS_PIDS key.
+///
+/// The values coming from PidHealthStats are a little bit different from
+/// the other HealthStats values.  These values are not aggregate or historical
+/// values, but instead live values from when the snapshot is taken.  These
+/// tend to be more useful in debugging rogue processes than in gathering
+/// aggregate metrics across the fleet of devices.
+class PidHealthStats extends jni.JniObject {
+  PidHealthStats.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  /// from: static public final int MEASUREMENT_WAKE_NESTING_COUNT
+  ///
+  /// Key for a measurement of the current nesting depth of wakelocks for this process.
+  /// That is to say, the number of times a nested wakelock has been started but not
+  /// stopped.  A high number here indicates an improperly paired wakelock acquire/release
+  /// combination.
+  ///
+  /// More details on the individual wake locks is available
+  /// by getting the UidHealthStats\#TIMERS_WAKELOCKS_FULL,
+  /// UidHealthStats\#TIMERS_WAKELOCKS_PARTIAL,
+  /// UidHealthStats\#TIMERS_WAKELOCKS_WINDOW
+  /// and UidHealthStats\#TIMERS_WAKELOCKS_DRAW keys.
+  static const MEASUREMENT_WAKE_NESTING_COUNT = 20001;
+
+  /// from: static public final int MEASUREMENT_WAKE_START_MS
+  ///
+  /// Key for a measurement of the time in the android.os.SystemClock\#elapsedRealtime
+  /// timebase that a wakelock was first acquired in this process.
+  ///
+  /// More details on the individual wake locks is available
+  /// by getting the UidHealthStats\#TIMERS_WAKELOCKS_FULL,
+  /// UidHealthStats\#TIMERS_WAKELOCKS_PARTIAL,
+  /// UidHealthStats\#TIMERS_WAKELOCKS_WINDOW
+  /// and UidHealthStats\#TIMERS_WAKELOCKS_DRAW keys.
+  static const MEASUREMENT_WAKE_START_MS = 20003;
+
+  /// from: static public final int MEASUREMENT_WAKE_SUM_MS
+  ///
+  /// Key for a measurement of the total number of milleseconds that this process
+  /// has held a wake lock.
+  ///
+  /// More details on the individual wake locks is available
+  /// by getting the UidHealthStats\#TIMERS_WAKELOCKS_FULL,
+  /// UidHealthStats\#TIMERS_WAKELOCKS_PARTIAL,
+  /// UidHealthStats\#TIMERS_WAKELOCKS_WINDOW
+  /// and UidHealthStats\#TIMERS_WAKELOCKS_DRAW keys.
+  static const MEASUREMENT_WAKE_SUM_MS = 20002;
+
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "PidHealthStats__ctor")
+      .asFunction<jni.JniResult Function()>();
+
+  /// from: void <init>()
+  PidHealthStats() : super.fromRef(_ctor().object);
+}
+
+/// from: android.os.health.ProcessHealthStats
+///
+/// Keys for HealthStats returned from
+/// HealthStats\#getStats(int) HealthStats.getStats(int) with the
+/// UidHealthStats\#STATS_PROCESSES UidHealthStats.STATS_PROCESSES key.
+class ProcessHealthStats extends jni.JniObject {
+  ProcessHealthStats.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  /// from: static public final int MEASUREMENT_ANR_COUNT
+  ///
+  /// Key for a measurement of the number of ANRs that happened in this process.
+  static const MEASUREMENT_ANR_COUNT = 30005;
+
+  /// from: static public final int MEASUREMENT_CRASHES_COUNT
+  ///
+  /// Key for a measurement of the number of crashes that happened in this process.
+  static const MEASUREMENT_CRASHES_COUNT = 30004;
+
+  /// from: static public final int MEASUREMENT_FOREGROUND_MS
+  ///
+  /// Key for a measurement of the number of milliseconds this process spent with
+  /// an activity in the foreground.
+  static const MEASUREMENT_FOREGROUND_MS = 30006;
+
+  /// from: static public final int MEASUREMENT_STARTS_COUNT
+  ///
+  /// Key for a measurement of the number of times this process was started for any reason.
+  static const MEASUREMENT_STARTS_COUNT = 30003;
+
+  /// from: static public final int MEASUREMENT_SYSTEM_TIME_MS
+  ///
+  /// Key for a measurement of number of millseconds the CPU spent running in kernel space
+  /// for this process.
+  static const MEASUREMENT_SYSTEM_TIME_MS = 30002;
+
+  /// from: static public final int MEASUREMENT_USER_TIME_MS
+  ///
+  /// Key for a measurement of number of millseconds the CPU spent running in user space
+  /// for this process.
+  static const MEASUREMENT_USER_TIME_MS = 30001;
+
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "ProcessHealthStats__ctor")
+      .asFunction<jni.JniResult Function()>();
+
+  /// from: void <init>()
+  ProcessHealthStats() : super.fromRef(_ctor().object);
+}
+
+/// from: android.os.health.ServiceHealthStats
+///
+/// Keys for HealthStats returned from
+/// HealthStats\#getStats(int) HealthStats.getStats(int) with the
+/// PackageHealthStats\#STATS_SERVICES PackageHealthStats.STATS_SERVICES key.
+class ServiceHealthStats extends jni.JniObject {
+  ServiceHealthStats.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  /// from: static public final int MEASUREMENT_LAUNCH_COUNT
+  ///
+  /// Key for a measurement of the total number of times this service was started
+  /// due to calls to android.content.Context\#startService startService()
+  /// or android.content.Context\#bindService bindService() including re-launches
+  /// after crashes.
+  static const MEASUREMENT_LAUNCH_COUNT = 50002;
+
+  /// from: static public final int MEASUREMENT_START_SERVICE_COUNT
+  ///
+  /// Key for a measurement of the number of times this service was started due to calls to
+  /// android.content.Context\#startService startService(), including re-launches
+  /// after crashes.
+  static const MEASUREMENT_START_SERVICE_COUNT = 50001;
+
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "ServiceHealthStats__ctor")
+      .asFunction<jni.JniResult Function()>();
+
+  /// from: void <init>()
+  ServiceHealthStats() : super.fromRef(_ctor().object);
+}
+
+/// from: android.os.health.SystemHealthManager
+///
+/// Provides access to data about how various system resources are used by applications.
+///@more
+/// If you are going to be using this class to log your application's resource usage,
+/// please consider the amount of resources (battery, network, etc) that will be used
+/// by the logging itself.  It can be substantial.
+///
+/// __Battery Usage__<br>
+/// The statistics related to power (battery) usage are recorded since the device
+/// was last unplugged. It is expected that applications schedule more work to do
+/// while the device is plugged in (e.g. using android.app.job.JobScheduler JobScheduler), and while that can affect charging rates, it is still preferable
+/// to actually draining the battery.
+class SystemHealthManager extends jni.JniObject {
+  SystemHealthManager.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "SystemHealthManager__ctor")
+      .asFunction<jni.JniResult Function()>();
+
+  /// from: void <init>()
+  ///
+  /// Construct a new SystemHealthManager object.
+  ///@hide
+  SystemHealthManager() : super.fromRef(_ctor().object);
+
+  static final _takeUidSnapshot = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("SystemHealthManager__takeUidSnapshot")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public android.os.health.HealthStats takeUidSnapshot(int uid)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Return a HealthStats object containing a snapshot of system health
+  /// metrics for the given uid (user-id, which in usually corresponds to application).
+  ///@more An application must hold the android.Manifest.permission\#BATTERY_STATS android.permission.BATTERY_STATS permission in order to retrieve any HealthStats
+  /// other than its own.
+  ///@param uid User ID for a given application.
+  ///@return A HealthStats object containing the metrics for the requested
+  /// application. The keys for this HealthStats object will be from the UidHealthStats
+  /// class.
+  ///@see Process\#myUid() Process.myUid()
+  HealthStats takeUidSnapshot(int uid) =>
+      HealthStats.fromRef(_takeUidSnapshot(reference, uid).object);
+
+  static final _takeMyUidSnapshot = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "SystemHealthManager__takeMyUidSnapshot")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.os.health.HealthStats takeMyUidSnapshot()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Return a HealthStats object containing a snapshot of system health
+  /// metrics for the application calling this API. This method is the same as calling
+  /// {@code takeUidSnapshot(Process.myUid())}.
+  ///@return A HealthStats object containing the metrics for this application. The keys
+  /// for this HealthStats object will be from the UidHealthStats class.
+  HealthStats takeMyUidSnapshot() =>
+      HealthStats.fromRef(_takeMyUidSnapshot(reference).object);
+
+  static final _takeUidSnapshots = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
+          "SystemHealthManager__takeUidSnapshots")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.os.health.HealthStats[] takeUidSnapshots(int[] uids)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Return a HealthStats object containing a snapshot of system health
+  /// metrics for the given uids (user-id, which in usually corresponds to application).
+  ///@more An application must hold the android.Manifest.permission\#BATTERY_STATS android.permission.BATTERY_STATS permission in order to retrieve any HealthStats
+  /// other than its own.
+  ///@param uids An array of User IDs to retrieve.
+  ///@return An array of HealthStats objects containing the metrics for each of
+  /// the requested uids. The keys for this HealthStats object will be from the
+  /// UidHealthStats class.
+  jni.JniObject takeUidSnapshots(jni.JniObject uids) => jni.JniObject.fromRef(
+      _takeUidSnapshots(reference, uids.reference).object);
+}
+
+/// from: android.os.health.TimerStat
+///
+/// A TimerStat object stores a count and a time.
+///@more When possible, the other APIs in this package avoid requiring a TimerStat
+/// object to be constructed, even internally, but the getTimers method on
+/// android.os.health.HealthStats does require TimerStat objects.
+class TimerStat extends jni.JniObject {
+  TimerStat.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  static final _get_CREATOR =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_TimerStat__CREATOR")
+          .asFunction<jni.JniResult Function()>();
+
+  /// from: static public final android.os.Parcelable.Creator<android.os.health.TimerStat> CREATOR
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// The CREATOR instance for use by aidl Binder interfaces.
+  static os_.Parcelable_Creator get CREATOR =>
+      os_.Parcelable_Creator.fromRef(_get_CREATOR().object);
+
+  static final _ctor =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("TimerStat__ctor")
+          .asFunction<jni.JniResult Function()>();
+
+  /// from: public void <init>()
+  ///
+  /// Construct an empty TimerStat object with the count and time set to 0.
+  TimerStat() : super.fromRef(_ctor().object);
+
+  static final _ctor1 = jniLookup<
+              ffi.NativeFunction<jni.JniResult Function(ffi.Int32, ffi.Int64)>>(
+          "TimerStat__ctor1")
+      .asFunction<jni.JniResult Function(int, int)>();
+
+  /// from: public void <init>(int count, long time)
+  ///
+  /// Construct a TimerStat object with the supplied count and time fields.
+  ///@param count The count
+  ///@param time The time
+  TimerStat.ctor1(int count, int time)
+      : super.fromRef(_ctor1(count, time).object);
+
+  static final _ctor2 = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("TimerStat__ctor2")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void <init>(android.os.Parcel in)
+  ///
+  /// Construct a TimerStat object reading the values from a android.os.Parcel Parcel
+  /// object.
+  TimerStat.ctor2(os_.Parcel in0) : super.fromRef(_ctor2(in0.reference).object);
+
+  static final _describeContents = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("TimerStat__describeContents")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int describeContents()
+  ///
+  /// @inheritDoc
+  int describeContents() => _describeContents(reference).integer;
+
+  static final _writeToParcel = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("TimerStat__writeToParcel")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public void writeToParcel(android.os.Parcel out, int flags)
+  ///
+  /// Write this TimerStat object to a parcel.
+  void writeToParcel(os_.Parcel out, int flags) =>
+      _writeToParcel(reference, out.reference, flags).check();
+
+  static final _setCount = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("TimerStat__setCount")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public void setCount(int count)
+  ///
+  /// Set the count for this timer.
+  void setCount(int count) => _setCount(reference, count).check();
+
+  static final _getCount = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("TimerStat__getCount")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int getCount()
+  ///
+  /// Get the count for this timer.
+  int getCount() => _getCount(reference).integer;
+
+  static final _setTime = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int64)>>("TimerStat__setTime")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public void setTime(long time)
+  ///
+  /// Set the time for this timer in milliseconds.
+  void setTime(int time) => _setTime(reference, time).check();
+
+  static final _getTime = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("TimerStat__getTime")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public long getTime()
+  ///
+  /// Get the time for this timer in milliseconds.
+  int getTime() => _getTime(reference).long;
 }
 
 /// from: android.os.health.UidHealthStats
@@ -966,332 +1153,10 @@ class UidHealthStats extends jni.JniObject {
   /// Key for a timer for the count and duration of wifi scans done by this uid.
   static const TIMER_WIFI_SCAN = 10030;
 
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_os_health_UidHealthStats_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "UidHealthStats__ctor")
+      .asFunction<jni.JniResult Function()>();
 
   /// from: void <init>()
-  UidHealthStats() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
-}
-
-/// from: android.os.health.SystemHealthManager
-///
-/// Provides access to data about how various system resources are used by applications.
-///@more
-/// If you are going to be using this class to log your application's resource usage,
-/// please consider the amount of resources (battery, network, etc) that will be used
-/// by the logging itself.  It can be substantial.
-///
-/// __Battery Usage__<br>
-/// The statistics related to power (battery) usage are recorded since the device
-/// was last unplugged. It is expected that applications schedule more work to do
-/// while the device is plugged in (e.g. using android.app.job.JobScheduler JobScheduler), and while that can affect charging rates, it is still preferable
-/// to actually draining the battery.
-class SystemHealthManager extends jni.JniObject {
-  SystemHealthManager.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_os_health_SystemHealthManager_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: void <init>()
-  ///
-  /// Construct a new SystemHealthManager object.
-  ///@hide
-  SystemHealthManager() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _takeUidSnapshot = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_os_health_SystemHealthManager_takeUidSnapshot")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public android.os.health.HealthStats takeUidSnapshot(int uid)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Return a HealthStats object containing a snapshot of system health
-  /// metrics for the given uid (user-id, which in usually corresponds to application).
-  ///@more An application must hold the android.Manifest.permission\#BATTERY_STATS android.permission.BATTERY_STATS permission in order to retrieve any HealthStats
-  /// other than its own.
-  ///@param uid User ID for a given application.
-  ///@return A HealthStats object containing the metrics for the requested
-  /// application. The keys for this HealthStats object will be from the UidHealthStats
-  /// class.
-  ///@see Process\#myUid() Process.myUid()
-  HealthStats takeUidSnapshot(int uid) {
-    final result__ = HealthStats.fromRef(_takeUidSnapshot(reference, uid));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _takeMyUidSnapshot = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_os_health_SystemHealthManager_takeMyUidSnapshot")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.os.health.HealthStats takeMyUidSnapshot()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Return a HealthStats object containing a snapshot of system health
-  /// metrics for the application calling this API. This method is the same as calling
-  /// {@code takeUidSnapshot(Process.myUid())}.
-  ///@return A HealthStats object containing the metrics for this application. The keys
-  /// for this HealthStats object will be from the UidHealthStats class.
-  HealthStats takeMyUidSnapshot() {
-    final result__ = HealthStats.fromRef(_takeMyUidSnapshot(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _takeUidSnapshots = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_os_health_SystemHealthManager_takeUidSnapshots")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.os.health.HealthStats[] takeUidSnapshots(int[] uids)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Return a HealthStats object containing a snapshot of system health
-  /// metrics for the given uids (user-id, which in usually corresponds to application).
-  ///@more An application must hold the android.Manifest.permission\#BATTERY_STATS android.permission.BATTERY_STATS permission in order to retrieve any HealthStats
-  /// other than its own.
-  ///@param uids An array of User IDs to retrieve.
-  ///@return An array of HealthStats objects containing the metrics for each of
-  /// the requested uids. The keys for this HealthStats object will be from the
-  /// UidHealthStats class.
-  jni.JniObject takeUidSnapshots(jni.JniObject uids) {
-    final result__ =
-        jni.JniObject.fromRef(_takeUidSnapshots(reference, uids.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
-
-/// from: android.os.health.PackageHealthStats
-///
-/// Keys for HealthStats returned from
-/// HealthStats\#getStats(int) HealthStats.getStats(int) with the
-/// UidHealthStats\#STATS_PACKAGES UidHealthStats.STATS_PACKAGES key.
-class PackageHealthStats extends jni.JniObject {
-  PackageHealthStats.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  /// from: static public final int MEASUREMENTS_WAKEUP_ALARMS_COUNT
-  ///
-  /// Key for a map of the number of times that a package's wakeup alarms have fired
-  /// while the device was on battery.
-  ///@see android.app.AlarmManager
-  static const MEASUREMENTS_WAKEUP_ALARMS_COUNT = 40002;
-
-  /// from: static public final int STATS_SERVICES
-  ///
-  /// Key for a HealthStats with ServiceHealthStats keys for each of the
-  /// services defined in this apk.
-  static const STATS_SERVICES = 40001;
-
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_os_health_PackageHealthStats_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: void <init>()
-  PackageHealthStats() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
-}
-
-/// from: android.os.health.ServiceHealthStats
-///
-/// Keys for HealthStats returned from
-/// HealthStats\#getStats(int) HealthStats.getStats(int) with the
-/// PackageHealthStats\#STATS_SERVICES PackageHealthStats.STATS_SERVICES key.
-class ServiceHealthStats extends jni.JniObject {
-  ServiceHealthStats.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  /// from: static public final int MEASUREMENT_LAUNCH_COUNT
-  ///
-  /// Key for a measurement of the total number of times this service was started
-  /// due to calls to android.content.Context\#startService startService()
-  /// or android.content.Context\#bindService bindService() including re-launches
-  /// after crashes.
-  static const MEASUREMENT_LAUNCH_COUNT = 50002;
-
-  /// from: static public final int MEASUREMENT_START_SERVICE_COUNT
-  ///
-  /// Key for a measurement of the number of times this service was started due to calls to
-  /// android.content.Context\#startService startService(), including re-launches
-  /// after crashes.
-  static const MEASUREMENT_START_SERVICE_COUNT = 50001;
-
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_os_health_ServiceHealthStats_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: void <init>()
-  ServiceHealthStats() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
-}
-
-/// from: android.os.health.TimerStat
-///
-/// A TimerStat object stores a count and a time.
-///@more When possible, the other APIs in this package avoid requiring a TimerStat
-/// object to be constructed, even internally, but the getTimers method on
-/// android.os.health.HealthStats does require TimerStat objects.
-class TimerStat extends jni.JniObject {
-  TimerStat.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  static final _get_CREATOR =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "get_android_os_health_TimerStat_CREATOR")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: static public final android.os.Parcelable.Creator<android.os.health.TimerStat> CREATOR
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// The CREATOR instance for use by aidl Binder interfaces.
-  static os_.Parcelable_Creator get CREATOR =>
-      os_.Parcelable_Creator.fromRef(_get_CREATOR());
-
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_os_health_TimerStat_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: public void <init>()
-  ///
-  /// Construct an empty TimerStat object with the count and time set to 0.
-  TimerStat() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _ctor1 = jniLookup<
-          ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-                  ffi.Int32, ffi.Int64)>>("android_os_health_TimerStat_ctor1")
-      .asFunction<ffi.Pointer<ffi.Void> Function(int, int)>();
-
-  /// from: public void <init>(int count, long time)
-  ///
-  /// Construct a TimerStat object with the supplied count and time fields.
-  ///@param count The count
-  ///@param time The time
-  TimerStat.ctor1(int count, int time) : super.fromRef(_ctor1(count, time)) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _ctor2 = jniLookup<
-          ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-                  ffi.Pointer<ffi.Void>)>>("android_os_health_TimerStat_ctor2")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void <init>(android.os.Parcel in)
-  ///
-  /// Construct a TimerStat object reading the values from a android.os.Parcel Parcel
-  /// object.
-  TimerStat.ctor2(os_.Parcel in0) : super.fromRef(_ctor2(in0.reference)) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _describeContents =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_os_health_TimerStat_describeContents")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int describeContents()
-  ///
-  /// @inheritDoc
-  int describeContents() {
-    final result__ = _describeContents(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _writeToParcel = jniLookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_os_health_TimerStat_writeToParcel")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public void writeToParcel(android.os.Parcel out, int flags)
-  ///
-  /// Write this TimerStat object to a parcel.
-  void writeToParcel(os_.Parcel out, int flags) {
-    final result__ = _writeToParcel(reference, out.reference, flags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _setCount = jniLookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_os_health_TimerStat_setCount")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public void setCount(int count)
-  ///
-  /// Set the count for this timer.
-  void setCount(int count) {
-    final result__ = _setCount(reference, count);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getCount =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_os_health_TimerStat_getCount")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int getCount()
-  ///
-  /// Get the count for this timer.
-  int getCount() {
-    final result__ = _getCount(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _setTime = jniLookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int64)>>("android_os_health_TimerStat_setTime")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public void setTime(long time)
-  ///
-  /// Set the time for this timer in milliseconds.
-  void setTime(int time) {
-    final result__ = _setTime(reference, time);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getTime =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_os_health_TimerStat_getTime")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public long getTime()
-  ///
-  /// Get the time for this timer in milliseconds.
-  int getTime() {
-    final result__ = _getTime(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  UidHealthStats() : super.fromRef(_ctor().object);
 }

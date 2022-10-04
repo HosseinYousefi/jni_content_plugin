@@ -8,307 +8,13 @@
 // ignore_for_file: unused_element
 
 import "dart:ffi" as ffi;
+import "package:jni/internal_helpers_for_jnigen.dart";
 import "package:jni/jni.dart" as jni;
 
 import "../os.dart" as os_;
 
-import "../../android/content.dart" as content_;
+import "../content.dart" as content_;
 import "../../_init.dart" show jniLookup;
-
-/// from: android.os.storage.StorageVolume
-///
-/// Information about a shared/external storage volume for a specific user.
-///
-///
-/// A device always has one (and one only) primary storage volume, but it could have extra volumes,
-/// like SD cards and USB drives. This object represents the logical view of a storage
-/// volume for a specific user: different users might have different views for the same physical
-/// volume (for example, if the volume is a built-in emulated storage).
-///
-///
-/// The storage volume is not necessarily mounted, applications should use \#getState() to
-/// verify its state.
-///
-///
-/// Applications willing to read or write to this storage volume needs to get a permission from the
-/// user first, which can be achieved in the following ways:
-///
-/// <ul>
-/// <li>To get access to standard directories (like the Environment\#DIRECTORY_PICTURES), they
-/// can use the \#createAccessIntent(String). This is the recommend way, since it provides a
-/// simpler API and narrows the access to the given directory (and its descendants).
-/// <li>To get access to any directory (and its descendants), they can use the Storage Acess
-/// Framework APIs (such as Intent\#ACTION_OPEN_DOCUMENT and
-/// Intent\#ACTION_OPEN_DOCUMENT_TREE, although these APIs do not guarantee the user will
-/// select this specific volume.
-/// <li>To get read and write access to the primary storage volume, applications can declare the
-/// android.Manifest.permission\#READ_EXTERNAL_STORAGE and
-/// android.Manifest.permission\#WRITE_EXTERNAL_STORAGE permissions respectively, with the
-/// latter including the former. This approach is discouraged, since users may be hesitant to grant
-/// broad access to all files contained on a storage device.
-/// </ul>
-///
-/// It can be obtained through StorageManager\#getStorageVolumes() and
-/// StorageManager\#getPrimaryStorageVolume() and also as an extra in some broadcasts
-/// (see \#EXTRA_STORAGE_VOLUME).
-///
-///
-/// See Environment\#getExternalStorageDirectory() for more info about shared/external
-/// storage semantics.
-class StorageVolume extends jni.JniObject {
-  StorageVolume.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  static final _get_CREATOR =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "get_android_os_storage_StorageVolume_CREATOR")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: static public final android.os.Parcelable.Creator<android.os.storage.StorageVolume> CREATOR
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  static os_.Parcelable_Creator get CREATOR =>
-      os_.Parcelable_Creator.fromRef(_get_CREATOR());
-
-  /// from: static public final java.lang.String EXTRA_STORAGE_VOLUME
-  ///
-  /// Name of the Parcelable extra in the Intent\#ACTION_MEDIA_REMOVED,
-  /// Intent\#ACTION_MEDIA_UNMOUNTED, Intent\#ACTION_MEDIA_CHECKING,
-  /// Intent\#ACTION_MEDIA_NOFS, Intent\#ACTION_MEDIA_MOUNTED,
-  /// Intent\#ACTION_MEDIA_SHARED, Intent\#ACTION_MEDIA_BAD_REMOVAL,
-  /// Intent\#ACTION_MEDIA_UNMOUNTABLE, and Intent\#ACTION_MEDIA_EJECT broadcast that
-  /// contains a StorageVolume.
-  static const EXTRA_STORAGE_VOLUME = "android.os.storage.extra.STORAGE_VOLUME";
-
-  static final _ctor = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_os_storage_StorageVolume_ctor")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: void <init>(android.os.Parcel in)
-  StorageVolume(os_.Parcel in0) : super.fromRef(_ctor(in0.reference)) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _getDescription = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_os_storage_StorageVolume_getDescription")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.lang.String getDescription(android.content.Context context)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Returns a user-visible description of the volume.
-  ///@return the volume description
-  jni.JniString getDescription(content_.Context context) {
-    final result__ =
-        jni.JniString.fromRef(_getDescription(reference, context.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _isPrimary =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_os_storage_StorageVolume_isPrimary")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public boolean isPrimary()
-  ///
-  /// Returns true if the volume is the primary shared/external storage, which is the volume
-  /// backed by Environment\#getExternalStorageDirectory().
-  bool isPrimary() {
-    final result__ = _isPrimary(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _isRemovable =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_os_storage_StorageVolume_isRemovable")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public boolean isRemovable()
-  ///
-  /// Returns true if the volume is removable.
-  ///@return is removable
-  bool isRemovable() {
-    final result__ = _isRemovable(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _isEmulated =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_os_storage_StorageVolume_isEmulated")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public boolean isEmulated()
-  ///
-  /// Returns true if the volume is emulated.
-  ///@return is removable
-  bool isEmulated() {
-    final result__ = _isEmulated(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getUuid = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_os_storage_StorageVolume_getUuid")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.lang.String getUuid()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Gets the volume UUID, if any.
-  ///@return This value may be {@code null}.
-  jni.JniString getUuid() {
-    final result__ = jni.JniString.fromRef(_getUuid(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getState = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_os_storage_StorageVolume_getState")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.lang.String getState()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Returns the current state of the volume.
-  ///@return one of Environment\#MEDIA_UNKNOWN, Environment\#MEDIA_REMOVED,
-  ///         Environment\#MEDIA_UNMOUNTED, Environment\#MEDIA_CHECKING,
-  ///         Environment\#MEDIA_NOFS, Environment\#MEDIA_MOUNTED,
-  ///         Environment\#MEDIA_MOUNTED_READ_ONLY, Environment\#MEDIA_SHARED,
-  ///         Environment\#MEDIA_BAD_REMOVAL, or Environment\#MEDIA_UNMOUNTABLE.
-  jni.JniString getState() {
-    final result__ = jni.JniString.fromRef(_getState(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _createAccessIntent = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_os_storage_StorageVolume_createAccessIntent")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.content.Intent createAccessIntent(java.lang.String directoryName)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Builds an intent to give access to a standard storage directory or entire volume after
-  /// obtaining the user's approval.
-  ///
-  /// When invoked, the system will ask the user to grant access to the requested directory (and
-  /// its descendants). The result of the request will be returned to the activity through the
-  /// {@code onActivityResult} method.
-  ///
-  /// To gain access to descendants (child, grandchild, etc) documents, use
-  /// DocumentsContract\#buildDocumentUriUsingTree(Uri, String), or
-  /// DocumentsContract\#buildChildDocumentsUriUsingTree(Uri, String) with the returned URI.
-  ///
-  /// If your application only needs to store internal data, consider using
-  /// Context\#getExternalFilesDirs(String) Context.getExternalFilesDirs,
-  /// Context\#getExternalCacheDirs(), or Context\#getExternalMediaDirs(), which
-  /// require no permissions to read or write.
-  ///
-  /// Access to the entire volume is only available for non-primary volumes (for the primary
-  /// volume, apps can use the android.Manifest.permission\#READ_EXTERNAL_STORAGE and
-  /// android.Manifest.permission\#WRITE_EXTERNAL_STORAGE permissions) and should be used
-  /// with caution, since users are more likely to deny access when asked for entire volume access
-  /// rather than specific directories.
-  ///@param directoryName must be one of Environment\#DIRECTORY_MUSIC,
-  ///            Environment\#DIRECTORY_PODCASTS, Environment\#DIRECTORY_RINGTONES,
-  ///            Environment\#DIRECTORY_ALARMS, Environment\#DIRECTORY_NOTIFICATIONS,
-  ///            Environment\#DIRECTORY_PICTURES, Environment\#DIRECTORY_MOVIES,
-  ///            Environment\#DIRECTORY_DOWNLOADS, Environment\#DIRECTORY_DCIM, or
-  ///            Environment\#DIRECTORY_DOCUMENTS, or {@code null} to request access to the
-  ///            entire volume.
-  ///@return intent to request access, or {@code null} if the requested directory is invalid for
-  ///         that volume.
-  ///@see DocumentsContract
-  content_.Intent createAccessIntent(jni.JniString directoryName) {
-    final result__ = content_.Intent.fromRef(
-        _createAccessIntent(reference, directoryName.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _equals1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_os_storage_StorageVolume_equals1")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public boolean equals(java.lang.Object obj)
-  bool equals1(jni.JniObject obj) {
-    final result__ = _equals1(reference, obj.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _hashCode1 =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_os_storage_StorageVolume_hashCode1")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int hashCode()
-  int hashCode1() {
-    final result__ = _hashCode1(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _toString1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_os_storage_StorageVolume_toString1")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.lang.String toString()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniString toString1() {
-    final result__ = jni.JniString.fromRef(_toString1(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _describeContents =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_os_storage_StorageVolume_describeContents")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int describeContents()
-  int describeContents() {
-    final result__ = _describeContents(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _writeToParcel = jniLookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_os_storage_StorageVolume_writeToParcel")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public void writeToParcel(android.os.Parcel parcel, int flags)
-  void writeToParcel(os_.Parcel parcel, int flags) {
-    final result__ = _writeToParcel(reference, parcel.reference, flags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
 
 /// from: android.os.storage.OnObbStateChangeListener
 ///
@@ -370,34 +76,30 @@ class OnObbStateChangeListener extends jni.JniObject {
   /// messages from calls made via StorageManager
   static const UNMOUNTED = 2;
 
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_os_storage_OnObbStateChangeListener_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "OnObbStateChangeListener__ctor")
+      .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  OnObbStateChangeListener() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
+  OnObbStateChangeListener() : super.fromRef(_ctor().object);
 
   static final _onObbStateChange = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_os_storage_OnObbStateChangeListener_onObbStateChange")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("OnObbStateChangeListener__onObbStateChange")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void onObbStateChange(java.lang.String path, int state)
   ///
   /// Called when an OBB has changed states.
   ///@param path path to the OBB file the state change has happened on
   ///@param state the current state of the OBB
-  void onObbStateChange(jni.JniString path, int state) {
-    final result__ = _onObbStateChange(reference, path.reference, state);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void onObbStateChange(jni.JniString path, int state) =>
+      _onObbStateChange(reference, path.reference, state).check();
 }
 
 /// from: android.os.storage.StorageManager
@@ -456,9 +158,9 @@ class StorageManager extends jni.JniObject {
   static const EXTRA_UUID = "android.os.storage.extra.UUID";
 
   static final _get_UUID_DEFAULT =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "get_android_os_storage_StorageManager_UUID_DEFAULT")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_StorageManager__UUID_DEFAULT")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: static public final java.util.UUID UUID_DEFAULT
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -471,28 +173,24 @@ class StorageManager extends jni.JniObject {
   ///@see \#getUuidForPath(File)
   ///@see ApplicationInfo\#storageUuid
   static jni.JniObject get UUID_DEFAULT =>
-      jni.JniObject.fromRef(_get_UUID_DEFAULT());
+      jni.JniObject.fromRef(_get_UUID_DEFAULT().object);
 
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_os_storage_StorageManager_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "StorageManager__ctor")
+      .asFunction<jni.JniResult Function()>();
 
   /// from: void <init>()
-  StorageManager() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
+  StorageManager() : super.fromRef(_ctor().object);
 
   static final _mountObb = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_os_storage_StorageManager_mountObb")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("StorageManager__mountObb")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean mountObb(java.lang.String rawPath, java.lang.String key, android.os.storage.OnObbStateChangeListener listener)
@@ -516,25 +214,20 @@ class StorageManager extends jni.JniObject {
   ///@param listener will receive the success or failure of the operation
   ///@return whether the mount call was successfully queued or not
   bool mountObb(jni.JniString rawPath, jni.JniString key,
-      OnObbStateChangeListener listener) {
-    final result__ = _mountObb(
-            reference, rawPath.reference, key.reference, listener.reference) !=
-        0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          OnObbStateChangeListener listener) =>
+      _mountObb(reference, rawPath.reference, key.reference, listener.reference)
+          .boolean;
 
   static final _unmountObb = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Uint8,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_os_storage_StorageManager_unmountObb")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Uint8,
+                  ffi.Pointer<ffi.Void>)>>("StorageManager__unmountObb")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int,
-              ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean unmountObb(java.lang.String rawPath, boolean force, android.os.storage.OnObbStateChangeListener listener)
   ///
@@ -555,40 +248,34 @@ class StorageManager extends jni.JniObject {
   ///            it
   ///@param listener will receive the success or failure of the operation
   ///@return whether the unmount call was successfully queued or not
-  bool unmountObb(
-      jni.JniString rawPath, bool force, OnObbStateChangeListener listener) {
-    final result__ = _unmountObb(
-            reference, rawPath.reference, force ? 1 : 0, listener.reference) !=
-        0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool unmountObb(jni.JniString rawPath, bool force,
+          OnObbStateChangeListener listener) =>
+      _unmountObb(
+              reference, rawPath.reference, force ? 1 : 0, listener.reference)
+          .boolean;
 
   static final _isObbMounted = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_os_storage_StorageManager_isObbMounted")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("StorageManager__isObbMounted")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isObbMounted(java.lang.String rawPath)
   ///
   /// Check whether an Opaque Binary Blob (OBB) is mounted or not.
   ///@param rawPath path to OBB image
   ///@return true if OBB is mounted; false if not mounted or on error
-  bool isObbMounted(jni.JniString rawPath) {
-    final result__ = _isObbMounted(reference, rawPath.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isObbMounted(jni.JniString rawPath) =>
+      _isObbMounted(reference, rawPath.reference).boolean;
 
   static final _getMountedObbPath = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_os_storage_StorageManager_getMountedObbPath")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("StorageManager__getMountedObbPath")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getMountedObbPath(java.lang.String rawPath)
@@ -600,20 +287,16 @@ class StorageManager extends jni.JniObject {
   ///@param rawPath path to OBB image
   ///@return absolute path to mounted OBB image data or <code>null</code> if
   ///         not mounted or exception encountered trying to read status
-  jni.JniString getMountedObbPath(jni.JniString rawPath) {
-    final result__ =
-        jni.JniString.fromRef(_getMountedObbPath(reference, rawPath.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getMountedObbPath(jni.JniString rawPath) =>
+      jni.JniString.fromRef(
+          _getMountedObbPath(reference, rawPath.reference).object);
 
   static final _getUuidForPath = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_os_storage_StorageManager_getUuidForPath")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("StorageManager__getUuidForPath")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.UUID getUuidForPath(java.io.File path)
@@ -629,56 +312,46 @@ class StorageManager extends jni.JniObject {
   ///             present, or when it doesn't have a valid UUID.
   ///@param path This value must never be {@code null}.
   ///@return This value will never be {@code null}.
-  jni.JniObject getUuidForPath(jni.JniObject path) {
-    final result__ =
-        jni.JniObject.fromRef(_getUuidForPath(reference, path.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getUuidForPath(jni.JniObject path) =>
+      jni.JniObject.fromRef(_getUuidForPath(reference, path.reference).object);
 
   static final _isAllocationSupported = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_os_storage_StorageManager_isAllocationSupported")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "StorageManager__isAllocationSupported")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isAllocationSupported(java.io.FileDescriptor fd)
   ///
   /// Test if the given file descriptor supports allocation of disk space using
   /// \#allocateBytes(FileDescriptor, long).
   ///@param fd This value must never be {@code null}.
-  bool isAllocationSupported(jni.JniObject fd) {
-    final result__ = _isAllocationSupported(reference, fd.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isAllocationSupported(jni.JniObject fd) =>
+      _isAllocationSupported(reference, fd.reference).boolean;
 
   static final _getStorageVolume = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_os_storage_StorageManager_getStorageVolume")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("StorageManager__getStorageVolume")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.storage.StorageVolume getStorageVolume(java.io.File file)
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Return the StorageVolume that contains the given file, or {@code null} if none.
-  StorageVolume getStorageVolume(jni.JniObject file) {
-    final result__ =
-        StorageVolume.fromRef(_getStorageVolume(reference, file.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  StorageVolume getStorageVolume(jni.JniObject file) => StorageVolume.fromRef(
+      _getStorageVolume(reference, file.reference).object);
 
   static final _getStorageVolumes = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_os_storage_StorageManager_getStorageVolumes")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("StorageManager__getStorageVolumes")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<android.os.storage.StorageVolume> getStorageVolumes()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -689,17 +362,14 @@ class StorageManager extends jni.JniObject {
   ///@see Environment\#getExternalStorageDirectory()
   ///@see StorageVolume\#createAccessIntent(String)
   ///@return This value will never be {@code null}.
-  jni.JniObject getStorageVolumes() {
-    final result__ = jni.JniObject.fromRef(_getStorageVolumes(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getStorageVolumes() =>
+      jni.JniObject.fromRef(_getStorageVolumes(reference).object);
 
   static final _getPrimaryStorageVolume = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_os_storage_StorageManager_getPrimaryStorageVolume")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "StorageManager__getPrimaryStorageVolume")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.storage.StorageVolume getPrimaryStorageVolume()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -709,39 +379,31 @@ class StorageManager extends jni.JniObject {
   /// Environment\#getExternalStorageDirectory() and
   /// Context\#getExternalFilesDir(String).
   ///@return This value will never be {@code null}.
-  StorageVolume getPrimaryStorageVolume() {
-    final result__ = StorageVolume.fromRef(_getPrimaryStorageVolume(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  StorageVolume getPrimaryStorageVolume() =>
+      StorageVolume.fromRef(_getPrimaryStorageVolume(reference).object);
 
   static final _isEncrypted = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_os_storage_StorageManager_isEncrypted")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("StorageManager__isEncrypted")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isEncrypted(java.io.File file)
   ///
   /// Return if data stored at or under the given path will be encrypted while
   /// at rest. This can help apps avoid the overhead of double-encrypting data.
-  bool isEncrypted(jni.JniObject file) {
-    final result__ = _isEncrypted(reference, file.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isEncrypted(jni.JniObject file) =>
+      _isEncrypted(reference, file.reference).boolean;
 
   static final _openProxyFileDescriptor = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Int32,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_os_storage_StorageManager_openProxyFileDescriptor")
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
+          "StorageManager__openProxyFileDescriptor")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, int,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.ParcelFileDescriptor openProxyFileDescriptor(int mode, android.os.ProxyFileDescriptorCallback callback, android.os.Handler handler)
@@ -770,20 +432,19 @@ class StorageManager extends jni.JniObject {
   ///@return Seekable ParcelFileDescriptor.
   /// This value will never be {@code null}.
   ///@throws IOException
-  os_.ParcelFileDescriptor openProxyFileDescriptor(
-      int mode, os_.ProxyFileDescriptorCallback callback, os_.Handler handler) {
-    final result__ = os_.ParcelFileDescriptor.fromRef(_openProxyFileDescriptor(
-        reference, mode, callback.reference, handler.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  os_.ParcelFileDescriptor openProxyFileDescriptor(int mode,
+          os_.ProxyFileDescriptorCallback callback, os_.Handler handler) =>
+      os_.ParcelFileDescriptor.fromRef(_openProxyFileDescriptor(
+              reference, mode, callback.reference, handler.reference)
+          .object);
 
   static final _getCacheQuotaBytes = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int64 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_os_storage_StorageManager_getCacheQuotaBytes")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("StorageManager__getCacheQuotaBytes")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getCacheQuotaBytes(java.util.UUID storageUuid)
   ///
@@ -816,18 +477,16 @@ class StorageManager extends jni.JniObject {
   ///             doesn't support cache quotas.
   ///@see \#getCacheSizeBytes(UUID)
   ///@return Value is a non-negative number of bytes.
-  int getCacheQuotaBytes(jni.JniObject storageUuid) {
-    final result__ = _getCacheQuotaBytes(reference, storageUuid.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getCacheQuotaBytes(jni.JniObject storageUuid) =>
+      _getCacheQuotaBytes(reference, storageUuid.reference).long;
 
   static final _getCacheSizeBytes = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int64 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_os_storage_StorageManager_getCacheSizeBytes")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("StorageManager__getCacheSizeBytes")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getCacheSizeBytes(java.util.UUID storageUuid)
   ///
@@ -857,18 +516,17 @@ class StorageManager extends jni.JniObject {
   ///             doesn't support cache quotas.
   ///@see \#getCacheQuotaBytes(UUID)
   ///@return Value is a non-negative number of bytes.
-  int getCacheSizeBytes(jni.JniObject storageUuid) {
-    final result__ = _getCacheSizeBytes(reference, storageUuid.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getCacheSizeBytes(jni.JniObject storageUuid) =>
+      _getCacheSizeBytes(reference, storageUuid.reference).long;
 
   static final _getAllocatableBytes = jniLookup<
               ffi.NativeFunction<
-                  ffi.Int64 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_os_storage_StorageManager_getAllocatableBytes")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "StorageManager__getAllocatableBytes")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getAllocatableBytes(java.util.UUID storageUuid)
   ///
@@ -914,19 +572,18 @@ class StorageManager extends jni.JniObject {
   /// Value is a non-negative number of bytes.
   ///@throws IOException when the storage device isn't present, or when it
   ///             doesn't support allocating space.
-  int getAllocatableBytes(jni.JniObject storageUuid) {
-    final result__ = _getAllocatableBytes(reference, storageUuid.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getAllocatableBytes(jni.JniObject storageUuid) =>
+      _getAllocatableBytes(reference, storageUuid.reference).long;
 
   static final _allocateBytes = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int64)>>(
-          "android_os_storage_StorageManager_allocateBytes")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int64)>>("StorageManager__allocateBytes")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void allocateBytes(java.util.UUID storageUuid, long bytes)
   ///
@@ -958,19 +615,18 @@ class StorageManager extends jni.JniObject {
   ///             doesn't support allocating space, or if the device had
   ///             trouble allocating the requested space.
   ///@see \#getAllocatableBytes(UUID)
-  void allocateBytes(jni.JniObject storageUuid, int bytes) {
-    final result__ = _allocateBytes(reference, storageUuid.reference, bytes);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void allocateBytes(jni.JniObject storageUuid, int bytes) =>
+      _allocateBytes(reference, storageUuid.reference, bytes).check();
 
   static final _allocateBytes1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int64)>>(
-          "android_os_storage_StorageManager_allocateBytes1")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int64)>>("StorageManager__allocateBytes1")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void allocateBytes(java.io.FileDescriptor fd, long bytes)
   ///
@@ -1005,19 +661,18 @@ class StorageManager extends jni.JniObject {
   ///@see \#getAllocatableBytes(UUID, int)
   ///@see \#isAllocationSupported(FileDescriptor)
   ///@see Environment\#isExternalStorageEmulated(File)
-  void allocateBytes1(jni.JniObject fd, int bytes) {
-    final result__ = _allocateBytes1(reference, fd.reference, bytes);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void allocateBytes1(jni.JniObject fd, int bytes) =>
+      _allocateBytes1(reference, fd.reference, bytes).check();
 
   static final _setCacheBehaviorGroup = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "android_os_storage_StorageManager_setCacheBehaviorGroup")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("StorageManager__setCacheBehaviorGroup")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setCacheBehaviorGroup(java.io.File path, boolean group)
   ///
@@ -1036,37 +691,34 @@ class StorageManager extends jni.JniObject {
   ///
   /// This behavior can only be set on a directory, and it applies recursively
   /// to all contained files and directories.
-  void setCacheBehaviorGroup(jni.JniObject path, bool group) {
-    final result__ =
-        _setCacheBehaviorGroup(reference, path.reference, group ? 1 : 0);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setCacheBehaviorGroup(jni.JniObject path, bool group) =>
+      _setCacheBehaviorGroup(reference, path.reference, group ? 1 : 0).check();
 
   static final _isCacheBehaviorGroup = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_os_storage_StorageManager_isCacheBehaviorGroup")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "StorageManager__isCacheBehaviorGroup")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isCacheBehaviorGroup(java.io.File path)
   ///
   /// Read the current value set by
   /// \#setCacheBehaviorGroup(File, boolean).
-  bool isCacheBehaviorGroup(jni.JniObject path) {
-    final result__ = _isCacheBehaviorGroup(reference, path.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isCacheBehaviorGroup(jni.JniObject path) =>
+      _isCacheBehaviorGroup(reference, path.reference).boolean;
 
   static final _setCacheBehaviorTombstone = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "android_os_storage_StorageManager_setCacheBehaviorTombstone")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("StorageManager__setCacheBehaviorTombstone")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setCacheBehaviorTombstone(java.io.File path, boolean tombstone)
   ///
@@ -1085,27 +737,280 @@ class StorageManager extends jni.JniObject {
   /// that all cached data be cleared.
   ///
   ///
-  void setCacheBehaviorTombstone(jni.JniObject path, bool tombstone) {
-    final result__ = _setCacheBehaviorTombstone(
-        reference, path.reference, tombstone ? 1 : 0);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setCacheBehaviorTombstone(jni.JniObject path, bool tombstone) =>
+      _setCacheBehaviorTombstone(reference, path.reference, tombstone ? 1 : 0)
+          .check();
 
   static final _isCacheBehaviorTombstone = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_os_storage_StorageManager_isCacheBehaviorTombstone")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "StorageManager__isCacheBehaviorTombstone")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isCacheBehaviorTombstone(java.io.File path)
   ///
   /// Read the current value set by
   /// \#setCacheBehaviorTombstone(File, boolean).
-  bool isCacheBehaviorTombstone(jni.JniObject path) {
-    final result__ = _isCacheBehaviorTombstone(reference, path.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isCacheBehaviorTombstone(jni.JniObject path) =>
+      _isCacheBehaviorTombstone(reference, path.reference).boolean;
+}
+
+/// from: android.os.storage.StorageVolume
+///
+/// Information about a shared/external storage volume for a specific user.
+///
+///
+/// A device always has one (and one only) primary storage volume, but it could have extra volumes,
+/// like SD cards and USB drives. This object represents the logical view of a storage
+/// volume for a specific user: different users might have different views for the same physical
+/// volume (for example, if the volume is a built-in emulated storage).
+///
+///
+/// The storage volume is not necessarily mounted, applications should use \#getState() to
+/// verify its state.
+///
+///
+/// Applications willing to read or write to this storage volume needs to get a permission from the
+/// user first, which can be achieved in the following ways:
+///
+/// <ul>
+/// <li>To get access to standard directories (like the Environment\#DIRECTORY_PICTURES), they
+/// can use the \#createAccessIntent(String). This is the recommend way, since it provides a
+/// simpler API and narrows the access to the given directory (and its descendants).
+/// <li>To get access to any directory (and its descendants), they can use the Storage Acess
+/// Framework APIs (such as Intent\#ACTION_OPEN_DOCUMENT and
+/// Intent\#ACTION_OPEN_DOCUMENT_TREE, although these APIs do not guarantee the user will
+/// select this specific volume.
+/// <li>To get read and write access to the primary storage volume, applications can declare the
+/// android.Manifest.permission\#READ_EXTERNAL_STORAGE and
+/// android.Manifest.permission\#WRITE_EXTERNAL_STORAGE permissions respectively, with the
+/// latter including the former. This approach is discouraged, since users may be hesitant to grant
+/// broad access to all files contained on a storage device.
+/// </ul>
+///
+/// It can be obtained through StorageManager\#getStorageVolumes() and
+/// StorageManager\#getPrimaryStorageVolume() and also as an extra in some broadcasts
+/// (see \#EXTRA_STORAGE_VOLUME).
+///
+///
+/// See Environment\#getExternalStorageDirectory() for more info about shared/external
+/// storage semantics.
+class StorageVolume extends jni.JniObject {
+  StorageVolume.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  static final _get_CREATOR =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_StorageVolume__CREATOR")
+          .asFunction<jni.JniResult Function()>();
+
+  /// from: static public final android.os.Parcelable.Creator<android.os.storage.StorageVolume> CREATOR
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  static os_.Parcelable_Creator get CREATOR =>
+      os_.Parcelable_Creator.fromRef(_get_CREATOR().object);
+
+  /// from: static public final java.lang.String EXTRA_STORAGE_VOLUME
+  ///
+  /// Name of the Parcelable extra in the Intent\#ACTION_MEDIA_REMOVED,
+  /// Intent\#ACTION_MEDIA_UNMOUNTED, Intent\#ACTION_MEDIA_CHECKING,
+  /// Intent\#ACTION_MEDIA_NOFS, Intent\#ACTION_MEDIA_MOUNTED,
+  /// Intent\#ACTION_MEDIA_SHARED, Intent\#ACTION_MEDIA_BAD_REMOVAL,
+  /// Intent\#ACTION_MEDIA_UNMOUNTABLE, and Intent\#ACTION_MEDIA_EJECT broadcast that
+  /// contains a StorageVolume.
+  static const EXTRA_STORAGE_VOLUME = "android.os.storage.extra.STORAGE_VOLUME";
+
+  static final _ctor = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("StorageVolume__ctor")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: void <init>(android.os.Parcel in)
+  StorageVolume(os_.Parcel in0) : super.fromRef(_ctor(in0.reference).object);
+
+  static final _getDescription = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("StorageVolume__getDescription")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.lang.String getDescription(android.content.Context context)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Returns a user-visible description of the volume.
+  ///@return the volume description
+  jni.JniString getDescription(content_.Context context) =>
+      jni.JniString.fromRef(
+          _getDescription(reference, context.reference).object);
+
+  static final _isPrimary = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("StorageVolume__isPrimary")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public boolean isPrimary()
+  ///
+  /// Returns true if the volume is the primary shared/external storage, which is the volume
+  /// backed by Environment\#getExternalStorageDirectory().
+  bool isPrimary() => _isPrimary(reference).boolean;
+
+  static final _isRemovable = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("StorageVolume__isRemovable")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public boolean isRemovable()
+  ///
+  /// Returns true if the volume is removable.
+  ///@return is removable
+  bool isRemovable() => _isRemovable(reference).boolean;
+
+  static final _isEmulated = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("StorageVolume__isEmulated")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public boolean isEmulated()
+  ///
+  /// Returns true if the volume is emulated.
+  ///@return is removable
+  bool isEmulated() => _isEmulated(reference).boolean;
+
+  static final _getUuid = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("StorageVolume__getUuid")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.lang.String getUuid()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Gets the volume UUID, if any.
+  ///@return This value may be {@code null}.
+  jni.JniString getUuid() => jni.JniString.fromRef(_getUuid(reference).object);
+
+  static final _getState = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("StorageVolume__getState")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.lang.String getState()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Returns the current state of the volume.
+  ///@return one of Environment\#MEDIA_UNKNOWN, Environment\#MEDIA_REMOVED,
+  ///         Environment\#MEDIA_UNMOUNTED, Environment\#MEDIA_CHECKING,
+  ///         Environment\#MEDIA_NOFS, Environment\#MEDIA_MOUNTED,
+  ///         Environment\#MEDIA_MOUNTED_READ_ONLY, Environment\#MEDIA_SHARED,
+  ///         Environment\#MEDIA_BAD_REMOVAL, or Environment\#MEDIA_UNMOUNTABLE.
+  jni.JniString getState() =>
+      jni.JniString.fromRef(_getState(reference).object);
+
+  static final _createAccessIntent = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("StorageVolume__createAccessIntent")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.content.Intent createAccessIntent(java.lang.String directoryName)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Builds an intent to give access to a standard storage directory or entire volume after
+  /// obtaining the user's approval.
+  ///
+  /// When invoked, the system will ask the user to grant access to the requested directory (and
+  /// its descendants). The result of the request will be returned to the activity through the
+  /// {@code onActivityResult} method.
+  ///
+  /// To gain access to descendants (child, grandchild, etc) documents, use
+  /// DocumentsContract\#buildDocumentUriUsingTree(Uri, String), or
+  /// DocumentsContract\#buildChildDocumentsUriUsingTree(Uri, String) with the returned URI.
+  ///
+  /// If your application only needs to store internal data, consider using
+  /// Context\#getExternalFilesDirs(String) Context.getExternalFilesDirs,
+  /// Context\#getExternalCacheDirs(), or Context\#getExternalMediaDirs(), which
+  /// require no permissions to read or write.
+  ///
+  /// Access to the entire volume is only available for non-primary volumes (for the primary
+  /// volume, apps can use the android.Manifest.permission\#READ_EXTERNAL_STORAGE and
+  /// android.Manifest.permission\#WRITE_EXTERNAL_STORAGE permissions) and should be used
+  /// with caution, since users are more likely to deny access when asked for entire volume access
+  /// rather than specific directories.
+  ///@param directoryName must be one of Environment\#DIRECTORY_MUSIC,
+  ///            Environment\#DIRECTORY_PODCASTS, Environment\#DIRECTORY_RINGTONES,
+  ///            Environment\#DIRECTORY_ALARMS, Environment\#DIRECTORY_NOTIFICATIONS,
+  ///            Environment\#DIRECTORY_PICTURES, Environment\#DIRECTORY_MOVIES,
+  ///            Environment\#DIRECTORY_DOWNLOADS, Environment\#DIRECTORY_DCIM, or
+  ///            Environment\#DIRECTORY_DOCUMENTS, or {@code null} to request access to the
+  ///            entire volume.
+  ///@return intent to request access, or {@code null} if the requested directory is invalid for
+  ///         that volume.
+  ///@see DocumentsContract
+  content_.Intent createAccessIntent(jni.JniString directoryName) =>
+      content_.Intent.fromRef(
+          _createAccessIntent(reference, directoryName.reference).object);
+
+  static final _equals1 = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("StorageVolume__equals1")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public boolean equals(java.lang.Object obj)
+  bool equals1(jni.JniObject obj) => _equals1(reference, obj.reference).boolean;
+
+  static final _hashCode1 = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("StorageVolume__hashCode1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int hashCode()
+  int hashCode1() => _hashCode1(reference).integer;
+
+  static final _toString1 = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("StorageVolume__toString1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.lang.String toString()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  jni.JniString toString1() =>
+      jni.JniString.fromRef(_toString1(reference).object);
+
+  static final _describeContents = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("StorageVolume__describeContents")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int describeContents()
+  int describeContents() => _describeContents(reference).integer;
+
+  static final _writeToParcel = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("StorageVolume__writeToParcel")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public void writeToParcel(android.os.Parcel parcel, int flags)
+  void writeToParcel(os_.Parcel parcel, int flags) =>
+      _writeToParcel(reference, parcel.reference, flags).check();
 }

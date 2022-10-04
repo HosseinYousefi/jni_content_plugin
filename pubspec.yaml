@@ -12,13 +12,13 @@ dependencies:
   flutter:
     sdk: flutter
   jni:
-    path: ../jnigen_devel/jni
+    path: ../jnigen/jni
   plugin_platform_interface: ^2.0.2
 
 dev_dependencies:
   path: ^1.8.0
   jnigen:
-    path: ../jnigen_devel/jnigen
+    path: ../jnigen/jnigen
   flutter_test:
     sdk: flutter
   flutter_lints: ^2.0.0

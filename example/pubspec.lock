@@ -91,10 +91,10 @@ packages:
   jni:
     dependency: "direct main"
     description:
-      path: "../../jnigen_devel/jni"
+      path: "../../jnigen/jni"
       relative: true
     source: path
-    version: "0.0.1"
+    version: "0.1.1"
   lints:
     dependency: transitive
     description:

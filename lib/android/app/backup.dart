@@ -8,657 +8,13 @@
 // ignore_for_file: unused_element
 
 import "dart:ffi" as ffi;
+import "package:jni/internal_helpers_for_jnigen.dart";
 import "package:jni/jni.dart" as jni;
 
-import "../../android/os.dart" as os_;
+import "../content.dart" as content_;
 
-import "../../android/content.dart" as content_;
+import "../os.dart" as os_;
 import "../../_init.dart" show jniLookup;
-
-/// from: android.app.backup.BackupDataInputStream
-///
-/// Provides an java.io.InputStream-like interface for accessing an
-/// entity's data during a restore operation. Used by BackupHelper classes within the BackupAgentHelper mechanism.
-///
-/// When BackupHelper\#restoreEntity(BackupDataInputStream) BackupHelper.restoreEntity()
-/// is called, the current entity's header has already been read from the underlying
-/// BackupDataInput.  The entity's key string and total data size are available
-/// through this class's \#getKey() and \#size() methods, respectively.
-/// <p class="note">
-/// <strong>Note:</strong> The caller should take care not to seek or close the underlying data
-/// source, nor read more than \#size() bytes from the stream.
-///
-///@see BackupAgentHelper
-///@see BackupHelper
-class BackupDataInputStream extends jni.JniObject {
-  BackupDataInputStream.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  static final _ctor = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_backup_BackupDataInputStream_ctor")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: void <init>(android.app.backup.BackupDataInput data)
-  ///
-  /// @hide
-  BackupDataInputStream(BackupDataInput data)
-      : super.fromRef(_ctor(data.reference)) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _read =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_backup_BackupDataInputStream_read")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int read()
-  ///
-  /// Read one byte of entity data from the stream, returning it as
-  /// an integer value.  If more than \#size() bytes of data
-  /// are read from the stream, the output of this method is undefined.
-  ///@return The byte read, or undefined if the end of the stream has been reached.
-  int read() {
-    final result__ = _read(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _read1 = jniLookup<
-          ffi.NativeFunction<
-              ffi.Int32 Function(
-                  ffi.Pointer<ffi.Void>,
-                  ffi.Pointer<ffi.Void>,
-                  ffi.Int32,
-                  ffi.Int32)>>("android_app_backup_BackupDataInputStream_read1")
-      .asFunction<
-          int Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int, int)>();
-
-  /// from: public int read(byte[] b, int offset, int size)
-  ///
-  /// Read up to {@code size} bytes of data into a byte array, beginning at position
-  /// {@code offset} within the array.
-  ///@param b Byte array into which the data will be read
-  ///@param offset The data will be stored in {@code b} beginning at this index
-  ///   within the array.
-  ///@param size The number of bytes to read in this operation.  If insufficient
-  ///   data exists within the entity to fulfill this request, only as much data
-  ///   will be read as is available.
-  ///@return The number of bytes of data read, or zero if all of the entity's
-  ///   data has already been read.
-  int read1(jni.JniObject b, int offset, int size) {
-    final result__ = _read1(reference, b.reference, offset, size);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _read2 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_backup_BackupDataInputStream_read2")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int read(byte[] b)
-  ///
-  /// Read enough entity data into a byte array to fill the array.
-  ///@param b Byte array to fill with data from the stream.  If the stream does not
-  ///   have sufficient data to fill the array, then the contents of the remainder of
-  ///   the array will be undefined.
-  ///@return The number of bytes of data read, or zero if all of the entity's
-  ///   data has already been read.
-  int read2(jni.JniObject b) {
-    final result__ = _read2(reference, b.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getKey = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_backup_BackupDataInputStream_getKey")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.lang.String getKey()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Report the key string associated with this entity within the backup data set.
-  ///@return The key string for this entity, equivalent to calling
-  ///   BackupDataInput\#getKey() on the underlying BackupDataInput.
-  jni.JniString getKey() {
-    final result__ = jni.JniString.fromRef(_getKey(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _size =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_backup_BackupDataInputStream_size")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int size()
-  ///
-  /// Report the total number of bytes of data available for the current entity.
-  ///@return The number of data bytes available, equivalent to calling
-  ///   BackupDataInput\#getDataSize() on the underlying BackupDataInput.
-  int size() {
-    final result__ = _size(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
-
-/// from: android.app.backup.BackupHelper
-///
-/// Defines the calling interface that BackupAgentHelper uses
-/// when dispatching backup and restore operations to the installed helpers.
-/// Applications can define and install their own helpers as well as using those
-/// provided as part of the Android framework.
-///
-/// Although multiple helper objects may be installed simultaneously, each helper
-/// is responsible only for handling its own data, and will not see entities
-/// created by other components within the backup system.  Invocations of multiple
-/// helpers are performed sequentially by the BackupAgentHelper, with each
-/// helper given a chance to access its own saved state from within the state record
-/// produced during the previous backup operation.
-///@see BackupAgentHelper
-///@see FileBackupHelper
-///@see SharedPreferencesBackupHelper
-class BackupHelper extends jni.JniObject {
-  BackupHelper.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  static final _performBackup = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_backup_BackupHelper_performBackup")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public abstract void performBackup(android.os.ParcelFileDescriptor oldState, android.app.backup.BackupDataOutput data, android.os.ParcelFileDescriptor newState)
-  ///
-  /// Based on <code>oldState</code>, determine what application content
-  /// needs to be backed up, write it to <code>data</code>, and fill in
-  /// <code>newState</code> with the complete state as it exists now.
-  ///
-  /// Implementing this method is much like implementing
-  /// BackupAgent\#onBackup(ParcelFileDescriptor, BackupDataOutput, ParcelFileDescriptor) onBackup() &mdash; the method parameters are the same.  When this method is invoked the
-  /// {@code oldState} descriptor points to the beginning of the state data
-  /// written during this helper's previous backup operation, and the {@code newState}
-  /// descriptor points to the file location at which the helper should write its
-  /// new state after performing the backup operation.
-  /// <p class="note">
-  /// <strong>Note:</strong> The helper should not close or seek either the {@code oldState} or
-  /// the {@code newState} file descriptors.  It is essential that when reading the helper's
-  /// saved state from the {@code oldState} file, no extra content is consumed beyond
-  /// what was stored by this helper.  If more old state data is read, even accidentally,
-  /// it will make it impossible for additional helpers that may be invoked after this one
-  /// to properly reconstruct their prior state.
-  ///
-  ///@param oldState An open, read-only android.os.ParcelFileDescriptor pointing to the
-  ///            last backup state provided by the application. May be
-  ///            <code>null</code>, in which case no prior state is being
-  ///            provided and the application should perform a full backup.
-  ///@param data An open, read/write BackupDataOutput
-  ///            pointing to the backup data destination.
-  ///            Typically the application will use backup helper classes to
-  ///            write to this file.
-  ///@param newState An open, read/write android.os.ParcelFileDescriptor pointing to an
-  ///            empty file. The application should record the final backup
-  ///            state here after writing the requested data to the <code>data</code>
-  ///            output stream.
-  void performBackup(os_.ParcelFileDescriptor oldState, BackupDataOutput data,
-      os_.ParcelFileDescriptor newState) {
-    final result__ = _performBackup(
-        reference, oldState.reference, data.reference, newState.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _restoreEntity = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_backup_BackupHelper_restoreEntity")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public abstract void restoreEntity(android.app.backup.BackupDataInputStream data)
-  ///
-  /// Called by android.app.backup.BackupAgentHelper BackupAgentHelper
-  /// to restore a single entity from the restore data set.  This method will be
-  /// called for each entity in the data set that belongs to this handler.
-  /// <p class="note">
-  /// <strong>Note:</strong> Do not close the <code>data</code> stream.  Do not read more than
-  /// android.app.backup.BackupDataInputStream\#size() size() bytes from
-  /// <code>data</code>.
-  ///
-  ///@param data An open BackupDataInputStream from which the backup data can be read.
-  void restoreEntity(BackupDataInputStream data) {
-    final result__ = _restoreEntity(reference, data.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _writeNewStateDescription = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_backup_BackupHelper_writeNewStateDescription")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public abstract void writeNewStateDescription(android.os.ParcelFileDescriptor newState)
-  ///
-  /// Called by android.app.backup.BackupAgentHelper BackupAgentHelper
-  /// after a restore operation to write the backup state file corresponding to
-  /// the data as processed by the helper.  The data written here will be
-  /// available to the helper during the next call to its
-  /// \#performBackup(ParcelFileDescriptor, BackupDataOutput, ParcelFileDescriptor) performBackup() method.
-  ///
-  /// This method will be called even if the handler's
-  /// \#restoreEntity(BackupDataInputStream) restoreEntity() method was never invoked during
-  /// the restore operation.
-  /// <p class="note">
-  /// <strong>Note:</strong> The helper should not close or seek the {@code newState}
-  /// file descriptor.
-  ///
-  ///@param newState A android.os.ParcelFileDescriptor to which the new state will be
-  /// written.
-  void writeNewStateDescription(os_.ParcelFileDescriptor newState) {
-    final result__ = _writeNewStateDescription(reference, newState.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
-
-/// from: android.app.backup.BackupManager
-///
-/// The interface through which an application interacts with the Android backup service to
-/// request backup and restore operations.
-/// Applications instantiate it using the constructor and issue calls through that instance.
-///
-/// When an application has made changes to data which should be backed up, a
-/// call to \#dataChanged() will notify the backup service. The system
-/// will then schedule a backup operation to occur in the near future. Repeated
-/// calls to \#dataChanged() have no further effect until the backup
-/// operation actually occurs.
-///
-/// A backup or restore operation for your application begins when the system launches the
-/// android.app.backup.BackupAgent subclass you've declared in your manifest. See the
-/// documentation for android.app.backup.BackupAgent for a detailed description
-/// of how the operation then proceeds.
-///
-/// Several attributes affecting the operation of the backup and restore mechanism
-/// can be set on the <code>
-/// <a href="{@docRoot}guide/topics/manifest/application-element.html">&lt;application&gt;</a></code>
-/// tag in your application's AndroidManifest.xml file.
-///
-/// <div class="special reference">
-/// <h3>Developer Guides</h3>
-/// For more information about using BackupManager, read the
-/// <a href="{@docRoot}guide/topics/data/backup.html">Data Backup</a> developer guide.
-///</div>
-///@attr ref android.R.styleable\#AndroidManifestApplication_allowBackup
-///@attr ref android.R.styleable\#AndroidManifestApplication_backupAgent
-///@attr ref android.R.styleable\#AndroidManifestApplication_killAfterRestore
-///@attr ref android.R.styleable\#AndroidManifestApplication_restoreAnyVersion
-class BackupManager extends jni.JniObject {
-  BackupManager.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  static final _ctor = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_backup_BackupManager_ctor")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void <init>(android.content.Context context)
-  ///
-  /// Constructs a BackupManager object through which the application can
-  /// communicate with the Android backup system.
-  ///@param context The android.content.Context that was provided when
-  ///                one of your application's android.app.Activity Activities
-  ///                was created.
-  BackupManager(content_.Context context)
-      : super.fromRef(_ctor(context.reference)) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _dataChanged =
-      jniLookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_backup_BackupManager_dataChanged")
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void dataChanged()
-  ///
-  /// Notifies the Android backup system that your application wishes to back up
-  /// new changes to its data.  A backup operation using your application's
-  /// android.app.backup.BackupAgent subclass will be scheduled when you
-  /// call this method.
-  void dataChanged() {
-    final result__ = _dataChanged(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _dataChanged1 =
-      jniLookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_backup_BackupManager_dataChanged1")
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: static public void dataChanged(java.lang.String packageName)
-  ///
-  /// Convenience method for callers who need to indicate that some other package
-  /// needs a backup pass.  This can be useful in the case of groups of packages
-  /// that share a uid.
-  ///
-  /// This method requires that the application hold the "android.permission.BACKUP"
-  /// permission if the package named in the argument does not run under the same uid
-  /// as the caller.
-  ///@param packageName The package name identifying the application to back up.
-  static void dataChanged1(jni.JniString packageName) {
-    final result__ = _dataChanged1(packageName.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _requestRestore = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_backup_BackupManager_requestRestore")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int requestRestore(android.app.backup.RestoreObserver observer)
-  ///
-  /// @deprecated Applications shouldn't request a restore operation using this method. In Android
-  /// P and later, this method is a no-op.
-  ///
-  /// Restore the calling application from backup. The data will be restored from the
-  /// current backup dataset if the application has stored data there, or from
-  /// the dataset used during the last full device setup operation if the current
-  /// backup dataset has no matching data.  If no backup data exists for this application
-  /// in either source, a non-zero value is returned.
-  ///
-  /// If this method returns zero (meaning success), the OS attempts to retrieve a backed-up
-  /// dataset from the remote transport, instantiate the application's backup agent, and pass the
-  /// dataset to the agent's
-  /// android.app.backup.BackupAgent\#onRestore(BackupDataInput, int, android.os.ParcelFileDescriptor) onRestore()
-  /// method.
-  ///
-  /// <p class="caution">Unlike other restore operations, this method doesn't terminate the
-  /// application after the restore. The application continues running to receive the
-  /// RestoreObserver callbacks on the {@code observer} argument. Full backups use an
-  /// android.app.Application Application base class while key-value backups use the
-  /// application subclass declared in the AndroidManifest.xml {@code <application>} tag.
-  ///@param observer The RestoreObserver to receive callbacks during the restore
-  /// operation. This must not be null.
-  ///@return Zero on success; nonzero on error.
-  int requestRestore(RestoreObserver observer) {
-    final result__ = _requestRestore(reference, observer.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
-
-/// from: android.app.backup.FileBackupHelper
-///
-/// A helper class that can be used in conjunction with
-/// android.app.backup.BackupAgentHelper to manage the backup of a set of
-/// files. Whenever backup is performed, all files changed since the last backup
-/// will be saved in their entirety. When backup first occurs,
-/// every file in the list provided to \#FileBackupHelper will be backed up.
-///
-/// During restore, if the helper encounters data for a file that was not
-/// specified when the FileBackupHelper object was constructed, that data
-/// will be ignored.
-/// <p class="note"><strong>Note:</strong> This should be
-/// used only with small configuration files, not large binary files.
-class FileBackupHelper extends jni.JniObject {
-  FileBackupHelper.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  static final _ctor = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_backup_FileBackupHelper_ctor")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void <init>(android.content.Context context, java.lang.String[] files)
-  ///
-  /// Construct a helper to manage backup/restore of entire files within the
-  /// application's data directory hierarchy.
-  ///@param context The backup agent's Context object
-  ///@param files A list of the files to be backed up or restored.
-  FileBackupHelper(content_.Context context, jni.JniObject files)
-      : super.fromRef(_ctor(context.reference, files.reference)) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _performBackup = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_backup_FileBackupHelper_performBackup")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void performBackup(android.os.ParcelFileDescriptor oldState, android.app.backup.BackupDataOutput data, android.os.ParcelFileDescriptor newState)
-  ///
-  /// Based on <code>oldState</code>, determine which of the files from the
-  /// application's data directory need to be backed up, write them to the data
-  /// stream, and fill in <code>newState</code> with the state as it exists
-  /// now. When <code>oldState</code> is <code>null</code>, all the files will
-  /// be backed up.
-  ///
-  /// This should only be called directly from within the BackupAgentHelper
-  /// implementation. See
-  /// android.app.backup.BackupAgent\#onBackup(ParcelFileDescriptor, BackupDataOutput, ParcelFileDescriptor)
-  /// for a description of parameter meanings.
-  void performBackup(os_.ParcelFileDescriptor oldState, BackupDataOutput data,
-      os_.ParcelFileDescriptor newState) {
-    final result__ = _performBackup(
-        reference, oldState.reference, data.reference, newState.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _restoreEntity = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_backup_FileBackupHelper_restoreEntity")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void restoreEntity(android.app.backup.BackupDataInputStream data)
-  ///
-  /// Restore one record [representing a single file] from the restore dataset.
-  ///
-  /// This should only be called directly from within the BackupAgentHelper
-  /// implementation.
-  void restoreEntity(BackupDataInputStream data) {
-    final result__ = _restoreEntity(reference, data.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _writeNewStateDescription = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_backup_FileBackupHelper_writeNewStateDescription")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void writeNewStateDescription(android.os.ParcelFileDescriptor fd)
-  void writeNewStateDescription(os_.ParcelFileDescriptor fd) {
-    final result__ = _writeNewStateDescription(reference, fd.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _finalize =
-      jniLookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_backup_FileBackupHelper_finalize")
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: protected void finalize()
-  void finalize() {
-    final result__ = _finalize(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
-
-/// from: android.app.backup.SharedPreferencesBackupHelper
-///
-/// A helper class that can be used in conjunction with
-/// android.app.backup.BackupAgentHelper to manage the backup of
-/// android.content.SharedPreferences. Whenever a backup is performed, it
-/// will back up all named shared preferences that have changed since the last
-/// backup operation.
-///
-/// To use this class, the application's backup agent class should extend
-/// android.app.backup.BackupAgentHelper.  Then, in the agent's
-/// BackupAgent\#onCreate() method, an instance of this class should be
-/// allocated and installed as a backup/restore handler within the BackupAgentHelper
-/// framework.  For example, an agent supporting backup and restore for
-/// an application with two groups of android.content.SharedPreferences
-/// data might look something like this:
-/// <pre>
-/// import android.app.backup.BackupAgentHelper;
-/// import android.app.backup.SharedPreferencesBackupHelper;
-///
-/// public class MyBackupAgent extends BackupAgentHelper {
-///     // The names of the SharedPreferences groups that the application maintains.  These
-///     // are the same strings that are passed to Context\#getSharedPreferences(String, int).
-///     static final String PREFS_DISPLAY = "displayprefs";
-///     static final String PREFS_SCORES = "highscores";
-///
-///     // An arbitrary string used within the BackupAgentHelper implementation to
-///     // identify the SharedPreferenceBackupHelper's data.
-///     static final String MY_PREFS_BACKUP_KEY = "myprefs";
-///
-///     // Simply allocate a helper and install it
-///     void onCreate() {
-///         SharedPreferencesBackupHelper helper =
-///                 new SharedPreferencesBackupHelper(this, PREFS_DISPLAY, PREFS_SCORES);
-///         addHelper(MY_PREFS_BACKUP_KEY, helper);
-///     }
-/// }</pre>
-///
-/// No further implementation is needed; the BackupAgentHelper mechanism automatically
-/// dispatches the
-/// BackupAgent\#onBackup(android.os.ParcelFileDescriptor, BackupDataOutput, android.os.ParcelFileDescriptor) BackupAgent.onBackup()
-/// and
-/// BackupAgent\#onRestore(BackupDataInput, int, android.os.ParcelFileDescriptor) BackupAgent.onRestore()
-/// callbacks to the SharedPreferencesBackupHelper as appropriate.
-class SharedPreferencesBackupHelper extends jni.JniObject {
-  SharedPreferencesBackupHelper.fromRef(ffi.Pointer<ffi.Void> ref)
-      : super.fromRef(ref);
-
-  static final _ctor = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_backup_SharedPreferencesBackupHelper_ctor")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void <init>(android.content.Context context, java.lang.String[] prefGroups)
-  ///
-  /// Construct a helper for backing up and restoring the
-  /// android.content.SharedPreferences under the given names.
-  ///@param context The application android.content.Context
-  ///@param prefGroups The names of each android.content.SharedPreferences file to
-  /// back up
-  SharedPreferencesBackupHelper(
-      content_.Context context, jni.JniObject prefGroups)
-      : super.fromRef(_ctor(context.reference, prefGroups.reference)) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _performBackup = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_backup_SharedPreferencesBackupHelper_performBackup")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void performBackup(android.os.ParcelFileDescriptor oldState, android.app.backup.BackupDataOutput data, android.os.ParcelFileDescriptor newState)
-  ///
-  /// Backs up the configured android.content.SharedPreferences groups.
-  void performBackup(os_.ParcelFileDescriptor oldState, BackupDataOutput data,
-      os_.ParcelFileDescriptor newState) {
-    final result__ = _performBackup(
-        reference, oldState.reference, data.reference, newState.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _restoreEntity = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_backup_SharedPreferencesBackupHelper_restoreEntity")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void restoreEntity(android.app.backup.BackupDataInputStream data)
-  ///
-  /// Restores one entity from the restore data stream to its proper shared
-  /// preferences file store.
-  void restoreEntity(BackupDataInputStream data) {
-    final result__ = _restoreEntity(reference, data.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _writeNewStateDescription = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_backup_SharedPreferencesBackupHelper_writeNewStateDescription")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void writeNewStateDescription(android.os.ParcelFileDescriptor fd)
-  void writeNewStateDescription(os_.ParcelFileDescriptor fd) {
-    final result__ = _writeNewStateDescription(reference, fd.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _finalize =
-      jniLookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_backup_SharedPreferencesBackupHelper_finalize")
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: protected void finalize()
-  void finalize() {
-    final result__ = _finalize(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
 
 /// from: android.app.backup.BackupAgent
 ///
@@ -768,20 +124,18 @@ class BackupAgent extends content_.ContextWrapper {
   /// is an ordinary file.
   static const TYPE_FILE = 1;
 
-  static final _ctor2 =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_app_backup_BackupAgent_ctor2")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+  static final _ctor2 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "BackupAgent__ctor2")
+      .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  BackupAgent.ctor2() : super.fromRef(_ctor2()) {
-    jni.Jni.env.checkException();
-  }
+  BackupAgent.ctor2() : super.fromRef(_ctor2().object);
 
-  static final _onCreate =
-      jniLookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_backup_BackupAgent_onCreate")
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+  static final _onCreate = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("BackupAgent__onCreate")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onCreate()
   ///
@@ -789,16 +143,13 @@ class BackupAgent extends content_.ContextWrapper {
   /// to do one-time initialization before the actual backup or restore operation
   /// is begun.
   ///
-  void onCreate() {
-    final result__ = _onCreate(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void onCreate() => _onCreate(reference).check();
 
-  static final _onDestroy =
-      jniLookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_backup_BackupAgent_onDestroy")
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+  static final _onDestroy = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("BackupAgent__onDestroy")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onDestroy()
   ///
@@ -806,22 +157,17 @@ class BackupAgent extends content_.ContextWrapper {
   /// sort of shutdown process after backup or restore is completed.
   ///
   /// Agents do not need to override this method.
-  void onDestroy() {
-    final result__ = _onDestroy(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void onDestroy() => _onDestroy(reference).check();
 
   static final _onBackup = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_backup_BackupAgent_onBackup")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("BackupAgent__onBackup")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract void onBackup(android.os.ParcelFileDescriptor oldState, android.app.backup.BackupDataOutput data, android.os.ParcelFileDescriptor newState)
@@ -854,24 +200,21 @@ class BackupAgent extends content_.ContextWrapper {
   ///            state here after writing the requested data to the <code>data</code>
   ///            output stream.
   void onBackup(os_.ParcelFileDescriptor oldState, BackupDataOutput data,
-      os_.ParcelFileDescriptor newState) {
-    final result__ = _onBackup(
-        reference, oldState.reference, data.reference, newState.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          os_.ParcelFileDescriptor newState) =>
+      _onBackup(
+              reference, oldState.reference, data.reference, newState.reference)
+          .check();
 
   static final _onRestore = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Int32,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_backup_BackupAgent_onRestore")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32,
+                  ffi.Pointer<ffi.Void>)>>("BackupAgent__onRestore")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int,
-              ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract void onRestore(android.app.backup.BackupDataInput data, int appVersionCode, android.os.ParcelFileDescriptor newState)
   ///
@@ -903,24 +246,20 @@ class BackupAgent extends content_.ContextWrapper {
   ///            state here after restoring its data from the <code>data</code> stream.
   ///            When a full-backup dataset is being restored, this will be <code>null</code>.
   void onRestore(BackupDataInput data, int appVersionCode,
-      os_.ParcelFileDescriptor newState) {
-    final result__ = _onRestore(
-        reference, data.reference, appVersionCode, newState.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          os_.ParcelFileDescriptor newState) =>
+      _onRestore(reference, data.reference, appVersionCode, newState.reference)
+          .check();
 
   static final _onRestore1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Int64,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_backup_BackupAgent_onRestore1")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int64,
+                  ffi.Pointer<ffi.Void>)>>("BackupAgent__onRestore1")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int,
-              ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onRestore(android.app.backup.BackupDataInput data, long appVersionCode, android.os.ParcelFileDescriptor newState)
   ///
@@ -928,20 +267,17 @@ class BackupAgent extends content_.ContextWrapper {
   /// that handles a long app version code.  Default implementation casts the version code to
   /// an int and calls \#onRestore(BackupDataInput, int, android.os.ParcelFileDescriptor).
   void onRestore1(BackupDataInput data, int appVersionCode,
-      os_.ParcelFileDescriptor newState) {
-    final result__ = _onRestore1(
-        reference, data.reference, appVersionCode, newState.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          os_.ParcelFileDescriptor newState) =>
+      _onRestore1(reference, data.reference, appVersionCode, newState.reference)
+          .check();
 
   static final _onFullBackup = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_backup_BackupAgent_onFullBackup")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("BackupAgent__onFullBackup")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onFullBackup(android.app.backup.FullBackupDataOutput data)
   ///
@@ -974,17 +310,14 @@ class BackupAgent extends content_.ContextWrapper {
   ///@see ApplicationInfo\#fullBackupContent
   ///@see \#fullBackupFile(File, FullBackupDataOutput)
   ///@see \#onRestoreFile(ParcelFileDescriptor, long, File, int, long, long)
-  void onFullBackup(FullBackupDataOutput data) {
-    final result__ = _onFullBackup(reference, data.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void onFullBackup(FullBackupDataOutput data) =>
+      _onFullBackup(reference, data.reference).check();
 
   static final _onQuotaExceeded = jniLookup<
           ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int64,
-                  ffi.Int64)>>("android_app_backup_BackupAgent_onQuotaExceeded")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int, int)>();
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int64,
+                  ffi.Int64)>>("BackupAgent__onQuotaExceeded")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int, int)>();
 
   /// from: public void onQuotaExceeded(long backupDataBytes, long quotaBytes)
   ///
@@ -1012,19 +345,17 @@ class BackupAgent extends content_.ContextWrapper {
   ///    streamed into the transport at the time the quota was reached.
   ///@param quotaBytes The maximum data size that the transport currently permits
   ///    this application to store as a backup.
-  void onQuotaExceeded(int backupDataBytes, int quotaBytes) {
-    final result__ = _onQuotaExceeded(reference, backupDataBytes, quotaBytes);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void onQuotaExceeded(int backupDataBytes, int quotaBytes) =>
+      _onQuotaExceeded(reference, backupDataBytes, quotaBytes).check();
 
   static final _fullBackupFile = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_backup_BackupAgent_fullBackupFile")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("BackupAgent__fullBackupFile")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public final void fullBackupFile(java.io.File file, android.app.backup.FullBackupDataOutput output)
@@ -1042,26 +373,22 @@ class BackupAgent extends content_.ContextWrapper {
   ///@param file The file to be backed up.  The file must exist and be readable by
   ///     the caller.
   ///@param output The destination to which the backed-up file data will be sent.
-  void fullBackupFile(jni.JniObject file, FullBackupDataOutput output) {
-    final result__ =
-        _fullBackupFile(reference, file.reference, output.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void fullBackupFile(jni.JniObject file, FullBackupDataOutput output) =>
+      _fullBackupFile(reference, file.reference, output.reference).check();
 
   static final _onRestoreFile = jniLookup<
           ffi.NativeFunction<
-              ffi.Void Function(
+              jni.JniResult Function(
                   ffi.Pointer<ffi.Void>,
                   ffi.Pointer<ffi.Void>,
                   ffi.Int64,
                   ffi.Pointer<ffi.Void>,
                   ffi.Int32,
                   ffi.Int64,
-                  ffi.Int64)>>("android_app_backup_BackupAgent_onRestoreFile")
+                  ffi.Int64)>>("BackupAgent__onRestoreFile")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int,
-              ffi.Pointer<ffi.Void>, int, int, int)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              int, ffi.Pointer<ffi.Void>, int, int, int)>();
 
   /// from: public void onRestoreFile(android.os.ParcelFileDescriptor data, long size, java.io.File destination, int type, long mode, long mtime)
   ///
@@ -1089,17 +416,16 @@ class BackupAgent extends content_.ContextWrapper {
   ///     be assigned to the file after its data is written.
   ///@throws IOException
   void onRestoreFile(os_.ParcelFileDescriptor data, int size,
-      jni.JniObject destination, int type, int mode, int mtime) {
-    final result__ = _onRestoreFile(reference, data.reference, size,
-        destination.reference, type, mode, mtime);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniObject destination, int type, int mode, int mtime) =>
+      _onRestoreFile(reference, data.reference, size, destination.reference,
+              type, mode, mtime)
+          .check();
 
-  static final _onRestoreFinished =
-      jniLookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_backup_BackupAgent_onRestoreFinished")
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+  static final _onRestoreFinished = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("BackupAgent__onRestoreFinished")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onRestoreFinished()
   ///
@@ -1111,290 +437,7 @@ class BackupAgent extends content_.ContextWrapper {
   /// perform any appropriate post-processing on the data that was just delivered.
   ///@see \#onRestore(BackupDataInput, int, ParcelFileDescriptor)
   ///@see \#onRestoreFile(ParcelFileDescriptor, long, File, int, long, long)
-  void onRestoreFinished() {
-    final result__ = _onRestoreFinished(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
-
-/// from: android.app.backup.FullBackupDataOutput
-///
-/// Provides the interface through which a BackupAgent writes entire files
-/// to a full backup data set, via its BackupAgent\#onFullBackup(FullBackupDataOutput)
-/// method.
-class FullBackupDataOutput extends jni.JniObject {
-  FullBackupDataOutput.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Int64)>>(
-              "android_app_backup_FullBackupDataOutput_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function(int)>();
-
-  /// from: void <init>(long quota)
-  ///
-  /// @hide - used only in measure operation
-  FullBackupDataOutput(int quota) : super.fromRef(_ctor(quota)) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _getQuota =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_backup_FullBackupDataOutput_getQuota")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public long getQuota()
-  ///
-  /// Returns the quota in bytes for the application's current backup operation.  The
-  /// value can vary for each operation.
-  ///@see BackupDataOutput\#getQuota()
-  int getQuota() {
-    final result__ = _getQuota(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getTransportFlags =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_backup_FullBackupDataOutput_getTransportFlags")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int getTransportFlags()
-  ///
-  /// Returns flags with additional information about the backup transport. For supported flags see
-  /// android.app.backup.BackupAgent
-  ///@see BackupDataOutput\#getTransportFlags()
-  int getTransportFlags() {
-    final result__ = _getTransportFlags(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
-
-/// from: android.app.backup.BackupDataOutput
-///
-/// Provides the structured interface through which a BackupAgent commits
-/// information to the backup data set, via its BackupAgent\#onBackup(ParcelFileDescriptor,BackupDataOutput,ParcelFileDescriptor) onBackup() method.  Data written for backup is presented
-/// as a set of "entities," key/value pairs in which each binary data record "value" is
-/// named with a string "key."
-///
-/// To commit a data record to the backup transport, the agent's
-/// BackupAgent\#onBackup(ParcelFileDescriptor,BackupDataOutput,ParcelFileDescriptor) onBackup() method first writes an "entity header" that supplies the key string for the record
-/// and the total size of the binary value for the record.  After the header has been
-/// written, the agent then writes the binary entity value itself.  The entity value can
-/// be written in multiple chunks if desired, as long as the total count of bytes written
-/// matches what was supplied to \#writeEntityHeader(String, int) writeEntityHeader().
-///
-/// Entity key strings are considered to be unique within a given application's backup
-/// data set. If a backup agent writes a new entity under an existing key string, its value will
-/// replace any previous value in the transport's remote data store.  You can remove a record
-/// entirely from the remote data set by writing a new entity header using the
-/// existing record's key, but supplying a negative <code>dataSize</code> parameter.
-/// When you do so, the agent does not need to call \#writeEntityData(byte[], int).
-/// <h3>Example</h3>
-///
-/// Here is an example illustrating a way to back up the value of a String variable
-/// called <code>mStringToBackUp</code>:
-/// <pre>
-/// static final String MY_STRING_KEY = "storedstring";
-///
-/// public void BackupAgent\#onBackup(ParcelFileDescriptor, BackupDataOutput, ParcelFileDescriptor) onBackup(ParcelFileDescriptor oldState, BackupDataOutput data, ParcelFileDescriptor newState)
-///         throws IOException {
-///     ...
-///     byte[] stringBytes = mStringToBackUp.getBytes();
-///     data.writeEntityHeader(MY_STRING_KEY, stringBytes.length);
-///     data.writeEntityData(stringBytes, stringBytes.length);
-///     ...
-/// }</pre>
-///@see BackupAgent
-class BackupDataOutput extends jni.JniObject {
-  BackupDataOutput.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  static final _ctor = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_backup_BackupDataOutput_ctor")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: void <init>(java.io.FileDescriptor fd)
-  ///
-  /// Construct a BackupDataOutput purely for data-stream manipulation.  This instance will
-  /// not report usable quota information.
-  ///@hide
-  BackupDataOutput(jni.JniObject fd) : super.fromRef(_ctor(fd.reference)) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _getQuota =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_backup_BackupDataOutput_getQuota")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public long getQuota()
-  ///
-  /// Returns the quota in bytes for the application's current backup operation.  The
-  /// value can vary for each operation.
-  ///@see FullBackupDataOutput\#getQuota()
-  int getQuota() {
-    final result__ = _getQuota(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getTransportFlags =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_backup_BackupDataOutput_getTransportFlags")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int getTransportFlags()
-  ///
-  /// Returns flags with additional information about the backup transport. For supported flags see
-  /// android.app.backup.BackupAgent
-  ///@see FullBackupDataOutput\#getTransportFlags()
-  int getTransportFlags() {
-    final result__ = _getTransportFlags(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _writeEntityHeader = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_backup_BackupDataOutput_writeEntityHeader")
-      .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public int writeEntityHeader(java.lang.String key, int dataSize)
-  ///
-  /// Mark the beginning of one record in the backup data stream. This must be called before
-  /// \#writeEntityData.
-  ///@param key A string key that uniquely identifies the data record within the application.
-  ///    Keys whose first character is \uff00 or higher are not valid.
-  ///@param dataSize The size in bytes of this record's data.  Passing a dataSize
-  ///    of -1 indicates that the record under this key should be deleted.
-  ///@return The number of bytes written to the backup stream
-  ///@throws IOException if the write failed
-  int writeEntityHeader(jni.JniString key, int dataSize) {
-    final result__ = _writeEntityHeader(reference, key.reference, dataSize);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _writeEntityData = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_backup_BackupDataOutput_writeEntityData")
-      .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public int writeEntityData(byte[] data, int size)
-  ///
-  /// Write a chunk of data under the current entity to the backup transport.
-  ///@param data A raw data buffer to send
-  ///@param size The number of bytes to be sent in this chunk
-  ///@return the number of bytes written
-  ///@throws IOException if the write failed
-  int writeEntityData(jni.JniObject data, int size) {
-    final result__ = _writeEntityData(reference, data.reference, size);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _finalize =
-      jniLookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_backup_BackupDataOutput_finalize")
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: protected void finalize()
-  ///
-  /// @hide
-  void finalize() {
-    final result__ = _finalize(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
-
-/// from: android.app.backup.RestoreObserver
-///
-/// Callback class for receiving progress reports during a restore operation.  These
-/// methods will all be called on your application's main thread.
-class RestoreObserver extends jni.JniObject {
-  RestoreObserver.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_app_backup_RestoreObserver_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: public void <init>()
-  RestoreObserver() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _restoreStarting = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_backup_RestoreObserver_restoreStarting")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public void restoreStarting(int numPackages)
-  ///
-  /// The restore operation has begun.
-  ///@param numPackages The total number of packages being processed in
-  ///   this restore operation.
-  void restoreStarting(int numPackages) {
-    final result__ = _restoreStarting(reference, numPackages);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onUpdate = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_backup_RestoreObserver_onUpdate")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void onUpdate(int nowBeingRestored, java.lang.String currentPackage)
-  ///
-  /// An indication of which package is being restored currently, out of the
-  /// total number provided in the \#restoreStarting(int) callback.  This method
-  /// is not guaranteed to be called: if the transport is unable to obtain
-  /// data for one or more of the requested packages, no onUpdate() call will
-  /// occur for those packages.
-  ///@param nowBeingRestored The index, between 1 and the numPackages parameter
-  ///   to the \#restoreStarting(int) callback, of the package now being
-  ///   restored.  This may be non-monotonic; it is intended purely as a rough
-  ///   indication of the backup manager's progress through the overall restore process.
-  ///@param currentPackage The name of the package now being restored.
-  void onUpdate(int nowBeingRestored, jni.JniString currentPackage) {
-    final result__ =
-        _onUpdate(reference, nowBeingRestored, currentPackage.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _restoreFinished = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_backup_RestoreObserver_restoreFinished")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public void restoreFinished(int error)
-  ///
-  /// The restore process has completed.  This method will always be called,
-  /// even if no individual package restore operations were attempted.
-  ///@param error Zero on success; a nonzero error code if the restore operation
-  ///   as a whole failed.
-  void restoreFinished(int error) {
-    final result__ = _restoreFinished(reference, error);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void onRestoreFinished() => _onRestoreFinished(reference).check();
 }
 
 /// from: android.app.backup.BackupAgentHelper
@@ -1433,69 +476,60 @@ class RestoreObserver extends jni.JniObject {
 class BackupAgentHelper extends BackupAgent {
   BackupAgentHelper.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
-  static final _ctor2 =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_app_backup_BackupAgentHelper_ctor2")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+  static final _ctor2 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "BackupAgentHelper__ctor2")
+      .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  BackupAgentHelper.ctor2() : super.fromRef(_ctor2()) {
-    jni.Jni.env.checkException();
-  }
+  BackupAgentHelper.ctor2() : super.fromRef(_ctor2().object);
 
   static final _onBackup = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_backup_BackupAgentHelper_onBackup")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("BackupAgentHelper__onBackup")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onBackup(android.os.ParcelFileDescriptor oldState, android.app.backup.BackupDataOutput data, android.os.ParcelFileDescriptor newState)
   ///
   /// Run the backup process on each of the configured handlers.
   void onBackup(os_.ParcelFileDescriptor oldState, BackupDataOutput data,
-      os_.ParcelFileDescriptor newState) {
-    final result__ = _onBackup(
-        reference, oldState.reference, data.reference, newState.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          os_.ParcelFileDescriptor newState) =>
+      _onBackup(
+              reference, oldState.reference, data.reference, newState.reference)
+          .check();
 
   static final _onRestore = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Int32,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_backup_BackupAgentHelper_onRestore")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32,
+                  ffi.Pointer<ffi.Void>)>>("BackupAgentHelper__onRestore")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int,
-              ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void onRestore(android.app.backup.BackupDataInput data, int appVersionCode, android.os.ParcelFileDescriptor newState)
   ///
   /// Run the restore process on each of the configured handlers.
   void onRestore(BackupDataInput data, int appVersionCode,
-      os_.ParcelFileDescriptor newState) {
-    final result__ = _onRestore(
-        reference, data.reference, appVersionCode, newState.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          os_.ParcelFileDescriptor newState) =>
+      _onRestore(reference, data.reference, appVersionCode, newState.reference)
+          .check();
 
   static final _addHelper = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_backup_BackupAgentHelper_addHelper")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("BackupAgentHelper__addHelper")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void addHelper(java.lang.String keyPrefix, android.app.backup.BackupHelper helper)
@@ -1506,12 +540,8 @@ class BackupAgentHelper extends BackupAgent {
   ///@param keyPrefix A string used to disambiguate the various helpers within this agent
   ///@param helper A backup/restore helper object to be invoked during backup and restore
   ///    operations.
-  void addHelper(jni.JniString keyPrefix, BackupHelper helper) {
-    final result__ =
-        _addHelper(reference, keyPrefix.reference, helper.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void addHelper(jni.JniString keyPrefix, BackupHelper helper) =>
+      _addHelper(reference, keyPrefix.reference, helper.reference).check();
 }
 
 /// from: android.app.backup.BackupDataInput
@@ -1555,36 +585,32 @@ class BackupDataInput extends jni.JniObject {
   BackupDataInput.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   static final _ctor = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_backup_BackupDataInput_ctor")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("BackupDataInput__ctor")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: void <init>(java.io.FileDescriptor fd)
   ///
   /// @hide
-  BackupDataInput(jni.JniObject fd) : super.fromRef(_ctor(fd.reference)) {
-    jni.Jni.env.checkException();
-  }
+  BackupDataInput(jni.JniObject fd) : super.fromRef(_ctor(fd.reference).object);
 
-  static final _finalize =
-      jniLookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_backup_BackupDataInput_finalize")
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+  static final _finalize = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("BackupDataInput__finalize")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: protected void finalize()
   ///
   /// @hide
-  void finalize() {
-    final result__ = _finalize(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void finalize() => _finalize(reference).check();
 
-  static final _readNextHeader =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_backup_BackupDataInput_readNextHeader")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _readNextHeader = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("BackupDataInput__readNextHeader")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean readNextHeader()
   ///
@@ -1594,17 +620,13 @@ class BackupDataInput extends jni.JniObject {
   ///@return <code>true</code> when there is an entity ready for consumption from the
   ///    restore stream, <code>false</code> if the restore stream has been fully consumed.
   ///@throws IOException if an error occurred while reading the restore stream
-  bool readNextHeader() {
-    final result__ = _readNextHeader(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool readNextHeader() => _readNextHeader(reference).boolean;
 
   static final _getKey = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_backup_BackupDataInput_getKey")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("BackupDataInput__getKey")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getKey()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1612,16 +634,13 @@ class BackupDataInput extends jni.JniObject {
   /// Report the key associated with the current entity in the restore stream
   ///@return the current entity's key string
   ///@throws IllegalStateException if the next record header has not yet been read
-  jni.JniString getKey() {
-    final result__ = jni.JniString.fromRef(_getKey(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getKey() => jni.JniString.fromRef(_getKey(reference).object);
 
-  static final _getDataSize =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_backup_BackupDataInput_getDataSize")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getDataSize = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("BackupDataInput__getDataSize")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getDataSize()
   ///
@@ -1629,19 +648,17 @@ class BackupDataInput extends jni.JniObject {
   /// restore stream.
   ///@return The size of the record's raw data, in bytes
   ///@throws IllegalStateException if the next record header has not yet been read
-  int getDataSize() {
-    final result__ = _getDataSize(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getDataSize() => _getDataSize(reference).integer;
 
   static final _readEntityData = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32, ffi.Int32)>>(
-          "android_app_backup_BackupDataInput_readEntityData")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32,
+                  ffi.Int32)>>("BackupDataInput__readEntityData")
       .asFunction<
-          int Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int, int)>();
 
   /// from: public int readEntityData(byte[] data, int offset, int size)
@@ -1658,16 +675,14 @@ class BackupDataInput extends jni.JniObject {
   ///@return The number of bytes of data read.  Once all of the data for this entity
   ///    has been read, further calls to this method will return zero.
   ///@throws IOException if an error occurred when trying to read the restore data stream
-  int readEntityData(jni.JniObject data, int offset, int size) {
-    final result__ = _readEntityData(reference, data.reference, offset, size);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int readEntityData(jni.JniObject data, int offset, int size) =>
+      _readEntityData(reference, data.reference, offset, size).integer;
 
-  static final _skipEntityData =
-      jniLookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_backup_BackupDataInput_skipEntityData")
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+  static final _skipEntityData = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("BackupDataInput__skipEntityData")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void skipEntityData()
   ///
@@ -1676,9 +691,835 @@ class BackupDataInput extends jni.JniObject {
   /// efficiently discard obsolete or otherwise uninteresting records during the
   /// restore operation.
   ///@throws IOException if an error occurred when trying to read the restore data stream
-  void skipEntityData() {
-    final result__ = _skipEntityData(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void skipEntityData() => _skipEntityData(reference).check();
+}
+
+/// from: android.app.backup.BackupDataInputStream
+///
+/// Provides an java.io.InputStream-like interface for accessing an
+/// entity's data during a restore operation. Used by BackupHelper classes within the BackupAgentHelper mechanism.
+///
+/// When BackupHelper\#restoreEntity(BackupDataInputStream) BackupHelper.restoreEntity()
+/// is called, the current entity's header has already been read from the underlying
+/// BackupDataInput.  The entity's key string and total data size are available
+/// through this class's \#getKey() and \#size() methods, respectively.
+/// <p class="note">
+/// <strong>Note:</strong> The caller should take care not to seek or close the underlying data
+/// source, nor read more than \#size() bytes from the stream.
+///
+///@see BackupAgentHelper
+///@see BackupHelper
+class BackupDataInputStream extends jni.JniObject {
+  BackupDataInputStream.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  static final _ctor = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("BackupDataInputStream__ctor")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: void <init>(android.app.backup.BackupDataInput data)
+  ///
+  /// @hide
+  BackupDataInputStream(BackupDataInput data)
+      : super.fromRef(_ctor(data.reference).object);
+
+  static final _read = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("BackupDataInputStream__read")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int read()
+  ///
+  /// Read one byte of entity data from the stream, returning it as
+  /// an integer value.  If more than \#size() bytes of data
+  /// are read from the stream, the output of this method is undefined.
+  ///@return The byte read, or undefined if the end of the stream has been reached.
+  int read() => _read(reference).integer;
+
+  static final _read1 = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32,
+                  ffi.Int32)>>("BackupDataInputStream__read1")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int, int)>();
+
+  /// from: public int read(byte[] b, int offset, int size)
+  ///
+  /// Read up to {@code size} bytes of data into a byte array, beginning at position
+  /// {@code offset} within the array.
+  ///@param b Byte array into which the data will be read
+  ///@param offset The data will be stored in {@code b} beginning at this index
+  ///   within the array.
+  ///@param size The number of bytes to read in this operation.  If insufficient
+  ///   data exists within the entity to fulfill this request, only as much data
+  ///   will be read as is available.
+  ///@return The number of bytes of data read, or zero if all of the entity's
+  ///   data has already been read.
+  int read1(jni.JniObject b, int offset, int size) =>
+      _read1(reference, b.reference, offset, size).integer;
+
+  static final _read2 = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("BackupDataInputStream__read2")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int read(byte[] b)
+  ///
+  /// Read enough entity data into a byte array to fill the array.
+  ///@param b Byte array to fill with data from the stream.  If the stream does not
+  ///   have sufficient data to fill the array, then the contents of the remainder of
+  ///   the array will be undefined.
+  ///@return The number of bytes of data read, or zero if all of the entity's
+  ///   data has already been read.
+  int read2(jni.JniObject b) => _read2(reference, b.reference).integer;
+
+  static final _getKey = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("BackupDataInputStream__getKey")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.lang.String getKey()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Report the key string associated with this entity within the backup data set.
+  ///@return The key string for this entity, equivalent to calling
+  ///   BackupDataInput\#getKey() on the underlying BackupDataInput.
+  jni.JniString getKey() => jni.JniString.fromRef(_getKey(reference).object);
+
+  static final _size = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("BackupDataInputStream__size")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int size()
+  ///
+  /// Report the total number of bytes of data available for the current entity.
+  ///@return The number of data bytes available, equivalent to calling
+  ///   BackupDataInput\#getDataSize() on the underlying BackupDataInput.
+  int size() => _size(reference).integer;
+}
+
+/// from: android.app.backup.BackupDataOutput
+///
+/// Provides the structured interface through which a BackupAgent commits
+/// information to the backup data set, via its BackupAgent\#onBackup(ParcelFileDescriptor,BackupDataOutput,ParcelFileDescriptor) onBackup() method.  Data written for backup is presented
+/// as a set of "entities," key/value pairs in which each binary data record "value" is
+/// named with a string "key."
+///
+/// To commit a data record to the backup transport, the agent's
+/// BackupAgent\#onBackup(ParcelFileDescriptor,BackupDataOutput,ParcelFileDescriptor) onBackup() method first writes an "entity header" that supplies the key string for the record
+/// and the total size of the binary value for the record.  After the header has been
+/// written, the agent then writes the binary entity value itself.  The entity value can
+/// be written in multiple chunks if desired, as long as the total count of bytes written
+/// matches what was supplied to \#writeEntityHeader(String, int) writeEntityHeader().
+///
+/// Entity key strings are considered to be unique within a given application's backup
+/// data set. If a backup agent writes a new entity under an existing key string, its value will
+/// replace any previous value in the transport's remote data store.  You can remove a record
+/// entirely from the remote data set by writing a new entity header using the
+/// existing record's key, but supplying a negative <code>dataSize</code> parameter.
+/// When you do so, the agent does not need to call \#writeEntityData(byte[], int).
+/// <h3>Example</h3>
+///
+/// Here is an example illustrating a way to back up the value of a String variable
+/// called <code>mStringToBackUp</code>:
+/// <pre>
+/// static final String MY_STRING_KEY = "storedstring";
+///
+/// public void BackupAgent\#onBackup(ParcelFileDescriptor, BackupDataOutput, ParcelFileDescriptor) onBackup(ParcelFileDescriptor oldState, BackupDataOutput data, ParcelFileDescriptor newState)
+///         throws IOException {
+///     ...
+///     byte[] stringBytes = mStringToBackUp.getBytes();
+///     data.writeEntityHeader(MY_STRING_KEY, stringBytes.length);
+///     data.writeEntityData(stringBytes, stringBytes.length);
+///     ...
+/// }</pre>
+///@see BackupAgent
+class BackupDataOutput extends jni.JniObject {
+  BackupDataOutput.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  static final _ctor = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("BackupDataOutput__ctor")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: void <init>(java.io.FileDescriptor fd)
+  ///
+  /// Construct a BackupDataOutput purely for data-stream manipulation.  This instance will
+  /// not report usable quota information.
+  ///@hide
+  BackupDataOutput(jni.JniObject fd)
+      : super.fromRef(_ctor(fd.reference).object);
+
+  static final _getQuota = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("BackupDataOutput__getQuota")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public long getQuota()
+  ///
+  /// Returns the quota in bytes for the application's current backup operation.  The
+  /// value can vary for each operation.
+  ///@see FullBackupDataOutput\#getQuota()
+  int getQuota() => _getQuota(reference).long;
+
+  static final _getTransportFlags = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "BackupDataOutput__getTransportFlags")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int getTransportFlags()
+  ///
+  /// Returns flags with additional information about the backup transport. For supported flags see
+  /// android.app.backup.BackupAgent
+  ///@see FullBackupDataOutput\#getTransportFlags()
+  int getTransportFlags() => _getTransportFlags(reference).integer;
+
+  static final _writeEntityHeader = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("BackupDataOutput__writeEntityHeader")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public int writeEntityHeader(java.lang.String key, int dataSize)
+  ///
+  /// Mark the beginning of one record in the backup data stream. This must be called before
+  /// \#writeEntityData.
+  ///@param key A string key that uniquely identifies the data record within the application.
+  ///    Keys whose first character is \uff00 or higher are not valid.
+  ///@param dataSize The size in bytes of this record's data.  Passing a dataSize
+  ///    of -1 indicates that the record under this key should be deleted.
+  ///@return The number of bytes written to the backup stream
+  ///@throws IOException if the write failed
+  int writeEntityHeader(jni.JniString key, int dataSize) =>
+      _writeEntityHeader(reference, key.reference, dataSize).integer;
+
+  static final _writeEntityData = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("BackupDataOutput__writeEntityData")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public int writeEntityData(byte[] data, int size)
+  ///
+  /// Write a chunk of data under the current entity to the backup transport.
+  ///@param data A raw data buffer to send
+  ///@param size The number of bytes to be sent in this chunk
+  ///@return the number of bytes written
+  ///@throws IOException if the write failed
+  int writeEntityData(jni.JniObject data, int size) =>
+      _writeEntityData(reference, data.reference, size).integer;
+
+  static final _finalize = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("BackupDataOutput__finalize")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: protected void finalize()
+  ///
+  /// @hide
+  void finalize() => _finalize(reference).check();
+}
+
+/// from: android.app.backup.BackupHelper
+///
+/// Defines the calling interface that BackupAgentHelper uses
+/// when dispatching backup and restore operations to the installed helpers.
+/// Applications can define and install their own helpers as well as using those
+/// provided as part of the Android framework.
+///
+/// Although multiple helper objects may be installed simultaneously, each helper
+/// is responsible only for handling its own data, and will not see entities
+/// created by other components within the backup system.  Invocations of multiple
+/// helpers are performed sequentially by the BackupAgentHelper, with each
+/// helper given a chance to access its own saved state from within the state record
+/// produced during the previous backup operation.
+///@see BackupAgentHelper
+///@see FileBackupHelper
+///@see SharedPreferencesBackupHelper
+class BackupHelper extends jni.JniObject {
+  BackupHelper.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  static final _performBackup = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("BackupHelper__performBackup")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public abstract void performBackup(android.os.ParcelFileDescriptor oldState, android.app.backup.BackupDataOutput data, android.os.ParcelFileDescriptor newState)
+  ///
+  /// Based on <code>oldState</code>, determine what application content
+  /// needs to be backed up, write it to <code>data</code>, and fill in
+  /// <code>newState</code> with the complete state as it exists now.
+  ///
+  /// Implementing this method is much like implementing
+  /// BackupAgent\#onBackup(ParcelFileDescriptor, BackupDataOutput, ParcelFileDescriptor) onBackup() &mdash; the method parameters are the same.  When this method is invoked the
+  /// {@code oldState} descriptor points to the beginning of the state data
+  /// written during this helper's previous backup operation, and the {@code newState}
+  /// descriptor points to the file location at which the helper should write its
+  /// new state after performing the backup operation.
+  /// <p class="note">
+  /// <strong>Note:</strong> The helper should not close or seek either the {@code oldState} or
+  /// the {@code newState} file descriptors.  It is essential that when reading the helper's
+  /// saved state from the {@code oldState} file, no extra content is consumed beyond
+  /// what was stored by this helper.  If more old state data is read, even accidentally,
+  /// it will make it impossible for additional helpers that may be invoked after this one
+  /// to properly reconstruct their prior state.
+  ///
+  ///@param oldState An open, read-only android.os.ParcelFileDescriptor pointing to the
+  ///            last backup state provided by the application. May be
+  ///            <code>null</code>, in which case no prior state is being
+  ///            provided and the application should perform a full backup.
+  ///@param data An open, read/write BackupDataOutput
+  ///            pointing to the backup data destination.
+  ///            Typically the application will use backup helper classes to
+  ///            write to this file.
+  ///@param newState An open, read/write android.os.ParcelFileDescriptor pointing to an
+  ///            empty file. The application should record the final backup
+  ///            state here after writing the requested data to the <code>data</code>
+  ///            output stream.
+  void performBackup(os_.ParcelFileDescriptor oldState, BackupDataOutput data,
+          os_.ParcelFileDescriptor newState) =>
+      _performBackup(
+              reference, oldState.reference, data.reference, newState.reference)
+          .check();
+
+  static final _restoreEntity = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("BackupHelper__restoreEntity")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public abstract void restoreEntity(android.app.backup.BackupDataInputStream data)
+  ///
+  /// Called by android.app.backup.BackupAgentHelper BackupAgentHelper
+  /// to restore a single entity from the restore data set.  This method will be
+  /// called for each entity in the data set that belongs to this handler.
+  /// <p class="note">
+  /// <strong>Note:</strong> Do not close the <code>data</code> stream.  Do not read more than
+  /// android.app.backup.BackupDataInputStream\#size() size() bytes from
+  /// <code>data</code>.
+  ///
+  ///@param data An open BackupDataInputStream from which the backup data can be read.
+  void restoreEntity(BackupDataInputStream data) =>
+      _restoreEntity(reference, data.reference).check();
+
+  static final _writeNewStateDescription = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
+          "BackupHelper__writeNewStateDescription")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public abstract void writeNewStateDescription(android.os.ParcelFileDescriptor newState)
+  ///
+  /// Called by android.app.backup.BackupAgentHelper BackupAgentHelper
+  /// after a restore operation to write the backup state file corresponding to
+  /// the data as processed by the helper.  The data written here will be
+  /// available to the helper during the next call to its
+  /// \#performBackup(ParcelFileDescriptor, BackupDataOutput, ParcelFileDescriptor) performBackup() method.
+  ///
+  /// This method will be called even if the handler's
+  /// \#restoreEntity(BackupDataInputStream) restoreEntity() method was never invoked during
+  /// the restore operation.
+  /// <p class="note">
+  /// <strong>Note:</strong> The helper should not close or seek the {@code newState}
+  /// file descriptor.
+  ///
+  ///@param newState A android.os.ParcelFileDescriptor to which the new state will be
+  /// written.
+  void writeNewStateDescription(os_.ParcelFileDescriptor newState) =>
+      _writeNewStateDescription(reference, newState.reference).check();
+}
+
+/// from: android.app.backup.BackupManager
+///
+/// The interface through which an application interacts with the Android backup service to
+/// request backup and restore operations.
+/// Applications instantiate it using the constructor and issue calls through that instance.
+///
+/// When an application has made changes to data which should be backed up, a
+/// call to \#dataChanged() will notify the backup service. The system
+/// will then schedule a backup operation to occur in the near future. Repeated
+/// calls to \#dataChanged() have no further effect until the backup
+/// operation actually occurs.
+///
+/// A backup or restore operation for your application begins when the system launches the
+/// android.app.backup.BackupAgent subclass you've declared in your manifest. See the
+/// documentation for android.app.backup.BackupAgent for a detailed description
+/// of how the operation then proceeds.
+///
+/// Several attributes affecting the operation of the backup and restore mechanism
+/// can be set on the <code>
+/// <a href="{@docRoot}guide/topics/manifest/application-element.html">&lt;application&gt;</a></code>
+/// tag in your application's AndroidManifest.xml file.
+///
+/// <div class="special reference">
+/// <h3>Developer Guides</h3>
+/// For more information about using BackupManager, read the
+/// <a href="{@docRoot}guide/topics/data/backup.html">Data Backup</a> developer guide.
+///</div>
+///@attr ref android.R.styleable\#AndroidManifestApplication_allowBackup
+///@attr ref android.R.styleable\#AndroidManifestApplication_backupAgent
+///@attr ref android.R.styleable\#AndroidManifestApplication_killAfterRestore
+///@attr ref android.R.styleable\#AndroidManifestApplication_restoreAnyVersion
+class BackupManager extends jni.JniObject {
+  BackupManager.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  static final _ctor = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("BackupManager__ctor")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void <init>(android.content.Context context)
+  ///
+  /// Constructs a BackupManager object through which the application can
+  /// communicate with the Android backup system.
+  ///@param context The android.content.Context that was provided when
+  ///                one of your application's android.app.Activity Activities
+  ///                was created.
+  BackupManager(content_.Context context)
+      : super.fromRef(_ctor(context.reference).object);
+
+  static final _dataChanged = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("BackupManager__dataChanged")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void dataChanged()
+  ///
+  /// Notifies the Android backup system that your application wishes to back up
+  /// new changes to its data.  A backup operation using your application's
+  /// android.app.backup.BackupAgent subclass will be scheduled when you
+  /// call this method.
+  void dataChanged() => _dataChanged(reference).check();
+
+  static final _dataChanged1 = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("BackupManager__dataChanged1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: static public void dataChanged(java.lang.String packageName)
+  ///
+  /// Convenience method for callers who need to indicate that some other package
+  /// needs a backup pass.  This can be useful in the case of groups of packages
+  /// that share a uid.
+  ///
+  /// This method requires that the application hold the "android.permission.BACKUP"
+  /// permission if the package named in the argument does not run under the same uid
+  /// as the caller.
+  ///@param packageName The package name identifying the application to back up.
+  static void dataChanged1(jni.JniString packageName) =>
+      _dataChanged1(packageName.reference).check();
+
+  static final _requestRestore = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("BackupManager__requestRestore")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int requestRestore(android.app.backup.RestoreObserver observer)
+  ///
+  /// @deprecated Applications shouldn't request a restore operation using this method. In Android
+  /// P and later, this method is a no-op.
+  ///
+  /// Restore the calling application from backup. The data will be restored from the
+  /// current backup dataset if the application has stored data there, or from
+  /// the dataset used during the last full device setup operation if the current
+  /// backup dataset has no matching data.  If no backup data exists for this application
+  /// in either source, a non-zero value is returned.
+  ///
+  /// If this method returns zero (meaning success), the OS attempts to retrieve a backed-up
+  /// dataset from the remote transport, instantiate the application's backup agent, and pass the
+  /// dataset to the agent's
+  /// android.app.backup.BackupAgent\#onRestore(BackupDataInput, int, android.os.ParcelFileDescriptor) onRestore()
+  /// method.
+  ///
+  /// <p class="caution">Unlike other restore operations, this method doesn't terminate the
+  /// application after the restore. The application continues running to receive the
+  /// RestoreObserver callbacks on the {@code observer} argument. Full backups use an
+  /// android.app.Application Application base class while key-value backups use the
+  /// application subclass declared in the AndroidManifest.xml {@code <application>} tag.
+  ///@param observer The RestoreObserver to receive callbacks during the restore
+  /// operation. This must not be null.
+  ///@return Zero on success; nonzero on error.
+  int requestRestore(RestoreObserver observer) =>
+      _requestRestore(reference, observer.reference).integer;
+}
+
+/// from: android.app.backup.FileBackupHelper
+///
+/// A helper class that can be used in conjunction with
+/// android.app.backup.BackupAgentHelper to manage the backup of a set of
+/// files. Whenever backup is performed, all files changed since the last backup
+/// will be saved in their entirety. When backup first occurs,
+/// every file in the list provided to \#FileBackupHelper will be backed up.
+///
+/// During restore, if the helper encounters data for a file that was not
+/// specified when the FileBackupHelper object was constructed, that data
+/// will be ignored.
+/// <p class="note"><strong>Note:</strong> This should be
+/// used only with small configuration files, not large binary files.
+class FileBackupHelper extends jni.JniObject {
+  FileBackupHelper.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  static final _ctor = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("FileBackupHelper__ctor")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void <init>(android.content.Context context, java.lang.String[] files)
+  ///
+  /// Construct a helper to manage backup/restore of entire files within the
+  /// application's data directory hierarchy.
+  ///@param context The backup agent's Context object
+  ///@param files A list of the files to be backed up or restored.
+  FileBackupHelper(content_.Context context, jni.JniObject files)
+      : super.fromRef(_ctor(context.reference, files.reference).object);
+
+  static final _performBackup = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("FileBackupHelper__performBackup")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void performBackup(android.os.ParcelFileDescriptor oldState, android.app.backup.BackupDataOutput data, android.os.ParcelFileDescriptor newState)
+  ///
+  /// Based on <code>oldState</code>, determine which of the files from the
+  /// application's data directory need to be backed up, write them to the data
+  /// stream, and fill in <code>newState</code> with the state as it exists
+  /// now. When <code>oldState</code> is <code>null</code>, all the files will
+  /// be backed up.
+  ///
+  /// This should only be called directly from within the BackupAgentHelper
+  /// implementation. See
+  /// android.app.backup.BackupAgent\#onBackup(ParcelFileDescriptor, BackupDataOutput, ParcelFileDescriptor)
+  /// for a description of parameter meanings.
+  void performBackup(os_.ParcelFileDescriptor oldState, BackupDataOutput data,
+          os_.ParcelFileDescriptor newState) =>
+      _performBackup(
+              reference, oldState.reference, data.reference, newState.reference)
+          .check();
+
+  static final _restoreEntity = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("FileBackupHelper__restoreEntity")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void restoreEntity(android.app.backup.BackupDataInputStream data)
+  ///
+  /// Restore one record [representing a single file] from the restore dataset.
+  ///
+  /// This should only be called directly from within the BackupAgentHelper
+  /// implementation.
+  void restoreEntity(BackupDataInputStream data) =>
+      _restoreEntity(reference, data.reference).check();
+
+  static final _writeNewStateDescription = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
+          "FileBackupHelper__writeNewStateDescription")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void writeNewStateDescription(android.os.ParcelFileDescriptor fd)
+  void writeNewStateDescription(os_.ParcelFileDescriptor fd) =>
+      _writeNewStateDescription(reference, fd.reference).check();
+
+  static final _finalize = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("FileBackupHelper__finalize")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: protected void finalize()
+  void finalize() => _finalize(reference).check();
+}
+
+/// from: android.app.backup.FullBackupDataOutput
+///
+/// Provides the interface through which a BackupAgent writes entire files
+/// to a full backup data set, via its BackupAgent\#onFullBackup(FullBackupDataOutput)
+/// method.
+class FullBackupDataOutput extends jni.JniObject {
+  FullBackupDataOutput.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  static final _ctor =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function(ffi.Int64)>>(
+              "FullBackupDataOutput__ctor")
+          .asFunction<jni.JniResult Function(int)>();
+
+  /// from: void <init>(long quota)
+  ///
+  /// @hide - used only in measure operation
+  FullBackupDataOutput(int quota) : super.fromRef(_ctor(quota).object);
+
+  static final _getQuota = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("FullBackupDataOutput__getQuota")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public long getQuota()
+  ///
+  /// Returns the quota in bytes for the application's current backup operation.  The
+  /// value can vary for each operation.
+  ///@see BackupDataOutput\#getQuota()
+  int getQuota() => _getQuota(reference).long;
+
+  static final _getTransportFlags = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "FullBackupDataOutput__getTransportFlags")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int getTransportFlags()
+  ///
+  /// Returns flags with additional information about the backup transport. For supported flags see
+  /// android.app.backup.BackupAgent
+  ///@see BackupDataOutput\#getTransportFlags()
+  int getTransportFlags() => _getTransportFlags(reference).integer;
+}
+
+/// from: android.app.backup.RestoreObserver
+///
+/// Callback class for receiving progress reports during a restore operation.  These
+/// methods will all be called on your application's main thread.
+class RestoreObserver extends jni.JniObject {
+  RestoreObserver.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "RestoreObserver__ctor")
+      .asFunction<jni.JniResult Function()>();
+
+  /// from: public void <init>()
+  RestoreObserver() : super.fromRef(_ctor().object);
+
+  static final _restoreStarting = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("RestoreObserver__restoreStarting")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public void restoreStarting(int numPackages)
+  ///
+  /// The restore operation has begun.
+  ///@param numPackages The total number of packages being processed in
+  ///   this restore operation.
+  void restoreStarting(int numPackages) =>
+      _restoreStarting(reference, numPackages).check();
+
+  static final _onUpdate = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Pointer<ffi.Void>)>>("RestoreObserver__onUpdate")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void onUpdate(int nowBeingRestored, java.lang.String currentPackage)
+  ///
+  /// An indication of which package is being restored currently, out of the
+  /// total number provided in the \#restoreStarting(int) callback.  This method
+  /// is not guaranteed to be called: if the transport is unable to obtain
+  /// data for one or more of the requested packages, no onUpdate() call will
+  /// occur for those packages.
+  ///@param nowBeingRestored The index, between 1 and the numPackages parameter
+  ///   to the \#restoreStarting(int) callback, of the package now being
+  ///   restored.  This may be non-monotonic; it is intended purely as a rough
+  ///   indication of the backup manager's progress through the overall restore process.
+  ///@param currentPackage The name of the package now being restored.
+  void onUpdate(int nowBeingRestored, jni.JniString currentPackage) =>
+      _onUpdate(reference, nowBeingRestored, currentPackage.reference).check();
+
+  static final _restoreFinished = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("RestoreObserver__restoreFinished")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public void restoreFinished(int error)
+  ///
+  /// The restore process has completed.  This method will always be called,
+  /// even if no individual package restore operations were attempted.
+  ///@param error Zero on success; a nonzero error code if the restore operation
+  ///   as a whole failed.
+  void restoreFinished(int error) => _restoreFinished(reference, error).check();
+}
+
+/// from: android.app.backup.SharedPreferencesBackupHelper
+///
+/// A helper class that can be used in conjunction with
+/// android.app.backup.BackupAgentHelper to manage the backup of
+/// android.content.SharedPreferences. Whenever a backup is performed, it
+/// will back up all named shared preferences that have changed since the last
+/// backup operation.
+///
+/// To use this class, the application's backup agent class should extend
+/// android.app.backup.BackupAgentHelper.  Then, in the agent's
+/// BackupAgent\#onCreate() method, an instance of this class should be
+/// allocated and installed as a backup/restore handler within the BackupAgentHelper
+/// framework.  For example, an agent supporting backup and restore for
+/// an application with two groups of android.content.SharedPreferences
+/// data might look something like this:
+/// <pre>
+/// import android.app.backup.BackupAgentHelper;
+/// import android.app.backup.SharedPreferencesBackupHelper;
+///
+/// public class MyBackupAgent extends BackupAgentHelper {
+///     // The names of the SharedPreferences groups that the application maintains.  These
+///     // are the same strings that are passed to Context\#getSharedPreferences(String, int).
+///     static final String PREFS_DISPLAY = "displayprefs";
+///     static final String PREFS_SCORES = "highscores";
+///
+///     // An arbitrary string used within the BackupAgentHelper implementation to
+///     // identify the SharedPreferenceBackupHelper's data.
+///     static final String MY_PREFS_BACKUP_KEY = "myprefs";
+///
+///     // Simply allocate a helper and install it
+///     void onCreate() {
+///         SharedPreferencesBackupHelper helper =
+///                 new SharedPreferencesBackupHelper(this, PREFS_DISPLAY, PREFS_SCORES);
+///         addHelper(MY_PREFS_BACKUP_KEY, helper);
+///     }
+/// }</pre>
+///
+/// No further implementation is needed; the BackupAgentHelper mechanism automatically
+/// dispatches the
+/// BackupAgent\#onBackup(android.os.ParcelFileDescriptor, BackupDataOutput, android.os.ParcelFileDescriptor) BackupAgent.onBackup()
+/// and
+/// BackupAgent\#onRestore(BackupDataInput, int, android.os.ParcelFileDescriptor) BackupAgent.onRestore()
+/// callbacks to the SharedPreferencesBackupHelper as appropriate.
+class SharedPreferencesBackupHelper extends jni.JniObject {
+  SharedPreferencesBackupHelper.fromRef(ffi.Pointer<ffi.Void> ref)
+      : super.fromRef(ref);
+
+  static final _ctor = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
+          "SharedPreferencesBackupHelper__ctor")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void <init>(android.content.Context context, java.lang.String[] prefGroups)
+  ///
+  /// Construct a helper for backing up and restoring the
+  /// android.content.SharedPreferences under the given names.
+  ///@param context The application android.content.Context
+  ///@param prefGroups The names of each android.content.SharedPreferences file to
+  /// back up
+  SharedPreferencesBackupHelper(
+      content_.Context context, jni.JniObject prefGroups)
+      : super.fromRef(_ctor(context.reference, prefGroups.reference).object);
+
+  static final _performBackup = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>)>>(
+          "SharedPreferencesBackupHelper__performBackup")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void performBackup(android.os.ParcelFileDescriptor oldState, android.app.backup.BackupDataOutput data, android.os.ParcelFileDescriptor newState)
+  ///
+  /// Backs up the configured android.content.SharedPreferences groups.
+  void performBackup(os_.ParcelFileDescriptor oldState, BackupDataOutput data,
+          os_.ParcelFileDescriptor newState) =>
+      _performBackup(
+              reference, oldState.reference, data.reference, newState.reference)
+          .check();
+
+  static final _restoreEntity = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
+          "SharedPreferencesBackupHelper__restoreEntity")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void restoreEntity(android.app.backup.BackupDataInputStream data)
+  ///
+  /// Restores one entity from the restore data stream to its proper shared
+  /// preferences file store.
+  void restoreEntity(BackupDataInputStream data) =>
+      _restoreEntity(reference, data.reference).check();
+
+  static final _writeNewStateDescription = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
+          "SharedPreferencesBackupHelper__writeNewStateDescription")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void writeNewStateDescription(android.os.ParcelFileDescriptor fd)
+  void writeNewStateDescription(os_.ParcelFileDescriptor fd) =>
+      _writeNewStateDescription(reference, fd.reference).check();
+
+  static final _finalize = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "SharedPreferencesBackupHelper__finalize")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: protected void finalize()
+  void finalize() => _finalize(reference).check();
 }

@@ -8,194 +8,802 @@
 // ignore_for_file: unused_element
 
 import "dart:ffi" as ffi;
+import "package:jni/internal_helpers_for_jnigen.dart";
 import "package:jni/jni.dart" as jni;
 
-import "../../android/os.dart" as os_;
+import "../os.dart" as os_;
 import "../../_init.dart" show jniLookup;
 
-/// from: android.content.res.ObbInfo
+/// from: android.content.res.AssetFileDescriptor
 ///
-/// Basic information about a Opaque Binary Blob (OBB) that reflects the info
-/// from the footer on the OBB file. This information may be manipulated by a
-/// developer with the <code>obbtool</code> program in the Android SDK.
-class ObbInfo extends jni.JniObject {
-  ObbInfo.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+/// File descriptor of an entry in the AssetManager.  This provides your own
+/// opened FileDescriptor that can be used to read the data, as well as the
+/// offset and length of that entry's data in the file.
+class AssetFileDescriptor extends jni.JniObject {
+  AssetFileDescriptor.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   static final _get_CREATOR =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "get_android_content_res_ObbInfo_CREATOR")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_AssetFileDescriptor__CREATOR")
+          .asFunction<jni.JniResult Function()>();
 
-  /// from: static public final android.os.Parcelable.Creator<android.content.res.ObbInfo> CREATOR
+  /// from: static public final android.os.Parcelable.Creator<android.content.res.AssetFileDescriptor> CREATOR
   /// The returned object must be deleted after use, by calling the `delete` method.
   static os_.Parcelable_Creator get CREATOR =>
-      os_.Parcelable_Creator.fromRef(_get_CREATOR());
+      os_.Parcelable_Creator.fromRef(_get_CREATOR().object);
 
-  /// from: static public final int OBB_OVERLAY
+  /// from: static public final long UNKNOWN_LENGTH
   ///
-  /// Flag noting that this OBB is an overlay patch for a base OBB.
-  static const OBB_OVERLAY = 1;
+  /// Length used with \#AssetFileDescriptor(ParcelFileDescriptor, long, long)
+  /// and \#getDeclaredLength when a length has not been declared.  This means
+  /// the data extends to the end of the file.
+  static const UNKNOWN_LENGTH = -1;
 
-  static final _get_filename = jniLookup<
+  static final _ctor = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_android_content_res_ObbInfo_filename")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-    ffi.Pointer<ffi.Void>,
-  )>();
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int64,
+                  ffi.Int64)>>("AssetFileDescriptor__ctor")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int, int)>();
 
-  /// from: public java.lang.String filename
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// from: public void <init>(android.os.ParcelFileDescriptor fd, long startOffset, long length)
   ///
-  /// The canonical filename of the OBB.
-  jni.JniString get filename => jni.JniString.fromRef(_get_filename(reference));
-  static final _set_filename = jniLookup<
+  /// Create a new AssetFileDescriptor from the given values.
+  ///@param fd The underlying file descriptor.
+  ///@param startOffset The location within the file that the asset starts.
+  ///            This must be 0 if length is UNKNOWN_LENGTH.
+  ///@param length The number of bytes of the asset, or
+  ///            \#UNKNOWN_LENGTH if it extends to the end of the file.
+  AssetFileDescriptor(os_.ParcelFileDescriptor fd, int startOffset, int length)
+      : super.fromRef(_ctor(fd.reference, startOffset, length).object);
+
+  static final _ctor1 = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int64,
+                  ffi.Int64,
+                  ffi.Pointer<ffi.Void>)>>("AssetFileDescriptor__ctor1")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, int, int, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void <init>(android.os.ParcelFileDescriptor fd, long startOffset, long length, android.os.Bundle extras)
+  ///
+  /// Create a new AssetFileDescriptor from the given values.
+  ///@param fd The underlying file descriptor.
+  ///@param startOffset The location within the file that the asset starts.
+  ///            This must be 0 if length is UNKNOWN_LENGTH.
+  ///@param length The number of bytes of the asset, or
+  ///            \#UNKNOWN_LENGTH if it extends to the end of the file.
+  ///@param extras additional details that can be used to interpret the
+  ///            underlying file descriptor. May be null.
+  AssetFileDescriptor.ctor1(os_.ParcelFileDescriptor fd, int startOffset,
+      int length, os_.Bundle extras)
+      : super.fromRef(
+            _ctor1(fd.reference, startOffset, length, extras.reference).object);
+
+  static final _getParcelFileDescriptor = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "set_android_content_res_ObbInfo_filename")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssetFileDescriptor__getParcelFileDescriptor")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
-  /// from: public java.lang.String filename
+  /// from: public android.os.ParcelFileDescriptor getParcelFileDescriptor()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
-  /// The canonical filename of the OBB.
-  set filename(jni.JniString value) =>
-      _set_filename(reference, value.reference);
+  /// The AssetFileDescriptor contains its own ParcelFileDescriptor, which
+  /// in addition to the normal FileDescriptor object also allows you to close
+  /// the descriptor when you are done with it.
+  os_.ParcelFileDescriptor getParcelFileDescriptor() =>
+      os_.ParcelFileDescriptor.fromRef(
+          _getParcelFileDescriptor(reference).object);
 
-  static final _get_flags = jniLookup<
-          ffi.NativeFunction<
-              ffi.Int32 Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_android_content_res_ObbInfo_flags")
-      .asFunction<
-          int Function(
-    ffi.Pointer<ffi.Void>,
-  )>();
-
-  /// from: public int flags
-  ///
-  /// The flags relating to the OBB.
-  int get flags => _get_flags(reference);
-  static final _set_flags = jniLookup<
-          ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("set_android_content_res_ObbInfo_flags")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public int flags
-  ///
-  /// The flags relating to the OBB.
-  set flags(int value) => _set_flags(reference, value);
-
-  static final _get_packageName = jniLookup<
-          ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_android_content_res_ObbInfo_packageName")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-    ffi.Pointer<ffi.Void>,
-  )>();
-
-  /// from: public java.lang.String packageName
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// The name of the package to which the OBB file belongs.
-  jni.JniString get packageName =>
-      jni.JniString.fromRef(_get_packageName(reference));
-  static final _set_packageName = jniLookup<
+  static final _getFileDescriptor = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "set_android_content_res_ObbInfo_packageName")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssetFileDescriptor__getFileDescriptor")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
-  /// from: public java.lang.String packageName
+  /// from: public java.io.FileDescriptor getFileDescriptor()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
-  /// The name of the package to which the OBB file belongs.
-  set packageName(jni.JniString value) =>
-      _set_packageName(reference, value.reference);
+  /// Returns the FileDescriptor that can be used to read the data in the
+  /// file.
+  jni.JniObject getFileDescriptor() =>
+      jni.JniObject.fromRef(_getFileDescriptor(reference).object);
 
-  static final _get_version = jniLookup<
-          ffi.NativeFunction<
-              ffi.Int32 Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_android_content_res_ObbInfo_version")
-      .asFunction<
-          int Function(
-    ffi.Pointer<ffi.Void>,
-  )>();
+  static final _getStartOffset = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssetFileDescriptor__getStartOffset")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
-  /// from: public int version
+  /// from: public long getStartOffset()
   ///
-  /// The version of the package to which the OBB file belongs.
-  int get version => _get_version(reference);
-  static final _set_version = jniLookup<
+  /// Returns the byte offset where this asset entry's data starts.
+  int getStartOffset() => _getStartOffset(reference).long;
+
+  static final _getExtras = jniLookup<
           ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("set_android_content_res_ObbInfo_version")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("AssetFileDescriptor__getExtras")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
-  /// from: public int version
+  /// from: public android.os.Bundle getExtras()
+  /// The returned object must be deleted after use, by calling the `delete` method.
   ///
-  /// The version of the package to which the OBB file belongs.
-  set version(int value) => _set_version(reference, value);
+  /// Returns any additional details that can be used to interpret the
+  /// underlying file descriptor. May be null.
+  os_.Bundle getExtras() => os_.Bundle.fromRef(_getExtras(reference).object);
 
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_content_res_ObbInfo_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+  static final _getLength = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("AssetFileDescriptor__getLength")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
-  /// from: void <init>()
-  ObbInfo() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
+  /// from: public long getLength()
+  ///
+  /// Returns the total number of bytes of this asset entry's data.  May be
+  /// \#UNKNOWN_LENGTH if the asset extends to the end of the file.
+  /// If the AssetFileDescriptor was constructed with \#UNKNOWN_LENGTH,
+  /// this will use ParcelFileDescriptor\#getStatSize() ParcelFileDescriptor.getStatSize() to find the total size of the file,
+  /// returning that number if found or \#UNKNOWN_LENGTH if it could
+  /// not be determined.
+  ///@see \#getDeclaredLength()
+  int getLength() => _getLength(reference).long;
+
+  static final _getDeclaredLength = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssetFileDescriptor__getDeclaredLength")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public long getDeclaredLength()
+  ///
+  /// Return the actual number of bytes that were declared when the
+  /// AssetFileDescriptor was constructed.  Will be
+  /// \#UNKNOWN_LENGTH if the length was not declared, meaning data
+  /// should be read to the end of the file.
+  ///@see \#getDeclaredLength()
+  int getDeclaredLength() => _getDeclaredLength(reference).long;
+
+  static final _close = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("AssetFileDescriptor__close")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void close()
+  ///
+  /// Convenience for calling <code>getParcelFileDescriptor().close()</code>.
+  void close() => _close(reference).check();
+
+  static final _createInputStream = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssetFileDescriptor__createInputStream")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.io.FileInputStream createInputStream()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Create and return a new auto-close input stream for this asset.  This
+  /// will either return a full asset AutoCloseInputStream, or
+  /// an underlying ParcelFileDescriptor.AutoCloseInputStream ParcelFileDescriptor.AutoCloseInputStream depending on whether the
+  /// the object represents a complete file or sub-section of a file.  You
+  /// should only call this once for a particular asset.
+  jni.JniObject createInputStream() =>
+      jni.JniObject.fromRef(_createInputStream(reference).object);
+
+  static final _createOutputStream = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssetFileDescriptor__createOutputStream")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.io.FileOutputStream createOutputStream()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Create and return a new auto-close output stream for this asset.  This
+  /// will either return a full asset AutoCloseOutputStream, or
+  /// an underlying ParcelFileDescriptor.AutoCloseOutputStream ParcelFileDescriptor.AutoCloseOutputStream depending on whether the
+  /// the object represents a complete file or sub-section of a file.  You
+  /// should only call this once for a particular asset.
+  jni.JniObject createOutputStream() =>
+      jni.JniObject.fromRef(_createOutputStream(reference).object);
 
   static final _toString1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_ObbInfo_toString1")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("AssetFileDescriptor__toString1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String toString()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniString toString1() {
-    final result__ = jni.JniString.fromRef(_toString1(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString toString1() =>
+      jni.JniString.fromRef(_toString1(reference).object);
 
-  static final _describeContents =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_ObbInfo_describeContents")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _describeContents = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssetFileDescriptor__describeContents")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int describeContents()
-  int describeContents() {
-    final result__ = _describeContents(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int describeContents() => _describeContents(reference).integer;
 
   static final _writeToParcel = jniLookup<
           ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_content_res_ObbInfo_writeToParcel")
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("AssetFileDescriptor__writeToParcel")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
-  /// from: public void writeToParcel(android.os.Parcel dest, int parcelableFlags)
-  void writeToParcel(os_.Parcel dest, int parcelableFlags) {
-    final result__ = _writeToParcel(reference, dest.reference, parcelableFlags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  /// from: public void writeToParcel(android.os.Parcel out, int flags)
+  void writeToParcel(os_.Parcel out, int flags) =>
+      _writeToParcel(reference, out.reference, flags).check();
+}
+
+/// from: android.content.res.AssetFileDescriptor$AutoCloseOutputStream
+///
+/// An OutputStream you can create on a ParcelFileDescriptor, which will
+/// take care of calling ParcelFileDescriptor\#close ParcelFileDescriptor.close() for you when the stream is closed.
+class AssetFileDescriptor_AutoCloseOutputStream
+    extends os_.ParcelFileDescriptor_AutoCloseOutputStream {
+  AssetFileDescriptor_AutoCloseOutputStream.fromRef(ffi.Pointer<ffi.Void> ref)
+      : super.fromRef(ref);
+
+  static final _ctor1 = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssetFileDescriptor_AutoCloseOutputStream__ctor1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void <init>(android.content.res.AssetFileDescriptor fd)
+  AssetFileDescriptor_AutoCloseOutputStream.ctor1(AssetFileDescriptor fd)
+      : super.fromRef(_ctor1(fd.reference).object);
+
+  static final _write = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>, ffi.Int32, ffi.Int32)>>(
+          "AssetFileDescriptor_AutoCloseOutputStream__write")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int, int)>();
+
+  /// from: public void write(byte[] buffer, int offset, int count)
+  void write(jni.JniObject buffer, int offset, int count) =>
+      _write(reference, buffer.reference, offset, count).check();
+
+  static final _write1 = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
+          "AssetFileDescriptor_AutoCloseOutputStream__write1")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void write(byte[] buffer)
+  void write1(jni.JniObject buffer) =>
+      _write1(reference, buffer.reference).check();
+
+  static final _write2 = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32)>>(
+          "AssetFileDescriptor_AutoCloseOutputStream__write2")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public void write(int oneByte)
+  void write2(int oneByte) => _write2(reference, oneByte).check();
+}
+
+/// from: android.content.res.AssetFileDescriptor$AutoCloseInputStream
+///
+/// An InputStream you can create on a ParcelFileDescriptor, which will
+/// take care of calling ParcelFileDescriptor\#close ParcelFileDescriptor.close() for you when the stream is closed.
+class AssetFileDescriptor_AutoCloseInputStream
+    extends os_.ParcelFileDescriptor_AutoCloseInputStream {
+  AssetFileDescriptor_AutoCloseInputStream.fromRef(ffi.Pointer<ffi.Void> ref)
+      : super.fromRef(ref);
+
+  static final _ctor1 = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssetFileDescriptor_AutoCloseInputStream__ctor1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void <init>(android.content.res.AssetFileDescriptor fd)
+  AssetFileDescriptor_AutoCloseInputStream.ctor1(AssetFileDescriptor fd)
+      : super.fromRef(_ctor1(fd.reference).object);
+
+  static final _available = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssetFileDescriptor_AutoCloseInputStream__available")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int available()
+  int available() => _available(reference).integer;
+
+  static final _read = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssetFileDescriptor_AutoCloseInputStream__read")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int read()
+  int read() => _read(reference).integer;
+
+  static final _read2 = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>, ffi.Int32, ffi.Int32)>>(
+          "AssetFileDescriptor_AutoCloseInputStream__read2")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int, int)>();
+
+  /// from: public int read(byte[] buffer, int offset, int count)
+  int read2(jni.JniObject buffer, int offset, int count) =>
+      _read2(reference, buffer.reference, offset, count).integer;
+
+  static final _read1 = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
+          "AssetFileDescriptor_AutoCloseInputStream__read1")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int read(byte[] buffer)
+  int read1(jni.JniObject buffer) =>
+      _read1(reference, buffer.reference).integer;
+
+  static final _skip = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int64)>>("AssetFileDescriptor_AutoCloseInputStream__skip")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public long skip(long count)
+  int skip(int count) => _skip(reference, count).long;
+
+  static final _mark = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("AssetFileDescriptor_AutoCloseInputStream__mark")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public void mark(int readlimit)
+  void mark(int readlimit) => _mark(reference, readlimit).check();
+
+  static final _markSupported = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssetFileDescriptor_AutoCloseInputStream__markSupported")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public boolean markSupported()
+  bool markSupported() => _markSupported(reference).boolean;
+
+  static final _reset = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssetFileDescriptor_AutoCloseInputStream__reset")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: synchronized public void reset()
+  void reset() => _reset(reference).check();
+}
+
+/// from: android.content.res.AssetManager
+///
+/// Provides access to an application's raw asset files; see Resources
+/// for the way most applications will want to retrieve their resource data.
+/// This class presents a lower-level API that allows you to open and read raw
+/// files that have been bundled with the application as a simple stream of
+/// bytes.
+class AssetManager extends jni.JniObject {
+  AssetManager.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  /// from: static public final int ACCESS_BUFFER
+  ///
+  /// Mode for \#open(String, int): Attempt to load contents into
+  /// memory, for fast small reads.
+  static const ACCESS_BUFFER = 3;
+
+  /// from: static public final int ACCESS_RANDOM
+  ///
+  /// Mode for \#open(String, int): Read chunks, and seek forward and
+  /// backward.
+  static const ACCESS_RANDOM = 1;
+
+  /// from: static public final int ACCESS_STREAMING
+  ///
+  /// Mode for \#open(String, int): Read sequentially, with an
+  /// occasional forward seek.
+  static const ACCESS_STREAMING = 2;
+
+  /// from: static public final int ACCESS_UNKNOWN
+  ///
+  /// Mode for \#open(String, int): no specific information about how
+  /// data will be accessed.
+  static const ACCESS_UNKNOWN = 0;
+
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "AssetManager__ctor")
+      .asFunction<jni.JniResult Function()>();
+
+  /// from: void <init>()
+  ///
+  /// Create a new AssetManager containing only the basic system assets.
+  /// Applications will not generally use this method, instead retrieving the
+  /// appropriate asset manager with Resources\#getAssets.    Not for
+  /// use by applications.
+  ///@hide
+  AssetManager() : super.fromRef(_ctor().object);
+
+  static final _close = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("AssetManager__close")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void close()
+  ///
+  /// Close this asset manager.
+  void close() => _close(reference).check();
+
+  static final _open = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("AssetManager__open")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.io.InputStream open(java.lang.String fileName)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Open an asset using ACCESS_STREAMING mode.  This provides access to
+  /// files that have been bundled with an application as assets -- that is,
+  /// files placed in to the "assets" directory.
+  ///@param fileName The name of the asset to open.  This name can be hierarchical.
+  ///
+  /// This value must never be {@code null}.
+  ///@see \#open(String, int)
+  ///@see \#list
+  ///@return This value will never be {@code null}.
+  jni.JniObject open(jni.JniString fileName) =>
+      jni.JniObject.fromRef(_open(reference, fileName.reference).object);
+
+  static final _open1 = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("AssetManager__open1")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public java.io.InputStream open(java.lang.String fileName, int accessMode)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Open an asset using an explicit access mode, returning an InputStream to
+  /// read its contents.  This provides access to files that have been bundled
+  /// with an application as assets -- that is, files placed in to the
+  /// "assets" directory.
+  ///@param fileName The name of the asset to open.  This name can be hierarchical.
+  /// This value must never be {@code null}.
+  ///@param accessMode Desired access mode for retrieving the data.
+  ///@see \#ACCESS_UNKNOWN
+  ///@see \#ACCESS_STREAMING
+  ///@see \#ACCESS_RANDOM
+  ///@see \#ACCESS_BUFFER
+  ///@see \#open(String)
+  ///@see \#list
+  ///@return This value will never be {@code null}.
+  jni.JniObject open1(jni.JniString fileName, int accessMode) =>
+      jni.JniObject.fromRef(
+          _open1(reference, fileName.reference, accessMode).object);
+
+  static final _openFd = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("AssetManager__openFd")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.content.res.AssetFileDescriptor openFd(java.lang.String fileName)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Open an uncompressed asset by mmapping it and returning an AssetFileDescriptor.
+  /// This provides access to files that have been bundled with an application as assets -- that
+  /// is, files placed in to the "assets" directory.
+  ///
+  /// The asset must be uncompressed, or an exception will be thrown.
+  ///@param fileName The name of the asset to open.  This name can be hierarchical.
+  /// This value must never be {@code null}.
+  ///@return An open AssetFileDescriptor.
+  ///
+  /// This value will never be {@code null}.
+  AssetFileDescriptor openFd(jni.JniString fileName) =>
+      AssetFileDescriptor.fromRef(
+          _openFd(reference, fileName.reference).object);
+
+  static final _list = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("AssetManager__list")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.lang.String[] list(java.lang.String path)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Return a String array of all the assets at the given path.
+  ///@param path A relative path within the assets, i.e., "docs/home.html".
+  ///
+  /// This value must never be {@code null}.
+  ///@return String[] Array of strings, one for each asset.  These file
+  ///         names are relative to 'path'.  You can open the file by
+  ///         concatenating 'path' and a name in the returned string (via
+  ///         File) and passing that to open().
+  ///
+  /// This value may be {@code null}.
+  ///@see \#open
+  jni.JniObject list(jni.JniString path) =>
+      jni.JniObject.fromRef(_list(reference, path.reference).object);
+
+  static final _openNonAssetFd = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("AssetManager__openNonAssetFd")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.content.res.AssetFileDescriptor openNonAssetFd(java.lang.String fileName)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Open a non-asset as an asset by mmapping it and returning an AssetFileDescriptor.
+  /// This provides direct access to all of the files included in an application
+  /// package (not only its assets).  Applications should not normally use this.
+  ///
+  /// The asset must not be compressed, or an exception will be thrown.
+  ///@param fileName Name of the asset to retrieve.
+  ///
+  /// This value must never be {@code null}.
+  ///@return This value will never be {@code null}.
+  AssetFileDescriptor openNonAssetFd(jni.JniString fileName) =>
+      AssetFileDescriptor.fromRef(
+          _openNonAssetFd(reference, fileName.reference).object);
+
+  static final _openNonAssetFd1 = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Pointer<ffi.Void>)>>("AssetManager__openNonAssetFd1")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.content.res.AssetFileDescriptor openNonAssetFd(int cookie, java.lang.String fileName)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Open a non-asset as an asset by mmapping it and returning an AssetFileDescriptor.
+  /// This provides direct access to all of the files included in an application
+  /// package (not only its assets).  Applications should not normally use this.
+  ///
+  /// The asset must not be compressed, or an exception will be thrown.
+  ///@param cookie Identifier of the package to be opened.
+  ///@param fileName Name of the asset to retrieve.
+  ///
+  /// This value must never be {@code null}.
+  ///@return This value will never be {@code null}.
+  AssetFileDescriptor openNonAssetFd1(int cookie, jni.JniString fileName) =>
+      AssetFileDescriptor.fromRef(
+          _openNonAssetFd1(reference, cookie, fileName.reference).object);
+
+  static final _openXmlResourceParser = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
+          "AssetManager__openXmlResourceParser")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.content.res.XmlResourceParser openXmlResourceParser(java.lang.String fileName)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Retrieve a parser for a compiled XML file.
+  ///@param fileName The name of the file to retrieve.
+  ///
+  /// This value must never be {@code null}.
+  ///@return This value will never be {@code null}.
+  XmlResourceParser openXmlResourceParser(jni.JniString fileName) =>
+      XmlResourceParser.fromRef(
+          _openXmlResourceParser(reference, fileName.reference).object);
+
+  static final _openXmlResourceParser1 = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                      ffi.Pointer<ffi.Void>)>>(
+          "AssetManager__openXmlResourceParser1")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.content.res.XmlResourceParser openXmlResourceParser(int cookie, java.lang.String fileName)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Retrieve a parser for a compiled XML file.
+  ///@param cookie Identifier of the package to be opened.
+  ///@param fileName The name of the file to retrieve.
+  ///
+  /// This value must never be {@code null}.
+  ///@return This value will never be {@code null}.
+  XmlResourceParser openXmlResourceParser1(
+          int cookie, jni.JniString fileName) =>
+      XmlResourceParser.fromRef(
+          _openXmlResourceParser1(reference, cookie, fileName.reference)
+              .object);
+
+  static final _finalize = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("AssetManager__finalize")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: protected void finalize()
+  void finalize() => _finalize(reference).check();
+
+  static final _getLocales = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("AssetManager__getLocales")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.lang.String[] getLocales()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Get the locales that this asset manager contains data for.
+  ///
+  /// On SDK 21 (Android 5.0: Lollipop) and above, Locale strings are valid
+  /// <a href="https://tools.ietf.org/html/bcp47">BCP-47</a> language tags and can be
+  /// parsed using java.util.Locale\#forLanguageTag(String).
+  ///
+  /// On SDK 20 (Android 4.4W: KitKat for watches) and below, locale strings
+  /// are of the form {@code ll_CC} where {@code ll} is a two letter language code,
+  /// and {@code CC} is a two letter country code.
+  jni.JniObject getLocales() =>
+      jni.JniObject.fromRef(_getLocales(reference).object);
+}
+
+/// from: android.content.res.AssetManager$AssetInputStream
+class AssetManager_AssetInputStream extends jni.JniObject {
+  AssetManager_AssetInputStream.fromRef(ffi.Pointer<ffi.Void> ref)
+      : super.fromRef(ref);
+
+  static final _ctor =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function(ffi.Int64)>>(
+              "AssetManager_AssetInputStream__ctor")
+          .asFunction<jni.JniResult Function(int)>();
+
+  /// from: void <init>(long assetNativePtr)
+  AssetManager_AssetInputStream(int assetNativePtr)
+      : super.fromRef(_ctor(assetNativePtr).object);
+
+  static final _read = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssetManager_AssetInputStream__read")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int read()
+  int read() => _read(reference).integer;
+
+  static final _read1 = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
+          "AssetManager_AssetInputStream__read1")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int read(byte[] b)
+  ///
+  /// @param b This value must never be {@code null}.
+  int read1(jni.JniObject b) => _read1(reference, b.reference).integer;
+
+  static final _read2 = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32,
+                  ffi.Int32)>>("AssetManager_AssetInputStream__read2")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int, int)>();
+
+  /// from: public int read(byte[] b, int off, int len)
+  ///
+  /// @param b This value must never be {@code null}.
+  int read2(jni.JniObject b, int off, int len) =>
+      _read2(reference, b.reference, off, len).integer;
+
+  static final _skip = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int64)>>("AssetManager_AssetInputStream__skip")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public long skip(long n)
+  int skip(int n) => _skip(reference, n).long;
+
+  static final _available = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssetManager_AssetInputStream__available")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int available()
+  int available() => _available(reference).integer;
+
+  static final _markSupported = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssetManager_AssetInputStream__markSupported")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public boolean markSupported()
+  bool markSupported() => _markSupported(reference).boolean;
+
+  static final _mark = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("AssetManager_AssetInputStream__mark")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public void mark(int readlimit)
+  void mark(int readlimit) => _mark(reference, readlimit).check();
+
+  static final _reset = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssetManager_AssetInputStream__reset")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void reset()
+  void reset() => _reset(reference).check();
+
+  static final _close = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssetManager_AssetInputStream__close")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void close()
+  void close() => _close(reference).check();
+
+  static final _finalize = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "AssetManager_AssetInputStream__finalize")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: protected void finalize()
+  void finalize() => _finalize(reference).check();
 }
 
 /// from: android.content.res.ColorStateList
@@ -279,22 +887,21 @@ class ColorStateList extends jni.JniObject {
   ColorStateList.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   static final _get_CREATOR =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "get_android_content_res_ColorStateList_CREATOR")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_ColorStateList__CREATOR")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: static public final android.os.Parcelable.Creator<android.content.res.ColorStateList> CREATOR
   /// The returned object must be deleted after use, by calling the `delete` method.
   static os_.Parcelable_Creator get CREATOR =>
-      os_.Parcelable_Creator.fromRef(_get_CREATOR());
+      os_.Parcelable_Creator.fromRef(_get_CREATOR().object);
 
   static final _ctor = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_ColorStateList_ctor")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("ColorStateList__ctor")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(int[][] states, int[] colors)
@@ -302,14 +909,12 @@ class ColorStateList extends jni.JniObject {
   /// Creates a ColorStateList that returns the specified mapping from
   /// states to colors.
   ColorStateList(jni.JniObject states, jni.JniObject colors)
-      : super.fromRef(_ctor(states.reference, colors.reference)) {
-    jni.Jni.env.checkException();
-  }
+      : super.fromRef(_ctor(states.reference, colors.reference).object);
 
   static final _valueOf =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Int32)>>(
-              "android_content_res_ColorStateList_valueOf")
-          .asFunction<ffi.Pointer<ffi.Void> Function(int)>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function(ffi.Int32)>>(
+              "ColorStateList__valueOf")
+          .asFunction<jni.JniResult Function(int)>();
 
   /// from: static public android.content.res.ColorStateList valueOf(int color)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -317,19 +922,15 @@ class ColorStateList extends jni.JniObject {
   /// @return A ColorStateList containing a single color.
   ///
   /// This value will never be {@code null}.
-  static ColorStateList valueOf(int color) {
-    final result__ = ColorStateList.fromRef(_valueOf(color));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  static ColorStateList valueOf(int color) =>
+      ColorStateList.fromRef(_valueOf(color).object);
 
   static final _createFromXml = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_ColorStateList_createFromXml")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("ColorStateList__createFromXml")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: static public android.content.res.ColorStateList createFromXml(android.content.res.Resources r, org.xmlpull.v1.XmlPullParser parser)
@@ -342,21 +943,19 @@ class ColorStateList extends jni.JniObject {
   ///
   /// This value will never be {@code null}.
   ///@deprecated Use \#createFromXml(Resources, XmlPullParser parser, Theme)
-  static ColorStateList createFromXml(Resources r, jni.JniObject parser) {
-    final result__ =
-        ColorStateList.fromRef(_createFromXml(r.reference, parser.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  static ColorStateList createFromXml(Resources r, jni.JniObject parser) =>
+      ColorStateList.fromRef(
+          _createFromXml(r.reference, parser.reference).object);
 
   static final _createFromXml1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_ColorStateList_createFromXml1")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("ColorStateList__createFromXml1")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: static public android.content.res.ColorStateList createFromXml(android.content.res.Resources r, org.xmlpull.v1.XmlPullParser parser, android.content.res.Resources.Theme theme)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -372,18 +971,16 @@ class ColorStateList extends jni.JniObject {
   /// This value may be {@code null}.
   ///@return A new color state list.
   static ColorStateList createFromXml1(
-      Resources r, jni.JniObject parser, Resources_Theme theme) {
-    final result__ = ColorStateList.fromRef(
-        _createFromXml1(r.reference, parser.reference, theme.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          Resources r, jni.JniObject parser, Resources_Theme theme) =>
+      ColorStateList.fromRef(
+          _createFromXml1(r.reference, parser.reference, theme.reference)
+              .object);
 
   static final _withAlpha = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_content_res_ColorStateList_withAlpha")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("ColorStateList__withAlpha")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.content.res.ColorStateList withAlpha(int alpha)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -394,16 +991,14 @@ class ColorStateList extends jni.JniObject {
   ///@return A new color state list.
   ///
   /// This value will never be {@code null}.
-  ColorStateList withAlpha(int alpha) {
-    final result__ = ColorStateList.fromRef(_withAlpha(reference, alpha));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  ColorStateList withAlpha(int alpha) =>
+      ColorStateList.fromRef(_withAlpha(reference, alpha).object);
 
-  static final _getChangingConfigurations =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_ColorStateList_getChangingConfigurations")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getChangingConfigurations = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "ColorStateList__getChangingConfigurations")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getChangingConfigurations()
   ///
@@ -414,16 +1009,14 @@ class ColorStateList extends jni.JniObject {
   ///
   /// Value is either <code>0</code> or a combination of android.content.pm.ActivityInfo\#CONFIG_MCC, android.content.pm.ActivityInfo\#CONFIG_MNC, android.content.pm.ActivityInfo\#CONFIG_LOCALE, android.content.pm.ActivityInfo\#CONFIG_TOUCHSCREEN, android.content.pm.ActivityInfo\#CONFIG_KEYBOARD, android.content.pm.ActivityInfo\#CONFIG_KEYBOARD_HIDDEN, android.content.pm.ActivityInfo\#CONFIG_NAVIGATION, android.content.pm.ActivityInfo\#CONFIG_ORIENTATION, android.content.pm.ActivityInfo\#CONFIG_SCREEN_LAYOUT, android.content.pm.ActivityInfo\#CONFIG_UI_MODE, android.content.pm.ActivityInfo\#CONFIG_SCREEN_SIZE, android.content.pm.ActivityInfo\#CONFIG_SMALLEST_SCREEN_SIZE, android.content.pm.ActivityInfo\#CONFIG_DENSITY, android.content.pm.ActivityInfo\#CONFIG_LAYOUT_DIRECTION, android.content.pm.ActivityInfo\#CONFIG_COLOR_MODE, and android.content.pm.ActivityInfo\#CONFIG_FONT_SCALE
   ///@see android.content.pm.ActivityInfo
-  int getChangingConfigurations() {
-    final result__ = _getChangingConfigurations(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getChangingConfigurations() =>
+      _getChangingConfigurations(reference).integer;
 
-  static final _isStateful =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_ColorStateList_isStateful")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isStateful = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("ColorStateList__isStateful")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isStateful()
   ///
@@ -432,16 +1025,13 @@ class ColorStateList extends jni.JniObject {
   ///@return True if this color state list changes color based on state, false
   ///         otherwise.
   ///@see \#getColorForState(int[], int)
-  bool isStateful() {
-    final result__ = _isStateful(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isStateful() => _isStateful(reference).boolean;
 
-  static final _isOpaque =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_ColorStateList_isOpaque")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isOpaque = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("ColorStateList__isOpaque")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isOpaque()
   ///
@@ -449,19 +1039,17 @@ class ColorStateList extends jni.JniObject {
   /// color returned from \#getColorForState(int[], int) has an alpha
   /// value of 255.
   ///@return True if this color state list is opaque.
-  bool isOpaque() {
-    final result__ = _isOpaque(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isOpaque() => _isOpaque(reference).boolean;
 
   static final _getColorForState = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_content_res_ColorStateList_getColorForState")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("ColorStateList__getColorForState")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public int getColorForState(int[] stateSet, int defaultColor)
   ///
@@ -473,1008 +1061,54 @@ class ColorStateList extends jni.JniObject {
   ///                     spec in this ColorStateList that matches the
   ///                     stateSet.
   ///@return the color associated with that set of states in this ColorStateList.
-  int getColorForState(jni.JniObject stateSet, int defaultColor) {
-    final result__ =
-        _getColorForState(reference, stateSet.reference, defaultColor);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getColorForState(jni.JniObject stateSet, int defaultColor) =>
+      _getColorForState(reference, stateSet.reference, defaultColor).integer;
 
-  static final _getDefaultColor =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_ColorStateList_getDefaultColor")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getDefaultColor = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("ColorStateList__getDefaultColor")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getDefaultColor()
   ///
   /// Return the default color in this ColorStateList.
   ///@return the default color in this ColorStateList.
-  int getDefaultColor() {
-    final result__ = _getDefaultColor(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getDefaultColor() => _getDefaultColor(reference).integer;
 
   static final _toString1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_ColorStateList_toString1")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("ColorStateList__toString1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String toString()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniString toString1() {
-    final result__ = jni.JniString.fromRef(_toString1(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString toString1() =>
+      jni.JniString.fromRef(_toString1(reference).object);
 
-  static final _describeContents =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_ColorStateList_describeContents")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _describeContents = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("ColorStateList__describeContents")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int describeContents()
-  int describeContents() {
-    final result__ = _describeContents(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int describeContents() => _describeContents(reference).integer;
 
   static final _writeToParcel = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_content_res_ColorStateList_writeToParcel")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(os_.Parcel dest, int flags) {
-    final result__ = _writeToParcel(reference, dest.reference, flags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
-
-/// from: android.content.res.AssetManager
-///
-/// Provides access to an application's raw asset files; see Resources
-/// for the way most applications will want to retrieve their resource data.
-/// This class presents a lower-level API that allows you to open and read raw
-/// files that have been bundled with the application as a simple stream of
-/// bytes.
-class AssetManager extends jni.JniObject {
-  AssetManager.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  /// from: static public final int ACCESS_BUFFER
-  ///
-  /// Mode for \#open(String, int): Attempt to load contents into
-  /// memory, for fast small reads.
-  static const ACCESS_BUFFER = 3;
-
-  /// from: static public final int ACCESS_RANDOM
-  ///
-  /// Mode for \#open(String, int): Read chunks, and seek forward and
-  /// backward.
-  static const ACCESS_RANDOM = 1;
-
-  /// from: static public final int ACCESS_STREAMING
-  ///
-  /// Mode for \#open(String, int): Read sequentially, with an
-  /// occasional forward seek.
-  static const ACCESS_STREAMING = 2;
-
-  /// from: static public final int ACCESS_UNKNOWN
-  ///
-  /// Mode for \#open(String, int): no specific information about how
-  /// data will be accessed.
-  static const ACCESS_UNKNOWN = 0;
-
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_content_res_AssetManager_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: void <init>()
-  ///
-  /// Create a new AssetManager containing only the basic system assets.
-  /// Applications will not generally use this method, instead retrieving the
-  /// appropriate asset manager with Resources\#getAssets.    Not for
-  /// use by applications.
-  ///@hide
-  AssetManager() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _close =
-      jniLookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_AssetManager_close")
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void close()
-  ///
-  /// Close this asset manager.
-  void close() {
-    final result__ = _close(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _open = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_AssetManager_open")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.io.InputStream open(java.lang.String fileName)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Open an asset using ACCESS_STREAMING mode.  This provides access to
-  /// files that have been bundled with an application as assets -- that is,
-  /// files placed in to the "assets" directory.
-  ///@param fileName The name of the asset to open.  This name can be hierarchical.
-  ///
-  /// This value must never be {@code null}.
-  ///@see \#open(String, int)
-  ///@see \#list
-  ///@return This value will never be {@code null}.
-  jni.JniObject open(jni.JniString fileName) {
-    final result__ =
-        jni.JniObject.fromRef(_open(reference, fileName.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _open1 = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
+              jni.JniResult Function(
                   ffi.Pointer<ffi.Void>,
                   ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_content_res_AssetManager_open1")
+                  ffi.Int32)>>("ColorStateList__writeToParcel")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
-  /// from: public java.io.InputStream open(java.lang.String fileName, int accessMode)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Open an asset using an explicit access mode, returning an InputStream to
-  /// read its contents.  This provides access to files that have been bundled
-  /// with an application as assets -- that is, files placed in to the
-  /// "assets" directory.
-  ///@param fileName The name of the asset to open.  This name can be hierarchical.
-  /// This value must never be {@code null}.
-  ///@param accessMode Desired access mode for retrieving the data.
-  ///@see \#ACCESS_UNKNOWN
-  ///@see \#ACCESS_STREAMING
-  ///@see \#ACCESS_RANDOM
-  ///@see \#ACCESS_BUFFER
-  ///@see \#open(String)
-  ///@see \#list
-  ///@return This value will never be {@code null}.
-  jni.JniObject open1(jni.JniString fileName, int accessMode) {
-    final result__ = jni.JniObject.fromRef(
-        _open1(reference, fileName.reference, accessMode));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _openFd = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_AssetManager_openFd")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.content.res.AssetFileDescriptor openFd(java.lang.String fileName)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Open an uncompressed asset by mmapping it and returning an AssetFileDescriptor.
-  /// This provides access to files that have been bundled with an application as assets -- that
-  /// is, files placed in to the "assets" directory.
-  ///
-  /// The asset must be uncompressed, or an exception will be thrown.
-  ///@param fileName The name of the asset to open.  This name can be hierarchical.
-  /// This value must never be {@code null}.
-  ///@return An open AssetFileDescriptor.
-  ///
-  /// This value will never be {@code null}.
-  AssetFileDescriptor openFd(jni.JniString fileName) {
-    final result__ =
-        AssetFileDescriptor.fromRef(_openFd(reference, fileName.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _list = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_AssetManager_list")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.lang.String[] list(java.lang.String path)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Return a String array of all the assets at the given path.
-  ///@param path A relative path within the assets, i.e., "docs/home.html".
-  ///
-  /// This value must never be {@code null}.
-  ///@return String[] Array of strings, one for each asset.  These file
-  ///         names are relative to 'path'.  You can open the file by
-  ///         concatenating 'path' and a name in the returned string (via
-  ///         File) and passing that to open().
-  ///
-  /// This value may be {@code null}.
-  ///@see \#open
-  jni.JniObject list(jni.JniString path) {
-    final result__ = jni.JniObject.fromRef(_list(reference, path.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _openNonAssetFd = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_AssetManager_openNonAssetFd")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.content.res.AssetFileDescriptor openNonAssetFd(java.lang.String fileName)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Open a non-asset as an asset by mmapping it and returning an AssetFileDescriptor.
-  /// This provides direct access to all of the files included in an application
-  /// package (not only its assets).  Applications should not normally use this.
-  ///
-  /// The asset must not be compressed, or an exception will be thrown.
-  ///@param fileName Name of the asset to retrieve.
-  ///
-  /// This value must never be {@code null}.
-  ///@return This value will never be {@code null}.
-  AssetFileDescriptor openNonAssetFd(jni.JniString fileName) {
-    final result__ = AssetFileDescriptor.fromRef(
-        _openNonAssetFd(reference, fileName.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _openNonAssetFd1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Int32, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_AssetManager_openNonAssetFd1")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.content.res.AssetFileDescriptor openNonAssetFd(int cookie, java.lang.String fileName)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Open a non-asset as an asset by mmapping it and returning an AssetFileDescriptor.
-  /// This provides direct access to all of the files included in an application
-  /// package (not only its assets).  Applications should not normally use this.
-  ///
-  /// The asset must not be compressed, or an exception will be thrown.
-  ///@param cookie Identifier of the package to be opened.
-  ///@param fileName Name of the asset to retrieve.
-  ///
-  /// This value must never be {@code null}.
-  ///@return This value will never be {@code null}.
-  AssetFileDescriptor openNonAssetFd1(int cookie, jni.JniString fileName) {
-    final result__ = AssetFileDescriptor.fromRef(
-        _openNonAssetFd1(reference, cookie, fileName.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _openXmlResourceParser = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_AssetManager_openXmlResourceParser")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.content.res.XmlResourceParser openXmlResourceParser(java.lang.String fileName)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Retrieve a parser for a compiled XML file.
-  ///@param fileName The name of the file to retrieve.
-  ///
-  /// This value must never be {@code null}.
-  ///@return This value will never be {@code null}.
-  XmlResourceParser openXmlResourceParser(jni.JniString fileName) {
-    final result__ = XmlResourceParser.fromRef(
-        _openXmlResourceParser(reference, fileName.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _openXmlResourceParser1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Int32, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_AssetManager_openXmlResourceParser1")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.content.res.XmlResourceParser openXmlResourceParser(int cookie, java.lang.String fileName)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Retrieve a parser for a compiled XML file.
-  ///@param cookie Identifier of the package to be opened.
-  ///@param fileName The name of the file to retrieve.
-  ///
-  /// This value must never be {@code null}.
-  ///@return This value will never be {@code null}.
-  XmlResourceParser openXmlResourceParser1(int cookie, jni.JniString fileName) {
-    final result__ = XmlResourceParser.fromRef(
-        _openXmlResourceParser1(reference, cookie, fileName.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _finalize =
-      jniLookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_AssetManager_finalize")
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: protected void finalize()
-  void finalize() {
-    final result__ = _finalize(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getLocales = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_AssetManager_getLocales")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.lang.String[] getLocales()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Get the locales that this asset manager contains data for.
-  ///
-  /// On SDK 21 (Android 5.0: Lollipop) and above, Locale strings are valid
-  /// <a href="https://tools.ietf.org/html/bcp47">BCP-47</a> language tags and can be
-  /// parsed using java.util.Locale\#forLanguageTag(String).
-  ///
-  /// On SDK 20 (Android 4.4W: KitKat for watches) and below, locale strings
-  /// are of the form {@code ll_CC} where {@code ll} is a two letter language code,
-  /// and {@code CC} is a two letter country code.
-  jni.JniObject getLocales() {
-    final result__ = jni.JniObject.fromRef(_getLocales(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
-
-/// from: android.content.res.AssetManager$AssetInputStream
-class AssetManager_AssetInputStream extends jni.JniObject {
-  AssetManager_AssetInputStream.fromRef(ffi.Pointer<ffi.Void> ref)
-      : super.fromRef(ref);
-
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Int64)>>(
-              "android_content_res_AssetManager__AssetInputStream_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function(int)>();
-
-  /// from: void <init>(long assetNativePtr)
-  AssetManager_AssetInputStream(int assetNativePtr)
-      : super.fromRef(_ctor(assetNativePtr)) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _read =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_AssetManager__AssetInputStream_read")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int read()
-  int read() {
-    final result__ = _read(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _read1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_AssetManager__AssetInputStream_read1")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int read(byte[] b)
-  ///
-  /// @param b This value must never be {@code null}.
-  int read1(jni.JniObject b) {
-    final result__ = _read1(reference, b.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _read2 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32, ffi.Int32)>>(
-          "android_content_res_AssetManager__AssetInputStream_read2")
-      .asFunction<
-          int Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int, int)>();
-
-  /// from: public int read(byte[] b, int off, int len)
-  ///
-  /// @param b This value must never be {@code null}.
-  int read2(jni.JniObject b, int off, int len) {
-    final result__ = _read2(reference, b.reference, off, len);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _skip = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int64 Function(ffi.Pointer<ffi.Void>, ffi.Int64)>>(
-          "android_content_res_AssetManager__AssetInputStream_skip")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public long skip(long n)
-  int skip(int n) {
-    final result__ = _skip(reference, n);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _available =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_AssetManager__AssetInputStream_available")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int available()
-  int available() {
-    final result__ = _available(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _markSupported = jniLookup<
-              ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_AssetManager__AssetInputStream_markSupported")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public boolean markSupported()
-  bool markSupported() {
-    final result__ = _markSupported(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _mark = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_content_res_AssetManager__AssetInputStream_mark")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public void mark(int readlimit)
-  void mark(int readlimit) {
-    final result__ = _mark(reference, readlimit);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _reset =
-      jniLookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_AssetManager__AssetInputStream_reset")
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void reset()
-  void reset() {
-    final result__ = _reset(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _close =
-      jniLookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_AssetManager__AssetInputStream_close")
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void close()
-  void close() {
-    final result__ = _close(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _finalize =
-      jniLookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_AssetManager__AssetInputStream_finalize")
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: protected void finalize()
-  void finalize() {
-    final result__ = _finalize(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
-
-/// from: android.content.res.AssetFileDescriptor
-///
-/// File descriptor of an entry in the AssetManager.  This provides your own
-/// opened FileDescriptor that can be used to read the data, as well as the
-/// offset and length of that entry's data in the file.
-class AssetFileDescriptor extends jni.JniObject {
-  AssetFileDescriptor.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  static final _get_CREATOR =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "get_android_content_res_AssetFileDescriptor_CREATOR")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: static public final android.os.Parcelable.Creator<android.content.res.AssetFileDescriptor> CREATOR
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  static os_.Parcelable_Creator get CREATOR =>
-      os_.Parcelable_Creator.fromRef(_get_CREATOR());
-
-  /// from: static public final long UNKNOWN_LENGTH
-  ///
-  /// Length used with \#AssetFileDescriptor(ParcelFileDescriptor, long, long)
-  /// and \#getDeclaredLength when a length has not been declared.  This means
-  /// the data extends to the end of the file.
-  static const UNKNOWN_LENGTH = -1;
-
-  static final _ctor = jniLookup<
-          ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, ffi.Int64,
-                  ffi.Int64)>>("android_content_res_AssetFileDescriptor_ctor")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int, int)>();
-
-  /// from: public void <init>(android.os.ParcelFileDescriptor fd, long startOffset, long length)
-  ///
-  /// Create a new AssetFileDescriptor from the given values.
-  ///@param fd The underlying file descriptor.
-  ///@param startOffset The location within the file that the asset starts.
-  ///            This must be 0 if length is UNKNOWN_LENGTH.
-  ///@param length The number of bytes of the asset, or
-  ///            \#UNKNOWN_LENGTH if it extends to the end of the file.
-  AssetFileDescriptor(os_.ParcelFileDescriptor fd, int startOffset, int length)
-      : super.fromRef(_ctor(fd.reference, startOffset, length)) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _ctor1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Int64, ffi.Int64, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_AssetFileDescriptor_ctor1")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, int, int, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void <init>(android.os.ParcelFileDescriptor fd, long startOffset, long length, android.os.Bundle extras)
-  ///
-  /// Create a new AssetFileDescriptor from the given values.
-  ///@param fd The underlying file descriptor.
-  ///@param startOffset The location within the file that the asset starts.
-  ///            This must be 0 if length is UNKNOWN_LENGTH.
-  ///@param length The number of bytes of the asset, or
-  ///            \#UNKNOWN_LENGTH if it extends to the end of the file.
-  ///@param extras additional details that can be used to interpret the
-  ///            underlying file descriptor. May be null.
-  AssetFileDescriptor.ctor1(os_.ParcelFileDescriptor fd, int startOffset,
-      int length, os_.Bundle extras)
-      : super.fromRef(
-            _ctor1(fd.reference, startOffset, length, extras.reference)) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _getParcelFileDescriptor = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_AssetFileDescriptor_getParcelFileDescriptor")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.os.ParcelFileDescriptor getParcelFileDescriptor()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// The AssetFileDescriptor contains its own ParcelFileDescriptor, which
-  /// in addition to the normal FileDescriptor object also allows you to close
-  /// the descriptor when you are done with it.
-  os_.ParcelFileDescriptor getParcelFileDescriptor() {
-    final result__ =
-        os_.ParcelFileDescriptor.fromRef(_getParcelFileDescriptor(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getFileDescriptor = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_AssetFileDescriptor_getFileDescriptor")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.io.FileDescriptor getFileDescriptor()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Returns the FileDescriptor that can be used to read the data in the
-  /// file.
-  jni.JniObject getFileDescriptor() {
-    final result__ = jni.JniObject.fromRef(_getFileDescriptor(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getStartOffset =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_AssetFileDescriptor_getStartOffset")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public long getStartOffset()
-  ///
-  /// Returns the byte offset where this asset entry's data starts.
-  int getStartOffset() {
-    final result__ = _getStartOffset(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getExtras = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_AssetFileDescriptor_getExtras")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.os.Bundle getExtras()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Returns any additional details that can be used to interpret the
-  /// underlying file descriptor. May be null.
-  os_.Bundle getExtras() {
-    final result__ = os_.Bundle.fromRef(_getExtras(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getLength =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_AssetFileDescriptor_getLength")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public long getLength()
-  ///
-  /// Returns the total number of bytes of this asset entry's data.  May be
-  /// \#UNKNOWN_LENGTH if the asset extends to the end of the file.
-  /// If the AssetFileDescriptor was constructed with \#UNKNOWN_LENGTH,
-  /// this will use ParcelFileDescriptor\#getStatSize() ParcelFileDescriptor.getStatSize() to find the total size of the file,
-  /// returning that number if found or \#UNKNOWN_LENGTH if it could
-  /// not be determined.
-  ///@see \#getDeclaredLength()
-  int getLength() {
-    final result__ = _getLength(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getDeclaredLength =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_AssetFileDescriptor_getDeclaredLength")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public long getDeclaredLength()
-  ///
-  /// Return the actual number of bytes that were declared when the
-  /// AssetFileDescriptor was constructed.  Will be
-  /// \#UNKNOWN_LENGTH if the length was not declared, meaning data
-  /// should be read to the end of the file.
-  ///@see \#getDeclaredLength()
-  int getDeclaredLength() {
-    final result__ = _getDeclaredLength(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _close =
-      jniLookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_AssetFileDescriptor_close")
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void close()
-  ///
-  /// Convenience for calling <code>getParcelFileDescriptor().close()</code>.
-  void close() {
-    final result__ = _close(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _createInputStream = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_AssetFileDescriptor_createInputStream")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.io.FileInputStream createInputStream()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Create and return a new auto-close input stream for this asset.  This
-  /// will either return a full asset AutoCloseInputStream, or
-  /// an underlying ParcelFileDescriptor.AutoCloseInputStream ParcelFileDescriptor.AutoCloseInputStream depending on whether the
-  /// the object represents a complete file or sub-section of a file.  You
-  /// should only call this once for a particular asset.
-  jni.JniObject createInputStream() {
-    final result__ = jni.JniObject.fromRef(_createInputStream(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _createOutputStream = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_AssetFileDescriptor_createOutputStream")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.io.FileOutputStream createOutputStream()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Create and return a new auto-close output stream for this asset.  This
-  /// will either return a full asset AutoCloseOutputStream, or
-  /// an underlying ParcelFileDescriptor.AutoCloseOutputStream ParcelFileDescriptor.AutoCloseOutputStream depending on whether the
-  /// the object represents a complete file or sub-section of a file.  You
-  /// should only call this once for a particular asset.
-  jni.JniObject createOutputStream() {
-    final result__ = jni.JniObject.fromRef(_createOutputStream(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _toString1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_AssetFileDescriptor_toString1")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.lang.String toString()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniString toString1() {
-    final result__ = jni.JniString.fromRef(_toString1(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _describeContents =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_AssetFileDescriptor_describeContents")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int describeContents()
-  int describeContents() {
-    final result__ = _describeContents(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _writeToParcel = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_content_res_AssetFileDescriptor_writeToParcel")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public void writeToParcel(android.os.Parcel out, int flags)
-  void writeToParcel(os_.Parcel out, int flags) {
-    final result__ = _writeToParcel(reference, out.reference, flags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
-
-/// from: android.content.res.AssetFileDescriptor$AutoCloseOutputStream
-///
-/// An OutputStream you can create on a ParcelFileDescriptor, which will
-/// take care of calling ParcelFileDescriptor\#close ParcelFileDescriptor.close() for you when the stream is closed.
-class AssetFileDescriptor_AutoCloseOutputStream
-    extends os_.ParcelFileDescriptor_AutoCloseOutputStream {
-  AssetFileDescriptor_AutoCloseOutputStream.fromRef(ffi.Pointer<ffi.Void> ref)
-      : super.fromRef(ref);
-
-  static final _ctor1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_AssetFileDescriptor__AutoCloseOutputStream_ctor1")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void <init>(android.content.res.AssetFileDescriptor fd)
-  AssetFileDescriptor_AutoCloseOutputStream.ctor1(AssetFileDescriptor fd)
-      : super.fromRef(_ctor1(fd.reference)) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _write = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32, ffi.Int32)>>(
-          "android_content_res_AssetFileDescriptor__AutoCloseOutputStream_write")
-      .asFunction<
-          void Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int, int)>();
-
-  /// from: public void write(byte[] buffer, int offset, int count)
-  void write(jni.JniObject buffer, int offset, int count) {
-    final result__ = _write(reference, buffer.reference, offset, count);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _write1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_AssetFileDescriptor__AutoCloseOutputStream_write1")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void write(byte[] buffer)
-  void write1(jni.JniObject buffer) {
-    final result__ = _write1(reference, buffer.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _write2 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_content_res_AssetFileDescriptor__AutoCloseOutputStream_write2")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public void write(int oneByte)
-  void write2(int oneByte) {
-    final result__ = _write2(reference, oneByte);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
-
-/// from: android.content.res.AssetFileDescriptor$AutoCloseInputStream
-///
-/// An InputStream you can create on a ParcelFileDescriptor, which will
-/// take care of calling ParcelFileDescriptor\#close ParcelFileDescriptor.close() for you when the stream is closed.
-class AssetFileDescriptor_AutoCloseInputStream
-    extends os_.ParcelFileDescriptor_AutoCloseInputStream {
-  AssetFileDescriptor_AutoCloseInputStream.fromRef(ffi.Pointer<ffi.Void> ref)
-      : super.fromRef(ref);
-
-  static final _ctor1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_AssetFileDescriptor__AutoCloseInputStream_ctor1")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void <init>(android.content.res.AssetFileDescriptor fd)
-  AssetFileDescriptor_AutoCloseInputStream.ctor1(AssetFileDescriptor fd)
-      : super.fromRef(_ctor1(fd.reference)) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _available = jniLookup<
-              ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_AssetFileDescriptor__AutoCloseInputStream_available")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int available()
-  int available() {
-    final result__ = _available(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _read = jniLookup<
-              ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_AssetFileDescriptor__AutoCloseInputStream_read")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int read()
-  int read() {
-    final result__ = _read(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _read2 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32, ffi.Int32)>>(
-          "android_content_res_AssetFileDescriptor__AutoCloseInputStream_read2")
-      .asFunction<
-          int Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int, int)>();
-
-  /// from: public int read(byte[] buffer, int offset, int count)
-  int read2(jni.JniObject buffer, int offset, int count) {
-    final result__ = _read2(reference, buffer.reference, offset, count);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _read1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_AssetFileDescriptor__AutoCloseInputStream_read1")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int read(byte[] buffer)
-  int read1(jni.JniObject buffer) {
-    final result__ = _read1(reference, buffer.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _skip = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int64 Function(ffi.Pointer<ffi.Void>, ffi.Int64)>>(
-          "android_content_res_AssetFileDescriptor__AutoCloseInputStream_skip")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public long skip(long count)
-  int skip(int count) {
-    final result__ = _skip(reference, count);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _mark = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_content_res_AssetFileDescriptor__AutoCloseInputStream_mark")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public void mark(int readlimit)
-  void mark(int readlimit) {
-    final result__ = _mark(reference, readlimit);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _markSupported = jniLookup<
-              ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_AssetFileDescriptor__AutoCloseInputStream_markSupported")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public boolean markSupported()
-  bool markSupported() {
-    final result__ = _markSupported(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _reset = jniLookup<
-              ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_AssetFileDescriptor__AutoCloseInputStream_reset")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: synchronized public void reset()
-  void reset() {
-    final result__ = _reset(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  /// from: public void writeToParcel(android.os.Parcel dest, int flags)
+  void writeToParcel(os_.Parcel dest, int flags) =>
+      _writeToParcel(reference, dest.reference, flags).check();
 }
 
 /// from: android.content.res.Configuration
@@ -1555,14 +1189,14 @@ class Configuration extends jni.JniObject {
   static const COLOR_MODE_WIDE_COLOR_GAMUT_YES = 2;
 
   static final _get_CREATOR =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "get_android_content_res_Configuration_CREATOR")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_Configuration__CREATOR")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: static public final android.os.Parcelable.Creator<android.content.res.Configuration> CREATOR
   /// The returned object must be deleted after use, by calling the `delete` method.
   static os_.Parcelable_Creator get CREATOR =>
-      os_.Parcelable_Creator.fromRef(_get_CREATOR());
+      os_.Parcelable_Creator.fromRef(_get_CREATOR().object);
 
   /// from: static public final int DENSITY_DPI_UNDEFINED
   ///
@@ -1995,12 +1629,12 @@ class Configuration extends jni.JniObject {
 
   static final _get_colorMode = jniLookup<
           ffi.NativeFunction<
-              ffi.Int32 Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_android_content_res_Configuration_colorMode")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_Configuration__colorMode")
       .asFunction<
-          int Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: public int colorMode
@@ -2018,12 +1652,12 @@ class Configuration extends jni.JniObject {
   /// See <a href="{@docRoot}guide/practices/screens_support.html">Supporting
   /// Multiple Screens</a> for more information.
   ///
-  int get colorMode => _get_colorMode(reference);
+  int get colorMode => _get_colorMode(reference).integer;
   static final _set_colorMode = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "set_android_content_res_Configuration_colorMode")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JThrowable Function(
+                  jni.JObject, ffi.Int32)>>("set_Configuration__colorMode")
+      .asFunction<jni.JThrowable Function(jni.JObject, int)>();
 
   /// from: public int colorMode
   ///
@@ -2044,12 +1678,12 @@ class Configuration extends jni.JniObject {
 
   static final _get_densityDpi = jniLookup<
           ffi.NativeFunction<
-              ffi.Int32 Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_android_content_res_Configuration_densityDpi")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_Configuration__densityDpi")
       .asFunction<
-          int Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: public int densityDpi
@@ -2059,12 +1693,12 @@ class Configuration extends jni.JniObject {
   /// <a href="{@docRoot}guide/topics/resources/providing-resources.html\#DensityQualifier">density</a>
   /// resource qualifier.  Set to
   /// \#DENSITY_DPI_UNDEFINED if no density is specified.
-  int get densityDpi => _get_densityDpi(reference);
+  int get densityDpi => _get_densityDpi(reference).integer;
   static final _set_densityDpi = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "set_android_content_res_Configuration_densityDpi")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JThrowable Function(
+                  jni.JObject, ffi.Int32)>>("set_Configuration__densityDpi")
+      .asFunction<jni.JThrowable Function(jni.JObject, int)>();
 
   /// from: public int densityDpi
   ///
@@ -2077,24 +1711,24 @@ class Configuration extends jni.JniObject {
 
   static final _get_fontScale = jniLookup<
           ffi.NativeFunction<
-              ffi.Float Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_android_content_res_Configuration_fontScale")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_Configuration__fontScale")
       .asFunction<
-          double Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: public float fontScale
   ///
   /// Current user preference for the scaling factor for fonts, relative
   /// to the base density scaling.
-  double get fontScale => _get_fontScale(reference);
+  double get fontScale => _get_fontScale(reference).float;
   static final _set_fontScale = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Float)>>(
-          "set_android_content_res_Configuration_fontScale")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, double)>();
+          ffi.NativeFunction<
+              jni.JThrowable Function(
+                  jni.JObject, ffi.Float)>>("set_Configuration__fontScale")
+      .asFunction<jni.JThrowable Function(jni.JObject, double)>();
 
   /// from: public float fontScale
   ///
@@ -2104,12 +1738,12 @@ class Configuration extends jni.JniObject {
 
   static final _get_hardKeyboardHidden = jniLookup<
           ffi.NativeFunction<
-              ffi.Int32 Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_android_content_res_Configuration_hardKeyboardHidden")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_Configuration__hardKeyboardHidden")
       .asFunction<
-          int Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: public int hardKeyboardHidden
@@ -2118,12 +1752,12 @@ class Configuration extends jni.JniObject {
   /// be set on a device with a mechanism to hide the keyboard from the
   /// user, when that mechanism is closed.  One of:
   /// \#HARDKEYBOARDHIDDEN_NO, \#HARDKEYBOARDHIDDEN_YES.
-  int get hardKeyboardHidden => _get_hardKeyboardHidden(reference);
+  int get hardKeyboardHidden => _get_hardKeyboardHidden(reference).integer;
   static final _set_hardKeyboardHidden = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "set_android_content_res_Configuration_hardKeyboardHidden")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JThrowable Function(jni.JObject,
+                  ffi.Int32)>>("set_Configuration__hardKeyboardHidden")
+      .asFunction<jni.JThrowable Function(jni.JObject, int)>();
 
   /// from: public int hardKeyboardHidden
   ///
@@ -2136,12 +1770,12 @@ class Configuration extends jni.JniObject {
 
   static final _get_keyboard = jniLookup<
           ffi.NativeFunction<
-              ffi.Int32 Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_android_content_res_Configuration_keyboard")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_Configuration__keyboard")
       .asFunction<
-          int Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: public int keyboard
@@ -2149,12 +1783,12 @@ class Configuration extends jni.JniObject {
   /// The kind of keyboard attached to the device.
   /// One of: \#KEYBOARD_NOKEYS, \#KEYBOARD_QWERTY,
   /// \#KEYBOARD_12KEY.
-  int get keyboard => _get_keyboard(reference);
+  int get keyboard => _get_keyboard(reference).integer;
   static final _set_keyboard = jniLookup<
           ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("set_android_content_res_Configuration_keyboard")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JThrowable Function(
+                  jni.JObject, ffi.Int32)>>("set_Configuration__keyboard")
+      .asFunction<jni.JThrowable Function(jni.JObject, int)>();
 
   /// from: public int keyboard
   ///
@@ -2165,12 +1799,12 @@ class Configuration extends jni.JniObject {
 
   static final _get_keyboardHidden = jniLookup<
           ffi.NativeFunction<
-              ffi.Int32 Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_android_content_res_Configuration_keyboardHidden")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_Configuration__keyboardHidden")
       .asFunction<
-          int Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: public int keyboardHidden
@@ -2180,12 +1814,12 @@ class Configuration extends jni.JniObject {
   /// keyboard, so if the hard keyboard is hidden but there is soft
   /// keyboard available, it will be set to NO.  Value is one of:
   /// \#KEYBOARDHIDDEN_NO, \#KEYBOARDHIDDEN_YES.
-  int get keyboardHidden => _get_keyboardHidden(reference);
+  int get keyboardHidden => _get_keyboardHidden(reference).integer;
   static final _set_keyboardHidden = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "set_android_content_res_Configuration_keyboardHidden")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JThrowable Function(
+                  jni.JObject, ffi.Int32)>>("set_Configuration__keyboardHidden")
+      .asFunction<jni.JThrowable Function(jni.JObject, int)>();
 
   /// from: public int keyboardHidden
   ///
@@ -2198,12 +1832,12 @@ class Configuration extends jni.JniObject {
 
   static final _get_locale = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_android_content_res_Configuration_locale")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_Configuration__locale")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: public java.util.Locale locale
@@ -2215,14 +1849,14 @@ class Configuration extends jni.JniObject {
   ///@deprecated Do not set or read this directly. Use \#getLocales() and
   /// \#setLocales(LocaleList). If only the primary locale is needed,
   /// <code>getLocales().get(0)</code> is now the preferred accessor.
-  jni.JniObject get locale => jni.JniObject.fromRef(_get_locale(reference));
+  jni.JniObject get locale =>
+      jni.JniObject.fromRef(_get_locale(reference).object);
   static final _set_locale = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "set_android_content_res_Configuration_locale")
+          ffi.NativeFunction<
+              jni.JThrowable Function(jni.JObject,
+                  ffi.Pointer<ffi.Void>)>>("set_Configuration__locale")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JThrowable Function(jni.JObject, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.Locale locale
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -2237,12 +1871,12 @@ class Configuration extends jni.JniObject {
 
   static final _get_mcc = jniLookup<
           ffi.NativeFunction<
-              ffi.Int32 Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_android_content_res_Configuration_mcc")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_Configuration__mcc")
       .asFunction<
-          int Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: public int mcc
@@ -2250,12 +1884,12 @@ class Configuration extends jni.JniObject {
   /// IMSI MCC (Mobile Country Code), corresponding to
   /// <a href="{@docRoot}guide/topics/resources/providing-resources.html\#MccQualifier">mcc</a>
   /// resource qualifier.  0 if undefined.
-  int get mcc => _get_mcc(reference);
+  int get mcc => _get_mcc(reference).integer;
   static final _set_mcc = jniLookup<
           ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("set_android_content_res_Configuration_mcc")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JThrowable Function(
+                  jni.JObject, ffi.Int32)>>("set_Configuration__mcc")
+      .asFunction<jni.JThrowable Function(jni.JObject, int)>();
 
   /// from: public int mcc
   ///
@@ -2266,12 +1900,12 @@ class Configuration extends jni.JniObject {
 
   static final _get_mnc = jniLookup<
           ffi.NativeFunction<
-              ffi.Int32 Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_android_content_res_Configuration_mnc")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_Configuration__mnc")
       .asFunction<
-          int Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: public int mnc
@@ -2280,12 +1914,12 @@ class Configuration extends jni.JniObject {
   /// <a href="{@docRoot}guide/topics/resources/providing-resources.html\#MccQualifier">mnc</a>
   /// resource qualifier.  0 if undefined. Note that the actual MNC may be 0; in order to check
   /// for this use the \#MNC_ZERO symbol.
-  int get mnc => _get_mnc(reference);
+  int get mnc => _get_mnc(reference).integer;
   static final _set_mnc = jniLookup<
           ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("set_android_content_res_Configuration_mnc")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JThrowable Function(
+                  jni.JObject, ffi.Int32)>>("set_Configuration__mnc")
+      .asFunction<jni.JThrowable Function(jni.JObject, int)>();
 
   /// from: public int mnc
   ///
@@ -2297,12 +1931,12 @@ class Configuration extends jni.JniObject {
 
   static final _get_navigation = jniLookup<
           ffi.NativeFunction<
-              ffi.Int32 Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_android_content_res_Configuration_navigation")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_Configuration__navigation")
       .asFunction<
-          int Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: public int navigation
@@ -2310,12 +1944,12 @@ class Configuration extends jni.JniObject {
   /// The kind of navigation method available on the device.
   /// One of: \#NAVIGATION_NONAV, \#NAVIGATION_DPAD,
   /// \#NAVIGATION_TRACKBALL, \#NAVIGATION_WHEEL.
-  int get navigation => _get_navigation(reference);
+  int get navigation => _get_navigation(reference).integer;
   static final _set_navigation = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "set_android_content_res_Configuration_navigation")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JThrowable Function(
+                  jni.JObject, ffi.Int32)>>("set_Configuration__navigation")
+      .asFunction<jni.JThrowable Function(jni.JObject, int)>();
 
   /// from: public int navigation
   ///
@@ -2326,12 +1960,12 @@ class Configuration extends jni.JniObject {
 
   static final _get_navigationHidden = jniLookup<
           ffi.NativeFunction<
-              ffi.Int32 Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_android_content_res_Configuration_navigationHidden")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_Configuration__navigationHidden")
       .asFunction<
-          int Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: public int navigationHidden
@@ -2340,12 +1974,12 @@ class Configuration extends jni.JniObject {
   /// This will be set on a device with a mechanism to hide the navigation
   /// controls from the user, when that mechanism is closed.  One of:
   /// \#NAVIGATIONHIDDEN_NO, \#NAVIGATIONHIDDEN_YES.
-  int get navigationHidden => _get_navigationHidden(reference);
+  int get navigationHidden => _get_navigationHidden(reference).integer;
   static final _set_navigationHidden = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "set_android_content_res_Configuration_navigationHidden")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JThrowable Function(jni.JObject,
+                  ffi.Int32)>>("set_Configuration__navigationHidden")
+      .asFunction<jni.JThrowable Function(jni.JObject, int)>();
 
   /// from: public int navigationHidden
   ///
@@ -2357,24 +1991,24 @@ class Configuration extends jni.JniObject {
 
   static final _get_orientation = jniLookup<
           ffi.NativeFunction<
-              ffi.Int32 Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_android_content_res_Configuration_orientation")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_Configuration__orientation")
       .asFunction<
-          int Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: public int orientation
   ///
   /// Overall orientation of the screen.  May be one of
   /// \#ORIENTATION_LANDSCAPE, \#ORIENTATION_PORTRAIT.
-  int get orientation => _get_orientation(reference);
+  int get orientation => _get_orientation(reference).integer;
   static final _set_orientation = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "set_android_content_res_Configuration_orientation")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JThrowable Function(
+                  jni.JObject, ffi.Int32)>>("set_Configuration__orientation")
+      .asFunction<jni.JThrowable Function(jni.JObject, int)>();
 
   /// from: public int orientation
   ///
@@ -2384,12 +2018,12 @@ class Configuration extends jni.JniObject {
 
   static final _get_screenHeightDp = jniLookup<
           ffi.NativeFunction<
-              ffi.Int32 Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_android_content_res_Configuration_screenHeightDp")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_Configuration__screenHeightDp")
       .asFunction<
-          int Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: public int screenHeightDp
@@ -2399,12 +2033,12 @@ class Configuration extends jni.JniObject {
   /// <a href="{@docRoot}guide/topics/resources/providing-resources.html\#ScreenHeightQualifier">screen
   /// height</a> resource qualifier.  Set to
   /// \#SCREEN_HEIGHT_DP_UNDEFINED if no height is specified.
-  int get screenHeightDp => _get_screenHeightDp(reference);
+  int get screenHeightDp => _get_screenHeightDp(reference).integer;
   static final _set_screenHeightDp = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "set_android_content_res_Configuration_screenHeightDp")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JThrowable Function(
+                  jni.JObject, ffi.Int32)>>("set_Configuration__screenHeightDp")
+      .asFunction<jni.JThrowable Function(jni.JObject, int)>();
 
   /// from: public int screenHeightDp
   ///
@@ -2417,12 +2051,12 @@ class Configuration extends jni.JniObject {
 
   static final _get_screenLayout = jniLookup<
           ffi.NativeFunction<
-              ffi.Int32 Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_android_content_res_Configuration_screenLayout")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_Configuration__screenLayout")
       .asFunction<
-          int Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: public int screenLayout
@@ -2453,12 +2087,12 @@ class Configuration extends jni.JniObject {
   /// See <a href="{@docRoot}guide/practices/screens_support.html">Supporting
   /// Multiple Screens</a> for more information.
   ///
-  int get screenLayout => _get_screenLayout(reference);
+  int get screenLayout => _get_screenLayout(reference).integer;
   static final _set_screenLayout = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "set_android_content_res_Configuration_screenLayout")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JThrowable Function(
+                  jni.JObject, ffi.Int32)>>("set_Configuration__screenLayout")
+      .asFunction<jni.JThrowable Function(jni.JObject, int)>();
 
   /// from: public int screenLayout
   ///
@@ -2492,12 +2126,12 @@ class Configuration extends jni.JniObject {
 
   static final _get_screenWidthDp = jniLookup<
           ffi.NativeFunction<
-              ffi.Int32 Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_android_content_res_Configuration_screenWidthDp")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_Configuration__screenWidthDp")
       .asFunction<
-          int Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: public int screenWidthDp
@@ -2507,12 +2141,12 @@ class Configuration extends jni.JniObject {
   /// <a href="{@docRoot}guide/topics/resources/providing-resources.html\#ScreenWidthQualifier">screen
   /// width</a> resource qualifier.  Set to
   /// \#SCREEN_WIDTH_DP_UNDEFINED if no width is specified.
-  int get screenWidthDp => _get_screenWidthDp(reference);
+  int get screenWidthDp => _get_screenWidthDp(reference).integer;
   static final _set_screenWidthDp = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "set_android_content_res_Configuration_screenWidthDp")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JThrowable Function(
+                  jni.JObject, ffi.Int32)>>("set_Configuration__screenWidthDp")
+      .asFunction<jni.JThrowable Function(jni.JObject, int)>();
 
   /// from: public int screenWidthDp
   ///
@@ -2525,12 +2159,12 @@ class Configuration extends jni.JniObject {
 
   static final _get_smallestScreenWidthDp = jniLookup<
           ffi.NativeFunction<
-              ffi.Int32 Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_android_content_res_Configuration_smallestScreenWidthDp")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_Configuration__smallestScreenWidthDp")
       .asFunction<
-          int Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: public int smallestScreenWidthDp
@@ -2542,12 +2176,13 @@ class Configuration extends jni.JniObject {
   /// This is the smallest value of both screenWidthDp and screenHeightDp
   /// in both portrait and landscape.  Set to
   /// \#SMALLEST_SCREEN_WIDTH_DP_UNDEFINED if no width is specified.
-  int get smallestScreenWidthDp => _get_smallestScreenWidthDp(reference);
+  int get smallestScreenWidthDp =>
+      _get_smallestScreenWidthDp(reference).integer;
   static final _set_smallestScreenWidthDp = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "set_android_content_res_Configuration_smallestScreenWidthDp")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JThrowable Function(jni.JObject,
+                  ffi.Int32)>>("set_Configuration__smallestScreenWidthDp")
+      .asFunction<jni.JThrowable Function(jni.JObject, int)>();
 
   /// from: public int smallestScreenWidthDp
   ///
@@ -2563,24 +2198,24 @@ class Configuration extends jni.JniObject {
 
   static final _get_touchscreen = jniLookup<
           ffi.NativeFunction<
-              ffi.Int32 Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_android_content_res_Configuration_touchscreen")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_Configuration__touchscreen")
       .asFunction<
-          int Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: public int touchscreen
   ///
   /// The kind of touch screen attached to the device.
   /// One of: \#TOUCHSCREEN_NOTOUCH, \#TOUCHSCREEN_FINGER.
-  int get touchscreen => _get_touchscreen(reference);
+  int get touchscreen => _get_touchscreen(reference).integer;
   static final _set_touchscreen = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "set_android_content_res_Configuration_touchscreen")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JThrowable Function(
+                  jni.JObject, ffi.Int32)>>("set_Configuration__touchscreen")
+      .asFunction<jni.JThrowable Function(jni.JObject, int)>();
 
   /// from: public int touchscreen
   ///
@@ -2590,12 +2225,12 @@ class Configuration extends jni.JniObject {
 
   static final _get_uiMode = jniLookup<
           ffi.NativeFunction<
-              ffi.Int32 Function(
-    ffi.Pointer<ffi.Void>,
-  )>>("get_android_content_res_Configuration_uiMode")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_Configuration__uiMode")
       .asFunction<
-          int Function(
-    ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(
+    jni.JObject,
   )>();
 
   /// from: public int uiMode
@@ -2611,12 +2246,12 @@ class Configuration extends jni.JniObject {
   /// The \#UI_MODE_NIGHT_MASK defines whether the screen
   /// is in a special mode. They may be one of \#UI_MODE_NIGHT_UNDEFINED,
   /// \#UI_MODE_NIGHT_NO or \#UI_MODE_NIGHT_YES.
-  int get uiMode => _get_uiMode(reference);
+  int get uiMode => _get_uiMode(reference).integer;
   static final _set_uiMode = jniLookup<
           ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("set_android_content_res_Configuration_uiMode")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JThrowable Function(
+                  jni.JObject, ffi.Int32)>>("set_Configuration__uiMode")
+      .asFunction<jni.JThrowable Function(jni.JObject, int)>();
 
   /// from: public int uiMode
   ///
@@ -2633,10 +2268,9 @@ class Configuration extends jni.JniObject {
   /// \#UI_MODE_NIGHT_NO or \#UI_MODE_NIGHT_YES.
   set uiMode(int value) => _set_uiMode(reference, value);
 
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_content_res_Configuration_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "Configuration__ctor")
+      .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
   ///
@@ -2656,28 +2290,25 @@ class Configuration extends jni.JniObject {
   ///
   ///     validConfig.updateFrom(deltaOnlyConfig);
   /// </pre>
-  Configuration() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
+  Configuration() : super.fromRef(_ctor().object);
 
   static final _ctor1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Configuration_ctor1")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("Configuration__ctor1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.content.res.Configuration o)
   ///
   /// Makes a deep copy suitable for modification.
-  Configuration.ctor1(Configuration o) : super.fromRef(_ctor1(o.reference)) {
-    jni.Jni.env.checkException();
-  }
+  Configuration.ctor1(Configuration o)
+      : super.fromRef(_ctor1(o.reference).object);
 
   static final _isLayoutSizeAtLeast = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_content_res_Configuration_isLayoutSizeAtLeast")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("Configuration__isLayoutSizeAtLeast")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public boolean isLayoutSizeAtLeast(int size)
   ///
@@ -2688,64 +2319,52 @@ class Configuration extends jni.JniObject {
   /// \#SCREENLAYOUT_SIZE_XLARGE.
   ///@return Returns true if the current screen layout size is at least
   /// the given size.
-  bool isLayoutSizeAtLeast(int size) {
-    final result__ = _isLayoutSizeAtLeast(reference, size) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isLayoutSizeAtLeast(int size) =>
+      _isLayoutSizeAtLeast(reference, size).boolean;
 
   static final _setTo = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Configuration_setTo")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("Configuration__setTo")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setTo(android.content.res.Configuration o)
   ///
   /// Sets the fields in this object to those in the given Configuration.
   ///@param o The Configuration object used to set the values of this Configuration's fields.
-  void setTo(Configuration o) {
-    final result__ = _setTo(reference, o.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setTo(Configuration o) => _setTo(reference, o.reference).check();
 
   static final _toString1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Configuration_toString1")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("Configuration__toString1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String toString()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniString toString1() {
-    final result__ = jni.JniString.fromRef(_toString1(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString toString1() =>
+      jni.JniString.fromRef(_toString1(reference).object);
 
-  static final _setToDefaults =
-      jniLookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_Configuration_setToDefaults")
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+  static final _setToDefaults = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("Configuration__setToDefaults")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setToDefaults()
   ///
   /// Set this object to the system defaults.
-  void setToDefaults() {
-    final result__ = _setToDefaults(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setToDefaults() => _setToDefaults(reference).check();
 
   static final _updateFrom = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Configuration_updateFrom")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("Configuration__updateFrom")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int updateFrom(android.content.res.Configuration delta)
   ///
@@ -2756,18 +2375,16 @@ class Configuration extends jni.JniObject {
   ///@return a bit mask of the changed fields, as per \#diff
   ///
   /// Value is either <code>0</code> or a combination of android.content.pm.ActivityInfo\#CONFIG_MCC, android.content.pm.ActivityInfo\#CONFIG_MNC, android.content.pm.ActivityInfo\#CONFIG_LOCALE, android.content.pm.ActivityInfo\#CONFIG_TOUCHSCREEN, android.content.pm.ActivityInfo\#CONFIG_KEYBOARD, android.content.pm.ActivityInfo\#CONFIG_KEYBOARD_HIDDEN, android.content.pm.ActivityInfo\#CONFIG_NAVIGATION, android.content.pm.ActivityInfo\#CONFIG_ORIENTATION, android.content.pm.ActivityInfo\#CONFIG_SCREEN_LAYOUT, android.content.pm.ActivityInfo\#CONFIG_UI_MODE, android.content.pm.ActivityInfo\#CONFIG_SCREEN_SIZE, android.content.pm.ActivityInfo\#CONFIG_SMALLEST_SCREEN_SIZE, android.content.pm.ActivityInfo\#CONFIG_DENSITY, android.content.pm.ActivityInfo\#CONFIG_LAYOUT_DIRECTION, android.content.pm.ActivityInfo\#CONFIG_COLOR_MODE, and android.content.pm.ActivityInfo\#CONFIG_FONT_SCALE
-  int updateFrom(Configuration delta) {
-    final result__ = _updateFrom(reference, delta.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int updateFrom(Configuration delta) =>
+      _updateFrom(reference, delta.reference).integer;
 
   static final _diff = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Configuration_diff")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("Configuration__diff")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int diff(android.content.res.Configuration delta)
   ///
@@ -2788,16 +2405,12 @@ class Configuration extends jni.JniObject {
   /// android.content.pm.ActivityInfo\#CONFIG_SCREEN_SIZE PackageManager.ActivityInfo.CONFIG_SCREEN_SIZE, or
   /// android.content.pm.ActivityInfo\#CONFIG_SMALLEST_SCREEN_SIZE PackageManager.ActivityInfo.CONFIG_SMALLEST_SCREEN_SIZE.
   /// android.content.pm.ActivityInfo\#CONFIG_LAYOUT_DIRECTION PackageManager.ActivityInfo.CONFIG_LAYOUT_DIRECTION.
-  int diff(Configuration delta) {
-    final result__ = _diff(reference, delta.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int diff(Configuration delta) => _diff(reference, delta.reference).integer;
 
-  static final _needNewResources =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Int32, ffi.Int32)>>(
-              "android_content_res_Configuration_needNewResources")
-          .asFunction<int Function(int, int)>();
+  static final _needNewResources = jniLookup<
+              ffi.NativeFunction<jni.JniResult Function(ffi.Int32, ffi.Int32)>>(
+          "Configuration__needNewResources")
+      .asFunction<jni.JniResult Function(int, int)>();
 
   /// from: static public boolean needNewResources(int configChanges, int interestingChanges)
   ///
@@ -2812,115 +2425,96 @@ class Configuration extends jni.JniObject {
   /// Value is either <code>0</code> or a combination of android.content.pm.ActivityInfo\#CONFIG_MCC, android.content.pm.ActivityInfo\#CONFIG_MNC, android.content.pm.ActivityInfo\#CONFIG_LOCALE, android.content.pm.ActivityInfo\#CONFIG_TOUCHSCREEN, android.content.pm.ActivityInfo\#CONFIG_KEYBOARD, android.content.pm.ActivityInfo\#CONFIG_KEYBOARD_HIDDEN, android.content.pm.ActivityInfo\#CONFIG_NAVIGATION, android.content.pm.ActivityInfo\#CONFIG_ORIENTATION, android.content.pm.ActivityInfo\#CONFIG_SCREEN_LAYOUT, android.content.pm.ActivityInfo\#CONFIG_UI_MODE, android.content.pm.ActivityInfo\#CONFIG_SCREEN_SIZE, android.content.pm.ActivityInfo\#CONFIG_SMALLEST_SCREEN_SIZE, android.content.pm.ActivityInfo\#CONFIG_DENSITY, android.content.pm.ActivityInfo\#CONFIG_LAYOUT_DIRECTION, android.content.pm.ActivityInfo\#CONFIG_COLOR_MODE, and android.content.pm.ActivityInfo\#CONFIG_FONT_SCALE
   ///@return {@code true} if the resource needs to be loaded, {@code false}
   ///         otherwise
-  static bool needNewResources(int configChanges, int interestingChanges) {
-    final result__ = _needNewResources(configChanges, interestingChanges) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  static bool needNewResources(int configChanges, int interestingChanges) =>
+      _needNewResources(configChanges, interestingChanges).boolean;
 
-  static final _describeContents =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_Configuration_describeContents")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _describeContents = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("Configuration__describeContents")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int describeContents()
   ///
   /// Parcelable methods
-  int describeContents() {
-    final result__ = _describeContents(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int describeContents() => _describeContents(reference).integer;
 
   static final _writeToParcel = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_content_res_Configuration_writeToParcel")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("Configuration__writeToParcel")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(os_.Parcel dest, int flags) {
-    final result__ = _writeToParcel(reference, dest.reference, flags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void writeToParcel(os_.Parcel dest, int flags) =>
+      _writeToParcel(reference, dest.reference, flags).check();
 
   static final _readFromParcel = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Configuration_readFromParcel")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("Configuration__readFromParcel")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void readFromParcel(android.os.Parcel source)
-  void readFromParcel(os_.Parcel source) {
-    final result__ = _readFromParcel(reference, source.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void readFromParcel(os_.Parcel source) =>
+      _readFromParcel(reference, source.reference).check();
 
   static final _compareTo = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Configuration_compareTo")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("Configuration__compareTo")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int compareTo(android.content.res.Configuration that)
-  int compareTo(Configuration that) {
-    final result__ = _compareTo(reference, that.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int compareTo(Configuration that) =>
+      _compareTo(reference, that.reference).integer;
 
   static final _equals1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Configuration_equals1")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("Configuration__equals1")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean equals(android.content.res.Configuration that)
-  bool equals1(Configuration that) {
-    final result__ = _equals1(reference, that.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool equals1(Configuration that) =>
+      _equals1(reference, that.reference).boolean;
 
   static final _equals2 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Configuration_equals2")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("Configuration__equals2")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean equals(java.lang.Object that)
-  bool equals2(jni.JniObject that) {
-    final result__ = _equals2(reference, that.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool equals2(jni.JniObject that) =>
+      _equals2(reference, that.reference).boolean;
 
-  static final _hashCode1 =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_Configuration_hashCode1")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _hashCode1 = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("Configuration__hashCode1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int hashCode()
-  int hashCode1() {
-    final result__ = _hashCode1(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int hashCode1() => _hashCode1(reference).integer;
 
   static final _getLocales = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Configuration_getLocales")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("Configuration__getLocales")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.LocaleList getLocales()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -2930,19 +2524,16 @@ class Configuration extends jni.JniObject {
   ///@return The locale list.
   ///
   /// This value will never be {@code null}.
-  os_.LocaleList getLocales() {
-    final result__ = os_.LocaleList.fromRef(_getLocales(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  os_.LocaleList getLocales() =>
+      os_.LocaleList.fromRef(_getLocales(reference).object);
 
   static final _setLocales = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Configuration_setLocales")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("Configuration__setLocales")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setLocales(android.os.LocaleList locales)
   ///
@@ -2956,19 +2547,16 @@ class Configuration extends jni.JniObject {
   ///@param locales The locale list. If null, an empty LocaleList will be assigned.
   ///
   /// This value may be {@code null}.
-  void setLocales(os_.LocaleList locales) {
-    final result__ = _setLocales(reference, locales.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setLocales(os_.LocaleList locales) =>
+      _setLocales(reference, locales.reference).check();
 
   static final _setLocale = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Configuration_setLocale")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("Configuration__setLocale")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setLocale(java.util.Locale loc)
   ///
@@ -2983,16 +2571,14 @@ class Configuration extends jni.JniObject {
   ///@param loc The locale. Can be null.
   ///
   /// This value may be {@code null}.
-  void setLocale(jni.JniObject loc) {
-    final result__ = _setLocale(reference, loc.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setLocale(jni.JniObject loc) =>
+      _setLocale(reference, loc.reference).check();
 
-  static final _getLayoutDirection =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_Configuration_getLayoutDirection")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getLayoutDirection = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("Configuration__getLayoutDirection")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getLayoutDirection()
   ///
@@ -3000,19 +2586,15 @@ class Configuration extends jni.JniObject {
   /// View\#LAYOUT_DIRECTION_RTL.
   ///@return Returns View\#LAYOUT_DIRECTION_RTL if the configuration
   /// is \#SCREENLAYOUT_LAYOUTDIR_RTL, otherwise View\#LAYOUT_DIRECTION_LTR.
-  int getLayoutDirection() {
-    final result__ = _getLayoutDirection(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getLayoutDirection() => _getLayoutDirection(reference).integer;
 
   static final _setLayoutDirection = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Configuration_setLayoutDirection")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("Configuration__setLayoutDirection")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setLayoutDirection(java.util.Locale loc)
   ///
@@ -3022,32 +2604,27 @@ class Configuration extends jni.JniObject {
   /// corresponding to the Locale.
   ///@see View\#LAYOUT_DIRECTION_LTR
   ///@see View\#LAYOUT_DIRECTION_RTL
-  void setLayoutDirection(jni.JniObject loc) {
-    final result__ = _setLayoutDirection(reference, loc.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setLayoutDirection(jni.JniObject loc) =>
+      _setLayoutDirection(reference, loc.reference).check();
 
-  static final _isScreenRound =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_Configuration_isScreenRound")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isScreenRound = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("Configuration__isScreenRound")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isScreenRound()
   ///
   /// Return whether the screen has a round shape. Apps may choose to change styling based
   /// on this property, such as the alignment or layout of text or informational icons.
   ///@return true if the screen is rounded, false otherwise
-  bool isScreenRound() {
-    final result__ = _isScreenRound(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isScreenRound() => _isScreenRound(reference).boolean;
 
-  static final _isScreenWideColorGamut =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_Configuration_isScreenWideColorGamut")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isScreenWideColorGamut = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "Configuration__isScreenWideColorGamut")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isScreenWideColorGamut()
   ///
@@ -3059,810 +2636,192 @@ class Configuration extends jni.JniObject {
   /// screen depending on user settings.
   ///@return true if the screen has a wide color gamut and wide color gamut rendering
   /// is supported, false otherwise
-  bool isScreenWideColorGamut() {
-    final result__ = _isScreenWideColorGamut(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isScreenWideColorGamut() => _isScreenWideColorGamut(reference).boolean;
 
-  static final _isScreenHdr =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_Configuration_isScreenHdr")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isScreenHdr = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("Configuration__isScreenHdr")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isScreenHdr()
   ///
   /// Return whether the screen has a high dynamic range.
   ///@return true if the screen has a high dynamic range, false otherwise
-  bool isScreenHdr() {
-    final result__ = _isScreenHdr(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isScreenHdr() => _isScreenHdr(reference).boolean;
 }
 
-/// from: android.content.res.TypedArray
+/// from: android.content.res.ObbInfo
 ///
-/// Container for an array of values that were retrieved with
-/// Resources.Theme\#obtainStyledAttributes(AttributeSet, int[], int, int)
-/// or Resources\#obtainAttributes.  Be
-/// sure to call \#recycle when done with them.
-///
-/// The indices used to retrieve values from this structure correspond to
-/// the positions of the attributes given to obtainStyledAttributes.
-class TypedArray extends jni.JniObject {
-  TypedArray.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+/// Basic information about a Opaque Binary Blob (OBB) that reflects the info
+/// from the footer on the OBB file. This information may be manipulated by a
+/// developer with the <code>obbtool</code> program in the Android SDK.
+class ObbInfo extends jni.JniObject {
+  ObbInfo.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
-  static final _ctor = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_TypedArray_ctor")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+  static final _get_CREATOR =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_ObbInfo__CREATOR")
+          .asFunction<jni.JniResult Function()>();
 
-  /// from: void <init>(android.content.res.Resources resources)
-  ///
-  /// @hide
-  TypedArray(Resources resources) : super.fromRef(_ctor(resources.reference)) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _length =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_TypedArray_length")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int length()
-  ///
-  /// Returns the number of values in this array.
-  ///@throws RuntimeException if the TypedArray has already been recycled.
-  int length() {
-    final result__ = _length(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getIndexCount =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_TypedArray_getIndexCount")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int getIndexCount()
-  ///
-  /// Returns the number of indices in the array that actually have data. Attributes with a value
-  /// of @empty are included, as this is an explicit indicator.
-  ///@throws RuntimeException if the TypedArray has already been recycled.
-  int getIndexCount() {
-    final result__ = _getIndexCount(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getIndex = jniLookup<
-          ffi.NativeFunction<
-              ffi.Int32 Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_content_res_TypedArray_getIndex")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public int getIndex(int at)
-  ///
-  /// Returns an index in the array that has data. Attributes with a value of @empty are included,
-  /// as this is an explicit indicator.
-  ///@param at The index you would like to returned, ranging from 0 to
-  ///           \#getIndexCount().
-  ///@return The index at the given offset, which can be used with
-  ///         \#getValue and related APIs.
-  ///@throws RuntimeException if the TypedArray has already been recycled.
-  int getIndex(int at) {
-    final result__ = _getIndex(reference, at);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getResources = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_TypedArray_getResources")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.content.res.Resources getResources()
+  /// from: static public final android.os.Parcelable.Creator<android.content.res.ObbInfo> CREATOR
   /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Returns the Resources object this array was loaded from.
-  ///@throws RuntimeException if the TypedArray has already been recycled.
-  Resources getResources() {
-    final result__ = Resources.fromRef(_getResources(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  static os_.Parcelable_Creator get CREATOR =>
+      os_.Parcelable_Creator.fromRef(_get_CREATOR().object);
 
-  static final _getText = jniLookup<
+  /// from: static public final int OBB_OVERLAY
+  ///
+  /// Flag noting that this OBB is an overlay patch for a base OBB.
+  static const OBB_OVERLAY = 1;
+
+  static final _get_filename = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_content_res_TypedArray_getText")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public java.lang.CharSequence getText(int index)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Retrieves the styled string value for the attribute at <var>index</var>.
-  ///
-  /// If the attribute is not a string, this method will attempt to coerce
-  /// it to a string.
-  ///@param index Index of attribute to retrieve.
-  ///@return CharSequence holding string data. May be styled. Returns
-  ///         {@code null} if the attribute is not defined or could not be
-  ///         coerced to a string.
-  ///@throws RuntimeException if the TypedArray has already been recycled.
-  jni.JniObject getText(int index) {
-    final result__ = jni.JniObject.fromRef(_getText(reference, index));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getString = jniLookup<
-          ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_content_res_TypedArray_getString")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public java.lang.String getString(int index)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Retrieves the string value for the attribute at <var>index</var>.
-  ///
-  /// If the attribute is not a string, this method will attempt to coerce
-  /// it to a string.
-  ///@param index Index of attribute to retrieve.
-  ///@return String holding string data. Any styling information is removed.
-  ///         Returns {@code null} if the attribute is not defined or could
-  ///         not be coerced to a string.
-  ///@throws RuntimeException if the TypedArray has already been recycled.
-  jni.JniString getString(int index) {
-    final result__ = jni.JniString.fromRef(_getString(reference, index));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getNonResourceString = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_content_res_TypedArray_getNonResourceString")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public java.lang.String getNonResourceString(int index)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Retrieves the string value for the attribute at <var>index</var>, but
-  /// only if that string comes from an immediate value in an XML file.  That
-  /// is, this does not allow references to string resources, string
-  /// attributes, or conversions from other types.  As such, this method
-  /// will only return strings for TypedArray objects that come from
-  /// attributes in an XML file.
-  ///@param index Index of attribute to retrieve.
-  ///@return String holding string data. Any styling information is removed.
-  ///         Returns {@code null} if the attribute is not defined or is not
-  ///         an immediate string value.
-  ///@throws RuntimeException if the TypedArray has already been recycled.
-  jni.JniString getNonResourceString(int index) {
-    final result__ =
-        jni.JniString.fromRef(_getNonResourceString(reference, index));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getBoolean = jniLookup<
-          ffi.NativeFunction<
-              ffi.Uint8 Function(ffi.Pointer<ffi.Void>, ffi.Int32,
-                  ffi.Uint8)>>("android_content_res_TypedArray_getBoolean")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int, int)>();
-
-  /// from: public boolean getBoolean(int index, boolean defValue)
-  ///
-  /// Retrieve the boolean value for the attribute at <var>index</var>.
-  ///
-  /// If the attribute is an integer value, this method will return whether
-  /// it is equal to zero. If the attribute is not a boolean or integer value,
-  /// this method will attempt to coerce it to an integer using
-  /// Integer\#decode(String) and return whether it is equal to zero.
-  ///@param index Index of attribute to retrieve.
-  ///@param defValue Value to return if the attribute is not defined or
-  ///                 cannot be coerced to an integer.
-  ///@return Boolean value of the attribute, or defValue if the attribute was
-  ///         not defined or could not be coerced to an integer.
-  ///@throws RuntimeException if the TypedArray has already been recycled.
-  bool getBoolean(int index, bool defValue) {
-    final result__ = _getBoolean(reference, index, defValue ? 1 : 0) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getInt = jniLookup<
-          ffi.NativeFunction<
-              ffi.Int32 Function(ffi.Pointer<ffi.Void>, ffi.Int32,
-                  ffi.Int32)>>("android_content_res_TypedArray_getInt")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int, int)>();
-
-  /// from: public int getInt(int index, int defValue)
-  ///
-  /// Retrieve the integer value for the attribute at <var>index</var>.
-  ///
-  /// If the attribute is not an integer, this method will attempt to coerce
-  /// it to an integer using Integer\#decode(String).
-  ///@param index Index of attribute to retrieve.
-  ///@param defValue Value to return if the attribute is not defined or
-  ///                 cannot be coerced to an integer.
-  ///@return Integer value of the attribute, or defValue if the attribute was
-  ///         not defined or could not be coerced to an integer.
-  ///@throws RuntimeException if the TypedArray has already been recycled.
-  int getInt(int index, int defValue) {
-    final result__ = _getInt(reference, index, defValue);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getFloat = jniLookup<
-          ffi.NativeFunction<
-              ffi.Float Function(ffi.Pointer<ffi.Void>, ffi.Int32,
-                  ffi.Float)>>("android_content_res_TypedArray_getFloat")
-      .asFunction<double Function(ffi.Pointer<ffi.Void>, int, double)>();
-
-  /// from: public float getFloat(int index, float defValue)
-  ///
-  /// Retrieve the float value for the attribute at <var>index</var>.
-  ///
-  /// If the attribute is not a float or an integer, this method will attempt
-  /// to coerce it to a float using Float\#parseFloat(String).
-  ///@param index Index of attribute to retrieve.
-  ///@return Attribute float value, or defValue if the attribute was
-  ///         not defined or could not be coerced to a float.
-  ///@throws RuntimeException if the TypedArray has already been recycled.
-  double getFloat(int index, double defValue) {
-    final result__ = _getFloat(reference, index, defValue);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getColor = jniLookup<
-          ffi.NativeFunction<
-              ffi.Int32 Function(ffi.Pointer<ffi.Void>, ffi.Int32,
-                  ffi.Int32)>>("android_content_res_TypedArray_getColor")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int, int)>();
-
-  /// from: public int getColor(int index, int defValue)
-  ///
-  /// Retrieve the color value for the attribute at <var>index</var>.  If
-  /// the attribute references a color resource holding a complex
-  /// android.content.res.ColorStateList, then the default color from
-  /// the set is returned.
-  ///
-  /// This method will throw an exception if the attribute is defined but is
-  /// not an integer color or color state list.
-  ///@param index Index of attribute to retrieve.
-  ///@param defValue Value to return if the attribute is not defined or
-  ///                 not a resource.
-  ///@return Attribute color value, or defValue if not defined.
-  ///@throws RuntimeException if the TypedArray has already been recycled.
-  ///@throws UnsupportedOperationException if the attribute is defined but is
-  ///         not an integer color or color state list.
-  int getColor(int index, int defValue) {
-    final result__ = _getColor(reference, index, defValue);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getColorStateList = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_content_res_TypedArray_getColorStateList")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public android.content.res.ColorStateList getColorStateList(int index)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Retrieve the ColorStateList for the attribute at <var>index</var>.
-  /// The value may be either a single solid color or a reference to
-  /// a color or complex android.content.res.ColorStateList
-  /// description.
-  ///
-  /// This method will return {@code null} if the attribute is not defined or
-  /// is not an integer color or color state list.
-  ///@param index Index of attribute to retrieve.
-  ///@return ColorStateList for the attribute, or {@code null} if not
-  ///         defined.
-  ///@throws RuntimeException if the attribute if the TypedArray has already
-  ///         been recycled.
-  ///@throws UnsupportedOperationException if the attribute is defined but is
-  ///         not an integer color or color state list.
-  ColorStateList getColorStateList(int index) {
-    final result__ =
-        ColorStateList.fromRef(_getColorStateList(reference, index));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getInteger = jniLookup<
-          ffi.NativeFunction<
-              ffi.Int32 Function(ffi.Pointer<ffi.Void>, ffi.Int32,
-                  ffi.Int32)>>("android_content_res_TypedArray_getInteger")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int, int)>();
-
-  /// from: public int getInteger(int index, int defValue)
-  ///
-  /// Retrieve the integer value for the attribute at <var>index</var>.
-  ///
-  /// Unlike \#getInt(int, int), this method will throw an exception if
-  /// the attribute is defined but is not an integer.
-  ///@param index Index of attribute to retrieve.
-  ///@param defValue Value to return if the attribute is not defined or
-  ///                 not a resource.
-  ///@return Attribute integer value, or defValue if not defined.
-  ///@throws RuntimeException if the TypedArray has already been recycled.
-  ///@throws UnsupportedOperationException if the attribute is defined but is
-  ///         not an integer.
-  int getInteger(int index, int defValue) {
-    final result__ = _getInteger(reference, index, defValue);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getDimension = jniLookup<
-          ffi.NativeFunction<
-              ffi.Float Function(ffi.Pointer<ffi.Void>, ffi.Int32,
-                  ffi.Float)>>("android_content_res_TypedArray_getDimension")
-      .asFunction<double Function(ffi.Pointer<ffi.Void>, int, double)>();
-
-  /// from: public float getDimension(int index, float defValue)
-  ///
-  /// Retrieve a dimensional unit attribute at <var>index</var>. Unit
-  /// conversions are based on the current DisplayMetrics
-  /// associated with the resources this TypedArray object
-  /// came from.
-  ///
-  /// This method will throw an exception if the attribute is defined but is
-  /// not a dimension.
-  ///@param index Index of attribute to retrieve.
-  ///@param defValue Value to return if the attribute is not defined or
-  ///                 not a resource.
-  ///@return Attribute dimension value multiplied by the appropriate
-  ///         metric, or defValue if not defined.
-  ///@throws RuntimeException if the TypedArray has already been recycled.
-  ///@throws UnsupportedOperationException if the attribute is defined but is
-  ///         not an integer.
-  ///@see \#getDimensionPixelOffset
-  ///@see \#getDimensionPixelSize
-  double getDimension(int index, double defValue) {
-    final result__ = _getDimension(reference, index, defValue);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getDimensionPixelOffset = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int32, ffi.Int32)>>(
-          "android_content_res_TypedArray_getDimensionPixelOffset")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int, int)>();
-
-  /// from: public int getDimensionPixelOffset(int index, int defValue)
-  ///
-  /// Retrieve a dimensional unit attribute at <var>index</var> for use
-  /// as an offset in raw pixels.  This is the same as
-  /// \#getDimension, except the returned value is converted to
-  /// integer pixels for you.  An offset conversion involves simply
-  /// truncating the base value to an integer.
-  ///
-  /// This method will throw an exception if the attribute is defined but is
-  /// not a dimension.
-  ///@param index Index of attribute to retrieve.
-  ///@param defValue Value to return if the attribute is not defined or
-  ///                 not a resource.
-  ///@return Attribute dimension value multiplied by the appropriate
-  ///         metric and truncated to integer pixels, or defValue if not defined.
-  ///@throws RuntimeException if the TypedArray has already been recycled.
-  ///@throws UnsupportedOperationException if the attribute is defined but is
-  ///         not an integer.
-  ///@see \#getDimension
-  ///@see \#getDimensionPixelSize
-  int getDimensionPixelOffset(int index, int defValue) {
-    final result__ = _getDimensionPixelOffset(reference, index, defValue);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getDimensionPixelSize = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int32, ffi.Int32)>>(
-          "android_content_res_TypedArray_getDimensionPixelSize")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int, int)>();
-
-  /// from: public int getDimensionPixelSize(int index, int defValue)
-  ///
-  /// Retrieve a dimensional unit attribute at <var>index</var> for use
-  /// as a size in raw pixels.  This is the same as
-  /// \#getDimension, except the returned value is converted to
-  /// integer pixels for use as a size.  A size conversion involves
-  /// rounding the base value, and ensuring that a non-zero base value
-  /// is at least one pixel in size.
-  ///
-  /// This method will throw an exception if the attribute is defined but is
-  /// not a dimension.
-  ///@param index Index of attribute to retrieve.
-  ///@param defValue Value to return if the attribute is not defined or
-  ///                 not a resource.
-  ///@return Attribute dimension value multiplied by the appropriate
-  ///         metric and truncated to integer pixels, or defValue if not defined.
-  ///@throws RuntimeException if the TypedArray has already been recycled.
-  ///@throws UnsupportedOperationException if the attribute is defined but is
-  ///         not a dimension.
-  ///@see \#getDimension
-  ///@see \#getDimensionPixelOffset
-  int getDimensionPixelSize(int index, int defValue) {
-    final result__ = _getDimensionPixelSize(reference, index, defValue);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getLayoutDimension = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(ffi.Pointer<ffi.Void>, ffi.Int32,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_TypedArray_getLayoutDimension")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_ObbInfo__filename")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+    jni.JObject,
+  )>();
 
-  /// from: public int getLayoutDimension(int index, java.lang.String name)
+  /// from: public java.lang.String filename
+  /// The returned object must be deleted after use, by calling the `delete` method.
   ///
-  /// Special version of \#getDimensionPixelSize for retrieving
-  /// android.view.ViewGroup's layout_width and layout_height
-  /// attributes.  This is only here for performance reasons; applications
-  /// should use \#getDimensionPixelSize.
-  ///
-  /// This method will throw an exception if the attribute is defined but is
-  /// not a dimension or integer (enum).
-  ///@param index Index of the attribute to retrieve.
-  ///@param name Textual name of attribute for error reporting.
-  ///@return Attribute dimension value multiplied by the appropriate
-  ///         metric and truncated to integer pixels.
-  ///@throws RuntimeException if the TypedArray has already been recycled.
-  ///@throws UnsupportedOperationException if the attribute is defined but is
-  ///         not a dimension or integer (enum).
-  int getLayoutDimension(int index, jni.JniString name) {
-    final result__ = _getLayoutDimension(reference, index, name.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getLayoutDimension1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int32, ffi.Int32)>>(
-          "android_content_res_TypedArray_getLayoutDimension1")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int, int)>();
-
-  /// from: public int getLayoutDimension(int index, int defValue)
-  ///
-  /// Special version of \#getDimensionPixelSize for retrieving
-  /// android.view.ViewGroup's layout_width and layout_height
-  /// attributes.  This is only here for performance reasons; applications
-  /// should use \#getDimensionPixelSize.
-  ///@param index Index of the attribute to retrieve.
-  ///@param defValue The default value to return if this attribute is not
-  ///                 default or contains the wrong type of data.
-  ///@return Attribute dimension value multiplied by the appropriate
-  ///         metric and truncated to integer pixels.
-  ///@throws RuntimeException if the TypedArray has already been recycled.
-  int getLayoutDimension1(int index, int defValue) {
-    final result__ = _getLayoutDimension1(reference, index, defValue);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getFraction = jniLookup<
+  /// The canonical filename of the OBB.
+  jni.JniString get filename =>
+      jni.JniString.fromRef(_get_filename(reference).object);
+  static final _set_filename = jniLookup<
           ffi.NativeFunction<
-              ffi.Float Function(
-                  ffi.Pointer<ffi.Void>,
-                  ffi.Int32,
-                  ffi.Int32,
-                  ffi.Int32,
-                  ffi.Float)>>("android_content_res_TypedArray_getFraction")
+              jni.JThrowable Function(
+                  jni.JObject, ffi.Pointer<ffi.Void>)>>("set_ObbInfo__filename")
       .asFunction<
-          double Function(ffi.Pointer<ffi.Void>, int, int, int, double)>();
+          jni.JThrowable Function(jni.JObject, ffi.Pointer<ffi.Void>)>();
 
-  /// from: public float getFraction(int index, int base, int pbase, float defValue)
-  ///
-  /// Retrieves a fractional unit attribute at <var>index</var>.
-  ///@param index Index of attribute to retrieve.
-  ///@param base The base value of this fraction.  In other words, a
-  ///             standard fraction is multiplied by this value.
-  ///@param pbase The parent base value of this fraction.  In other
-  ///             words, a parent fraction (nn%p) is multiplied by this
-  ///             value.
-  ///@param defValue Value to return if the attribute is not defined or
-  ///                 not a resource.
-  ///@return Attribute fractional value multiplied by the appropriate
-  ///         base value, or defValue if not defined.
-  ///@throws RuntimeException if the TypedArray has already been recycled.
-  ///@throws UnsupportedOperationException if the attribute is defined but is
-  ///         not a fraction.
-  double getFraction(int index, int base, int pbase, double defValue) {
-    final result__ = _getFraction(reference, index, base, pbase, defValue);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getResourceId = jniLookup<
-          ffi.NativeFunction<
-              ffi.Int32 Function(ffi.Pointer<ffi.Void>, ffi.Int32,
-                  ffi.Int32)>>("android_content_res_TypedArray_getResourceId")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int, int)>();
-
-  /// from: public int getResourceId(int index, int defValue)
-  ///
-  /// Retrieves the resource identifier for the attribute at
-  /// <var>index</var>.  Note that attribute resource as resolved when
-  /// the overall TypedArray object is retrieved.  As a
-  /// result, this function will return the resource identifier of the
-  /// final resource value that was found, _not_ necessarily the
-  /// original resource that was specified by the attribute.
-  ///@param index Index of attribute to retrieve.
-  ///@param defValue Value to return if the attribute is not defined or
-  ///                 not a resource.
-  ///@return Attribute resource identifier, or defValue if not defined.
-  ///@throws RuntimeException if the TypedArray has already been recycled.
-  int getResourceId(int index, int defValue) {
-    final result__ = _getResourceId(reference, index, defValue);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getDrawable = jniLookup<
-          ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_content_res_TypedArray_getDrawable")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public android.graphics.drawable.Drawable getDrawable(int index)
+  /// from: public java.lang.String filename
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
-  /// Retrieve the Drawable for the attribute at <var>index</var>.
-  ///
-  /// This method will throw an exception if the attribute is defined but is
-  /// not a color or drawable resource.
-  ///@param index Index of attribute to retrieve.
-  ///@return Drawable for the attribute, or {@code null} if not defined.
-  ///@throws RuntimeException if the TypedArray has already been recycled.
-  ///@throws UnsupportedOperationException if the attribute is defined but is
-  ///         not a color or drawable resource.
-  jni.JniObject getDrawable(int index) {
-    final result__ = jni.JniObject.fromRef(_getDrawable(reference, index));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  /// The canonical filename of the OBB.
+  set filename(jni.JniString value) =>
+      _set_filename(reference, value.reference);
 
-  static final _getFont = jniLookup<
+  static final _get_flags = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_content_res_TypedArray_getFont")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public android.graphics.Typeface getFont(int index)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Retrieve the Typeface for the attribute at <var>index</var>.
-  ///
-  /// This method will throw an exception if the attribute is defined but is
-  /// not a font.
-  ///@param index Index of attribute to retrieve.
-  ///@return Typeface for the attribute, or {@code null} if not defined.
-  ///@throws RuntimeException if the TypedArray has already been recycled.
-  ///@throws UnsupportedOperationException if the attribute is defined but is
-  ///         not a font resource.
-  jni.JniObject getFont(int index) {
-    final result__ = jni.JniObject.fromRef(_getFont(reference, index));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getTextArray = jniLookup<
-          ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_content_res_TypedArray_getTextArray")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public java.lang.CharSequence[] getTextArray(int index)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Retrieve the CharSequence[] for the attribute at <var>index</var>.
-  /// This gets the resource ID of the selected attribute, and uses
-  /// Resources\#getTextArray Resources.getTextArray of the owning
-  /// Resources object to retrieve its String[].
-  ///
-  /// This method will throw an exception if the attribute is defined but is
-  /// not a text array resource.
-  ///@param index Index of attribute to retrieve.
-  ///@return CharSequence[] for the attribute, or {@code null} if not
-  ///         defined.
-  ///@throws RuntimeException if the TypedArray has already been recycled.
-  jni.JniObject getTextArray(int index) {
-    final result__ = jni.JniObject.fromRef(_getTextArray(reference, index));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getValue = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(ffi.Pointer<ffi.Void>, ffi.Int32,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_TypedArray_getValue")
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_ObbInfo__flags")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+    jni.JObject,
+  )>();
 
-  /// from: public boolean getValue(int index, android.util.TypedValue outValue)
+  /// from: public int flags
   ///
-  /// Retrieve the raw TypedValue for the attribute at <var>index</var>.
-  ///@param index Index of attribute to retrieve.
-  ///@param outValue TypedValue object in which to place the attribute's
-  ///                 data.
-  ///@return {@code true} if the value was retrieved and not @empty, {@code false} otherwise.
-  ///@throws RuntimeException if the TypedArray has already been recycled.
-  bool getValue(int index, jni.JniObject outValue) {
-    final result__ = _getValue(reference, index, outValue.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getType = jniLookup<
+  /// The flags relating to the OBB.
+  int get flags => _get_flags(reference).integer;
+  static final _set_flags = jniLookup<
           ffi.NativeFunction<
-              ffi.Int32 Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_content_res_TypedArray_getType")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JThrowable Function(
+                  jni.JObject, ffi.Int32)>>("set_ObbInfo__flags")
+      .asFunction<jni.JThrowable Function(jni.JObject, int)>();
 
-  /// from: public int getType(int index)
+  /// from: public int flags
   ///
-  /// Returns the type of attribute at the specified index.
-  ///@param index Index of attribute whose type to retrieve.
-  ///@return Attribute type.
-  ///@throws RuntimeException if the TypedArray has already been recycled.
-  int getType(int index) {
-    final result__ = _getType(reference, index);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  /// The flags relating to the OBB.
+  set flags(int value) => _set_flags(reference, value);
 
-  static final _hasValue = jniLookup<
+  static final _get_packageName = jniLookup<
           ffi.NativeFunction<
-              ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_content_res_TypedArray_hasValue")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_ObbInfo__packageName")
+      .asFunction<
+          jni.JniResult Function(
+    jni.JObject,
+  )>();
 
-  /// from: public boolean hasValue(int index)
-  ///
-  /// Determines whether there is an attribute at <var>index</var>.
-  ///
-  /// <strong>Note:</strong> If the attribute was set to {@code @empty} or
-  /// {@code @undefined}, this method returns {@code false}.
-  ///@param index Index of attribute to retrieve.
-  ///@return True if the attribute has a value, false otherwise.
-  ///@throws RuntimeException if the TypedArray has already been recycled.
-  bool hasValue(int index) {
-    final result__ = _hasValue(reference, index) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _hasValueOrEmpty = jniLookup<
-          ffi.NativeFunction<
-              ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_content_res_TypedArray_hasValueOrEmpty")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public boolean hasValueOrEmpty(int index)
-  ///
-  /// Determines whether there is an attribute at <var>index</var>, returning
-  /// {@code true} if the attribute was explicitly set to {@code @empty} and
-  /// {@code false} only if the attribute was undefined.
-  ///@param index Index of attribute to retrieve.
-  ///@return True if the attribute has a value or is empty, false otherwise.
-  ///@throws RuntimeException if the TypedArray has already been recycled.
-  bool hasValueOrEmpty(int index) {
-    final result__ = _hasValueOrEmpty(reference, index) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _peekValue = jniLookup<
-          ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_content_res_TypedArray_peekValue")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public android.util.TypedValue peekValue(int index)
+  /// from: public java.lang.String packageName
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
-  /// Retrieve the raw TypedValue for the attribute at <var>index</var>
-  /// and return a temporary object holding its data.  This object is only
-  /// valid until the next call on to TypedArray.
-  ///@param index Index of attribute to retrieve.
-  ///@return Returns a TypedValue object if the attribute is defined,
-  ///         containing its data; otherwise returns null.  (You will not
-  ///         receive a TypedValue whose type is TYPE_NULL.)
-  ///@throws RuntimeException if the TypedArray has already been recycled.
-  jni.JniObject peekValue(int index) {
-    final result__ = jni.JniObject.fromRef(_peekValue(reference, index));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  /// The name of the package to which the OBB file belongs.
+  jni.JniString get packageName =>
+      jni.JniString.fromRef(_get_packageName(reference).object);
+  static final _set_packageName = jniLookup<
+          ffi.NativeFunction<
+              jni.JThrowable Function(jni.JObject,
+                  ffi.Pointer<ffi.Void>)>>("set_ObbInfo__packageName")
+      .asFunction<
+          jni.JThrowable Function(jni.JObject, ffi.Pointer<ffi.Void>)>();
 
-  static final _getPositionDescription = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_TypedArray_getPositionDescription")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.lang.String getPositionDescription()
+  /// from: public java.lang.String packageName
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
-  /// Returns a message about the parser state suitable for printing error messages.
-  ///@return Human-readable description of current parser state.
-  ///@throws RuntimeException if the TypedArray has already been recycled.
-  jni.JniString getPositionDescription() {
-    final result__ = jni.JniString.fromRef(_getPositionDescription(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  /// The name of the package to which the OBB file belongs.
+  set packageName(jni.JniString value) =>
+      _set_packageName(reference, value.reference);
 
-  static final _recycle =
-      jniLookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_TypedArray_recycle")
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+  static final _get_version = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+    jni.JObject,
+  )>>("get_ObbInfo__version")
+      .asFunction<
+          jni.JniResult Function(
+    jni.JObject,
+  )>();
 
-  /// from: public void recycle()
+  /// from: public int version
   ///
-  /// Recycles the TypedArray, to be re-used by a later caller. After calling
-  /// this function you must not ever touch the typed array again.
-  ///@throws RuntimeException if the TypedArray has already been recycled.
-  void recycle() {
-    final result__ = _recycle(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  /// The version of the package to which the OBB file belongs.
+  int get version => _get_version(reference).integer;
+  static final _set_version = jniLookup<
+          ffi.NativeFunction<
+              jni.JThrowable Function(
+                  jni.JObject, ffi.Int32)>>("set_ObbInfo__version")
+      .asFunction<jni.JThrowable Function(jni.JObject, int)>();
 
-  static final _getChangingConfigurations =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_TypedArray_getChangingConfigurations")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int getChangingConfigurations()
+  /// from: public int version
   ///
-  /// Return a mask of the configuration parameters for which the values in
-  /// this typed array may change.
-  ///@return Returns a mask of the changing configuration parameters, as
-  ///         defined by android.content.pm.ActivityInfo.
-  /// Value is either <code>0</code> or a combination of android.content.pm.ActivityInfo\#CONFIG_MCC, android.content.pm.ActivityInfo\#CONFIG_MNC, android.content.pm.ActivityInfo\#CONFIG_LOCALE, android.content.pm.ActivityInfo\#CONFIG_TOUCHSCREEN, android.content.pm.ActivityInfo\#CONFIG_KEYBOARD, android.content.pm.ActivityInfo\#CONFIG_KEYBOARD_HIDDEN, android.content.pm.ActivityInfo\#CONFIG_NAVIGATION, android.content.pm.ActivityInfo\#CONFIG_ORIENTATION, android.content.pm.ActivityInfo\#CONFIG_SCREEN_LAYOUT, android.content.pm.ActivityInfo\#CONFIG_UI_MODE, android.content.pm.ActivityInfo\#CONFIG_SCREEN_SIZE, android.content.pm.ActivityInfo\#CONFIG_SMALLEST_SCREEN_SIZE, android.content.pm.ActivityInfo\#CONFIG_DENSITY, android.content.pm.ActivityInfo\#CONFIG_LAYOUT_DIRECTION, android.content.pm.ActivityInfo\#CONFIG_COLOR_MODE, and android.content.pm.ActivityInfo\#CONFIG_FONT_SCALE
-  ///@throws RuntimeException if the TypedArray has already been recycled.
-  ///@see android.content.pm.ActivityInfo
-  int getChangingConfigurations() {
-    final result__ = _getChangingConfigurations(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  /// The version of the package to which the OBB file belongs.
+  set version(int value) => _set_version(reference, value);
+
+  static final _ctor =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>("ObbInfo__ctor")
+          .asFunction<jni.JniResult Function()>();
+
+  /// from: void <init>()
+  ObbInfo() : super.fromRef(_ctor().object);
 
   static final _toString1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_TypedArray_toString1")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("ObbInfo__toString1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String toString()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniString toString1() {
-    final result__ = jni.JniString.fromRef(_toString1(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString toString1() =>
+      jni.JniString.fromRef(_toString1(reference).object);
+
+  static final _describeContents = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("ObbInfo__describeContents")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int describeContents()
+  int describeContents() => _describeContents(reference).integer;
+
+  static final _writeToParcel = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("ObbInfo__writeToParcel")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public void writeToParcel(android.os.Parcel dest, int parcelableFlags)
+  void writeToParcel(os_.Parcel dest, int parcelableFlags) =>
+      _writeToParcel(reference, dest.reference, parcelableFlags).check();
 }
 
 /// from: android.content.res.ObbScanner
@@ -3872,21 +2831,18 @@ class TypedArray extends jni.JniObject {
 class ObbScanner extends jni.JniObject {
   ObbScanner.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_content_res_ObbScanner_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "ObbScanner__ctor")
+      .asFunction<jni.JniResult Function()>();
 
   /// from: void <init>()
-  ObbScanner() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
+  ObbScanner() : super.fromRef(_ctor().object);
 
   static final _getObbInfo = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_ObbScanner_getObbInfo")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("ObbScanner__getObbInfo")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: static public android.content.res.ObbInfo getObbInfo(java.lang.String filePath)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -3896,11 +2852,8 @@ class ObbScanner extends jni.JniObject {
   ///@return ObbInfo object information corresponding to the file path
   ///@throws IllegalArgumentException if the OBB file couldn't be found
   ///@throws IOException if the OBB file couldn't be read
-  static ObbInfo getObbInfo(jni.JniString filePath) {
-    final result__ = ObbInfo.fromRef(_getObbInfo(filePath.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  static ObbInfo getObbInfo(jni.JniString filePath) =>
+      ObbInfo.fromRef(_getObbInfo(filePath.reference).object);
 }
 
 /// from: android.content.res.Resources
@@ -3936,13 +2889,13 @@ class Resources extends jni.JniObject {
 
   static final _ctor = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
+              jni.JniResult Function(
                   ffi.Pointer<ffi.Void>,
                   ffi.Pointer<ffi.Void>,
-                  ffi.Pointer<ffi.Void>)>>("android_content_res_Resources_ctor")
+                  ffi.Pointer<ffi.Void>)>>("Resources__ctor")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(android.content.res.AssetManager assets, android.util.DisplayMetrics metrics, android.content.res.Configuration config)
   ///
@@ -3957,14 +2910,13 @@ class Resources extends jni.JniObject {
   ///               selecting/computing resource values (optional).
   Resources(AssetManager assets, jni.JniObject metrics, Configuration config)
       : super.fromRef(
-            _ctor(assets.reference, metrics.reference, config.reference)) {
-    jni.Jni.env.checkException();
-  }
+            _ctor(assets.reference, metrics.reference, config.reference)
+                .object);
 
   static final _getSystem =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_content_res_Resources_getSystem")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "Resources__getSystem")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: static public android.content.res.Resources getSystem()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -3973,17 +2925,13 @@ class Resources extends jni.JniObject {
   /// system resources (no application resources), and is not configured for
   /// the current screen (can not use dimension units, does not change based
   /// on orientation, etc).
-  static Resources getSystem() {
-    final result__ = Resources.fromRef(_getSystem());
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  static Resources getSystem() => Resources.fromRef(_getSystem().object);
 
   static final _getText = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_content_res_Resources_getText")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("Resources__getText")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public java.lang.CharSequence getText(int id)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -4000,17 +2948,14 @@ class Resources extends jni.JniObject {
   ///         possibly styled text information.
   ///
   /// This value will never be {@code null}.
-  jni.JniObject getText(int id) {
-    final result__ = jni.JniObject.fromRef(_getText(reference, id));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getText(int id) =>
+      jni.JniObject.fromRef(_getText(reference, id).object);
 
   static final _getFont = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_content_res_Resources_getFont")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("Resources__getFont")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.graphics.Typeface getFont(int id)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -4024,18 +2969,14 @@ class Resources extends jni.JniObject {
   ///@return Typeface The Typeface data associated with the resource.
   ///
   /// This value will never be {@code null}.
-  jni.JniObject getFont(int id) {
-    final result__ = jni.JniObject.fromRef(_getFont(reference, id));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getFont(int id) =>
+      jni.JniObject.fromRef(_getFont(reference, id).object);
 
   static final _getQuantityText = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, ffi.Int32,
-                  ffi.Int32)>>("android_content_res_Resources_getQuantityText")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int, int)>();
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Int32)>>("Resources__getQuantityText")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int, int)>();
 
   /// from: public java.lang.CharSequence getQuantityText(int id, int quantity)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -4057,18 +2998,14 @@ class Resources extends jni.JniObject {
   ///         possibly styled text information.
   ///
   /// This value will never be {@code null}.
-  jni.JniObject getQuantityText(int id, int quantity) {
-    final result__ =
-        jni.JniObject.fromRef(_getQuantityText(reference, id, quantity));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getQuantityText(int id, int quantity) =>
+      jni.JniObject.fromRef(_getQuantityText(reference, id, quantity).object);
 
   static final _getString = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_content_res_Resources_getString")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("Resources__getString")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public java.lang.String getString(int id)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -4084,19 +3021,15 @@ class Resources extends jni.JniObject {
   ///         stripped of styled text information.
   ///
   /// This value will never be {@code null}.
-  jni.JniString getString(int id) {
-    final result__ = jni.JniString.fromRef(_getString(reference, id));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getString(int id) =>
+      jni.JniString.fromRef(_getString(reference, id).object);
 
   static final _getString1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Int32, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Resources_getString1")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Pointer<ffi.Void>)>>("Resources__getString1")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getString(int id, java.lang.Object[] formatArgs)
@@ -4116,20 +3049,19 @@ class Resources extends jni.JniObject {
   ///         stripped of styled text information.
   ///
   /// This value will never be {@code null}.
-  jni.JniString getString1(int id, jni.JniObject formatArgs) {
-    final result__ =
-        jni.JniString.fromRef(_getString1(reference, id, formatArgs.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getString1(int id, jni.JniObject formatArgs) =>
+      jni.JniString.fromRef(
+          _getString1(reference, id, formatArgs.reference).object);
 
   static final _getQuantityString = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Int32, ffi.Int32, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Resources_getQuantityString")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32,
+                  ffi.Int32,
+                  ffi.Pointer<ffi.Void>)>>("Resources__getQuantityString")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, int, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getQuantityString(int id, int quantity, java.lang.Object[] formatArgs)
@@ -4158,20 +3090,16 @@ class Resources extends jni.JniObject {
   ///
   /// This value will never be {@code null}.
   jni.JniString getQuantityString(
-      int id, int quantity, jni.JniObject formatArgs) {
-    final result__ = jni.JniString.fromRef(
-        _getQuantityString(reference, id, quantity, formatArgs.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          int id, int quantity, jni.JniObject formatArgs) =>
+      jni.JniString.fromRef(
+          _getQuantityString(reference, id, quantity, formatArgs.reference)
+              .object);
 
   static final _getQuantityString1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int32, ffi.Int32)>>(
-          "android_content_res_Resources_getQuantityString1")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Int32)>>("Resources__getQuantityString1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int, int)>();
 
   /// from: public java.lang.String getQuantityString(int id, int quantity)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -4193,20 +3121,16 @@ class Resources extends jni.JniObject {
   /// stripped of styled text information.
   ///
   /// This value will never be {@code null}.
-  jni.JniString getQuantityString1(int id, int quantity) {
-    final result__ =
-        jni.JniString.fromRef(_getQuantityString1(reference, id, quantity));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getQuantityString1(int id, int quantity) =>
+      jni.JniString.fromRef(
+          _getQuantityString1(reference, id, quantity).object);
 
   static final _getText1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Int32, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Resources_getText1")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Pointer<ffi.Void>)>>("Resources__getText1")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.CharSequence getText(int id, java.lang.CharSequence def)
@@ -4221,18 +3145,14 @@ class Resources extends jni.JniObject {
   ///@param def The default CharSequence to return.
   ///@return CharSequence The string data associated with the resource, plus
   ///         possibly styled text information, or def if id is 0 or not found.
-  jni.JniObject getText1(int id, jni.JniObject def) {
-    final result__ =
-        jni.JniObject.fromRef(_getText1(reference, id, def.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getText1(int id, jni.JniObject def) =>
+      jni.JniObject.fromRef(_getText1(reference, id, def.reference).object);
 
   static final _getTextArray = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_content_res_Resources_getTextArray")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("Resources__getTextArray")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public java.lang.CharSequence[] getTextArray(int id)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -4245,17 +3165,14 @@ class Resources extends jni.JniObject {
   ///@return The styled text array associated with the resource.
   ///
   /// This value will never be {@code null}.
-  jni.JniObject getTextArray(int id) {
-    final result__ = jni.JniObject.fromRef(_getTextArray(reference, id));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getTextArray(int id) =>
+      jni.JniObject.fromRef(_getTextArray(reference, id).object);
 
   static final _getStringArray = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_content_res_Resources_getStringArray")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("Resources__getStringArray")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public java.lang.String[] getStringArray(int id)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -4268,17 +3185,14 @@ class Resources extends jni.JniObject {
   ///@return The string array associated with the resource.
   ///
   /// This value will never be {@code null}.
-  jni.JniObject getStringArray(int id) {
-    final result__ = jni.JniObject.fromRef(_getStringArray(reference, id));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getStringArray(int id) =>
+      jni.JniObject.fromRef(_getStringArray(reference, id).object);
 
   static final _getIntArray = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_content_res_Resources_getIntArray")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("Resources__getIntArray")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public int[] getIntArray(int id)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -4291,17 +3205,14 @@ class Resources extends jni.JniObject {
   ///@return The int array associated with the resource.
   ///
   /// This value will never be {@code null}.
-  jni.JniObject getIntArray(int id) {
-    final result__ = jni.JniObject.fromRef(_getIntArray(reference, id));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getIntArray(int id) =>
+      jni.JniObject.fromRef(_getIntArray(reference, id).object);
 
   static final _obtainTypedArray = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_content_res_Resources_obtainTypedArray")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("Resources__obtainTypedArray")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.content.res.TypedArray obtainTypedArray(int id)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -4316,17 +3227,14 @@ class Resources extends jni.JniObject {
   /// when done with it.
   ///
   /// This value will never be {@code null}.
-  TypedArray obtainTypedArray(int id) {
-    final result__ = TypedArray.fromRef(_obtainTypedArray(reference, id));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  TypedArray obtainTypedArray(int id) =>
+      TypedArray.fromRef(_obtainTypedArray(reference, id).object);
 
   static final _getDimension = jniLookup<
           ffi.NativeFunction<
-              ffi.Float Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_content_res_Resources_getDimension")
-      .asFunction<double Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("Resources__getDimension")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public float getDimension(int id)
   ///
@@ -4341,17 +3249,13 @@ class Resources extends jni.JniObject {
   ///@throws NotFoundException Throws NotFoundException if the given ID does not exist.
   ///@see \#getDimensionPixelOffset
   ///@see \#getDimensionPixelSize
-  double getDimension(int id) {
-    final result__ = _getDimension(reference, id);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  double getDimension(int id) => _getDimension(reference, id).float;
 
   static final _getDimensionPixelOffset = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_content_res_Resources_getDimensionPixelOffset")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("Resources__getDimensionPixelOffset")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public int getDimensionPixelOffset(int id)
   ///
@@ -4368,17 +3272,14 @@ class Resources extends jni.JniObject {
   ///@throws NotFoundException Throws NotFoundException if the given ID does not exist.
   ///@see \#getDimension
   ///@see \#getDimensionPixelSize
-  int getDimensionPixelOffset(int id) {
-    final result__ = _getDimensionPixelOffset(reference, id);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getDimensionPixelOffset(int id) =>
+      _getDimensionPixelOffset(reference, id).integer;
 
   static final _getDimensionPixelSize = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_content_res_Resources_getDimensionPixelSize")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("Resources__getDimensionPixelSize")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public int getDimensionPixelSize(int id)
   ///
@@ -4396,17 +3297,15 @@ class Resources extends jni.JniObject {
   ///@throws NotFoundException Throws NotFoundException if the given ID does not exist.
   ///@see \#getDimension
   ///@see \#getDimensionPixelOffset
-  int getDimensionPixelSize(int id) {
-    final result__ = _getDimensionPixelSize(reference, id);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getDimensionPixelSize(int id) =>
+      _getDimensionPixelSize(reference, id).integer;
 
   static final _getFraction = jniLookup<
           ffi.NativeFunction<
-              ffi.Float Function(ffi.Pointer<ffi.Void>, ffi.Int32, ffi.Int32,
-                  ffi.Int32)>>("android_content_res_Resources_getFraction")
-      .asFunction<double Function(ffi.Pointer<ffi.Void>, int, int, int)>();
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Int32, ffi.Int32)>>("Resources__getFraction")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, int, int, int)>();
 
   /// from: public float getFraction(int id, int base, int pbase)
   ///
@@ -4422,17 +3321,14 @@ class Resources extends jni.JniObject {
   ///@return Attribute fractional value multiplied by the appropriate
   /// base value.
   ///@throws NotFoundException Throws NotFoundException if the given ID does not exist.
-  double getFraction(int id, int base, int pbase) {
-    final result__ = _getFraction(reference, id, base, pbase);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  double getFraction(int id, int base, int pbase) =>
+      _getFraction(reference, id, base, pbase).float;
 
   static final _getDrawable = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_content_res_Resources_getDrawable")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("Resources__getDrawable")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.graphics.drawable.Drawable getDrawable(int id)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -4467,19 +3363,15 @@ class Resources extends jni.JniObject {
   ///         not exist.
   ///@see \#getDrawable(int, Theme)
   ///@deprecated Use \#getDrawable(int, Theme) instead.
-  jni.JniObject getDrawable(int id) {
-    final result__ = jni.JniObject.fromRef(_getDrawable(reference, id));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getDrawable(int id) =>
+      jni.JniObject.fromRef(_getDrawable(reference, id).object);
 
   static final _getDrawable1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Int32, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Resources_getDrawable1")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Pointer<ffi.Void>)>>("Resources__getDrawable1")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.graphics.drawable.Drawable getDrawable(int id, android.content.res.Resources.Theme theme)
@@ -4497,20 +3389,15 @@ class Resources extends jni.JniObject {
   ///@return Drawable An object that can be used to draw this resource.
   ///@throws NotFoundException Throws NotFoundException if the given ID does
   ///         not exist.
-  jni.JniObject getDrawable1(int id, Resources_Theme theme) {
-    final result__ =
-        jni.JniObject.fromRef(_getDrawable1(reference, id, theme.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getDrawable1(int id, Resources_Theme theme) =>
+      jni.JniObject.fromRef(
+          _getDrawable1(reference, id, theme.reference).object);
 
   static final _getDrawableForDensity = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int32, ffi.Int32)>>(
-          "android_content_res_Resources_getDrawableForDensity")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Int32)>>("Resources__getDrawableForDensity")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int, int)>();
 
   /// from: public android.graphics.drawable.Drawable getDrawableForDensity(int id, int density)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -4542,20 +3429,19 @@ class Resources extends jni.JniObject {
   ///             not exist.
   ///@see \#getDrawableForDensity(int, int, Theme)
   ///@deprecated Use \#getDrawableForDensity(int, int, Theme) instead.
-  jni.JniObject getDrawableForDensity(int id, int density) {
-    final result__ =
-        jni.JniObject.fromRef(_getDrawableForDensity(reference, id, density));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getDrawableForDensity(int id, int density) =>
+      jni.JniObject.fromRef(
+          _getDrawableForDensity(reference, id, density).object);
 
   static final _getDrawableForDensity1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Int32, ffi.Int32, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Resources_getDrawableForDensity1")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32,
+                  ffi.Int32,
+                  ffi.Pointer<ffi.Void>)>>("Resources__getDrawableForDensity1")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, int, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.graphics.drawable.Drawable getDrawableForDensity(int id, int density, android.content.res.Resources.Theme theme)
@@ -4577,18 +3463,16 @@ class Resources extends jni.JniObject {
   ///@throws NotFoundException Throws NotFoundException if the given ID does
   ///             not exist.
   jni.JniObject getDrawableForDensity1(
-      int id, int density, Resources_Theme theme) {
-    final result__ = jni.JniObject.fromRef(
-        _getDrawableForDensity1(reference, id, density, theme.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          int id, int density, Resources_Theme theme) =>
+      jni.JniObject.fromRef(
+          _getDrawableForDensity1(reference, id, density, theme.reference)
+              .object);
 
   static final _getMovie = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_content_res_Resources_getMovie")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("Resources__getMovie")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.graphics.Movie getMovie(int id)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -4598,17 +3482,14 @@ class Resources extends jni.JniObject {
   ///           tool. This integer encodes the package, type, and resource
   ///           entry. The value 0 is an invalid identifier.
   ///@throws NotFoundException Throws NotFoundException if the given ID does not exist.
-  jni.JniObject getMovie(int id) {
-    final result__ = jni.JniObject.fromRef(_getMovie(reference, id));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getMovie(int id) =>
+      jni.JniObject.fromRef(_getMovie(reference, id).object);
 
   static final _getColor = jniLookup<
           ffi.NativeFunction<
-              ffi.Int32 Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_content_res_Resources_getColor")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("Resources__getColor")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public int getColor(int id)
   ///
@@ -4622,19 +3503,15 @@ class Resources extends jni.JniObject {
   ///         not exist.
   ///@return A single color value in the form 0xAARRGGBB.
   ///@deprecated Use \#getColor(int, Theme) instead.
-  int getColor(int id) {
-    final result__ = _getColor(reference, id);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getColor(int id) => _getColor(reference, id).integer;
 
   static final _getColor1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(ffi.Pointer<ffi.Void>, ffi.Int32,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Resources_getColor1")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Pointer<ffi.Void>)>>("Resources__getColor1")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getColor(int id, android.content.res.Resources.Theme theme)
   ///
@@ -4651,18 +3528,14 @@ class Resources extends jni.JniObject {
   ///@throws NotFoundException Throws NotFoundException if the given ID does
   ///         not exist.
   ///@return A single color value in the form 0xAARRGGBB.
-  int getColor1(int id, Resources_Theme theme) {
-    final result__ = _getColor1(reference, id, theme.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getColor1(int id, Resources_Theme theme) =>
+      _getColor1(reference, id, theme.reference).integer;
 
   static final _getColorStateList = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_content_res_Resources_getColorStateList")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("Resources__getColorStateList")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.content.res.ColorStateList getColorStateList(int id)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -4680,19 +3553,15 @@ class Resources extends jni.JniObject {
   ///         or multiple colors that can be selected based on a state.
   /// This value will never be {@code null}.
   ///@deprecated Use \#getColorStateList(int, Theme) instead.
-  ColorStateList getColorStateList(int id) {
-    final result__ = ColorStateList.fromRef(_getColorStateList(reference, id));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  ColorStateList getColorStateList(int id) =>
+      ColorStateList.fromRef(_getColorStateList(reference, id).object);
 
   static final _getColorStateList1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Int32, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Resources_getColorStateList1")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Pointer<ffi.Void>)>>("Resources__getColorStateList1")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.res.ColorStateList getColorStateList(int id, android.content.res.Resources.Theme theme)
@@ -4713,18 +3582,15 @@ class Resources extends jni.JniObject {
   ///         not exist.
   ///@return A themed ColorStateList object containing either a single solid
   ///         color or multiple colors that can be selected based on a state.
-  ColorStateList getColorStateList1(int id, Resources_Theme theme) {
-    final result__ = ColorStateList.fromRef(
-        _getColorStateList1(reference, id, theme.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  ColorStateList getColorStateList1(int id, Resources_Theme theme) =>
+      ColorStateList.fromRef(
+          _getColorStateList1(reference, id, theme.reference).object);
 
   static final _getBoolean = jniLookup<
           ffi.NativeFunction<
-              ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_content_res_Resources_getBoolean")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("Resources__getBoolean")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public boolean getBoolean(int id)
   ///
@@ -4736,17 +3602,13 @@ class Resources extends jni.JniObject {
   ///           entry. The value 0 is an invalid identifier.
   ///@throws NotFoundException Throws NotFoundException if the given ID does not exist.
   ///@return Returns the boolean value contained in the resource.
-  bool getBoolean(int id) {
-    final result__ = _getBoolean(reference, id) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool getBoolean(int id) => _getBoolean(reference, id).boolean;
 
   static final _getInteger = jniLookup<
           ffi.NativeFunction<
-              ffi.Int32 Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_content_res_Resources_getInteger")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("Resources__getInteger")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public int getInteger(int id)
   ///
@@ -4756,17 +3618,13 @@ class Resources extends jni.JniObject {
   ///           entry. The value 0 is an invalid identifier.
   ///@throws NotFoundException Throws NotFoundException if the given ID does not exist.
   ///@return Returns the integer value contained in the resource.
-  int getInteger(int id) {
-    final result__ = _getInteger(reference, id);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getInteger(int id) => _getInteger(reference, id).integer;
 
   static final _getLayout = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_content_res_Resources_getLayout")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("Resources__getLayout")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.content.res.XmlResourceParser getLayout(int id)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -4787,17 +3645,14 @@ class Resources extends jni.JniObject {
   ///
   /// This value will never be {@code null}.
   ///@see \#getXml
-  XmlResourceParser getLayout(int id) {
-    final result__ = XmlResourceParser.fromRef(_getLayout(reference, id));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  XmlResourceParser getLayout(int id) =>
+      XmlResourceParser.fromRef(_getLayout(reference, id).object);
 
   static final _getAnimation = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_content_res_Resources_getAnimation")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("Resources__getAnimation")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.content.res.XmlResourceParser getAnimation(int id)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -4818,17 +3673,14 @@ class Resources extends jni.JniObject {
   ///
   /// This value will never be {@code null}.
   ///@see \#getXml
-  XmlResourceParser getAnimation(int id) {
-    final result__ = XmlResourceParser.fromRef(_getAnimation(reference, id));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  XmlResourceParser getAnimation(int id) =>
+      XmlResourceParser.fromRef(_getAnimation(reference, id).object);
 
   static final _getXml = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_content_res_Resources_getXml")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("Resources__getXml")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.content.res.XmlResourceParser getXml(int id)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -4850,17 +3702,14 @@ class Resources extends jni.JniObject {
   ///
   /// This value will never be {@code null}.
   ///@see android.util.AttributeSet
-  XmlResourceParser getXml(int id) {
-    final result__ = XmlResourceParser.fromRef(_getXml(reference, id));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  XmlResourceParser getXml(int id) =>
+      XmlResourceParser.fromRef(_getXml(reference, id).object);
 
   static final _openRawResource = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_content_res_Resources_openRawResource")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("Resources__openRawResource")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public java.io.InputStream openRawResource(int id)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -4874,19 +3723,15 @@ class Resources extends jni.JniObject {
   ///
   /// This value will never be {@code null}.
   ///@throws NotFoundException Throws NotFoundException if the given ID does not exist.
-  jni.JniObject openRawResource(int id) {
-    final result__ = jni.JniObject.fromRef(_openRawResource(reference, id));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject openRawResource(int id) =>
+      jni.JniObject.fromRef(_openRawResource(reference, id).object);
 
   static final _openRawResource1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Int32, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Resources_openRawResource1")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Pointer<ffi.Void>)>>("Resources__openRawResource1")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.io.InputStream openRawResource(int id, android.util.TypedValue value)
@@ -4902,19 +3747,15 @@ class Resources extends jni.JniObject {
   ///
   /// This value will never be {@code null}.
   ///@throws NotFoundException Throws NotFoundException if the given ID does not exist.
-  jni.JniObject openRawResource1(int id, jni.JniObject value) {
-    final result__ = jni.JniObject.fromRef(
-        _openRawResource1(reference, id, value.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject openRawResource1(int id, jni.JniObject value) =>
+      jni.JniObject.fromRef(
+          _openRawResource1(reference, id, value.reference).object);
 
   static final _openRawResourceFd = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_content_res_Resources_openRawResourceFd")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("Resources__openRawResourceFd")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.content.res.AssetFileDescriptor openRawResourceFd(int id)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -4933,22 +3774,15 @@ class Resources extends jni.JniObject {
   /// offset and length of data where the resource appears in the file.  A
   /// null is returned if the file exists but is compressed.
   ///@throws NotFoundException Throws NotFoundException if the given ID does not exist.
-  AssetFileDescriptor openRawResourceFd(int id) {
-    final result__ =
-        AssetFileDescriptor.fromRef(_openRawResourceFd(reference, id));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  AssetFileDescriptor openRawResourceFd(int id) =>
+      AssetFileDescriptor.fromRef(_openRawResourceFd(reference, id).object);
 
   static final _getValue = jniLookup<
           ffi.NativeFunction<
-              ffi.Void Function(
-                  ffi.Pointer<ffi.Void>,
-                  ffi.Int32,
-                  ffi.Pointer<ffi.Void>,
-                  ffi.Uint8)>>("android_content_res_Resources_getValue")
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Pointer<ffi.Void>, ffi.Uint8)>>("Resources__getValue")
       .asFunction<
-          void Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void getValue(int id, android.util.TypedValue outValue, boolean resolveRefs)
@@ -4963,20 +3797,19 @@ class Resources extends jni.JniObject {
   ///                    actual final resource data.  If false, the TypedValue
   ///                    will be filled in with the reference itself.
   ///@throws NotFoundException Throws NotFoundException if the given ID does not exist.
-  void getValue(int id, jni.JniObject outValue, bool resolveRefs) {
-    final result__ =
-        _getValue(reference, id, outValue.reference, resolveRefs ? 1 : 0);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void getValue(int id, jni.JniObject outValue, bool resolveRefs) =>
+      _getValue(reference, id, outValue.reference, resolveRefs ? 1 : 0).check();
 
   static final _getValueForDensity = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32, ffi.Int32,
-                      ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "android_content_res_Resources_getValueForDensity")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32,
+                  ffi.Int32,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("Resources__getValueForDensity")
       .asFunction<
-          void Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, int, int, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void getValueForDensity(int id, int density, android.util.TypedValue outValue, boolean resolveRefs)
@@ -4992,22 +3825,20 @@ class Resources extends jni.JniObject {
   ///             not exist.
   ///@see \#getValue(String, TypedValue, boolean)
   void getValueForDensity(
-      int id, int density, jni.JniObject outValue, bool resolveRefs) {
-    final result__ = _getValueForDensity(
-        reference, id, density, outValue.reference, resolveRefs ? 1 : 0);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          int id, int density, jni.JniObject outValue, bool resolveRefs) =>
+      _getValueForDensity(
+              reference, id, density, outValue.reference, resolveRefs ? 1 : 0)
+          .check();
 
   static final _getValue1 = jniLookup<
           ffi.NativeFunction<
-              ffi.Void Function(
+              jni.JniResult Function(
                   ffi.Pointer<ffi.Void>,
                   ffi.Pointer<ffi.Void>,
                   ffi.Pointer<ffi.Void>,
-                  ffi.Uint8)>>("android_content_res_Resources_getValue1")
+                  ffi.Uint8)>>("Resources__getValue1")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void getValue(java.lang.String name, android.util.TypedValue outValue, boolean resolveRefs)
@@ -5027,18 +3858,17 @@ class Resources extends jni.JniObject {
   ///                    actual final resource data.  If false, the TypedValue
   ///                    will be filled in with the reference itself.
   ///@throws NotFoundException Throws NotFoundException if the given ID does not exist.
-  void getValue1(jni.JniString name, jni.JniObject outValue, bool resolveRefs) {
-    final result__ = _getValue1(
-        reference, name.reference, outValue.reference, resolveRefs ? 1 : 0);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void getValue1(
+          jni.JniString name, jni.JniObject outValue, bool resolveRefs) =>
+      _getValue1(reference, name.reference, outValue.reference,
+              resolveRefs ? 1 : 0)
+          .check();
 
   static final _newTheme = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Resources_newTheme")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("Resources__newTheme")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public final android.content.res.Resources.Theme newTheme()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -5046,20 +3876,18 @@ class Resources extends jni.JniObject {
   /// Generate a new Theme object for this set of Resources.  It initially
   /// starts out empty.
   ///@return Theme The newly created Theme container.
-  Resources_Theme newTheme() {
-    final result__ = Resources_Theme.fromRef(_newTheme(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  Resources_Theme newTheme() =>
+      Resources_Theme.fromRef(_newTheme(reference).object);
 
   static final _obtainAttributes = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Resources_obtainAttributes")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("Resources__obtainAttributes")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.res.TypedArray obtainAttributes(android.util.AttributeSet set, int[] attrs)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -5073,38 +3901,33 @@ class Resources extends jni.JniObject {
   /// Be sure to call TypedArray\#recycle() TypedArray.recycle()
   /// when done with it.
   ///@see Theme\#obtainStyledAttributes(AttributeSet, int[], int, int)
-  TypedArray obtainAttributes(jni.JniObject set0, jni.JniObject attrs) {
-    final result__ = TypedArray.fromRef(
-        _obtainAttributes(reference, set0.reference, attrs.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  TypedArray obtainAttributes(jni.JniObject set0, jni.JniObject attrs) =>
+      TypedArray.fromRef(
+          _obtainAttributes(reference, set0.reference, attrs.reference).object);
 
   static final _updateConfiguration = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Resources_updateConfiguration")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("Resources__updateConfiguration")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void updateConfiguration(android.content.res.Configuration config, android.util.DisplayMetrics metrics)
   ///
   /// Store the newly updated configuration.
   ///@deprecated See android.content.Context\#createConfigurationContext(Configuration).
-  void updateConfiguration(Configuration config, jni.JniObject metrics) {
-    final result__ =
-        _updateConfiguration(reference, config.reference, metrics.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void updateConfiguration(Configuration config, jni.JniObject metrics) =>
+      _updateConfiguration(reference, config.reference, metrics.reference)
+          .check();
 
   static final _getDisplayMetrics = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Resources_getDisplayMetrics")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("Resources__getDisplayMetrics")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.util.DisplayMetrics getDisplayMetrics()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -5112,17 +3935,14 @@ class Resources extends jni.JniObject {
   /// Return the current display metrics that are in effect for this resource
   /// object.  The returned object should be treated as read-only.
   ///@return The resource's current display metrics.
-  jni.JniObject getDisplayMetrics() {
-    final result__ = jni.JniObject.fromRef(_getDisplayMetrics(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getDisplayMetrics() =>
+      jni.JniObject.fromRef(_getDisplayMetrics(reference).object);
 
   static final _getConfiguration = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Resources_getConfiguration")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("Resources__getConfiguration")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.res.Configuration getConfiguration()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -5130,22 +3950,18 @@ class Resources extends jni.JniObject {
   /// Return the current configuration that is in effect for this resource
   /// object.  The returned object should be treated as read-only.
   ///@return The resource's current configuration.
-  Configuration getConfiguration() {
-    final result__ = Configuration.fromRef(_getConfiguration(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  Configuration getConfiguration() =>
+      Configuration.fromRef(_getConfiguration(reference).object);
 
   static final _getIdentifier = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Resources_getIdentifier")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("Resources__getIdentifier")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getIdentifier(java.lang.String name, java.lang.String defType, java.lang.String defPackage)
@@ -5166,19 +3982,17 @@ class Resources extends jni.JniObject {
   ///                   explicit package.
   ///@return int The associated resource identifier.  Returns 0 if no such
   ///         resource was found.  (0 is not a valid resource ID.)
-  int getIdentifier(
-      jni.JniString name, jni.JniString defType, jni.JniString defPackage) {
-    final result__ = _getIdentifier(
-        reference, name.reference, defType.reference, defPackage.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getIdentifier(jni.JniString name, jni.JniString defType,
+          jni.JniString defPackage) =>
+      _getIdentifier(reference, name.reference, defType.reference,
+              defPackage.reference)
+          .integer;
 
   static final _getResourceName = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_content_res_Resources_getResourceName")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("Resources__getResourceName")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public java.lang.String getResourceName(int resid)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -5191,18 +4005,14 @@ class Resources extends jni.JniObject {
   ///@see \#getResourcePackageName
   ///@see \#getResourceTypeName
   ///@see \#getResourceEntryName
-  jni.JniString getResourceName(int resid) {
-    final result__ = jni.JniString.fromRef(_getResourceName(reference, resid));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getResourceName(int resid) =>
+      jni.JniString.fromRef(_getResourceName(reference, resid).object);
 
   static final _getResourcePackageName = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_content_res_Resources_getResourcePackageName")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("Resources__getResourcePackageName")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public java.lang.String getResourcePackageName(int resid)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -5213,19 +4023,14 @@ class Resources extends jni.JniObject {
   ///@return A string holding the package name of the resource.
   ///@throws NotFoundException Throws NotFoundException if the given ID does not exist.
   ///@see \#getResourceName
-  jni.JniString getResourcePackageName(int resid) {
-    final result__ =
-        jni.JniString.fromRef(_getResourcePackageName(reference, resid));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getResourcePackageName(int resid) =>
+      jni.JniString.fromRef(_getResourcePackageName(reference, resid).object);
 
   static final _getResourceTypeName = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_content_res_Resources_getResourceTypeName")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("Resources__getResourceTypeName")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public java.lang.String getResourceTypeName(int resid)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -5236,19 +4041,14 @@ class Resources extends jni.JniObject {
   ///@return A string holding the type name of the resource.
   ///@throws NotFoundException Throws NotFoundException if the given ID does not exist.
   ///@see \#getResourceName
-  jni.JniString getResourceTypeName(int resid) {
-    final result__ =
-        jni.JniString.fromRef(_getResourceTypeName(reference, resid));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getResourceTypeName(int resid) =>
+      jni.JniString.fromRef(_getResourceTypeName(reference, resid).object);
 
   static final _getResourceEntryName = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_content_res_Resources_getResourceEntryName")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("Resources__getResourceEntryName")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public java.lang.String getResourceEntryName(int resid)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -5259,20 +4059,17 @@ class Resources extends jni.JniObject {
   ///@return A string holding the entry name of the resource.
   ///@throws NotFoundException Throws NotFoundException if the given ID does not exist.
   ///@see \#getResourceName
-  jni.JniString getResourceEntryName(int resid) {
-    final result__ =
-        jni.JniString.fromRef(_getResourceEntryName(reference, resid));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getResourceEntryName(int resid) =>
+      jni.JniString.fromRef(_getResourceEntryName(reference, resid).object);
 
   static final _parseBundleExtras = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Resources_parseBundleExtras")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("Resources__parseBundleExtras")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void parseBundleExtras(android.content.res.XmlResourceParser parser, android.os.Bundle outBundle)
@@ -5285,23 +4082,19 @@ class Resources extends jni.JniObject {
   ///@param outBundle A Bundle in which to place all parsed extras.
   ///@throws XmlPullParserException
   ///@throws IOException
-  void parseBundleExtras(XmlResourceParser parser, os_.Bundle outBundle) {
-    final result__ =
-        _parseBundleExtras(reference, parser.reference, outBundle.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void parseBundleExtras(XmlResourceParser parser, os_.Bundle outBundle) =>
+      _parseBundleExtras(reference, parser.reference, outBundle.reference)
+          .check();
 
   static final _parseBundleExtra = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Resources_parseBundleExtra")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("Resources__parseBundleExtra")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void parseBundleExtra(java.lang.String tagName, android.util.AttributeSet attrs, android.os.Bundle outBundle)
@@ -5325,59 +4118,48 @@ class Resources extends jni.JniObject {
   ///@param outBundle The Bundle in which to place the parsed value.
   ///@throws XmlPullParserException If the attributes are not valid.
   void parseBundleExtra(
-      jni.JniString tagName, jni.JniObject attrs, os_.Bundle outBundle) {
-    final result__ = _parseBundleExtra(
-        reference, tagName.reference, attrs.reference, outBundle.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniString tagName, jni.JniObject attrs, os_.Bundle outBundle) =>
+      _parseBundleExtra(reference, tagName.reference, attrs.reference,
+              outBundle.reference)
+          .check();
 
   static final _getAssets = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Resources_getAssets")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("Resources__getAssets")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public final android.content.res.AssetManager getAssets()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Retrieve underlying AssetManager storage for these resources.
-  AssetManager getAssets() {
-    final result__ = AssetManager.fromRef(_getAssets(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  AssetManager getAssets() =>
+      AssetManager.fromRef(_getAssets(reference).object);
 
-  static final _flushLayoutCache =
-      jniLookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_Resources_flushLayoutCache")
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+  static final _flushLayoutCache = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("Resources__flushLayoutCache")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public final void flushLayoutCache()
   ///
   /// Call this to remove all cached loaded layout resources from the
   /// Resources object.  Only intended for use with performance testing
   /// tools.
-  void flushLayoutCache() {
-    final result__ = _flushLayoutCache(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void flushLayoutCache() => _flushLayoutCache(reference).check();
 
-  static final _finishPreloading =
-      jniLookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_Resources_finishPreloading")
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+  static final _finishPreloading = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("Resources__finishPreloading")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public final void finishPreloading()
   ///
   /// Called by zygote when it is done preloading resources, to change back
   /// to normal Resources operation.
-  void finishPreloading() {
-    final result__ = _finishPreloading(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void finishPreloading() => _finishPreloading(reference).check();
 }
 
 /// from: android.content.res.Resources$Theme
@@ -5398,22 +4180,18 @@ class Resources extends jni.JniObject {
 class Resources_Theme extends jni.JniObject {
   Resources_Theme.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_content_res_Resources__Theme_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "Resources_Theme__ctor")
+      .asFunction<jni.JniResult Function()>();
 
   /// from: void <init>()
-  Resources_Theme() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
+  Resources_Theme() : super.fromRef(_ctor().object);
 
   static final _applyStyle = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int32, ffi.Uint8)>>(
-          "android_content_res_Resources__Theme_applyStyle")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Uint8)>>("Resources_Theme__applyStyle")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int, int)>();
 
   /// from: public void applyStyle(int resId, boolean force)
   ///
@@ -5431,19 +4209,16 @@ class Resources_Theme extends jni.JniObject {
   ///@param force If true, values in the style resource will always be
   ///              used in the theme; otherwise, they will only be used
   ///              if not already defined in the theme.
-  void applyStyle(int resId, bool force) {
-    final result__ = _applyStyle(reference, resId, force ? 1 : 0);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void applyStyle(int resId, bool force) =>
+      _applyStyle(reference, resId, force ? 1 : 0).check();
 
   static final _setTo = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Resources__Theme_setTo")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("Resources_Theme__setTo")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setTo(android.content.res.Resources.Theme other)
   ///
@@ -5453,19 +4228,16 @@ class Resources_Theme extends jni.JniObject {
   /// returns.  If they are from different Resources, only the resources
   /// they have in common will be set in this theme.
   ///@param other The existing Theme to copy from.
-  void setTo(Resources_Theme other) {
-    final result__ = _setTo(reference, other.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setTo(Resources_Theme other) =>
+      _setTo(reference, other.reference).check();
 
   static final _obtainStyledAttributes = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Resources__Theme_obtainStyledAttributes")
+          "Resources_Theme__obtainStyledAttributes")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.res.TypedArray obtainStyledAttributes(int[] attrs)
@@ -5485,20 +4257,16 @@ class Resources_Theme extends jni.JniObject {
   ///@see Resources\#obtainAttributes
   ///@see \#obtainStyledAttributes(int, int[])
   ///@see \#obtainStyledAttributes(AttributeSet, int[], int, int)
-  TypedArray obtainStyledAttributes(jni.JniObject attrs) {
-    final result__ =
-        TypedArray.fromRef(_obtainStyledAttributes(reference, attrs.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  TypedArray obtainStyledAttributes(jni.JniObject attrs) => TypedArray.fromRef(
+      _obtainStyledAttributes(reference, attrs.reference).object);
 
   static final _obtainStyledAttributes1 = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Int32, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Resources__Theme_obtainStyledAttributes1")
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                      ffi.Pointer<ffi.Void>)>>(
+          "Resources_Theme__obtainStyledAttributes1")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.res.TypedArray obtainStyledAttributes(int resId, int[] attrs)
@@ -5519,25 +4287,21 @@ class Resources_Theme extends jni.JniObject {
   ///@see Resources\#obtainAttributes
   ///@see \#obtainStyledAttributes(int[])
   ///@see \#obtainStyledAttributes(AttributeSet, int[], int, int)
-  TypedArray obtainStyledAttributes1(int resId, jni.JniObject attrs) {
-    final result__ = TypedArray.fromRef(
-        _obtainStyledAttributes1(reference, resId, attrs.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  TypedArray obtainStyledAttributes1(int resId, jni.JniObject attrs) =>
+      TypedArray.fromRef(
+          _obtainStyledAttributes1(reference, resId, attrs.reference).object);
 
   static final _obtainStyledAttributes2 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Int32,
-                      ffi.Int32)>>(
-          "android_content_res_Resources__Theme_obtainStyledAttributes2")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32,
+                  ffi.Int32)>>("Resources_Theme__obtainStyledAttributes2")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int, int)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>, int, int)>();
 
   /// from: public android.content.res.TypedArray obtainStyledAttributes(android.util.AttributeSet set, int[] attrs, int defStyleAttr, int defStyleRes)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -5588,20 +4352,20 @@ class Resources_Theme extends jni.JniObject {
   ///@see \#obtainStyledAttributes(int[])
   ///@see \#obtainStyledAttributes(int, int[])
   TypedArray obtainStyledAttributes2(jni.JniObject set0, jni.JniObject attrs,
-      int defStyleAttr, int defStyleRes) {
-    final result__ = TypedArray.fromRef(_obtainStyledAttributes2(
-        reference, set0.reference, attrs.reference, defStyleAttr, defStyleRes));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          int defStyleAttr, int defStyleRes) =>
+      TypedArray.fromRef(_obtainStyledAttributes2(reference, set0.reference,
+              attrs.reference, defStyleAttr, defStyleRes)
+          .object);
 
   static final _resolveAttribute = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(ffi.Pointer<ffi.Void>, ffi.Int32,
-                      ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "android_content_res_Resources__Theme_resolveAttribute")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("Resources_Theme__resolveAttribute")
       .asFunction<
-          int Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public boolean resolveAttribute(int resid, android.util.TypedValue outValue, boolean resolveRefs)
@@ -5619,37 +4383,30 @@ class Resources_Theme extends jni.JniObject {
   ///                    be a TYPE_ATTRIBUTE.
   ///@return boolean Returns true if the attribute was found and
   ///         <var>outValue</var> is valid, else false.
-  bool resolveAttribute(int resid, jni.JniObject outValue, bool resolveRefs) {
-    final result__ = _resolveAttribute(
-            reference, resid, outValue.reference, resolveRefs ? 1 : 0) !=
-        0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool resolveAttribute(int resid, jni.JniObject outValue, bool resolveRefs) =>
+      _resolveAttribute(
+              reference, resid, outValue.reference, resolveRefs ? 1 : 0)
+          .boolean;
 
   static final _getResources = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Resources__Theme_getResources")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("Resources_Theme__getResources")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.res.Resources getResources()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Returns the resources to which this theme belongs.
   ///@return Resources to which this theme belongs.
-  Resources getResources() {
-    final result__ = Resources.fromRef(_getResources(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  Resources getResources() =>
+      Resources.fromRef(_getResources(reference).object);
 
   static final _getDrawable = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_content_res_Resources__Theme_getDrawable")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("Resources_Theme__getDrawable")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.graphics.drawable.Drawable getDrawable(int id)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -5662,16 +4419,14 @@ class Resources_Theme extends jni.JniObject {
   ///@return Drawable An object that can be used to draw this resource.
   ///@throws NotFoundException Throws NotFoundException if the given ID
   ///         does not exist.
-  jni.JniObject getDrawable(int id) {
-    final result__ = jni.JniObject.fromRef(_getDrawable(reference, id));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getDrawable(int id) =>
+      jni.JniObject.fromRef(_getDrawable(reference, id).object);
 
-  static final _getChangingConfigurations =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_Resources__Theme_getChangingConfigurations")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getChangingConfigurations = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "Resources_Theme__getChangingConfigurations")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getChangingConfigurations()
   ///
@@ -5681,20 +4436,19 @@ class Resources_Theme extends jni.JniObject {
   ///         ActivityInfo
   /// Value is either <code>0</code> or a combination of android.content.pm.ActivityInfo\#CONFIG_MCC, android.content.pm.ActivityInfo\#CONFIG_MNC, android.content.pm.ActivityInfo\#CONFIG_LOCALE, android.content.pm.ActivityInfo\#CONFIG_TOUCHSCREEN, android.content.pm.ActivityInfo\#CONFIG_KEYBOARD, android.content.pm.ActivityInfo\#CONFIG_KEYBOARD_HIDDEN, android.content.pm.ActivityInfo\#CONFIG_NAVIGATION, android.content.pm.ActivityInfo\#CONFIG_ORIENTATION, android.content.pm.ActivityInfo\#CONFIG_SCREEN_LAYOUT, android.content.pm.ActivityInfo\#CONFIG_UI_MODE, android.content.pm.ActivityInfo\#CONFIG_SCREEN_SIZE, android.content.pm.ActivityInfo\#CONFIG_SMALLEST_SCREEN_SIZE, android.content.pm.ActivityInfo\#CONFIG_DENSITY, android.content.pm.ActivityInfo\#CONFIG_LAYOUT_DIRECTION, android.content.pm.ActivityInfo\#CONFIG_COLOR_MODE, and android.content.pm.ActivityInfo\#CONFIG_FONT_SCALE
   ///@see ActivityInfo
-  int getChangingConfigurations() {
-    final result__ = _getChangingConfigurations(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getChangingConfigurations() =>
+      _getChangingConfigurations(reference).integer;
 
   static final _dump = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Resources__Theme_dump")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("Resources_Theme__dump")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, int,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void dump(int priority, java.lang.String tag, java.lang.String prefix)
   ///
@@ -5702,12 +4456,8 @@ class Resources_Theme extends jni.JniObject {
   ///@param priority The log priority to use.
   ///@param tag The log tag to use.
   ///@param prefix Text to prefix each line printed.
-  void dump(int priority, jni.JniString tag, jni.JniString prefix) {
-    final result__ =
-        _dump(reference, priority, tag.reference, prefix.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void dump(int priority, jni.JniString tag, jni.JniString prefix) =>
+      _dump(reference, priority, tag.reference, prefix.reference).check();
 }
 
 /// from: android.content.res.Resources$NotFoundException
@@ -5718,42 +4468,708 @@ class Resources_NotFoundException extends jni.JniObject {
   Resources_NotFoundException.fromRef(ffi.Pointer<ffi.Void> ref)
       : super.fromRef(ref);
 
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_content_res_Resources__NotFoundException_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "Resources_NotFoundException__ctor")
+      .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  Resources_NotFoundException() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
+  Resources_NotFoundException() : super.fromRef(_ctor().object);
 
   static final _ctor1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Resources__NotFoundException_ctor1")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("Resources_NotFoundException__ctor1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(java.lang.String name)
   Resources_NotFoundException.ctor1(jni.JniString name)
-      : super.fromRef(_ctor1(name.reference)) {
-    jni.Jni.env.checkException();
-  }
+      : super.fromRef(_ctor1(name.reference).object);
 
   static final _ctor2 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_content_res_Resources__NotFoundException_ctor2")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("Resources_NotFoundException__ctor2")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(java.lang.String name, java.lang.Exception cause)
   Resources_NotFoundException.ctor2(jni.JniString name, jni.JniObject cause)
-      : super.fromRef(_ctor2(name.reference, cause.reference)) {
-    jni.Jni.env.checkException();
-  }
+      : super.fromRef(_ctor2(name.reference, cause.reference).object);
+}
+
+/// from: android.content.res.TypedArray
+///
+/// Container for an array of values that were retrieved with
+/// Resources.Theme\#obtainStyledAttributes(AttributeSet, int[], int, int)
+/// or Resources\#obtainAttributes.  Be
+/// sure to call \#recycle when done with them.
+///
+/// The indices used to retrieve values from this structure correspond to
+/// the positions of the attributes given to obtainStyledAttributes.
+class TypedArray extends jni.JniObject {
+  TypedArray.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  static final _ctor = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("TypedArray__ctor")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: void <init>(android.content.res.Resources resources)
+  ///
+  /// @hide
+  TypedArray(Resources resources)
+      : super.fromRef(_ctor(resources.reference).object);
+
+  static final _length = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("TypedArray__length")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int length()
+  ///
+  /// Returns the number of values in this array.
+  ///@throws RuntimeException if the TypedArray has already been recycled.
+  int length() => _length(reference).integer;
+
+  static final _getIndexCount = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("TypedArray__getIndexCount")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int getIndexCount()
+  ///
+  /// Returns the number of indices in the array that actually have data. Attributes with a value
+  /// of @empty are included, as this is an explicit indicator.
+  ///@throws RuntimeException if the TypedArray has already been recycled.
+  int getIndexCount() => _getIndexCount(reference).integer;
+
+  static final _getIndex = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("TypedArray__getIndex")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public int getIndex(int at)
+  ///
+  /// Returns an index in the array that has data. Attributes with a value of @empty are included,
+  /// as this is an explicit indicator.
+  ///@param at The index you would like to returned, ranging from 0 to
+  ///           \#getIndexCount().
+  ///@return The index at the given offset, which can be used with
+  ///         \#getValue and related APIs.
+  ///@throws RuntimeException if the TypedArray has already been recycled.
+  int getIndex(int at) => _getIndex(reference, at).integer;
+
+  static final _getResources = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("TypedArray__getResources")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.content.res.Resources getResources()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Returns the Resources object this array was loaded from.
+  ///@throws RuntimeException if the TypedArray has already been recycled.
+  Resources getResources() =>
+      Resources.fromRef(_getResources(reference).object);
+
+  static final _getText = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("TypedArray__getText")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public java.lang.CharSequence getText(int index)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Retrieves the styled string value for the attribute at <var>index</var>.
+  ///
+  /// If the attribute is not a string, this method will attempt to coerce
+  /// it to a string.
+  ///@param index Index of attribute to retrieve.
+  ///@return CharSequence holding string data. May be styled. Returns
+  ///         {@code null} if the attribute is not defined or could not be
+  ///         coerced to a string.
+  ///@throws RuntimeException if the TypedArray has already been recycled.
+  jni.JniObject getText(int index) =>
+      jni.JniObject.fromRef(_getText(reference, index).object);
+
+  static final _getString = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("TypedArray__getString")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public java.lang.String getString(int index)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Retrieves the string value for the attribute at <var>index</var>.
+  ///
+  /// If the attribute is not a string, this method will attempt to coerce
+  /// it to a string.
+  ///@param index Index of attribute to retrieve.
+  ///@return String holding string data. Any styling information is removed.
+  ///         Returns {@code null} if the attribute is not defined or could
+  ///         not be coerced to a string.
+  ///@throws RuntimeException if the TypedArray has already been recycled.
+  jni.JniString getString(int index) =>
+      jni.JniString.fromRef(_getString(reference, index).object);
+
+  static final _getNonResourceString = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("TypedArray__getNonResourceString")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public java.lang.String getNonResourceString(int index)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Retrieves the string value for the attribute at <var>index</var>, but
+  /// only if that string comes from an immediate value in an XML file.  That
+  /// is, this does not allow references to string resources, string
+  /// attributes, or conversions from other types.  As such, this method
+  /// will only return strings for TypedArray objects that come from
+  /// attributes in an XML file.
+  ///@param index Index of attribute to retrieve.
+  ///@return String holding string data. Any styling information is removed.
+  ///         Returns {@code null} if the attribute is not defined or is not
+  ///         an immediate string value.
+  ///@throws RuntimeException if the TypedArray has already been recycled.
+  jni.JniString getNonResourceString(int index) =>
+      jni.JniString.fromRef(_getNonResourceString(reference, index).object);
+
+  static final _getBoolean = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Uint8)>>("TypedArray__getBoolean")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int, int)>();
+
+  /// from: public boolean getBoolean(int index, boolean defValue)
+  ///
+  /// Retrieve the boolean value for the attribute at <var>index</var>.
+  ///
+  /// If the attribute is an integer value, this method will return whether
+  /// it is equal to zero. If the attribute is not a boolean or integer value,
+  /// this method will attempt to coerce it to an integer using
+  /// Integer\#decode(String) and return whether it is equal to zero.
+  ///@param index Index of attribute to retrieve.
+  ///@param defValue Value to return if the attribute is not defined or
+  ///                 cannot be coerced to an integer.
+  ///@return Boolean value of the attribute, or defValue if the attribute was
+  ///         not defined or could not be coerced to an integer.
+  ///@throws RuntimeException if the TypedArray has already been recycled.
+  bool getBoolean(int index, bool defValue) =>
+      _getBoolean(reference, index, defValue ? 1 : 0).boolean;
+
+  static final _getInt = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Int32)>>("TypedArray__getInt")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int, int)>();
+
+  /// from: public int getInt(int index, int defValue)
+  ///
+  /// Retrieve the integer value for the attribute at <var>index</var>.
+  ///
+  /// If the attribute is not an integer, this method will attempt to coerce
+  /// it to an integer using Integer\#decode(String).
+  ///@param index Index of attribute to retrieve.
+  ///@param defValue Value to return if the attribute is not defined or
+  ///                 cannot be coerced to an integer.
+  ///@return Integer value of the attribute, or defValue if the attribute was
+  ///         not defined or could not be coerced to an integer.
+  ///@throws RuntimeException if the TypedArray has already been recycled.
+  int getInt(int index, int defValue) =>
+      _getInt(reference, index, defValue).integer;
+
+  static final _getFloat = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Float)>>("TypedArray__getFloat")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int, double)>();
+
+  /// from: public float getFloat(int index, float defValue)
+  ///
+  /// Retrieve the float value for the attribute at <var>index</var>.
+  ///
+  /// If the attribute is not a float or an integer, this method will attempt
+  /// to coerce it to a float using Float\#parseFloat(String).
+  ///@param index Index of attribute to retrieve.
+  ///@return Attribute float value, or defValue if the attribute was
+  ///         not defined or could not be coerced to a float.
+  ///@throws RuntimeException if the TypedArray has already been recycled.
+  double getFloat(int index, double defValue) =>
+      _getFloat(reference, index, defValue).float;
+
+  static final _getColor = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Int32)>>("TypedArray__getColor")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int, int)>();
+
+  /// from: public int getColor(int index, int defValue)
+  ///
+  /// Retrieve the color value for the attribute at <var>index</var>.  If
+  /// the attribute references a color resource holding a complex
+  /// android.content.res.ColorStateList, then the default color from
+  /// the set is returned.
+  ///
+  /// This method will throw an exception if the attribute is defined but is
+  /// not an integer color or color state list.
+  ///@param index Index of attribute to retrieve.
+  ///@param defValue Value to return if the attribute is not defined or
+  ///                 not a resource.
+  ///@return Attribute color value, or defValue if not defined.
+  ///@throws RuntimeException if the TypedArray has already been recycled.
+  ///@throws UnsupportedOperationException if the attribute is defined but is
+  ///         not an integer color or color state list.
+  int getColor(int index, int defValue) =>
+      _getColor(reference, index, defValue).integer;
+
+  static final _getColorStateList = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("TypedArray__getColorStateList")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public android.content.res.ColorStateList getColorStateList(int index)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Retrieve the ColorStateList for the attribute at <var>index</var>.
+  /// The value may be either a single solid color or a reference to
+  /// a color or complex android.content.res.ColorStateList
+  /// description.
+  ///
+  /// This method will return {@code null} if the attribute is not defined or
+  /// is not an integer color or color state list.
+  ///@param index Index of attribute to retrieve.
+  ///@return ColorStateList for the attribute, or {@code null} if not
+  ///         defined.
+  ///@throws RuntimeException if the attribute if the TypedArray has already
+  ///         been recycled.
+  ///@throws UnsupportedOperationException if the attribute is defined but is
+  ///         not an integer color or color state list.
+  ColorStateList getColorStateList(int index) =>
+      ColorStateList.fromRef(_getColorStateList(reference, index).object);
+
+  static final _getInteger = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Int32)>>("TypedArray__getInteger")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int, int)>();
+
+  /// from: public int getInteger(int index, int defValue)
+  ///
+  /// Retrieve the integer value for the attribute at <var>index</var>.
+  ///
+  /// Unlike \#getInt(int, int), this method will throw an exception if
+  /// the attribute is defined but is not an integer.
+  ///@param index Index of attribute to retrieve.
+  ///@param defValue Value to return if the attribute is not defined or
+  ///                 not a resource.
+  ///@return Attribute integer value, or defValue if not defined.
+  ///@throws RuntimeException if the TypedArray has already been recycled.
+  ///@throws UnsupportedOperationException if the attribute is defined but is
+  ///         not an integer.
+  int getInteger(int index, int defValue) =>
+      _getInteger(reference, index, defValue).integer;
+
+  static final _getDimension = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Float)>>("TypedArray__getDimension")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int, double)>();
+
+  /// from: public float getDimension(int index, float defValue)
+  ///
+  /// Retrieve a dimensional unit attribute at <var>index</var>. Unit
+  /// conversions are based on the current DisplayMetrics
+  /// associated with the resources this TypedArray object
+  /// came from.
+  ///
+  /// This method will throw an exception if the attribute is defined but is
+  /// not a dimension.
+  ///@param index Index of attribute to retrieve.
+  ///@param defValue Value to return if the attribute is not defined or
+  ///                 not a resource.
+  ///@return Attribute dimension value multiplied by the appropriate
+  ///         metric, or defValue if not defined.
+  ///@throws RuntimeException if the TypedArray has already been recycled.
+  ///@throws UnsupportedOperationException if the attribute is defined but is
+  ///         not an integer.
+  ///@see \#getDimensionPixelOffset
+  ///@see \#getDimensionPixelSize
+  double getDimension(int index, double defValue) =>
+      _getDimension(reference, index, defValue).float;
+
+  static final _getDimensionPixelOffset = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Int32)>>("TypedArray__getDimensionPixelOffset")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int, int)>();
+
+  /// from: public int getDimensionPixelOffset(int index, int defValue)
+  ///
+  /// Retrieve a dimensional unit attribute at <var>index</var> for use
+  /// as an offset in raw pixels.  This is the same as
+  /// \#getDimension, except the returned value is converted to
+  /// integer pixels for you.  An offset conversion involves simply
+  /// truncating the base value to an integer.
+  ///
+  /// This method will throw an exception if the attribute is defined but is
+  /// not a dimension.
+  ///@param index Index of attribute to retrieve.
+  ///@param defValue Value to return if the attribute is not defined or
+  ///                 not a resource.
+  ///@return Attribute dimension value multiplied by the appropriate
+  ///         metric and truncated to integer pixels, or defValue if not defined.
+  ///@throws RuntimeException if the TypedArray has already been recycled.
+  ///@throws UnsupportedOperationException if the attribute is defined but is
+  ///         not an integer.
+  ///@see \#getDimension
+  ///@see \#getDimensionPixelSize
+  int getDimensionPixelOffset(int index, int defValue) =>
+      _getDimensionPixelOffset(reference, index, defValue).integer;
+
+  static final _getDimensionPixelSize = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Int32)>>("TypedArray__getDimensionPixelSize")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int, int)>();
+
+  /// from: public int getDimensionPixelSize(int index, int defValue)
+  ///
+  /// Retrieve a dimensional unit attribute at <var>index</var> for use
+  /// as a size in raw pixels.  This is the same as
+  /// \#getDimension, except the returned value is converted to
+  /// integer pixels for use as a size.  A size conversion involves
+  /// rounding the base value, and ensuring that a non-zero base value
+  /// is at least one pixel in size.
+  ///
+  /// This method will throw an exception if the attribute is defined but is
+  /// not a dimension.
+  ///@param index Index of attribute to retrieve.
+  ///@param defValue Value to return if the attribute is not defined or
+  ///                 not a resource.
+  ///@return Attribute dimension value multiplied by the appropriate
+  ///         metric and truncated to integer pixels, or defValue if not defined.
+  ///@throws RuntimeException if the TypedArray has already been recycled.
+  ///@throws UnsupportedOperationException if the attribute is defined but is
+  ///         not a dimension.
+  ///@see \#getDimension
+  ///@see \#getDimensionPixelOffset
+  int getDimensionPixelSize(int index, int defValue) =>
+      _getDimensionPixelSize(reference, index, defValue).integer;
+
+  static final _getLayoutDimension = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Pointer<ffi.Void>)>>("TypedArray__getLayoutDimension")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int getLayoutDimension(int index, java.lang.String name)
+  ///
+  /// Special version of \#getDimensionPixelSize for retrieving
+  /// android.view.ViewGroup's layout_width and layout_height
+  /// attributes.  This is only here for performance reasons; applications
+  /// should use \#getDimensionPixelSize.
+  ///
+  /// This method will throw an exception if the attribute is defined but is
+  /// not a dimension or integer (enum).
+  ///@param index Index of the attribute to retrieve.
+  ///@param name Textual name of attribute for error reporting.
+  ///@return Attribute dimension value multiplied by the appropriate
+  ///         metric and truncated to integer pixels.
+  ///@throws RuntimeException if the TypedArray has already been recycled.
+  ///@throws UnsupportedOperationException if the attribute is defined but is
+  ///         not a dimension or integer (enum).
+  int getLayoutDimension(int index, jni.JniString name) =>
+      _getLayoutDimension(reference, index, name.reference).integer;
+
+  static final _getLayoutDimension1 = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Int32)>>("TypedArray__getLayoutDimension1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int, int)>();
+
+  /// from: public int getLayoutDimension(int index, int defValue)
+  ///
+  /// Special version of \#getDimensionPixelSize for retrieving
+  /// android.view.ViewGroup's layout_width and layout_height
+  /// attributes.  This is only here for performance reasons; applications
+  /// should use \#getDimensionPixelSize.
+  ///@param index Index of the attribute to retrieve.
+  ///@param defValue The default value to return if this attribute is not
+  ///                 default or contains the wrong type of data.
+  ///@return Attribute dimension value multiplied by the appropriate
+  ///         metric and truncated to integer pixels.
+  ///@throws RuntimeException if the TypedArray has already been recycled.
+  int getLayoutDimension1(int index, int defValue) =>
+      _getLayoutDimension1(reference, index, defValue).integer;
+
+  static final _getFraction = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Int32, ffi.Int32, ffi.Float)>>("TypedArray__getFraction")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, int, int, int, double)>();
+
+  /// from: public float getFraction(int index, int base, int pbase, float defValue)
+  ///
+  /// Retrieves a fractional unit attribute at <var>index</var>.
+  ///@param index Index of attribute to retrieve.
+  ///@param base The base value of this fraction.  In other words, a
+  ///             standard fraction is multiplied by this value.
+  ///@param pbase The parent base value of this fraction.  In other
+  ///             words, a parent fraction (nn%p) is multiplied by this
+  ///             value.
+  ///@param defValue Value to return if the attribute is not defined or
+  ///                 not a resource.
+  ///@return Attribute fractional value multiplied by the appropriate
+  ///         base value, or defValue if not defined.
+  ///@throws RuntimeException if the TypedArray has already been recycled.
+  ///@throws UnsupportedOperationException if the attribute is defined but is
+  ///         not a fraction.
+  double getFraction(int index, int base, int pbase, double defValue) =>
+      _getFraction(reference, index, base, pbase, defValue).float;
+
+  static final _getResourceId = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Int32)>>("TypedArray__getResourceId")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int, int)>();
+
+  /// from: public int getResourceId(int index, int defValue)
+  ///
+  /// Retrieves the resource identifier for the attribute at
+  /// <var>index</var>.  Note that attribute resource as resolved when
+  /// the overall TypedArray object is retrieved.  As a
+  /// result, this function will return the resource identifier of the
+  /// final resource value that was found, _not_ necessarily the
+  /// original resource that was specified by the attribute.
+  ///@param index Index of attribute to retrieve.
+  ///@param defValue Value to return if the attribute is not defined or
+  ///                 not a resource.
+  ///@return Attribute resource identifier, or defValue if not defined.
+  ///@throws RuntimeException if the TypedArray has already been recycled.
+  int getResourceId(int index, int defValue) =>
+      _getResourceId(reference, index, defValue).integer;
+
+  static final _getDrawable = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("TypedArray__getDrawable")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public android.graphics.drawable.Drawable getDrawable(int index)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Retrieve the Drawable for the attribute at <var>index</var>.
+  ///
+  /// This method will throw an exception if the attribute is defined but is
+  /// not a color or drawable resource.
+  ///@param index Index of attribute to retrieve.
+  ///@return Drawable for the attribute, or {@code null} if not defined.
+  ///@throws RuntimeException if the TypedArray has already been recycled.
+  ///@throws UnsupportedOperationException if the attribute is defined but is
+  ///         not a color or drawable resource.
+  jni.JniObject getDrawable(int index) =>
+      jni.JniObject.fromRef(_getDrawable(reference, index).object);
+
+  static final _getFont = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("TypedArray__getFont")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public android.graphics.Typeface getFont(int index)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Retrieve the Typeface for the attribute at <var>index</var>.
+  ///
+  /// This method will throw an exception if the attribute is defined but is
+  /// not a font.
+  ///@param index Index of attribute to retrieve.
+  ///@return Typeface for the attribute, or {@code null} if not defined.
+  ///@throws RuntimeException if the TypedArray has already been recycled.
+  ///@throws UnsupportedOperationException if the attribute is defined but is
+  ///         not a font resource.
+  jni.JniObject getFont(int index) =>
+      jni.JniObject.fromRef(_getFont(reference, index).object);
+
+  static final _getTextArray = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("TypedArray__getTextArray")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public java.lang.CharSequence[] getTextArray(int index)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Retrieve the CharSequence[] for the attribute at <var>index</var>.
+  /// This gets the resource ID of the selected attribute, and uses
+  /// Resources\#getTextArray Resources.getTextArray of the owning
+  /// Resources object to retrieve its String[].
+  ///
+  /// This method will throw an exception if the attribute is defined but is
+  /// not a text array resource.
+  ///@param index Index of attribute to retrieve.
+  ///@return CharSequence[] for the attribute, or {@code null} if not
+  ///         defined.
+  ///@throws RuntimeException if the TypedArray has already been recycled.
+  jni.JniObject getTextArray(int index) =>
+      jni.JniObject.fromRef(_getTextArray(reference, index).object);
+
+  static final _getValue = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Pointer<ffi.Void>)>>("TypedArray__getValue")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public boolean getValue(int index, android.util.TypedValue outValue)
+  ///
+  /// Retrieve the raw TypedValue for the attribute at <var>index</var>.
+  ///@param index Index of attribute to retrieve.
+  ///@param outValue TypedValue object in which to place the attribute's
+  ///                 data.
+  ///@return {@code true} if the value was retrieved and not @empty, {@code false} otherwise.
+  ///@throws RuntimeException if the TypedArray has already been recycled.
+  bool getValue(int index, jni.JniObject outValue) =>
+      _getValue(reference, index, outValue.reference).boolean;
+
+  static final _getType = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("TypedArray__getType")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public int getType(int index)
+  ///
+  /// Returns the type of attribute at the specified index.
+  ///@param index Index of attribute whose type to retrieve.
+  ///@return Attribute type.
+  ///@throws RuntimeException if the TypedArray has already been recycled.
+  int getType(int index) => _getType(reference, index).integer;
+
+  static final _hasValue = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("TypedArray__hasValue")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public boolean hasValue(int index)
+  ///
+  /// Determines whether there is an attribute at <var>index</var>.
+  ///
+  /// <strong>Note:</strong> If the attribute was set to {@code @empty} or
+  /// {@code @undefined}, this method returns {@code false}.
+  ///@param index Index of attribute to retrieve.
+  ///@return True if the attribute has a value, false otherwise.
+  ///@throws RuntimeException if the TypedArray has already been recycled.
+  bool hasValue(int index) => _hasValue(reference, index).boolean;
+
+  static final _hasValueOrEmpty = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("TypedArray__hasValueOrEmpty")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public boolean hasValueOrEmpty(int index)
+  ///
+  /// Determines whether there is an attribute at <var>index</var>, returning
+  /// {@code true} if the attribute was explicitly set to {@code @empty} and
+  /// {@code false} only if the attribute was undefined.
+  ///@param index Index of attribute to retrieve.
+  ///@return True if the attribute has a value or is empty, false otherwise.
+  ///@throws RuntimeException if the TypedArray has already been recycled.
+  bool hasValueOrEmpty(int index) => _hasValueOrEmpty(reference, index).boolean;
+
+  static final _peekValue = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("TypedArray__peekValue")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public android.util.TypedValue peekValue(int index)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Retrieve the raw TypedValue for the attribute at <var>index</var>
+  /// and return a temporary object holding its data.  This object is only
+  /// valid until the next call on to TypedArray.
+  ///@param index Index of attribute to retrieve.
+  ///@return Returns a TypedValue object if the attribute is defined,
+  ///         containing its data; otherwise returns null.  (You will not
+  ///         receive a TypedValue whose type is TYPE_NULL.)
+  ///@throws RuntimeException if the TypedArray has already been recycled.
+  jni.JniObject peekValue(int index) =>
+      jni.JniObject.fromRef(_peekValue(reference, index).object);
+
+  static final _getPositionDescription = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("TypedArray__getPositionDescription")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.lang.String getPositionDescription()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Returns a message about the parser state suitable for printing error messages.
+  ///@return Human-readable description of current parser state.
+  ///@throws RuntimeException if the TypedArray has already been recycled.
+  jni.JniString getPositionDescription() =>
+      jni.JniString.fromRef(_getPositionDescription(reference).object);
+
+  static final _recycle = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("TypedArray__recycle")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void recycle()
+  ///
+  /// Recycles the TypedArray, to be re-used by a later caller. After calling
+  /// this function you must not ever touch the typed array again.
+  ///@throws RuntimeException if the TypedArray has already been recycled.
+  void recycle() => _recycle(reference).check();
+
+  static final _getChangingConfigurations = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "TypedArray__getChangingConfigurations")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int getChangingConfigurations()
+  ///
+  /// Return a mask of the configuration parameters for which the values in
+  /// this typed array may change.
+  ///@return Returns a mask of the changing configuration parameters, as
+  ///         defined by android.content.pm.ActivityInfo.
+  /// Value is either <code>0</code> or a combination of android.content.pm.ActivityInfo\#CONFIG_MCC, android.content.pm.ActivityInfo\#CONFIG_MNC, android.content.pm.ActivityInfo\#CONFIG_LOCALE, android.content.pm.ActivityInfo\#CONFIG_TOUCHSCREEN, android.content.pm.ActivityInfo\#CONFIG_KEYBOARD, android.content.pm.ActivityInfo\#CONFIG_KEYBOARD_HIDDEN, android.content.pm.ActivityInfo\#CONFIG_NAVIGATION, android.content.pm.ActivityInfo\#CONFIG_ORIENTATION, android.content.pm.ActivityInfo\#CONFIG_SCREEN_LAYOUT, android.content.pm.ActivityInfo\#CONFIG_UI_MODE, android.content.pm.ActivityInfo\#CONFIG_SCREEN_SIZE, android.content.pm.ActivityInfo\#CONFIG_SMALLEST_SCREEN_SIZE, android.content.pm.ActivityInfo\#CONFIG_DENSITY, android.content.pm.ActivityInfo\#CONFIG_LAYOUT_DIRECTION, android.content.pm.ActivityInfo\#CONFIG_COLOR_MODE, and android.content.pm.ActivityInfo\#CONFIG_FONT_SCALE
+  ///@throws RuntimeException if the TypedArray has already been recycled.
+  ///@see android.content.pm.ActivityInfo
+  int getChangingConfigurations() =>
+      _getChangingConfigurations(reference).integer;
+
+  static final _toString1 = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("TypedArray__toString1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.lang.String toString()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  jni.JniString toString1() =>
+      jni.JniString.fromRef(_toString1(reference).object);
 }
 
 /// from: android.content.res.XmlResourceParser
@@ -5766,32 +5182,24 @@ class XmlResourceParser extends jni.JniObject {
   XmlResourceParser.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   static final _getAttributeNamespace = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_content_res_XmlResourceParser_getAttributeNamespace")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("XmlResourceParser__getAttributeNamespace")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public abstract java.lang.String getAttributeNamespace(int index)
   /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniString getAttributeNamespace(int index) {
-    final result__ =
-        jni.JniString.fromRef(_getAttributeNamespace(reference, index));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getAttributeNamespace(int index) =>
+      jni.JniString.fromRef(_getAttributeNamespace(reference, index).object);
 
-  static final _close =
-      jniLookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-              "android_content_res_XmlResourceParser_close")
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+  static final _close = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("XmlResourceParser__close")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public abstract void close()
   ///
   /// Close this parser. Calls on the interface are no longer valid after this call.
-  void close() {
-    final result__ = _close(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void close() => _close(reference).check();
 }

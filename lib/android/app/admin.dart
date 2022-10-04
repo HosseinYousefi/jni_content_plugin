@@ -8,134 +8,1609 @@
 // ignore_for_file: unused_element
 
 import "dart:ffi" as ffi;
+import "package:jni/internal_helpers_for_jnigen.dart";
 import "package:jni/jni.dart" as jni;
 
-import "../../android/os.dart" as os_;
+import "../os.dart" as os_;
 
-import "../../android/content.dart" as content_;
+import "../content.dart" as content_;
 
-import "../../android/content/pm.dart" as pm_;
+import "../content/pm.dart" as pm_;
 
 import "../app.dart" as app_;
 import "../../_init.dart" show jniLookup;
 
-/// from: android.app.admin.DnsEvent
+/// from: android.app.admin.ConnectEvent
 ///
-/// A class that represents a DNS lookup event initiated through the standard network stack.
+/// A class that represents a TCP connect event initiated through the standard network stack.
 ///
-/// It contains information about the originating app as well as the DNS hostname and resolved
-/// IP addresses.
-class DnsEvent extends NetworkEvent {
-  DnsEvent.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+/// It contains information about the originating app as well as the remote TCP endpoint.
+///
+/// Support both IPv4 and IPv6 connections.
+class ConnectEvent extends NetworkEvent {
+  ConnectEvent.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   static final _get_CREATOR1 =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "get_android_app_admin_DnsEvent_CREATOR1")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_ConnectEvent__CREATOR1")
+          .asFunction<jni.JniResult Function()>();
 
-  /// from: static public final android.os.Parcelable.Creator<android.app.admin.DnsEvent> CREATOR
+  /// from: static public final android.os.Parcelable.Creator<android.app.admin.ConnectEvent> CREATOR
   /// The returned object must be deleted after use, by calling the `delete` method.
   static os_.Parcelable_Creator get CREATOR1 =>
-      os_.Parcelable_Creator.fromRef(_get_CREATOR1());
+      os_.Parcelable_Creator.fromRef(_get_CREATOR1().object);
 
   static final _ctor1 = jniLookup<
           ffi.NativeFunction<
-              ffi.Pointer<ffi.Void> Function(
-                  ffi.Pointer<ffi.Void>)>>("android_app_admin_DnsEvent_ctor1")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("ConnectEvent__ctor1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: void <init>(android.os.Parcel in)
-  DnsEvent.ctor1(os_.Parcel in0) : super.fromRef(_ctor1(in0.reference)) {
-    jni.Jni.env.checkException();
-  }
+  ConnectEvent.ctor1(os_.Parcel in0)
+      : super.fromRef(_ctor1(in0.reference).object);
 
-  static final _getHostname = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DnsEvent_getHostname")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+  static final _getInetAddress = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("ConnectEvent__getInetAddress")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
-  /// from: public java.lang.String getHostname()
+  /// from: public java.net.InetAddress getInetAddress()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Returns the hostname that was looked up.
-  jni.JniString getHostname() {
-    final result__ = jni.JniString.fromRef(_getHostname(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getInetAddress() =>
+      jni.JniObject.fromRef(_getInetAddress(reference).object);
 
-  static final _getInetAddresses = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DnsEvent_getInetAddresses")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+  static final _getPort = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("ConnectEvent__getPort")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
-  /// from: public java.util.List<java.net.InetAddress> getInetAddresses()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Returns (possibly a subset of) the IP addresses returned.
-  jni.JniObject getInetAddresses() {
-    final result__ = jni.JniObject.fromRef(_getInetAddresses(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getTotalResolvedAddressCount =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_admin_DnsEvent_getTotalResolvedAddressCount")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int getTotalResolvedAddressCount()
-  ///
-  /// Returns the number of IP addresses returned from the DNS lookup event. May be different from
-  /// the length of the list returned by \#getInetAddresses() if there were too many
-  /// addresses to log.
-  int getTotalResolvedAddressCount() {
-    final result__ = _getTotalResolvedAddressCount(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  /// from: public int getPort()
+  int getPort() => _getPort(reference).integer;
 
   static final _toString1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DnsEvent_toString1")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("ConnectEvent__toString1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String toString()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniString toString1() {
-    final result__ = jni.JniString.fromRef(_toString1(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString toString1() =>
+      jni.JniString.fromRef(_toString1(reference).object);
 
-  static final _describeContents =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_admin_DnsEvent_describeContents")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _describeContents = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("ConnectEvent__describeContents")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int describeContents()
-  int describeContents() {
-    final result__ = _describeContents(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int describeContents() => _describeContents(reference).integer;
 
   static final _writeToParcel = jniLookup<
           ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_app_admin_DnsEvent_writeToParcel")
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("ConnectEvent__writeToParcel")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel out, int flags)
-  void writeToParcel(os_.Parcel out, int flags) {
-    final result__ = _writeToParcel(reference, out.reference, flags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void writeToParcel(os_.Parcel out, int flags) =>
+      _writeToParcel(reference, out.reference, flags).check();
+}
+
+/// from: android.app.admin.DeviceAdminInfo
+///
+/// This class is used to specify meta information of a device administrator
+/// component.
+class DeviceAdminInfo extends jni.JniObject {
+  DeviceAdminInfo.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  static final _get_CREATOR =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_DeviceAdminInfo__CREATOR")
+          .asFunction<jni.JniResult Function()>();
+
+  /// from: static public final android.os.Parcelable.Creator<android.app.admin.DeviceAdminInfo> CREATOR
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Used to make this class parcelable.
+  static os_.Parcelable_Creator get CREATOR =>
+      os_.Parcelable_Creator.fromRef(_get_CREATOR().object);
+
+  /// from: static public final int USES_ENCRYPTED_STORAGE
+  ///
+  /// A type of policy that this device admin can use: require encryption of stored data.
+  ///
+  /// To control this policy, the device admin must have a "encrypted-storage"
+  /// tag in the "uses-policies" section of its meta-data.
+  static const USES_ENCRYPTED_STORAGE = 7;
+
+  /// from: static public final int USES_POLICY_DISABLE_CAMERA
+  ///
+  /// A type of policy that this device admin can use: disables use of all device cameras.
+  ///
+  /// To control this policy, the device admin must have a "disable-camera"
+  /// tag in the "uses-policies" section of its meta-data.
+  ///
+  /// This policy is deprecated for use by a device admin.  In future releases, it will
+  /// only be possible for a device owner or profile owner to disable use of the camera.
+  static const USES_POLICY_DISABLE_CAMERA = 8;
+
+  /// from: static public final int USES_POLICY_DISABLE_KEYGUARD_FEATURES
+  ///
+  /// A type of policy that this device admin can use: disables use of keyguard features.
+  ///
+  /// To control this policy, the device admin must have a "disable-keyguard-features"
+  /// tag in the "uses-policies" section of its meta-data.
+  ///
+  /// This policy is deprecated for use by a device admin.  In future releases, it will
+  /// only be possible for a device owner or profile owner to disable use of keyguard
+  /// features.
+  static const USES_POLICY_DISABLE_KEYGUARD_FEATURES = 9;
+
+  /// from: static public final int USES_POLICY_EXPIRE_PASSWORD
+  ///
+  /// A type of policy that this device admin can use: force the user to
+  /// change their password after an administrator-defined time limit.
+  ///
+  /// To control this policy, the device admin must have an "expire-password"
+  /// tag in the "uses-policies" section of its meta-data.
+  ///
+  /// This policy is deprecated for use by a device admin.  In future releases, it will
+  /// only be possible for a device owner or profile owner to enforce password expiry.
+  static const USES_POLICY_EXPIRE_PASSWORD = 6;
+
+  /// from: static public final int USES_POLICY_FORCE_LOCK
+  ///
+  /// A type of policy that this device admin can use: able to force the device
+  /// to lock viaDevicePolicyManager\#lockNow or limit the
+  /// maximum lock timeout for the device via
+  /// DevicePolicyManager\#setMaximumTimeToLock.
+  ///
+  /// To control this policy, the device admin must have a "force-lock"
+  /// tag in the "uses-policies" section of its meta-data.
+  static const USES_POLICY_FORCE_LOCK = 3;
+
+  /// from: static public final int USES_POLICY_LIMIT_PASSWORD
+  ///
+  /// A type of policy that this device admin can use: limit the passwords
+  /// that the user can select, via DevicePolicyManager\#setPasswordQuality
+  /// and DevicePolicyManager\#setPasswordMinimumLength.
+  ///
+  /// To control this policy, the device admin must have a "limit-password"
+  /// tag in the "uses-policies" section of its meta-data.
+  ///
+  /// This policy is deprecated for use by a device admin.  In future releases, it will
+  /// only be possible for a device owner or profile owner to enforce constraints on user
+  /// passwords.
+  static const USES_POLICY_LIMIT_PASSWORD = 0;
+
+  /// from: static public final int USES_POLICY_RESET_PASSWORD
+  ///
+  /// A type of policy that this device admin can use: able to reset the
+  /// user's password via
+  /// DevicePolicyManager\#resetPassword.
+  ///
+  /// To control this policy, the device admin must have a "reset-password"
+  /// tag in the "uses-policies" section of its meta-data.
+  static const USES_POLICY_RESET_PASSWORD = 2;
+
+  /// from: static public final int USES_POLICY_WATCH_LOGIN
+  ///
+  /// A type of policy that this device admin can use: able to watch login
+  /// attempts from the user, via DeviceAdminReceiver\#ACTION_PASSWORD_FAILED,
+  /// DeviceAdminReceiver\#ACTION_PASSWORD_SUCCEEDED, and
+  /// DevicePolicyManager\#getCurrentFailedPasswordAttempts.
+  ///
+  /// To control this policy, the device admin must have a "watch-login"
+  /// tag in the "uses-policies" section of its meta-data.
+  static const USES_POLICY_WATCH_LOGIN = 1;
+
+  /// from: static public final int USES_POLICY_WIPE_DATA
+  ///
+  /// A type of policy that this device admin can use: able to factory
+  /// reset the device, erasing all of the user's data, via
+  /// DevicePolicyManager\#wipeData.
+  ///
+  /// To control this policy, the device admin must have a "wipe-data"
+  /// tag in the "uses-policies" section of its meta-data.
+  static const USES_POLICY_WIPE_DATA = 4;
+
+  static final _ctor = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("DeviceAdminInfo__ctor")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void <init>(android.content.Context context, android.content.pm.ResolveInfo resolveInfo)
+  ///
+  /// Constructor.
+  ///@param context The Context in which we are parsing the device admin.
+  ///@param resolveInfo The ResolveInfo returned from the package manager about
+  /// this device admin's component.
+  DeviceAdminInfo(content_.Context context, pm_.ResolveInfo resolveInfo)
+      : super.fromRef(_ctor(context.reference, resolveInfo.reference).object);
+
+  static final _getPackageName = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("DeviceAdminInfo__getPackageName")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.lang.String getPackageName()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Return the .apk package that implements this device admin.
+  jni.JniString getPackageName() =>
+      jni.JniString.fromRef(_getPackageName(reference).object);
+
+  static final _getReceiverName = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("DeviceAdminInfo__getReceiverName")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.lang.String getReceiverName()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Return the class name of the receiver component that implements
+  /// this device admin.
+  jni.JniString getReceiverName() =>
+      jni.JniString.fromRef(_getReceiverName(reference).object);
+
+  static final _getActivityInfo = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("DeviceAdminInfo__getActivityInfo")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.content.pm.ActivityInfo getActivityInfo()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Return the raw information about the receiver implementing this
+  /// device admin.  Do not modify the returned object.
+  pm_.ActivityInfo getActivityInfo() =>
+      pm_.ActivityInfo.fromRef(_getActivityInfo(reference).object);
+
+  static final _getComponent = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("DeviceAdminInfo__getComponent")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.content.ComponentName getComponent()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Return the component of the receiver that implements this device admin.
+  ///@return This value will never be {@code null}.
+  content_.ComponentName getComponent() =>
+      content_.ComponentName.fromRef(_getComponent(reference).object);
+
+  static final _loadLabel = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("DeviceAdminInfo__loadLabel")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.lang.CharSequence loadLabel(android.content.pm.PackageManager pm)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Load the user-displayed label for this device admin.
+  ///@param pm Supply a PackageManager used to load the device admin's
+  /// resources.
+  jni.JniObject loadLabel(pm_.PackageManager pm) =>
+      jni.JniObject.fromRef(_loadLabel(reference, pm.reference).object);
+
+  static final _loadDescription = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("DeviceAdminInfo__loadDescription")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.lang.CharSequence loadDescription(android.content.pm.PackageManager pm)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Load user-visible description associated with this device admin.
+  ///@param pm Supply a PackageManager used to load the device admin's
+  /// resources.
+  jni.JniObject loadDescription(pm_.PackageManager pm) =>
+      jni.JniObject.fromRef(_loadDescription(reference, pm.reference).object);
+
+  static final _loadIcon = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("DeviceAdminInfo__loadIcon")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.graphics.drawable.Drawable loadIcon(android.content.pm.PackageManager pm)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Load the user-displayed icon for this device admin.
+  ///@param pm Supply a PackageManager used to load the device admin's
+  /// resources.
+  jni.JniObject loadIcon(pm_.PackageManager pm) =>
+      jni.JniObject.fromRef(_loadIcon(reference, pm.reference).object);
+
+  static final _isVisible = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("DeviceAdminInfo__isVisible")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public boolean isVisible()
+  ///
+  /// Returns whether this device admin would like to be visible to the
+  /// user, even when it is not enabled.
+  bool isVisible() => _isVisible(reference).boolean;
+
+  static final _usesPolicy = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("DeviceAdminInfo__usesPolicy")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public boolean usesPolicy(int policyIdent)
+  ///
+  /// Return true if the device admin has requested that it be able to use
+  /// the given policy control.  The possible policy identifier inputs are:
+  /// \#USES_POLICY_LIMIT_PASSWORD, \#USES_POLICY_WATCH_LOGIN,
+  /// \#USES_POLICY_RESET_PASSWORD, \#USES_POLICY_FORCE_LOCK,
+  /// \#USES_POLICY_WIPE_DATA,
+  /// \#USES_POLICY_EXPIRE_PASSWORD, \#USES_ENCRYPTED_STORAGE,
+  /// \#USES_POLICY_DISABLE_CAMERA.
+  bool usesPolicy(int policyIdent) =>
+      _usesPolicy(reference, policyIdent).boolean;
+
+  static final _getTagForPolicy = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("DeviceAdminInfo__getTagForPolicy")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public java.lang.String getTagForPolicy(int policyIdent)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Return the XML tag name for the given policy identifier.  Valid identifiers
+  /// are as per \#usesPolicy(int).  If the given identifier is not
+  /// known, null is returned.
+  jni.JniString getTagForPolicy(int policyIdent) =>
+      jni.JniString.fromRef(_getTagForPolicy(reference, policyIdent).object);
+
+  static final _supportsTransferOwnership = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "DeviceAdminInfo__supportsTransferOwnership")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public boolean supportsTransferOwnership()
+  ///
+  /// Return true if this administrator can be a target in an ownership transfer.
+  bool supportsTransferOwnership() =>
+      _supportsTransferOwnership(reference).boolean;
+
+  static final _dump = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("DeviceAdminInfo__dump")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void dump(android.util.Printer pw, java.lang.String prefix)
+  void dump(jni.JniObject pw, jni.JniString prefix) =>
+      _dump(reference, pw.reference, prefix.reference).check();
+
+  static final _toString1 = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("DeviceAdminInfo__toString1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.lang.String toString()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  jni.JniString toString1() =>
+      jni.JniString.fromRef(_toString1(reference).object);
+
+  static final _writeToParcel = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("DeviceAdminInfo__writeToParcel")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public void writeToParcel(android.os.Parcel dest, int flags)
+  ///
+  /// Used to package this object into a Parcel.
+  ///@param dest The Parcel to be written.
+  ///@param flags The flags used for parceling.
+  void writeToParcel(os_.Parcel dest, int flags) =>
+      _writeToParcel(reference, dest.reference, flags).check();
+
+  static final _describeContents = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("DeviceAdminInfo__describeContents")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int describeContents()
+  int describeContents() => _describeContents(reference).integer;
+}
+
+/// from: android.app.admin.DeviceAdminReceiver
+///
+/// Base class for implementing a device administration component.  This
+/// class provides a convenience for interpreting the raw intent actions
+/// that are sent by the system.
+///
+/// The callback methods, like the base
+/// BroadcastReceiver\#onReceive(Context, Intent) BroadcastReceiver.onReceive()
+/// method, happen on the main thread of the process.  Thus long running
+/// operations must be done on another thread.  Note that because a receiver
+/// is done once returning from its receive function, such long-running operations
+/// should probably be done in a Service.
+///
+/// When publishing your DeviceAdmin subclass as a receiver, it must
+/// handle \#ACTION_DEVICE_ADMIN_ENABLED and require the
+/// android.Manifest.permission\#BIND_DEVICE_ADMIN permission.  A typical
+/// manifest entry would look like:
+///
+///
+/// {@sample development/samples/ApiDemos/AndroidManifest.xml device_admin_declaration}
+///
+/// The meta-data referenced here provides addition information specific
+/// to the device administrator, as parsed by the DeviceAdminInfo class.
+/// A typical file would be:
+///
+///
+/// {@sample development/samples/ApiDemos/res/xml/device_admin_sample.xml meta_data}
+///
+/// <div class="special reference">
+/// <h3>Developer Guides</h3>
+/// For more information about device administration, read the
+/// <a href="{@docRoot}guide/topics/admin/device-admin.html">Device Administration</a>
+/// developer guide.
+///
+/// </div>
+class DeviceAdminReceiver extends content_.BroadcastReceiver {
+  DeviceAdminReceiver.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  /// from: static public final java.lang.String ACTION_DEVICE_ADMIN_DISABLED
+  ///
+  /// Action sent to a device administrator when the user has disabled
+  /// it.  Upon return, the application no longer has access to the
+  /// protected device policy manager APIs.  You will generally
+  /// handle this in DeviceAdminReceiver\#onDisabled(Context, Intent).  Note
+  /// that this action will be
+  /// sent the receiver regardless of whether it is explicitly listed in
+  /// its intent filter.
+  static const ACTION_DEVICE_ADMIN_DISABLED =
+      "android.app.action.DEVICE_ADMIN_DISABLED";
+
+  /// from: static public final java.lang.String ACTION_DEVICE_ADMIN_DISABLE_REQUESTED
+  ///
+  /// Action sent to a device administrator when the user has requested to
+  /// disable it, but before this has actually been done.  This gives you
+  /// a chance to supply a message to the user about the impact of
+  /// disabling your admin, by setting the extra field
+  /// \#EXTRA_DISABLE_WARNING in the result Intent.  If not set,
+  /// no warning will be displayed.  If set, the given text will be shown
+  /// to the user before they disable your admin.
+  static const ACTION_DEVICE_ADMIN_DISABLE_REQUESTED =
+      "android.app.action.DEVICE_ADMIN_DISABLE_REQUESTED";
+
+  /// from: static public final java.lang.String ACTION_DEVICE_ADMIN_ENABLED
+  ///
+  /// This is the primary action that a device administrator must implement to be
+  /// allowed to manage a device.  This will be set to the receiver
+  /// when the user enables it for administration.  You will generally
+  /// handle this in DeviceAdminReceiver\#onEnabled(Context, Intent).  To be
+  /// supported, the receiver must also require the
+  /// android.Manifest.permission\#BIND_DEVICE_ADMIN permission so
+  /// that other applications can not abuse it.
+  static const ACTION_DEVICE_ADMIN_ENABLED =
+      "android.app.action.DEVICE_ADMIN_ENABLED";
+
+  /// from: static public final java.lang.String ACTION_LOCK_TASK_ENTERING
+  ///
+  /// Action sent to a device administrator to notify that the device is entering
+  /// lock task mode.  The extra \#EXTRA_LOCK_TASK_PACKAGE
+  /// will describe the package using lock task mode.
+  ///
+  /// The calling device admin must be the device owner or profile
+  /// owner to receive this broadcast.
+  ///@see DevicePolicyManager\#isLockTaskPermitted(String)
+  static const ACTION_LOCK_TASK_ENTERING =
+      "android.app.action.LOCK_TASK_ENTERING";
+
+  /// from: static public final java.lang.String ACTION_LOCK_TASK_EXITING
+  ///
+  /// Action sent to a device administrator to notify that the device is exiting
+  /// lock task mode.
+  ///
+  /// The calling device admin must be the device owner or profile
+  /// owner to receive this broadcast.
+  ///@see DevicePolicyManager\#isLockTaskPermitted(String)
+  static const ACTION_LOCK_TASK_EXITING =
+      "android.app.action.LOCK_TASK_EXITING";
+
+  /// from: static public final java.lang.String ACTION_PASSWORD_CHANGED
+  ///
+  /// Action sent to a device administrator when the user has changed the password of their device
+  /// or profile challenge.  You can at this point check the characteristics
+  /// of the new password with DevicePolicyManager\#isActivePasswordSufficient() DevicePolicyManager.isActivePasswordSufficient().
+  /// You will generally
+  /// handle this in DeviceAdminReceiver\#onPasswordChanged(Context, Intent, UserHandle).
+  ///
+  /// The calling device admin must have requested
+  /// DeviceAdminInfo\#USES_POLICY_LIMIT_PASSWORD to receive
+  /// this broadcast.
+  static const ACTION_PASSWORD_CHANGED =
+      "android.app.action.ACTION_PASSWORD_CHANGED";
+
+  /// from: static public final java.lang.String ACTION_PASSWORD_EXPIRING
+  ///
+  /// Action periodically sent to a device administrator when the device or profile challenge
+  /// password is expiring.  You will generally
+  /// handle this in DeviceAdminReceiver\#onPasswordExpiring(Context, Intent, UserHandle).
+  ///
+  /// The calling device admin must have requested
+  /// DeviceAdminInfo\#USES_POLICY_EXPIRE_PASSWORD to receive
+  /// this broadcast.
+  static const ACTION_PASSWORD_EXPIRING =
+      "android.app.action.ACTION_PASSWORD_EXPIRING";
+
+  /// from: static public final java.lang.String ACTION_PASSWORD_FAILED
+  ///
+  /// Action sent to a device administrator when the user has entered an incorrect device
+  /// or profile challenge password.  You can at this point check the
+  /// number of failed password attempts there have been with
+  /// DevicePolicyManager\#getCurrentFailedPasswordAttempts DevicePolicyManager.getCurrentFailedPasswordAttempts().  You will generally
+  /// handle this in DeviceAdminReceiver\#onPasswordFailed(Context, Intent, UserHandle).
+  ///
+  /// The calling device admin must have requested
+  /// DeviceAdminInfo\#USES_POLICY_WATCH_LOGIN to receive
+  /// this broadcast.
+  static const ACTION_PASSWORD_FAILED =
+      "android.app.action.ACTION_PASSWORD_FAILED";
+
+  /// from: static public final java.lang.String ACTION_PASSWORD_SUCCEEDED
+  ///
+  /// Action sent to a device administrator when the user has successfully entered their device
+  /// or profile challenge password, after failing one or more times.  You will generally
+  /// handle this in DeviceAdminReceiver\#onPasswordSucceeded(Context, Intent, UserHandle).
+  ///
+  /// The calling device admin must have requested
+  /// DeviceAdminInfo\#USES_POLICY_WATCH_LOGIN to receive
+  /// this broadcast.
+  static const ACTION_PASSWORD_SUCCEEDED =
+      "android.app.action.ACTION_PASSWORD_SUCCEEDED";
+
+  /// from: static public final java.lang.String ACTION_PROFILE_PROVISIONING_COMPLETE
+  ///
+  /// Broadcast Action: This broadcast is sent to indicate that provisioning of a managed profile
+  /// or managed device has completed successfully.
+  ///
+  /// The broadcast is limited to the profile that will be managed by the application that
+  /// requested provisioning. In the device owner case the profile is the primary user.
+  /// The broadcast will also be limited to the DeviceAdminReceiver component
+  /// specified in the original intent or NFC bump that started the provisioning process
+  /// (see DevicePolicyManager\#ACTION_PROVISION_MANAGED_PROFILE DevicePolicyManager.ACTION_PROVISION_MANAGED_PROFILE).
+  ///
+  /// A device admin application which listens to this intent can find out if the device was
+  /// provisioned for the device owner or profile owner case by calling respectively
+  /// android.app.admin.DevicePolicyManager\#isDeviceOwnerApp and
+  /// android.app.admin.DevicePolicyManager\#isProfileOwnerApp. You will generally handle
+  /// this in DeviceAdminReceiver\#onProfileProvisioningComplete.
+  ///@see DevicePolicyManager\#ACTION_PROVISIONING_SUCCESSFUL
+  static const ACTION_PROFILE_PROVISIONING_COMPLETE =
+      "android.app.action.PROFILE_PROVISIONING_COMPLETE";
+
+  /// from: static public final int BUGREPORT_FAILURE_FAILED_COMPLETING
+  ///
+  /// Bugreport completion process failed.
+  ///
+  /// If this error code is received, the requesting of bugreport can be retried.
+  ///@see DevicePolicyManager\#requestBugreport
+  static const BUGREPORT_FAILURE_FAILED_COMPLETING = 0;
+
+  /// from: static public final int BUGREPORT_FAILURE_FILE_NO_LONGER_AVAILABLE
+  ///
+  /// Bugreport has been created, but is no longer available for collection.
+  ///
+  /// This error likely occurs because the user of the device hasn't consented to share
+  /// the bugreport for a long period after its creation.
+  ///
+  /// If this error code is received, the requesting of bugreport can be retried.
+  ///@see DevicePolicyManager\#requestBugreport
+  static const BUGREPORT_FAILURE_FILE_NO_LONGER_AVAILABLE = 1;
+
+  /// from: static public final java.lang.String DEVICE_ADMIN_META_DATA
+  ///
+  /// Name under which a DevicePolicy component publishes information
+  /// about itself.  This meta-data must reference an XML resource containing
+  /// a device-admin tag.
+  static const DEVICE_ADMIN_META_DATA = "android.app.device_admin";
+
+  /// from: static public final java.lang.String EXTRA_DISABLE_WARNING
+  ///
+  /// A CharSequence that can be shown to the user informing them of the
+  /// impact of disabling your admin.
+  ///@see \#ACTION_DEVICE_ADMIN_DISABLE_REQUESTED
+  static const EXTRA_DISABLE_WARNING = "android.app.extra.DISABLE_WARNING";
+
+  /// from: static public final java.lang.String EXTRA_LOCK_TASK_PACKAGE
+  ///
+  /// A string containing the name of the package entering lock task mode.
+  ///@see \#ACTION_LOCK_TASK_ENTERING
+  static const EXTRA_LOCK_TASK_PACKAGE = "android.app.extra.LOCK_TASK_PACKAGE";
+
+  /// from: static public final java.lang.String EXTRA_TRANSFER_OWNERSHIP_ADMIN_EXTRAS_BUNDLE
+  ///
+  /// A android.os.Parcelable extra of type android.os.PersistableBundle that
+  /// allows a mobile device management application to pass data to the management application
+  /// instance after owner transfer.
+  ///
+  /// If the transfer is successful, the new owner receives the data in
+  /// DeviceAdminReceiver\#onTransferOwnershipComplete(Context, PersistableBundle).
+  /// The bundle is not changed during the ownership transfer.
+  ///@see DevicePolicyManager\#transferOwnership(ComponentName, ComponentName, PersistableBundle)
+  static const EXTRA_TRANSFER_OWNERSHIP_ADMIN_EXTRAS_BUNDLE =
+      "android.app.extra.TRANSFER_OWNERSHIP_ADMIN_EXTRAS_BUNDLE";
+
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "DeviceAdminReceiver__ctor")
+      .asFunction<jni.JniResult Function()>();
+
+  /// from: public void <init>()
+  DeviceAdminReceiver() : super.fromRef(_ctor().object);
+
+  static final _getManager = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("DeviceAdminReceiver__getManager")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.app.admin.DevicePolicyManager getManager(android.content.Context context)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Retrieve the DevicePolicyManager interface for this administrator to work
+  /// with the system.
+  DevicePolicyManager getManager(content_.Context context) =>
+      DevicePolicyManager.fromRef(
+          _getManager(reference, context.reference).object);
+
+  static final _getWho = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("DeviceAdminReceiver__getWho")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.content.ComponentName getWho(android.content.Context context)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Retrieve the ComponentName describing who this device administrator is, for
+  /// use in DevicePolicyManager APIs that require the administrator to
+  /// identify itself.
+  content_.ComponentName getWho(content_.Context context) =>
+      content_.ComponentName.fromRef(
+          _getWho(reference, context.reference).object);
+
+  static final _onEnabled = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("DeviceAdminReceiver__onEnabled")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void onEnabled(android.content.Context context, android.content.Intent intent)
+  ///
+  /// Called after the administrator is first enabled, as a result of
+  /// receiving \#ACTION_DEVICE_ADMIN_ENABLED.  At this point you
+  /// can use DevicePolicyManager to set your desired policies.
+  ///
+  ///  If the admin is activated by a device owner, then the intent
+  /// may contain private extras that are relevant to user setup.
+  /// {@see DevicePolicyManager\#createAndManageUser(ComponentName, String, ComponentName,
+  ///      PersistableBundle, int)}
+  ///@param context The running context as per \#onReceive.
+  ///@param intent The received intent as per \#onReceive.
+  void onEnabled(content_.Context context, content_.Intent intent) =>
+      _onEnabled(reference, context.reference, intent.reference).check();
+
+  static final _onDisableRequested = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
+          "DeviceAdminReceiver__onDisableRequested")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.lang.CharSequence onDisableRequested(android.content.Context context, android.content.Intent intent)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Called when the user has asked to disable the administrator, as a result of
+  /// receiving \#ACTION_DEVICE_ADMIN_DISABLE_REQUESTED, giving you
+  /// a chance to present a warning message to them.  The message is returned
+  /// as the result; if null is returned (the default implementation), no
+  /// message will be displayed.
+  ///@param context The running context as per \#onReceive.
+  ///@param intent The received intent as per \#onReceive.
+  ///@return Return the warning message to display to the user before
+  /// being disabled; if null is returned, no message is displayed.
+  jni.JniObject onDisableRequested(
+          content_.Context context, content_.Intent intent) =>
+      jni.JniObject.fromRef(
+          _onDisableRequested(reference, context.reference, intent.reference)
+              .object);
+
+  static final _onDisabled = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("DeviceAdminReceiver__onDisabled")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void onDisabled(android.content.Context context, android.content.Intent intent)
+  ///
+  /// Called prior to the administrator being disabled, as a result of
+  /// receiving \#ACTION_DEVICE_ADMIN_DISABLED.  Upon return, you
+  /// can no longer use the protected parts of the DevicePolicyManager
+  /// API.
+  ///@param context The running context as per \#onReceive.
+  ///@param intent The received intent as per \#onReceive.
+  void onDisabled(content_.Context context, content_.Intent intent) =>
+      _onDisabled(reference, context.reference, intent.reference).check();
+
+  static final _onPasswordChanged = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
+          "DeviceAdminReceiver__onPasswordChanged")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void onPasswordChanged(android.content.Context context, android.content.Intent intent)
+  ///
+  /// Called after the user has changed their device or profile challenge password, as a result of
+  /// receiving \#ACTION_PASSWORD_CHANGED.  At this point you
+  /// can use DevicePolicyManager\#getPasswordQuality(android.content.ComponentName)
+  /// to retrieve the active password characteristics.
+  ///@param context The running context as per \#onReceive.
+  ///@param intent The received intent as per \#onReceive.
+  ///@deprecated From android.os.Build.VERSION_CODES\#O, use
+  ///             \#onPasswordChanged(Context, Intent, UserHandle) instead.
+  void onPasswordChanged(content_.Context context, content_.Intent intent) =>
+      _onPasswordChanged(reference, context.reference, intent.reference)
+          .check();
+
+  static final _onPasswordChanged1 = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>)>>(
+          "DeviceAdminReceiver__onPasswordChanged1")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void onPasswordChanged(android.content.Context context, android.content.Intent intent, android.os.UserHandle user)
+  ///
+  /// Called after the user has changed their device or profile challenge password, as a result of
+  /// receiving \#ACTION_PASSWORD_CHANGED.  At this point you
+  /// can use DevicePolicyManager\#getPasswordQuality(android.content.ComponentName)
+  /// to retrieve the active password characteristics.
+  ///@param context The running context as per \#onReceive.
+  ///@param intent The received intent as per \#onReceive.
+  ///@param user The user or profile for whom the password changed. To see whether this
+  ///        user is the current profile or a parent user, check for equality with
+  ///        Process\#myUserHandle.
+  void onPasswordChanged1(content_.Context context, content_.Intent intent,
+          os_.UserHandle user) =>
+      _onPasswordChanged1(
+              reference, context.reference, intent.reference, user.reference)
+          .check();
+
+  static final _onPasswordFailed = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
+          "DeviceAdminReceiver__onPasswordFailed")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void onPasswordFailed(android.content.Context context, android.content.Intent intent)
+  ///
+  /// Called after the user has failed at entering their device or profile challenge password,
+  /// as a result of receiving \#ACTION_PASSWORD_FAILED.  At this point you can use
+  /// DevicePolicyManager\#getCurrentFailedPasswordAttempts() to retrieve the number of
+  /// failed password attempts.
+  ///@param context The running context as per \#onReceive.
+  ///@param intent The received intent as per \#onReceive.
+  ///@deprecated From android.os.Build.VERSION_CODES\#O, use
+  ///             \#onPasswordFailed(Context, Intent, UserHandle) instead.
+  void onPasswordFailed(content_.Context context, content_.Intent intent) =>
+      _onPasswordFailed(reference, context.reference, intent.reference).check();
+
+  static final _onPasswordFailed1 = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>)>>(
+          "DeviceAdminReceiver__onPasswordFailed1")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void onPasswordFailed(android.content.Context context, android.content.Intent intent, android.os.UserHandle user)
+  ///
+  /// Called after the user has failed at entering their device or profile challenge password,
+  /// as a result of receiving \#ACTION_PASSWORD_FAILED.  At this point you can use
+  /// DevicePolicyManager\#getCurrentFailedPasswordAttempts() to retrieve the number of
+  /// failed password attempts.
+  ///@param context The running context as per \#onReceive.
+  ///@param intent The received intent as per \#onReceive.
+  ///@param user The user or profile for whom the password check failed. To see whether this
+  ///        user is the current profile or a parent user, check for equality with
+  ///        Process\#myUserHandle.
+  void onPasswordFailed1(content_.Context context, content_.Intent intent,
+          os_.UserHandle user) =>
+      _onPasswordFailed1(
+              reference, context.reference, intent.reference, user.reference)
+          .check();
+
+  static final _onPasswordSucceeded = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
+          "DeviceAdminReceiver__onPasswordSucceeded")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void onPasswordSucceeded(android.content.Context context, android.content.Intent intent)
+  ///
+  /// Called after the user has succeeded at entering their device or profile challenge password,
+  /// as a result of receiving \#ACTION_PASSWORD_SUCCEEDED.  This will
+  /// only be received the first time they succeed after having previously
+  /// failed.
+  ///@param context The running context as per \#onReceive.
+  ///@param intent The received intent as per \#onReceive.
+  ///@deprecated From android.os.Build.VERSION_CODES\#O, use
+  ///             \#onPasswordSucceeded(Context, Intent, UserHandle) instead.
+  void onPasswordSucceeded(content_.Context context, content_.Intent intent) =>
+      _onPasswordSucceeded(reference, context.reference, intent.reference)
+          .check();
+
+  static final _onPasswordSucceeded1 = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>)>>(
+          "DeviceAdminReceiver__onPasswordSucceeded1")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void onPasswordSucceeded(android.content.Context context, android.content.Intent intent, android.os.UserHandle user)
+  ///
+  /// Called after the user has succeeded at entering their device or profile challenge password,
+  /// as a result of receiving \#ACTION_PASSWORD_SUCCEEDED.  This will
+  /// only be received the first time they succeed after having previously
+  /// failed.
+  ///@param context The running context as per \#onReceive.
+  ///@param intent The received intent as per \#onReceive.
+  ///@param user The user of profile for whom the password check succeeded.  To see whether this
+  ///        user is the current profile or a parent user, check for equality with
+  ///        Process\#myUserHandle.
+  void onPasswordSucceeded1(content_.Context context, content_.Intent intent,
+          os_.UserHandle user) =>
+      _onPasswordSucceeded1(
+              reference, context.reference, intent.reference, user.reference)
+          .check();
+
+  static final _onPasswordExpiring = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
+          "DeviceAdminReceiver__onPasswordExpiring")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void onPasswordExpiring(android.content.Context context, android.content.Intent intent)
+  ///
+  /// Called periodically when the device or profile challenge password is about to expire
+  /// or has expired.  It will typically be called at these times: on device boot, once per day
+  /// before the password expires, and at the time when the password expires.
+  ///
+  /// If the password is not updated by the user, this method will continue to be called
+  /// once per day until the password is changed or the device admin disables password expiration.
+  ///
+  /// The admin will typically post a notification requesting the user to change their password
+  /// in response to this call. The actual password expiration time can be obtained by calling
+  /// DevicePolicyManager\#getPasswordExpiration(ComponentName)
+  ///
+  /// The admin should be sure to take down any notifications it posted in response to this call
+  /// when it receives DeviceAdminReceiver\#onPasswordChanged(Context, Intent).
+  ///@param context The running context as per \#onReceive.
+  ///@param intent The received intent as per \#onReceive.
+  ///@deprecated From android.os.Build.VERSION_CODES\#O, use
+  ///             \#onPasswordExpiring(Context, Intent, UserHandle) instead.
+  void onPasswordExpiring(content_.Context context, content_.Intent intent) =>
+      _onPasswordExpiring(reference, context.reference, intent.reference)
+          .check();
+
+  static final _onPasswordExpiring1 = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>)>>(
+          "DeviceAdminReceiver__onPasswordExpiring1")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void onPasswordExpiring(android.content.Context context, android.content.Intent intent, android.os.UserHandle user)
+  ///
+  /// Called periodically when the device or profile challenge password is about to expire
+  /// or has expired.  It will typically be called at these times: on device boot, once per day
+  /// before the password expires, and at the time when the password expires.
+  ///
+  /// If the password is not updated by the user, this method will continue to be called
+  /// once per day until the password is changed or the device admin disables password expiration.
+  ///
+  /// The admin will typically post a notification requesting the user to change their password
+  /// in response to this call. The actual password expiration time can be obtained by calling
+  /// DevicePolicyManager\#getPasswordExpiration(ComponentName)
+  ///
+  /// The admin should be sure to take down any notifications it posted in response to this call
+  /// when it receives DeviceAdminReceiver\#onPasswordChanged(Context, Intent, UserHandle).
+  ///@param context The running context as per \#onReceive.
+  ///@param intent The received intent as per \#onReceive.
+  ///@param user The user or profile for whom the password is expiring. To see whether this
+  ///        user is the current profile or a parent user, check for equality with
+  ///        Process\#myUserHandle.
+  void onPasswordExpiring1(content_.Context context, content_.Intent intent,
+          os_.UserHandle user) =>
+      _onPasswordExpiring1(
+              reference, context.reference, intent.reference, user.reference)
+          .check();
+
+  static final _onProfileProvisioningComplete = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
+          "DeviceAdminReceiver__onProfileProvisioningComplete")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void onProfileProvisioningComplete(android.content.Context context, android.content.Intent intent)
+  ///
+  /// Called when provisioning of a managed profile or managed device has completed successfully.
+  ///
+  ///  As a prerequisite for the execution of this callback the DeviceAdminReceiver has
+  /// to declare an intent filter for \#ACTION_PROFILE_PROVISIONING_COMPLETE.
+  /// Its component must also be specified in the DevicePolicyManager\#EXTRA_DEVICE_ADMIN
+  /// of the DevicePolicyManager\#ACTION_PROVISION_MANAGED_PROFILE intent that started the
+  /// managed provisioning.
+  ///
+  /// When provisioning of a managed profile is complete, the managed profile is hidden until
+  /// the profile owner calls DevicePolicyManager\#setProfileEnabled(ComponentName admin).
+  /// Typically a profile owner will enable the profile when it has finished any additional setup
+  /// such as adding an account by using the AccountManager and calling APIs to bring the
+  /// profile into the desired state.
+  ///
+  ///  Note that provisioning completes without waiting for any server interactions, so the
+  /// profile owner needs to wait for data to be available if required (e.g. Android device IDs or
+  /// other data that is set as a result of server interactions).
+  ///
+  /// From version android.os.Build.VERSION_CODES\#O, when managed provisioning has
+  /// completed, along with this callback the activity intent
+  /// DevicePolicyManager\#ACTION_PROVISIONING_SUCCESSFUL will also be sent to the same
+  /// application.
+  ///@param context The running context as per \#onReceive.
+  ///@param intent The received intent as per \#onReceive.
+  void onProfileProvisioningComplete(
+          content_.Context context, content_.Intent intent) =>
+      _onProfileProvisioningComplete(
+              reference, context.reference, intent.reference)
+          .check();
+
+  static final _onReadyForUserInitialization = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
+          "DeviceAdminReceiver__onReadyForUserInitialization")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void onReadyForUserInitialization(android.content.Context context, android.content.Intent intent)
+  ///
+  /// Called during provisioning of a managed device to allow the device initializer to perform
+  /// user setup steps.
+  ///@param context The running context as per \#onReceive.
+  ///@param intent The received intent as per \#onReceive.
+  ///@deprecated Do not use
+  void onReadyForUserInitialization(
+          content_.Context context, content_.Intent intent) =>
+      _onReadyForUserInitialization(
+              reference, context.reference, intent.reference)
+          .check();
+
+  static final _onLockTaskModeEntering = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>)>>(
+          "DeviceAdminReceiver__onLockTaskModeEntering")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void onLockTaskModeEntering(android.content.Context context, android.content.Intent intent, java.lang.String pkg)
+  ///
+  /// Called when a device is entering lock task mode.
+  ///@param context The running context as per \#onReceive.
+  ///@param intent The received intent as per \#onReceive.
+  ///@param pkg If entering, the authorized package using lock task mode, otherwise null.
+  void onLockTaskModeEntering(content_.Context context, content_.Intent intent,
+          jni.JniString pkg) =>
+      _onLockTaskModeEntering(
+              reference, context.reference, intent.reference, pkg.reference)
+          .check();
+
+  static final _onLockTaskModeExiting = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
+          "DeviceAdminReceiver__onLockTaskModeExiting")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void onLockTaskModeExiting(android.content.Context context, android.content.Intent intent)
+  ///
+  /// Called when a device is exiting lock task mode.
+  ///@param context The running context as per \#onReceive.
+  ///@param intent The received intent as per \#onReceive.
+  void onLockTaskModeExiting(
+          content_.Context context, content_.Intent intent) =>
+      _onLockTaskModeExiting(reference, context.reference, intent.reference)
+          .check();
+
+  static final _onChoosePrivateKeyAlias = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Int32,
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>)>>(
+          "DeviceAdminReceiver__onChoosePrivateKeyAlias")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>,
+              int,
+              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.lang.String onChoosePrivateKeyAlias(android.content.Context context, android.content.Intent intent, int uid, android.net.Uri uri, java.lang.String alias)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Allows this receiver to select the alias for a private key and certificate pair for
+  /// authentication. If this method returns null, the default android.app.Activity will be
+  /// shown that lets the user pick a private key and certificate pair.
+  ///@param context The running context as per \#onReceive.
+  ///@param intent The received intent as per \#onReceive.
+  ///@param uid The uid asking for the private key and certificate pair.
+  ///@param uri The URI to authenticate, may be null.
+  ///@param alias The alias preselected by the client, or null.
+  ///@return The private key alias to return and grant access to.
+  ///@see KeyChain\#choosePrivateKeyAlias
+  jni.JniString onChoosePrivateKeyAlias(
+          content_.Context context,
+          content_.Intent intent,
+          int uid,
+          jni.JniObject uri,
+          jni.JniString alias) =>
+      jni.JniString.fromRef(_onChoosePrivateKeyAlias(
+              reference,
+              context.reference,
+              intent.reference,
+              uid,
+              uri.reference,
+              alias.reference)
+          .object);
+
+  static final _onSystemUpdatePending = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int64)>>("DeviceAdminReceiver__onSystemUpdatePending")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public void onSystemUpdatePending(android.content.Context context, android.content.Intent intent, long receivedTime)
+  ///
+  /// Called when the information about a pending system update is available.
+  ///
+  /// Allows the receiver to be notified when information about a pending system update is
+  /// available from the system update service. The same pending system update can trigger multiple
+  /// calls to this method, so it is necessary to examine the incoming parameters for details about
+  /// the update.
+  ///
+  /// This callback is only applicable to device owners and profile owners.
+  ///
+  /// To get further information about a pending system update (for example, whether or not the
+  /// update is a security patch), the device owner or profile owner can call
+  /// DevicePolicyManager\#getPendingSystemUpdate.
+  ///@param context The running context as per \#onReceive.
+  ///@param intent The received intent as per \#onReceive.
+  ///@param receivedTime The time as given by System\#currentTimeMillis() indicating when
+  ///        the current pending update was first available. -1 if no pending update is available.
+  ///@see DevicePolicyManager\#getPendingSystemUpdate
+  void onSystemUpdatePending(
+          content_.Context context, content_.Intent intent, int receivedTime) =>
+      _onSystemUpdatePending(
+              reference, context.reference, intent.reference, receivedTime)
+          .check();
+
+  static final _onBugreportSharingDeclined = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
+          "DeviceAdminReceiver__onBugreportSharingDeclined")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void onBugreportSharingDeclined(android.content.Context context, android.content.Intent intent)
+  ///
+  /// Called when sharing a bugreport has been cancelled by the user of the device.
+  ///
+  /// This callback is only applicable to device owners.
+  ///@param context The running context as per \#onReceive.
+  ///@param intent The received intent as per \#onReceive.
+  ///@see DevicePolicyManager\#requestBugreport
+  void onBugreportSharingDeclined(
+          content_.Context context, content_.Intent intent) =>
+      _onBugreportSharingDeclined(
+              reference, context.reference, intent.reference)
+          .check();
+
+  static final _onBugreportShared = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>)>>(
+          "DeviceAdminReceiver__onBugreportShared")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void onBugreportShared(android.content.Context context, android.content.Intent intent, java.lang.String bugreportHash)
+  ///
+  /// Called when the bugreport has been shared with the device administrator app.
+  ///
+  /// This callback is only applicable to device owners.
+  ///@param context The running context as per \#onReceive.
+  ///@param intent The received intent as per \#onReceive. Contains the URI of
+  /// the bugreport file (with MIME type "application/vnd.android.bugreport"), that can be accessed
+  /// by calling Intent\#getData()
+  ///@param bugreportHash SHA-256 hash of the bugreport file.
+  ///@see DevicePolicyManager\#requestBugreport
+  void onBugreportShared(content_.Context context, content_.Intent intent,
+          jni.JniString bugreportHash) =>
+      _onBugreportShared(reference, context.reference, intent.reference,
+              bugreportHash.reference)
+          .check();
+
+  static final _onBugreportFailed = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("DeviceAdminReceiver__onBugreportFailed")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public void onBugreportFailed(android.content.Context context, android.content.Intent intent, int failureCode)
+  ///
+  /// Called when the bugreport collection flow has failed.
+  ///
+  /// This callback is only applicable to device owners.
+  ///@param context The running context as per \#onReceive.
+  ///@param intent The received intent as per \#onReceive.
+  ///@param failureCode int containing failure code. One of
+  /// \#BUGREPORT_FAILURE_FAILED_COMPLETING
+  /// or \#BUGREPORT_FAILURE_FILE_NO_LONGER_AVAILABLE
+  /// Value is android.app.admin.DeviceAdminReceiver\#BUGREPORT_FAILURE_FAILED_COMPLETING, or android.app.admin.DeviceAdminReceiver\#BUGREPORT_FAILURE_FILE_NO_LONGER_AVAILABLE
+  ///@see DevicePolicyManager\#requestBugreport
+  void onBugreportFailed(
+          content_.Context context, content_.Intent intent, int failureCode) =>
+      _onBugreportFailed(
+              reference, context.reference, intent.reference, failureCode)
+          .check();
+
+  static final _onSecurityLogsAvailable = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
+          "DeviceAdminReceiver__onSecurityLogsAvailable")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void onSecurityLogsAvailable(android.content.Context context, android.content.Intent intent)
+  ///
+  /// Called when a new batch of security logs can be retrieved.
+  ///
+  /// If a secondary user or profile is created, this callback won't be received until all users
+  /// become affiliated again (even if security logging is enabled).
+  /// See DevicePolicyManager\#setAffiliationIds
+  ///
+  /// This callback will be re-triggered if the logs are not retrieved.
+  ///
+  /// This callback is only applicable to device owners.
+  ///@param context The running context as per \#onReceive.
+  ///@param intent The received intent as per \#onReceive.
+  ///@see DevicePolicyManager\#retrieveSecurityLogs(ComponentName)
+  void onSecurityLogsAvailable(
+          content_.Context context, content_.Intent intent) =>
+      _onSecurityLogsAvailable(reference, context.reference, intent.reference)
+          .check();
+
+  static final _onNetworkLogsAvailable = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int64,
+                  ffi.Int32)>>("DeviceAdminReceiver__onNetworkLogsAvailable")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>, int, int)>();
+
+  /// from: public void onNetworkLogsAvailable(android.content.Context context, android.content.Intent intent, long batchToken, int networkLogsCount)
+  ///
+  /// Called each time a new batch of network logs can be retrieved. This callback method will only
+  /// ever be called when network logging is enabled. The logs can only be retrieved while network
+  /// logging is enabled.
+  ///
+  /// If a secondary user or profile is created, this callback won't be received until all users
+  /// become affiliated again (even if network logging is enabled). It will also no longer be
+  /// possible to retrieve the network logs batch with the most recent {@code batchToken} provided
+  /// by this callback. See DevicePolicyManager\#setAffiliationIds.
+  ///
+  /// This callback is only applicable to device owners.
+  ///@param context The running context as per \#onReceive.
+  ///@param intent The received intent as per \#onReceive.
+  ///@param batchToken The token representing the current batch of network logs.
+  ///@param networkLogsCount The total count of events in the current batch of network logs.
+  ///@see DevicePolicyManager\#retrieveNetworkLogs
+  void onNetworkLogsAvailable(content_.Context context, content_.Intent intent,
+          int batchToken, int networkLogsCount) =>
+      _onNetworkLogsAvailable(reference, context.reference, intent.reference,
+              batchToken, networkLogsCount)
+          .check();
+
+  static final _onUserAdded = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("DeviceAdminReceiver__onUserAdded")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void onUserAdded(android.content.Context context, android.content.Intent intent, android.os.UserHandle newUser)
+  ///
+  /// Called when a user or profile is created.
+  ///
+  /// This callback is only applicable to device owners.
+  ///@param context The running context as per \#onReceive.
+  ///@param intent The received intent as per \#onReceive.
+  ///@param newUser The UserHandle of the user that has just been added.
+  ///
+  /// This value must never be {@code null}.
+  void onUserAdded(content_.Context context, content_.Intent intent,
+          os_.UserHandle newUser) =>
+      _onUserAdded(
+              reference, context.reference, intent.reference, newUser.reference)
+          .check();
+
+  static final _onUserRemoved = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("DeviceAdminReceiver__onUserRemoved")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void onUserRemoved(android.content.Context context, android.content.Intent intent, android.os.UserHandle removedUser)
+  ///
+  /// Called when a user or profile is removed.
+  ///
+  /// This callback is only applicable to device owners.
+  ///@param context The running context as per \#onReceive.
+  ///@param intent The received intent as per \#onReceive.
+  ///@param removedUser The UserHandle of the user that has just been removed.
+  ///
+  /// This value must never be {@code null}.
+  void onUserRemoved(content_.Context context, content_.Intent intent,
+          os_.UserHandle removedUser) =>
+      _onUserRemoved(reference, context.reference, intent.reference,
+              removedUser.reference)
+          .check();
+
+  static final _onUserStarted = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("DeviceAdminReceiver__onUserStarted")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void onUserStarted(android.content.Context context, android.content.Intent intent, android.os.UserHandle startedUser)
+  ///
+  /// Called when a user or profile is started.
+  ///
+  /// This callback is only applicable to device owners.
+  ///@param context The running context as per \#onReceive.
+  ///@param intent The received intent as per \#onReceive.
+  ///@param startedUser The UserHandle of the user that has just been started.
+  ///
+  /// This value must never be {@code null}.
+  void onUserStarted(content_.Context context, content_.Intent intent,
+          os_.UserHandle startedUser) =>
+      _onUserStarted(reference, context.reference, intent.reference,
+              startedUser.reference)
+          .check();
+
+  static final _onUserStopped = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("DeviceAdminReceiver__onUserStopped")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void onUserStopped(android.content.Context context, android.content.Intent intent, android.os.UserHandle stoppedUser)
+  ///
+  /// Called when a user or profile is stopped.
+  ///
+  /// This callback is only applicable to device owners.
+  ///@param context The running context as per \#onReceive.
+  ///@param intent The received intent as per \#onReceive.
+  ///@param stoppedUser The UserHandle of the user that has just been stopped.
+  ///
+  /// This value must never be {@code null}.
+  void onUserStopped(content_.Context context, content_.Intent intent,
+          os_.UserHandle stoppedUser) =>
+      _onUserStopped(reference, context.reference, intent.reference,
+              stoppedUser.reference)
+          .check();
+
+  static final _onUserSwitched = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>)>>(
+          "DeviceAdminReceiver__onUserSwitched")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void onUserSwitched(android.content.Context context, android.content.Intent intent, android.os.UserHandle switchedUser)
+  ///
+  /// Called when a user or profile is switched to.
+  ///
+  /// This callback is only applicable to device owners.
+  ///@param context The running context as per \#onReceive.
+  ///@param intent The received intent as per \#onReceive.
+  ///@param switchedUser The UserHandle of the user that has just been switched to.
+  ///
+  /// This value must never be {@code null}.
+  void onUserSwitched(content_.Context context, content_.Intent intent,
+          os_.UserHandle switchedUser) =>
+      _onUserSwitched(reference, context.reference, intent.reference,
+              switchedUser.reference)
+          .check();
+
+  static final _onTransferOwnershipComplete = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
+          "DeviceAdminReceiver__onTransferOwnershipComplete")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void onTransferOwnershipComplete(android.content.Context context, android.os.PersistableBundle bundle)
+  ///
+  /// Called on the newly assigned owner (either device owner or profile owner) when the ownership
+  /// transfer has completed successfully.
+  ///
+  ///  The {@code bundle} parameter allows the original owner to pass data
+  /// to the new one.
+  ///@param context the running context as per \#onReceive
+  /// This value must never be {@code null}.
+  ///@param bundle the data to be passed to the new owner
+  ///
+  /// This value may be {@code null}.
+  void onTransferOwnershipComplete(
+          content_.Context context, os_.PersistableBundle bundle) =>
+      _onTransferOwnershipComplete(
+              reference, context.reference, bundle.reference)
+          .check();
+
+  static final _onTransferAffiliatedProfileOwnershipComplete = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
+          "DeviceAdminReceiver__onTransferAffiliatedProfileOwnershipComplete")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void onTransferAffiliatedProfileOwnershipComplete(android.content.Context context, android.os.UserHandle user)
+  ///
+  /// Called on the device owner when the ownership of one of its affiliated profiles is
+  /// transferred.
+  ///
+  /// This can be used when transferring both device and profile ownership when using
+  /// work profile on a fully managed device. The process would look like this:
+  /// <ol>
+  /// <li>Transfer profile ownership</li>
+  /// <li>The device owner gets notified with this callback</li>
+  /// <li>Transfer device ownership</li>
+  /// <li>Both profile and device ownerships have been transferred</li>
+  /// </ol>
+  ///@param context the running context as per \#onReceive
+  ///@param user the UserHandle of the affiliated user
+  ///@see DevicePolicyManager\#transferOwnership(ComponentName, ComponentName, PersistableBundle)
+  void onTransferAffiliatedProfileOwnershipComplete(
+          content_.Context context, os_.UserHandle user) =>
+      _onTransferAffiliatedProfileOwnershipComplete(
+              reference, context.reference, user.reference)
+          .check();
+
+  static final _onReceive = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("DeviceAdminReceiver__onReceive")
+      .asFunction<
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
+
+  /// from: public void onReceive(android.content.Context context, android.content.Intent intent)
+  ///
+  /// Intercept standard device administrator broadcasts.  Implementations
+  /// should not override this method; it is better to implement the
+  /// convenience callbacks for each action.
+  void onReceive(content_.Context context, content_.Intent intent) =>
+      _onReceive(reference, context.reference, intent.reference).check();
+}
+
+/// from: android.app.admin.DeviceAdminService
+///
+/// Base class for a service that device owner/profile owners can optionally have.
+///
+/// The system searches for it with an intent filter with the
+/// DevicePolicyManager\#ACTION_DEVICE_ADMIN_SERVICE action, and tries to keep a bound
+/// connection as long as the hosting user is running, so that the device/profile owner is always
+/// considered to be in the foreground.  This is useful to receive implicit broadcasts that
+/// can no longer be received by manifest receivers by apps targeting Android version
+/// android.os.Build.VERSION_CODES\#O.  Device/profile owners can use a runtime-registered
+/// broadcast receiver instead, and have a DeviceAdminService so that the process is always
+/// running.
+///
+/// Device/profile owners can use
+/// android.content.pm.PackageManager\#setComponentEnabledSetting(ComponentName, int, int)
+/// to disable/enable its own service.  For example, when a device/profile owner no longer needs
+/// to be in the foreground, it can (and should) disable its service.
+///
+/// The service must be protected with the permission
+/// android.Manifest.permission\#BIND_DEVICE_ADMIN.  Otherwise the system would ignore it.
+///
+/// When the owner process crashes, the service will be re-bound automatically after a
+/// back-off.
+///
+/// Note the process may still be killed if the system is under heavy memory pressure, in which
+/// case the process will be re-started later.
+class DeviceAdminService extends app_.Service {
+  DeviceAdminService.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  static final _ctor2 = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "DeviceAdminService__ctor2")
+      .asFunction<jni.JniResult Function()>();
+
+  /// from: public void <init>()
+  DeviceAdminService.ctor2() : super.fromRef(_ctor2().object);
+
+  static final _onBind = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("DeviceAdminService__onBind")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public final android.os.IBinder onBind(android.content.Intent intent)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  os_.IBinder onBind(content_.Intent intent) =>
+      os_.IBinder.fromRef(_onBind(reference, intent.reference).object);
 }
 
 /// from: android.app.admin.DevicePolicyManager
@@ -1349,22 +2824,20 @@ class DevicePolicyManager extends jni.JniObject {
   /// other admins a SecurityException will be thrown.
   static const WIPE_RESET_PROTECTION_DATA = 2;
 
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_app_admin_DevicePolicyManager_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "DevicePolicyManager__ctor")
+      .asFunction<jni.JniResult Function()>();
 
   /// from: void <init>()
-  DevicePolicyManager() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
+  DevicePolicyManager() : super.fromRef(_ctor().object);
 
   static final _isAdminActive = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_isAdminActive")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("DevicePolicyManager__isAdminActive")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isAdminActive(android.content.ComponentName admin)
   ///
@@ -1373,17 +2846,14 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value must never be {@code null}.
   ///@return {@code true} if {@code admin} is currently enabled in the system, {@code false}
   ///         otherwise
-  bool isAdminActive(content_.ComponentName admin) {
-    final result__ = _isAdminActive(reference, admin.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isAdminActive(content_.ComponentName admin) =>
+      _isAdminActive(reference, admin.reference).boolean;
 
   static final _getActiveAdmins = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getActiveAdmins")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "DevicePolicyManager__getActiveAdmins")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<android.content.ComponentName> getActiveAdmins()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -1391,19 +2861,17 @@ class DevicePolicyManager extends jni.JniObject {
   /// Return a list of all currently active device administrators' component
   /// names.  If there are no administrators {@code null} may be
   /// returned.
-  jni.JniObject getActiveAdmins() {
-    final result__ = jni.JniObject.fromRef(_getActiveAdmins(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getActiveAdmins() =>
+      jni.JniObject.fromRef(_getActiveAdmins(reference).object);
 
   static final _removeActiveAdmin = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_removeActiveAdmin")
+          "DevicePolicyManager__removeActiveAdmin")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void removeActiveAdmin(android.content.ComponentName admin)
   ///
@@ -1417,19 +2885,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///@param admin The administration compononent to remove.
   /// This value must never be {@code null}.
   ///@throws SecurityException if the caller is not in the owner application of {@code admin}.
-  void removeActiveAdmin(content_.ComponentName admin) {
-    final result__ = _removeActiveAdmin(reference, admin.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void removeActiveAdmin(content_.ComponentName admin) =>
+      _removeActiveAdmin(reference, admin.reference).check();
 
   static final _hasGrantedPolicy = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_admin_DevicePolicyManager_hasGrantedPolicy")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("DevicePolicyManager__hasGrantedPolicy")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public boolean hasGrantedPolicy(android.content.ComponentName admin, int usesPolicy)
   ///
@@ -1441,20 +2908,18 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value must never be {@code null}.
   ///@param usesPolicy Which uses-policy to check, as defined in DeviceAdminInfo.
   ///@throws SecurityException if {@code admin} is not an active administrator.
-  bool hasGrantedPolicy(content_.ComponentName admin, int usesPolicy) {
-    final result__ =
-        _hasGrantedPolicy(reference, admin.reference, usesPolicy) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool hasGrantedPolicy(content_.ComponentName admin, int usesPolicy) =>
+      _hasGrantedPolicy(reference, admin.reference, usesPolicy).boolean;
 
   static final _setPasswordQuality = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_admin_DevicePolicyManager_setPasswordQuality")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("DevicePolicyManager__setPasswordQuality")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setPasswordQuality(android.content.ComponentName admin, int quality)
   ///
@@ -1484,18 +2949,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///            \#PASSWORD_QUALITY_ALPHANUMERIC or \#PASSWORD_QUALITY_COMPLEX.
   ///@throws SecurityException if {@code admin} is not an active administrator or if {@code admin}
   ///             does not use DeviceAdminInfo\#USES_POLICY_LIMIT_PASSWORD
-  void setPasswordQuality(content_.ComponentName admin, int quality) {
-    final result__ = _setPasswordQuality(reference, admin.reference, quality);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setPasswordQuality(content_.ComponentName admin, int quality) =>
+      _setPasswordQuality(reference, admin.reference, quality).check();
 
   static final _getPasswordQuality = jniLookup<
               ffi.NativeFunction<
-                  ffi.Int32 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getPasswordQuality")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__getPasswordQuality")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getPasswordQuality(android.content.ComponentName admin)
   ///
@@ -1510,19 +2974,18 @@ class DevicePolicyManager extends jni.JniObject {
   /// all admins.
   ///
   /// This value may be {@code null}.
-  int getPasswordQuality(content_.ComponentName admin) {
-    final result__ = _getPasswordQuality(reference, admin.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getPasswordQuality(content_.ComponentName admin) =>
+      _getPasswordQuality(reference, admin.reference).integer;
 
   static final _setPasswordMinimumLength = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_admin_DevicePolicyManager_setPasswordMinimumLength")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("DevicePolicyManager__setPasswordMinimumLength")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setPasswordMinimumLength(android.content.ComponentName admin, int length)
   ///
@@ -1550,19 +3013,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///            restriction.
   ///@throws SecurityException if {@code admin} is not an active administrator or {@code admin}
   ///             does not use DeviceAdminInfo\#USES_POLICY_LIMIT_PASSWORD
-  void setPasswordMinimumLength(content_.ComponentName admin, int length) {
-    final result__ =
-        _setPasswordMinimumLength(reference, admin.reference, length);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setPasswordMinimumLength(content_.ComponentName admin, int length) =>
+      _setPasswordMinimumLength(reference, admin.reference, length).check();
 
   static final _getPasswordMinimumLength = jniLookup<
               ffi.NativeFunction<
-                  ffi.Int32 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getPasswordMinimumLength")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__getPasswordMinimumLength")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getPasswordMinimumLength(android.content.ComponentName admin)
   ///
@@ -1579,19 +3040,17 @@ class DevicePolicyManager extends jni.JniObject {
   /// all admins.
   ///
   /// This value may be {@code null}.
-  int getPasswordMinimumLength(content_.ComponentName admin) {
-    final result__ = _getPasswordMinimumLength(reference, admin.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getPasswordMinimumLength(content_.ComponentName admin) =>
+      _getPasswordMinimumLength(reference, admin.reference).integer;
 
   static final _setPasswordMinimumUpperCase = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_admin_DevicePolicyManager_setPasswordMinimumUpperCase")
+          "DevicePolicyManager__setPasswordMinimumUpperCase")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setPasswordMinimumUpperCase(android.content.ComponentName admin, int length)
   ///
@@ -1617,19 +3076,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///            A value of 0 means there is no restriction.
   ///@throws SecurityException if {@code admin} is not an active administrator or {@code admin}
   ///             does not use DeviceAdminInfo\#USES_POLICY_LIMIT_PASSWORD
-  void setPasswordMinimumUpperCase(content_.ComponentName admin, int length) {
-    final result__ =
-        _setPasswordMinimumUpperCase(reference, admin.reference, length);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setPasswordMinimumUpperCase(content_.ComponentName admin, int length) =>
+      _setPasswordMinimumUpperCase(reference, admin.reference, length).check();
 
   static final _getPasswordMinimumUpperCase = jniLookup<
               ffi.NativeFunction<
-                  ffi.Int32 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getPasswordMinimumUpperCase")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__getPasswordMinimumUpperCase")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getPasswordMinimumUpperCase(android.content.ComponentName admin)
   ///
@@ -1650,19 +3107,17 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value may be {@code null}.
   ///@return The minimum number of upper case letters required in the
   ///         password.
-  int getPasswordMinimumUpperCase(content_.ComponentName admin) {
-    final result__ = _getPasswordMinimumUpperCase(reference, admin.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getPasswordMinimumUpperCase(content_.ComponentName admin) =>
+      _getPasswordMinimumUpperCase(reference, admin.reference).integer;
 
   static final _setPasswordMinimumLowerCase = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_admin_DevicePolicyManager_setPasswordMinimumLowerCase")
+          "DevicePolicyManager__setPasswordMinimumLowerCase")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setPasswordMinimumLowerCase(android.content.ComponentName admin, int length)
   ///
@@ -1688,19 +3143,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///            A value of 0 means there is no restriction.
   ///@throws SecurityException if {@code admin} is not an active administrator or {@code admin}
   ///             does not use DeviceAdminInfo\#USES_POLICY_LIMIT_PASSWORD
-  void setPasswordMinimumLowerCase(content_.ComponentName admin, int length) {
-    final result__ =
-        _setPasswordMinimumLowerCase(reference, admin.reference, length);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setPasswordMinimumLowerCase(content_.ComponentName admin, int length) =>
+      _setPasswordMinimumLowerCase(reference, admin.reference, length).check();
 
   static final _getPasswordMinimumLowerCase = jniLookup<
               ffi.NativeFunction<
-                  ffi.Int32 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getPasswordMinimumLowerCase")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__getPasswordMinimumLowerCase")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getPasswordMinimumLowerCase(android.content.ComponentName admin)
   ///
@@ -1721,19 +3174,18 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value may be {@code null}.
   ///@return The minimum number of lower case letters required in the
   ///         password.
-  int getPasswordMinimumLowerCase(content_.ComponentName admin) {
-    final result__ = _getPasswordMinimumLowerCase(reference, admin.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getPasswordMinimumLowerCase(content_.ComponentName admin) =>
+      _getPasswordMinimumLowerCase(reference, admin.reference).integer;
 
   static final _setPasswordMinimumLetters = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_admin_DevicePolicyManager_setPasswordMinimumLetters")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("DevicePolicyManager__setPasswordMinimumLetters")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setPasswordMinimumLetters(android.content.ComponentName admin, int length)
   ///
@@ -1759,19 +3211,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///            0 means there is no restriction.
   ///@throws SecurityException if {@code admin} is not an active administrator or {@code admin}
   ///             does not use DeviceAdminInfo\#USES_POLICY_LIMIT_PASSWORD
-  void setPasswordMinimumLetters(content_.ComponentName admin, int length) {
-    final result__ =
-        _setPasswordMinimumLetters(reference, admin.reference, length);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setPasswordMinimumLetters(content_.ComponentName admin, int length) =>
+      _setPasswordMinimumLetters(reference, admin.reference, length).check();
 
   static final _getPasswordMinimumLetters = jniLookup<
               ffi.NativeFunction<
-                  ffi.Int32 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getPasswordMinimumLetters")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__getPasswordMinimumLetters")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getPasswordMinimumLetters(android.content.ComponentName admin)
   ///
@@ -1791,19 +3241,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///            aggregate all admins.
   /// This value may be {@code null}.
   ///@return The minimum number of letters required in the password.
-  int getPasswordMinimumLetters(content_.ComponentName admin) {
-    final result__ = _getPasswordMinimumLetters(reference, admin.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getPasswordMinimumLetters(content_.ComponentName admin) =>
+      _getPasswordMinimumLetters(reference, admin.reference).integer;
 
   static final _setPasswordMinimumNumeric = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_admin_DevicePolicyManager_setPasswordMinimumNumeric")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("DevicePolicyManager__setPasswordMinimumNumeric")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setPasswordMinimumNumeric(android.content.ComponentName admin, int length)
   ///
@@ -1829,19 +3278,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///            value of 0 means there is no restriction.
   ///@throws SecurityException if {@code admin} is not an active administrator or {@code admin}
   ///             does not use DeviceAdminInfo\#USES_POLICY_LIMIT_PASSWORD
-  void setPasswordMinimumNumeric(content_.ComponentName admin, int length) {
-    final result__ =
-        _setPasswordMinimumNumeric(reference, admin.reference, length);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setPasswordMinimumNumeric(content_.ComponentName admin, int length) =>
+      _setPasswordMinimumNumeric(reference, admin.reference, length).check();
 
   static final _getPasswordMinimumNumeric = jniLookup<
               ffi.NativeFunction<
-                  ffi.Int32 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getPasswordMinimumNumeric")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__getPasswordMinimumNumeric")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getPasswordMinimumNumeric(android.content.ComponentName admin)
   ///
@@ -1861,19 +3308,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///            aggregate all admins.
   /// This value may be {@code null}.
   ///@return The minimum number of numerical digits required in the password.
-  int getPasswordMinimumNumeric(content_.ComponentName admin) {
-    final result__ = _getPasswordMinimumNumeric(reference, admin.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getPasswordMinimumNumeric(content_.ComponentName admin) =>
+      _getPasswordMinimumNumeric(reference, admin.reference).integer;
 
   static final _setPasswordMinimumSymbols = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_admin_DevicePolicyManager_setPasswordMinimumSymbols")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("DevicePolicyManager__setPasswordMinimumSymbols")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setPasswordMinimumSymbols(android.content.ComponentName admin, int length)
   ///
@@ -1899,19 +3345,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///            0 means there is no restriction.
   ///@throws SecurityException if {@code admin} is not an active administrator or {@code admin}
   ///             does not use DeviceAdminInfo\#USES_POLICY_LIMIT_PASSWORD
-  void setPasswordMinimumSymbols(content_.ComponentName admin, int length) {
-    final result__ =
-        _setPasswordMinimumSymbols(reference, admin.reference, length);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setPasswordMinimumSymbols(content_.ComponentName admin, int length) =>
+      _setPasswordMinimumSymbols(reference, admin.reference, length).check();
 
   static final _getPasswordMinimumSymbols = jniLookup<
               ffi.NativeFunction<
-                  ffi.Int32 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getPasswordMinimumSymbols")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__getPasswordMinimumSymbols")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getPasswordMinimumSymbols(android.content.ComponentName admin)
   ///
@@ -1930,19 +3374,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///            aggregate all admins.
   /// This value may be {@code null}.
   ///@return The minimum number of symbols required in the password.
-  int getPasswordMinimumSymbols(content_.ComponentName admin) {
-    final result__ = _getPasswordMinimumSymbols(reference, admin.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getPasswordMinimumSymbols(content_.ComponentName admin) =>
+      _getPasswordMinimumSymbols(reference, admin.reference).integer;
 
   static final _setPasswordMinimumNonLetter = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_admin_DevicePolicyManager_setPasswordMinimumNonLetter")
+          "DevicePolicyManager__setPasswordMinimumNonLetter")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setPasswordMinimumNonLetter(android.content.ComponentName admin, int length)
   ///
@@ -1968,19 +3410,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///            0 means there is no restriction.
   ///@throws SecurityException if {@code admin} is not an active administrator or {@code admin}
   ///             does not use DeviceAdminInfo\#USES_POLICY_LIMIT_PASSWORD
-  void setPasswordMinimumNonLetter(content_.ComponentName admin, int length) {
-    final result__ =
-        _setPasswordMinimumNonLetter(reference, admin.reference, length);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setPasswordMinimumNonLetter(content_.ComponentName admin, int length) =>
+      _setPasswordMinimumNonLetter(reference, admin.reference, length).check();
 
   static final _getPasswordMinimumNonLetter = jniLookup<
               ffi.NativeFunction<
-                  ffi.Int32 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getPasswordMinimumNonLetter")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__getPasswordMinimumNonLetter")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getPasswordMinimumNonLetter(android.content.ComponentName admin)
   ///
@@ -2000,19 +3440,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///            aggregate all admins.
   /// This value may be {@code null}.
   ///@return The minimum number of letters required in the password.
-  int getPasswordMinimumNonLetter(content_.ComponentName admin) {
-    final result__ = _getPasswordMinimumNonLetter(reference, admin.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getPasswordMinimumNonLetter(content_.ComponentName admin) =>
+      _getPasswordMinimumNonLetter(reference, admin.reference).integer;
 
   static final _setPasswordHistoryLength = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_admin_DevicePolicyManager_setPasswordHistoryLength")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("DevicePolicyManager__setPasswordHistoryLength")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setPasswordHistoryLength(android.content.ComponentName admin, int length)
   ///
@@ -2039,20 +3478,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///            restriction.
   ///@throws SecurityException if {@code admin} is not an active administrator or {@code admin}
   ///             does not use DeviceAdminInfo\#USES_POLICY_LIMIT_PASSWORD
-  void setPasswordHistoryLength(content_.ComponentName admin, int length) {
-    final result__ =
-        _setPasswordHistoryLength(reference, admin.reference, length);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setPasswordHistoryLength(content_.ComponentName admin, int length) =>
+      _setPasswordHistoryLength(reference, admin.reference, length).check();
 
   static final _setPasswordExpirationTimeout = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Int64)>>(
-          "android_app_admin_DevicePolicyManager_setPasswordExpirationTimeout")
+          "DevicePolicyManager__setPasswordExpirationTimeout")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setPasswordExpirationTimeout(android.content.ComponentName admin, long timeout)
   ///
@@ -2082,19 +3518,19 @@ class DevicePolicyManager extends jni.JniObject {
   ///            there is no restriction (unlimited).
   ///@throws SecurityException if {@code admin} is not an active administrator or {@code admin}
   ///             does not use DeviceAdminInfo\#USES_POLICY_EXPIRE_PASSWORD
-  void setPasswordExpirationTimeout(content_.ComponentName admin, int timeout) {
-    final result__ =
-        _setPasswordExpirationTimeout(reference, admin.reference, timeout);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setPasswordExpirationTimeout(
+          content_.ComponentName admin, int timeout) =>
+      _setPasswordExpirationTimeout(reference, admin.reference, timeout)
+          .check();
 
   static final _getPasswordExpirationTimeout = jniLookup<
               ffi.NativeFunction<
-                  ffi.Int64 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getPasswordExpirationTimeout")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__getPasswordExpirationTimeout")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getPasswordExpirationTimeout(android.content.ComponentName admin)
   ///
@@ -2110,18 +3546,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///@param admin The name of the admin component to check, or {@code null} to aggregate all admins.
   /// This value may be {@code null}.
   ///@return The timeout for the given admin or the minimum of all timeouts
-  int getPasswordExpirationTimeout(content_.ComponentName admin) {
-    final result__ = _getPasswordExpirationTimeout(reference, admin.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getPasswordExpirationTimeout(content_.ComponentName admin) =>
+      _getPasswordExpirationTimeout(reference, admin.reference).long;
 
   static final _getPasswordExpiration = jniLookup<
               ffi.NativeFunction<
-                  ffi.Int64 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getPasswordExpiration")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__getPasswordExpiration")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getPasswordExpiration(android.content.ComponentName admin)
   ///
@@ -2136,18 +3571,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///@param admin The name of the admin component to check, or {@code null} to aggregate all admins.
   /// This value may be {@code null}.
   ///@return The password expiration time, in milliseconds since epoch.
-  int getPasswordExpiration(content_.ComponentName admin) {
-    final result__ = _getPasswordExpiration(reference, admin.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getPasswordExpiration(content_.ComponentName admin) =>
+      _getPasswordExpiration(reference, admin.reference).long;
 
   static final _getPasswordHistoryLength = jniLookup<
               ffi.NativeFunction<
-                  ffi.Int32 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getPasswordHistoryLength")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__getPasswordHistoryLength")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getPasswordHistoryLength(android.content.ComponentName admin)
   ///
@@ -2162,17 +3596,14 @@ class DevicePolicyManager extends jni.JniObject {
   /// all admins.
   /// This value may be {@code null}.
   ///@return The length of the password history
-  int getPasswordHistoryLength(content_.ComponentName admin) {
-    final result__ = _getPasswordHistoryLength(reference, admin.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getPasswordHistoryLength(content_.ComponentName admin) =>
+      _getPasswordHistoryLength(reference, admin.reference).integer;
 
   static final _getPasswordMaximumLength = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_admin_DevicePolicyManager_getPasswordMaximumLength")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("DevicePolicyManager__getPasswordMaximumLength")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public int getPasswordMaximumLength(int quality)
   ///
@@ -2180,16 +3611,14 @@ class DevicePolicyManager extends jni.JniObject {
   /// particular password quality.
   ///@param quality The quality being interrogated.
   ///@return Returns the maximum length that the user can enter.
-  int getPasswordMaximumLength(int quality) {
-    final result__ = _getPasswordMaximumLength(reference, quality);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getPasswordMaximumLength(int quality) =>
+      _getPasswordMaximumLength(reference, quality).integer;
 
   static final _isActivePasswordSufficient = jniLookup<
-              ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_isActivePasswordSufficient")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "DevicePolicyManager__isActivePasswordSufficient")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isActivePasswordSufficient()
   ///
@@ -2209,18 +3638,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///@throws SecurityException if the calling application does not own an active administrator
   ///             that uses DeviceAdminInfo\#USES_POLICY_LIMIT_PASSWORD
   ///@throws IllegalStateException if the user is not unlocked.
-  bool isActivePasswordSufficient() {
-    final result__ = _isActivePasswordSufficient(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isActivePasswordSufficient() =>
+      _isActivePasswordSufficient(reference).boolean;
 
   static final _isUsingUnifiedPassword = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_isUsingUnifiedPassword")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__isUsingUnifiedPassword")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isUsingUnifiedPassword(android.content.ComponentName admin)
   ///
@@ -2233,16 +3661,14 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value must never be {@code null}.
   ///@throws SecurityException if {@code admin} is not a profile owner of a managed profile.
   ///@see UserManager\#DISALLOW_UNIFIED_PASSWORD
-  bool isUsingUnifiedPassword(content_.ComponentName admin) {
-    final result__ = _isUsingUnifiedPassword(reference, admin.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isUsingUnifiedPassword(content_.ComponentName admin) =>
+      _isUsingUnifiedPassword(reference, admin.reference).boolean;
 
   static final _getCurrentFailedPasswordAttempts = jniLookup<
-              ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getCurrentFailedPasswordAttempts")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "DevicePolicyManager__getCurrentFailedPasswordAttempts")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getCurrentFailedPasswordAttempts()
   ///
@@ -2259,19 +3685,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///         password entry.
   ///@throws SecurityException if the calling application does not own an active administrator
   ///             that uses DeviceAdminInfo\#USES_POLICY_WATCH_LOGIN
-  int getCurrentFailedPasswordAttempts() {
-    final result__ = _getCurrentFailedPasswordAttempts(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getCurrentFailedPasswordAttempts() =>
+      _getCurrentFailedPasswordAttempts(reference).integer;
 
   static final _setMaximumFailedPasswordsForWipe = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_admin_DevicePolicyManager_setMaximumFailedPasswordsForWipe")
+          "DevicePolicyManager__setMaximumFailedPasswordsForWipe")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setMaximumFailedPasswordsForWipe(android.content.ComponentName admin, int num)
   ///
@@ -2297,19 +3721,19 @@ class DevicePolicyManager extends jni.JniObject {
   ///@throws SecurityException if {@code admin} is not an active administrator or does not use
   ///             both DeviceAdminInfo\#USES_POLICY_WATCH_LOGIN and
   ///             DeviceAdminInfo\#USES_POLICY_WIPE_DATA.
-  void setMaximumFailedPasswordsForWipe(content_.ComponentName admin, int num) {
-    final result__ =
-        _setMaximumFailedPasswordsForWipe(reference, admin.reference, num);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setMaximumFailedPasswordsForWipe(
+          content_.ComponentName admin, int num) =>
+      _setMaximumFailedPasswordsForWipe(reference, admin.reference, num)
+          .check();
 
   static final _getMaximumFailedPasswordsForWipe = jniLookup<
               ffi.NativeFunction<
-                  ffi.Int32 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getMaximumFailedPasswordsForWipe")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__getMaximumFailedPasswordsForWipe")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getMaximumFailedPasswordsForWipe(android.content.ComponentName admin)
   ///
@@ -2325,20 +3749,18 @@ class DevicePolicyManager extends jni.JniObject {
   /// all admins.
   ///
   /// This value may be {@code null}.
-  int getMaximumFailedPasswordsForWipe(content_.ComponentName admin) {
-    final result__ =
-        _getMaximumFailedPasswordsForWipe(reference, admin.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getMaximumFailedPasswordsForWipe(content_.ComponentName admin) =>
+      _getMaximumFailedPasswordsForWipe(reference, admin.reference).integer;
 
   static final _resetPassword = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_admin_DevicePolicyManager_resetPassword")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("DevicePolicyManager__resetPassword")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public boolean resetPassword(java.lang.String password, int flags)
   ///
@@ -2380,19 +3802,16 @@ class DevicePolicyManager extends jni.JniObject {
   ///@throws SecurityException if the calling application does not own an active administrator
   ///             that uses DeviceAdminInfo\#USES_POLICY_RESET_PASSWORD
   ///@throws IllegalStateException if the calling user is locked or has a managed profile.
-  bool resetPassword(jni.JniString password, int flags) {
-    final result__ = _resetPassword(reference, password.reference, flags) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool resetPassword(jni.JniString password, int flags) =>
+      _resetPassword(reference, password.reference, flags).boolean;
 
   static final _setResetPasswordToken = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_setResetPasswordToken")
+          "DevicePolicyManager__setResetPasswordToken")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean setResetPasswordToken(android.content.ComponentName admin, byte[] token)
@@ -2426,20 +3845,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///@throws SecurityException if admin is not a device or profile owner.
   ///@throws IllegalArgumentException if the supplied token is invalid.
   bool setResetPasswordToken(
-      content_.ComponentName admin, jni.JniObject token) {
-    final result__ =
-        _setResetPasswordToken(reference, admin.reference, token.reference) !=
-            0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, jni.JniObject token) =>
+      _setResetPasswordToken(reference, admin.reference, token.reference)
+          .boolean;
 
   static final _clearResetPasswordToken = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_clearResetPasswordToken")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__clearResetPasswordToken")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean clearResetPasswordToken(android.content.ComponentName admin)
   ///
@@ -2447,18 +3864,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///@param admin Which DeviceAdminReceiver this request is associated with.
   ///@return true if the operation is successful, false otherwise.
   ///@throws SecurityException if admin is not a device or profile owner.
-  bool clearResetPasswordToken(content_.ComponentName admin) {
-    final result__ = _clearResetPasswordToken(reference, admin.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool clearResetPasswordToken(content_.ComponentName admin) =>
+      _clearResetPasswordToken(reference, admin.reference).boolean;
 
   static final _isResetPasswordTokenActive = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_isResetPasswordTokenActive")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__isResetPasswordTokenActive")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isResetPasswordTokenActive(android.content.ComponentName admin)
   ///
@@ -2467,24 +3883,19 @@ class DevicePolicyManager extends jni.JniObject {
   ///@return true if the token is active, false otherwise.
   ///@throws SecurityException if admin is not a device or profile owner.
   ///@throws IllegalStateException if no token has been set.
-  bool isResetPasswordTokenActive(content_.ComponentName admin) {
-    final result__ =
-        _isResetPasswordTokenActive(reference, admin.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isResetPasswordTokenActive(content_.ComponentName admin) =>
+      _isResetPasswordTokenActive(reference, admin.reference).boolean;
 
   static final _resetPasswordWithToken = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Int32)>>(
-          "android_app_admin_DevicePolicyManager_resetPasswordWithToken")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("DevicePolicyManager__resetPasswordWithToken")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public boolean resetPasswordWithToken(android.content.ComponentName admin, java.lang.String password, byte[] token, int flags)
@@ -2517,21 +3928,20 @@ class DevicePolicyManager extends jni.JniObject {
   ///@throws SecurityException if admin is not a device or profile owner.
   ///@throws IllegalStateException if the provided token is not valid.
   bool resetPasswordWithToken(content_.ComponentName admin,
-      jni.JniString password, jni.JniObject token, int flags) {
-    final result__ = _resetPasswordWithToken(reference, admin.reference,
-            password.reference, token.reference, flags) !=
-        0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniString password, jni.JniObject token, int flags) =>
+      _resetPasswordWithToken(reference, admin.reference, password.reference,
+              token.reference, flags)
+          .boolean;
 
   static final _setMaximumTimeToLock = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int64)>>(
-          "android_app_admin_DevicePolicyManager_setMaximumTimeToLock")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int64)>>("DevicePolicyManager__setMaximumTimeToLock")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setMaximumTimeToLock(android.content.ComponentName admin, long timeMs)
   ///
@@ -2551,18 +3961,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///            is no restriction.
   ///@throws SecurityException if {@code admin} is not an active administrator or it does not use
   ///             DeviceAdminInfo\#USES_POLICY_FORCE_LOCK
-  void setMaximumTimeToLock(content_.ComponentName admin, int timeMs) {
-    final result__ = _setMaximumTimeToLock(reference, admin.reference, timeMs);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setMaximumTimeToLock(content_.ComponentName admin, int timeMs) =>
+      _setMaximumTimeToLock(reference, admin.reference, timeMs).check();
 
   static final _getMaximumTimeToLock = jniLookup<
               ffi.NativeFunction<
-                  ffi.Int64 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getMaximumTimeToLock")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__getMaximumTimeToLock")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getMaximumTimeToLock(android.content.ComponentName admin)
   ///
@@ -2578,19 +3987,17 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value may be {@code null}.
   ///@return time in milliseconds for the given admin or the minimum value (strictest) of
   /// all admins if admin is null. Returns 0 if there are no restrictions.
-  int getMaximumTimeToLock(content_.ComponentName admin) {
-    final result__ = _getMaximumTimeToLock(reference, admin.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getMaximumTimeToLock(content_.ComponentName admin) =>
+      _getMaximumTimeToLock(reference, admin.reference).long;
 
   static final _setRequiredStrongAuthTimeout = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Int64)>>(
-          "android_app_admin_DevicePolicyManager_setRequiredStrongAuthTimeout")
+          "DevicePolicyManager__setRequiredStrongAuthTimeout")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setRequiredStrongAuthTimeout(android.content.ComponentName admin, long timeoutMs)
   ///
@@ -2625,19 +4032,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///         \#KEYGUARD_DISABLE_TRUST_AGENTS.
   ///@throws SecurityException if {@code admin} is not a device or profile owner.
   void setRequiredStrongAuthTimeout(
-      content_.ComponentName admin, int timeoutMs) {
-    final result__ =
-        _setRequiredStrongAuthTimeout(reference, admin.reference, timeoutMs);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, int timeoutMs) =>
+      _setRequiredStrongAuthTimeout(reference, admin.reference, timeoutMs)
+          .check();
 
   static final _getRequiredStrongAuthTimeout = jniLookup<
               ffi.NativeFunction<
-                  ffi.Int64 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getRequiredStrongAuthTimeout")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__getRequiredStrongAuthTimeout")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getRequiredStrongAuthTimeout(android.content.ComponentName admin)
   ///
@@ -2652,16 +4058,14 @@ class DevicePolicyManager extends jni.JniObject {
   ///         accross all participating admins.
   /// This value may be {@code null}.
   ///@return The timeout in milliseconds or 0 if not configured for the provided admin.
-  int getRequiredStrongAuthTimeout(content_.ComponentName admin) {
-    final result__ = _getRequiredStrongAuthTimeout(reference, admin.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getRequiredStrongAuthTimeout(content_.ComponentName admin) =>
+      _getRequiredStrongAuthTimeout(reference, admin.reference).long;
 
-  static final _lockNow =
-      jniLookup<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_admin_DevicePolicyManager_lockNow")
-          .asFunction<void Function(ffi.Pointer<ffi.Void>)>();
+  static final _lockNow = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("DevicePolicyManager__lockNow")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public void lockNow()
   ///
@@ -2677,17 +4081,13 @@ class DevicePolicyManager extends jni.JniObject {
   /// Equivalent to calling \#lockNow(int) with no flags.
   ///@throws SecurityException if the calling application does not own an active administrator
   ///             that uses DeviceAdminInfo\#USES_POLICY_FORCE_LOCK
-  void lockNow() {
-    final result__ = _lockNow(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void lockNow() => _lockNow(reference).check();
 
   static final _lockNow1 = jniLookup<
           ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_app_admin_DevicePolicyManager_lockNow1")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("DevicePolicyManager__lockNow1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void lockNow(int flags)
   ///
@@ -2711,17 +4111,13 @@ class DevicePolicyManager extends jni.JniObject {
   ///@throws UnsupportedOperationException if the \#FLAG_EVICT_CREDENTIAL_ENCRYPTION_KEY
   ///             flag is passed when \#getStorageEncryptionStatus does not return
   ///             \#ENCRYPTION_STATUS_ACTIVE_PER_USER.
-  void lockNow1(int flags) {
-    final result__ = _lockNow1(reference, flags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void lockNow1(int flags) => _lockNow1(reference, flags).check();
 
   static final _wipeData = jniLookup<
           ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_app_admin_DevicePolicyManager_wipeData")
-      .asFunction<void Function(ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("DevicePolicyManager__wipeData")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void wipeData(int flags)
   ///
@@ -2736,19 +4132,15 @@ class DevicePolicyManager extends jni.JniObject {
   ///            \#WIPE_EXTERNAL_STORAGE and \#WIPE_RESET_PROTECTION_DATA.
   ///@throws SecurityException if the calling application does not own an active administrator
   ///             that uses DeviceAdminInfo\#USES_POLICY_WIPE_DATA
-  void wipeData(int flags) {
-    final result__ = _wipeData(reference, flags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void wipeData(int flags) => _wipeData(reference, flags).check();
 
   static final _wipeData1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Int32,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_wipeData1")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Int32,
+                  ffi.Pointer<ffi.Void>)>>("DevicePolicyManager__wipeData1")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void wipeData(int flags, java.lang.CharSequence reason)
   ///
@@ -2768,19 +4160,16 @@ class DevicePolicyManager extends jni.JniObject {
   ///@throws SecurityException if the calling application does not own an active administrator
   ///             that uses DeviceAdminInfo\#USES_POLICY_WIPE_DATA
   ///@throws IllegalArgumentException if the input reason string is null or empty.
-  void wipeData1(int flags, jni.JniObject reason) {
-    final result__ = _wipeData1(reference, flags, reason.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void wipeData1(int flags, jni.JniObject reason) =>
+      _wipeData1(reference, flags, reason.reference).check();
 
   static final _setRecommendedGlobalProxy = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_setRecommendedGlobalProxy")
+          "DevicePolicyManager__setRecommendedGlobalProxy")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setRecommendedGlobalProxy(android.content.ComponentName admin, android.net.ProxyInfo proxyInfo)
@@ -2801,20 +4190,20 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value may be {@code null}.
   ///@throws SecurityException if {@code admin} is not the device owner.
   void setRecommendedGlobalProxy(
-      content_.ComponentName admin, jni.JniObject proxyInfo) {
-    final result__ = _setRecommendedGlobalProxy(
-        reference, admin.reference, proxyInfo.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, jni.JniObject proxyInfo) =>
+      _setRecommendedGlobalProxy(
+              reference, admin.reference, proxyInfo.reference)
+          .check();
 
   static final _setStorageEncryption = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "android_app_admin_DevicePolicyManager_setStorageEncryption")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("DevicePolicyManager__setStorageEncryption")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public int setStorageEncryption(android.content.ComponentName admin, boolean encrypt)
   ///
@@ -2847,19 +4236,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///         state.
   ///@throws SecurityException if {@code admin} is not an active administrator or does not use
   ///             DeviceAdminInfo\#USES_ENCRYPTED_STORAGE
-  int setStorageEncryption(content_.ComponentName admin, bool encrypt) {
-    final result__ =
-        _setStorageEncryption(reference, admin.reference, encrypt ? 1 : 0);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int setStorageEncryption(content_.ComponentName admin, bool encrypt) =>
+      _setStorageEncryption(reference, admin.reference, encrypt ? 1 : 0)
+          .integer;
 
   static final _getStorageEncryption = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getStorageEncryption")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__getStorageEncryption")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean getStorageEncryption(android.content.ComponentName admin)
   ///
@@ -2870,16 +4258,14 @@ class DevicePolicyManager extends jni.JniObject {
   /// administrators.
   /// This value may be {@code null}.
   ///@return true if the admin(s) are requesting encryption, false if not.
-  bool getStorageEncryption(content_.ComponentName admin) {
-    final result__ = _getStorageEncryption(reference, admin.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool getStorageEncryption(content_.ComponentName admin) =>
+      _getStorageEncryption(reference, admin.reference).boolean;
 
   static final _getStorageEncryptionStatus = jniLookup<
-              ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getStorageEncryptionStatus")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "DevicePolicyManager__getStorageEncryptionStatus")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getStorageEncryptionStatus()
   ///
@@ -2899,19 +4285,17 @@ class DevicePolicyManager extends jni.JniObject {
   /// \#ENCRYPTION_STATUS_UNSUPPORTED, \#ENCRYPTION_STATUS_INACTIVE,
   /// \#ENCRYPTION_STATUS_ACTIVATING, \#ENCRYPTION_STATUS_ACTIVE_DEFAULT_KEY,
   /// \#ENCRYPTION_STATUS_ACTIVE, or \#ENCRYPTION_STATUS_ACTIVE_PER_USER.
-  int getStorageEncryptionStatus() {
-    final result__ = _getStorageEncryptionStatus(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getStorageEncryptionStatus() =>
+      _getStorageEncryptionStatus(reference).integer;
 
   static final _installCaCert = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_installCaCert")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("DevicePolicyManager__installCaCert")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean installCaCert(android.content.ComponentName admin, byte[] certBuffer)
@@ -2931,20 +4315,16 @@ class DevicePolicyManager extends jni.JniObject {
   ///         owner.
   ///@see \#setDelegatedScopes
   ///@see \#DELEGATION_CERT_INSTALL
-  bool installCaCert(content_.ComponentName admin, jni.JniObject certBuffer) {
-    final result__ =
-        _installCaCert(reference, admin.reference, certBuffer.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool installCaCert(content_.ComponentName admin, jni.JniObject certBuffer) =>
+      _installCaCert(reference, admin.reference, certBuffer.reference).boolean;
 
   static final _uninstallCaCert = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_uninstallCaCert")
+          "DevicePolicyManager__uninstallCaCert")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void uninstallCaCert(android.content.ComponentName admin, byte[] certBuffer)
@@ -2962,20 +4342,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///         owner.
   ///@see \#setDelegatedScopes
   ///@see \#DELEGATION_CERT_INSTALL
-  void uninstallCaCert(content_.ComponentName admin, jni.JniObject certBuffer) {
-    final result__ =
-        _uninstallCaCert(reference, admin.reference, certBuffer.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void uninstallCaCert(
+          content_.ComponentName admin, jni.JniObject certBuffer) =>
+      _uninstallCaCert(reference, admin.reference, certBuffer.reference)
+          .check();
 
   static final _getInstalledCaCerts = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getInstalledCaCerts")
+          "DevicePolicyManager__getInstalledCaCerts")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<byte[]> getInstalledCaCerts(android.content.ComponentName admin)
@@ -2990,20 +4368,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///@return a List of byte[] arrays, each encoding one user CA certificate.
   ///@throws SecurityException if {@code admin} is not {@code null} and not a device or profile
   ///         owner.
-  jni.JniObject getInstalledCaCerts(content_.ComponentName admin) {
-    final result__ =
-        jni.JniObject.fromRef(_getInstalledCaCerts(reference, admin.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getInstalledCaCerts(content_.ComponentName admin) =>
+      jni.JniObject.fromRef(
+          _getInstalledCaCerts(reference, admin.reference).object);
 
   static final _uninstallAllUserCaCerts = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_uninstallAllUserCaCerts")
+          "DevicePolicyManager__uninstallAllUserCaCerts")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void uninstallAllUserCaCerts(android.content.ComponentName admin)
   ///
@@ -3014,19 +4390,16 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value may be {@code null}.
   ///@throws SecurityException if {@code admin} is not {@code null} and not a device or profile
   ///         owner.
-  void uninstallAllUserCaCerts(content_.ComponentName admin) {
-    final result__ = _uninstallAllUserCaCerts(reference, admin.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void uninstallAllUserCaCerts(content_.ComponentName admin) =>
+      _uninstallAllUserCaCerts(reference, admin.reference).check();
 
   static final _hasCaCertInstalled = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_hasCaCertInstalled")
+          "DevicePolicyManager__hasCaCertInstalled")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean hasCaCertInstalled(android.content.ComponentName admin, byte[] certBuffer)
@@ -3039,25 +4412,21 @@ class DevicePolicyManager extends jni.JniObject {
   ///@throws SecurityException if {@code admin} is not {@code null} and not a device or profile
   ///         owner.
   bool hasCaCertInstalled(
-      content_.ComponentName admin, jni.JniObject certBuffer) {
-    final result__ =
-        _hasCaCertInstalled(reference, admin.reference, certBuffer.reference) !=
-            0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, jni.JniObject certBuffer) =>
+      _hasCaCertInstalled(reference, admin.reference, certBuffer.reference)
+          .boolean;
 
   static final _installKeyPair = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_installKeyPair")
+          "DevicePolicyManager__installKeyPair")
       .asFunction<
-          int Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>,
@@ -3092,26 +4461,22 @@ class DevicePolicyManager extends jni.JniObject {
   ///@see \#setDelegatedScopes
   ///@see \#DELEGATION_CERT_INSTALL
   bool installKeyPair(content_.ComponentName admin, jni.JniObject privKey,
-      jni.JniObject cert, jni.JniString alias) {
-    final result__ = _installKeyPair(reference, admin.reference,
-            privKey.reference, cert.reference, alias.reference) !=
-        0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniObject cert, jni.JniString alias) =>
+      _installKeyPair(reference, admin.reference, privKey.reference,
+              cert.reference, alias.reference)
+          .boolean;
 
   static final _installKeyPair1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Uint8)>>(
-          "android_app_admin_DevicePolicyManager_installKeyPair1")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("DevicePolicyManager__installKeyPair1")
       .asFunction<
-          int Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>,
@@ -3151,31 +4516,22 @@ class DevicePolicyManager extends jni.JniObject {
   ///@see \#setDelegatedScopes
   ///@see \#DELEGATION_CERT_INSTALL
   bool installKeyPair1(content_.ComponentName admin, jni.JniObject privKey,
-      jni.JniObject certs, jni.JniString alias, bool requestAccess) {
-    final result__ = _installKeyPair1(
-            reference,
-            admin.reference,
-            privKey.reference,
-            certs.reference,
-            alias.reference,
-            requestAccess ? 1 : 0) !=
-        0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniObject certs, jni.JniString alias, bool requestAccess) =>
+      _installKeyPair1(reference, admin.reference, privKey.reference,
+              certs.reference, alias.reference, requestAccess ? 1 : 0)
+          .boolean;
 
   static final _installKeyPair2 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Int32)>>(
-          "android_app_admin_DevicePolicyManager_installKeyPair2")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("DevicePolicyManager__installKeyPair2")
       .asFunction<
-          int Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>,
@@ -3218,21 +4574,19 @@ class DevicePolicyManager extends jni.JniObject {
   ///@see \#setDelegatedScopes
   ///@see \#DELEGATION_CERT_INSTALL
   bool installKeyPair2(content_.ComponentName admin, jni.JniObject privKey,
-      jni.JniObject certs, jni.JniString alias, int flags) {
-    final result__ = _installKeyPair2(reference, admin.reference,
-            privKey.reference, certs.reference, alias.reference, flags) !=
-        0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniObject certs, jni.JniString alias, int flags) =>
+      _installKeyPair2(reference, admin.reference, privKey.reference,
+              certs.reference, alias.reference, flags)
+          .boolean;
 
   static final _removeKeyPair = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_removeKeyPair")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("DevicePolicyManager__removeKeyPair")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean removeKeyPair(android.content.ComponentName admin, java.lang.String alias)
@@ -3249,29 +4603,20 @@ class DevicePolicyManager extends jni.JniObject {
   ///         owner.
   ///@see \#setDelegatedScopes
   ///@see \#DELEGATION_CERT_INSTALL
-  bool removeKeyPair(content_.ComponentName admin, jni.JniString alias) {
-    final result__ =
-        _removeKeyPair(reference, admin.reference, alias.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool removeKeyPair(content_.ComponentName admin, jni.JniString alias) =>
+      _removeKeyPair(reference, admin.reference, alias.reference).boolean;
 
   static final _generateKeyPair = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Int32)>>(
-          "android_app_admin_DevicePolicyManager_generateKeyPair")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("DevicePolicyManager__generateKeyPair")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              int)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public android.security.AttestedKeyPair generateKeyPair(android.content.ComponentName admin, java.lang.String algorithm, android.security.keystore.KeyGenParameterSpec keySpec, int idAttestationFlags)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -3318,45 +4663,39 @@ class DevicePolicyManager extends jni.JniObject {
   ///@throws UnsupportedOperationException if Device ID attestation was requested but the
   ///         underlying hardware does not support it.
   ///@see KeyGenParameterSpec.Builder\#setAttestationChallenge(byte[])
-  jni.JniObject generateKeyPair(content_.ComponentName admin,
-      jni.JniString algorithm, jni.JniObject keySpec, int idAttestationFlags) {
-    final result__ = jni.JniObject.fromRef(_generateKeyPair(
-        reference,
-        admin.reference,
-        algorithm.reference,
-        keySpec.reference,
-        idAttestationFlags));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject generateKeyPair(
+          content_.ComponentName admin,
+          jni.JniString algorithm,
+          jni.JniObject keySpec,
+          int idAttestationFlags) =>
+      jni.JniObject.fromRef(_generateKeyPair(reference, admin.reference,
+              algorithm.reference, keySpec.reference, idAttestationFlags)
+          .object);
 
   static final _isDeviceIdAttestationSupported = jniLookup<
-              ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_isDeviceIdAttestationSupported")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "DevicePolicyManager__isDeviceIdAttestationSupported")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isDeviceIdAttestationSupported()
   ///
   /// Returns {@code true} if the device supports attestation of device identifiers in addition
   /// to key attestation.
   ///@return {@code true} if Device ID attestation is supported.
-  bool isDeviceIdAttestationSupported() {
-    final result__ = _isDeviceIdAttestationSupported(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isDeviceIdAttestationSupported() =>
+      _isDeviceIdAttestationSupported(reference).boolean;
 
   static final _setKeyPairCertificate = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Uint8)>>(
-          "android_app_admin_DevicePolicyManager_setKeyPairCertificate")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("DevicePolicyManager__setKeyPairCertificate")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public boolean setKeyPairCertificate(android.content.ComponentName admin, java.lang.String alias, java.util.List<java.security.cert.Certificate> certs, boolean isUserSelectable)
@@ -3386,21 +4725,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///         owner, or {@code admin} is null but the calling application is not a delegated
   ///         certificate installer.
   bool setKeyPairCertificate(content_.ComponentName admin, jni.JniString alias,
-      jni.JniObject certs, bool isUserSelectable) {
-    final result__ = _setKeyPairCertificate(reference, admin.reference,
-            alias.reference, certs.reference, isUserSelectable ? 1 : 0) !=
-        0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniObject certs, bool isUserSelectable) =>
+      _setKeyPairCertificate(reference, admin.reference, alias.reference,
+              certs.reference, isUserSelectable ? 1 : 0)
+          .boolean;
 
   static final _setCertInstallerPackage = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_setCertInstallerPackage")
+          "DevicePolicyManager__setCertInstallerPackage")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setCertInstallerPackage(android.content.ComponentName admin, java.lang.String installerPackage)
@@ -3427,20 +4763,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///@deprecated From android.os.Build.VERSION_CODES\#O. Use \#setDelegatedScopes
   /// with the \#DELEGATION_CERT_INSTALL scope instead.
   void setCertInstallerPackage(
-      content_.ComponentName admin, jni.JniString installerPackage) {
-    final result__ = _setCertInstallerPackage(
-        reference, admin.reference, installerPackage.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, jni.JniString installerPackage) =>
+      _setCertInstallerPackage(
+              reference, admin.reference, installerPackage.reference)
+          .check();
 
   static final _getCertInstallerPackage = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getCertInstallerPackage")
+          "DevicePolicyManager__getCertInstallerPackage")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getCertInstallerPackage(android.content.ComponentName admin)
@@ -3456,23 +4790,20 @@ class DevicePolicyManager extends jni.JniObject {
   ///@throws SecurityException if {@code admin} is not a device or a profile owner.
   ///@deprecated From android.os.Build.VERSION_CODES\#O. Use \#getDelegatePackages
   /// with the \#DELEGATION_CERT_INSTALL scope instead.
-  jni.JniString getCertInstallerPackage(content_.ComponentName admin) {
-    final result__ = jni.JniString.fromRef(
-        _getCertInstallerPackage(reference, admin.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getCertInstallerPackage(content_.ComponentName admin) =>
+      jni.JniString.fromRef(
+          _getCertInstallerPackage(reference, admin.reference).object);
 
   static final _setDelegatedScopes = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_setDelegatedScopes")
+          "DevicePolicyManager__setDelegatedScopes")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setDelegatedScopes(android.content.ComponentName admin, java.lang.String delegatePackage, java.util.List<java.lang.String> scopes)
@@ -3498,21 +4829,19 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value must never be {@code null}.
   ///@throws SecurityException if {@code admin} is not a device or a profile owner.
   void setDelegatedScopes(content_.ComponentName admin,
-      jni.JniString delegatePackage, jni.JniObject scopes) {
-    final result__ = _setDelegatedScopes(reference, admin.reference,
-        delegatePackage.reference, scopes.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniString delegatePackage, jni.JniObject scopes) =>
+      _setDelegatedScopes(reference, admin.reference, delegatePackage.reference,
+              scopes.reference)
+          .check();
 
   static final _getDelegatedScopes = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getDelegatedScopes")
+          "DevicePolicyManager__getDelegatedScopes")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<java.lang.String> getDelegatedScopes(android.content.ComponentName admin, java.lang.String delegatedPackage)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -3529,21 +4858,19 @@ class DevicePolicyManager extends jni.JniObject {
   ///@return A list containing the scopes given to {@code delegatedPackage}.
   ///@throws SecurityException if {@code admin} is not a device or a profile owner.
   jni.JniObject getDelegatedScopes(
-      content_.ComponentName admin, jni.JniString delegatedPackage) {
-    final result__ = jni.JniObject.fromRef(_getDelegatedScopes(
-        reference, admin.reference, delegatedPackage.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, jni.JniString delegatedPackage) =>
+      jni.JniObject.fromRef(_getDelegatedScopes(
+              reference, admin.reference, delegatedPackage.reference)
+          .object);
 
   static final _getDelegatePackages = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getDelegatePackages")
+          "DevicePolicyManager__getDelegatePackages")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<java.lang.String> getDelegatePackages(android.content.ComponentName admin, java.lang.String delegationScope)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -3559,23 +4886,20 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value may be {@code null}.
   ///@throws SecurityException if {@code admin} is not a device or a profile owner.
   jni.JniObject getDelegatePackages(
-      content_.ComponentName admin, jni.JniString delegationScope) {
-    final result__ = jni.JniObject.fromRef(_getDelegatePackages(
-        reference, admin.reference, delegationScope.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, jni.JniString delegationScope) =>
+      jni.JniObject.fromRef(_getDelegatePackages(
+              reference, admin.reference, delegationScope.reference)
+          .object);
 
   static final _setAlwaysOnVpnPackage = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Uint8)>>(
-          "android_app_admin_DevicePolicyManager_setAlwaysOnVpnPackage")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("DevicePolicyManager__setAlwaysOnVpnPackage")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setAlwaysOnVpnPackage(android.content.ComponentName admin, java.lang.String vpnPackage, boolean lockdownEnabled)
@@ -3605,20 +4929,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///         set as always-on, or if always-on VPN is not available.
   ///@param admin This value must never be {@code null}.
   void setAlwaysOnVpnPackage(content_.ComponentName admin,
-      jni.JniString vpnPackage, bool lockdownEnabled) {
-    final result__ = _setAlwaysOnVpnPackage(reference, admin.reference,
-        vpnPackage.reference, lockdownEnabled ? 1 : 0);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniString vpnPackage, bool lockdownEnabled) =>
+      _setAlwaysOnVpnPackage(reference, admin.reference, vpnPackage.reference,
+              lockdownEnabled ? 1 : 0)
+          .check();
 
   static final _getAlwaysOnVpnPackage = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getAlwaysOnVpnPackage")
+          "DevicePolicyManager__getAlwaysOnVpnPackage")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getAlwaysOnVpnPackage(android.content.ComponentName admin)
@@ -3631,20 +4953,19 @@ class DevicePolicyManager extends jni.JniObject {
   ///@return Package name of VPN controller responsible for always-on VPN, or {@code null} if none
   ///         is set.
   ///@throws SecurityException if {@code admin} is not a device or a profile owner.
-  jni.JniString getAlwaysOnVpnPackage(content_.ComponentName admin) {
-    final result__ = jni.JniString.fromRef(
-        _getAlwaysOnVpnPackage(reference, admin.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getAlwaysOnVpnPackage(content_.ComponentName admin) =>
+      jni.JniString.fromRef(
+          _getAlwaysOnVpnPackage(reference, admin.reference).object);
 
   static final _setCameraDisabled = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "android_app_admin_DevicePolicyManager_setCameraDisabled")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("DevicePolicyManager__setCameraDisabled")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setCameraDisabled(android.content.ComponentName admin, boolean disabled)
   ///
@@ -3662,19 +4983,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///@param disabled Whether or not the camera should be disabled.
   ///@throws SecurityException if {@code admin} is not an active administrator or does not use
   ///             DeviceAdminInfo\#USES_POLICY_DISABLE_CAMERA.
-  void setCameraDisabled(content_.ComponentName admin, bool disabled) {
-    final result__ =
-        _setCameraDisabled(reference, admin.reference, disabled ? 1 : 0);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setCameraDisabled(content_.ComponentName admin, bool disabled) =>
+      _setCameraDisabled(reference, admin.reference, disabled ? 1 : 0).check();
 
   static final _getCameraDisabled = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getCameraDisabled")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__getCameraDisabled")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean getCameraDisabled(android.content.ComponentName admin)
   ///
@@ -3684,18 +5003,17 @@ class DevicePolicyManager extends jni.JniObject {
   /// have disabled the camera
   ///
   /// This value may be {@code null}.
-  bool getCameraDisabled(content_.ComponentName admin) {
-    final result__ = _getCameraDisabled(reference, admin.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool getCameraDisabled(content_.ComponentName admin) =>
+      _getCameraDisabled(reference, admin.reference).boolean;
 
   static final _requestBugreport = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_requestBugreport")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__requestBugreport")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean requestBugreport(android.content.ComponentName admin)
   ///
@@ -3711,19 +5029,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///@throws SecurityException if {@code admin} is not a device owner, or there is at least one
   ///         profile or secondary user that is not affiliated with the device.
   ///@see \#isAffiliatedUser
-  bool requestBugreport(content_.ComponentName admin) {
-    final result__ = _requestBugreport(reference, admin.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool requestBugreport(content_.ComponentName admin) =>
+      _requestBugreport(reference, admin.reference).boolean;
 
   static final _setScreenCaptureDisabled = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "android_app_admin_DevicePolicyManager_setScreenCaptureDisabled")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("DevicePolicyManager__setScreenCaptureDisabled")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setScreenCaptureDisabled(android.content.ComponentName admin, boolean disabled)
   ///
@@ -3741,19 +5058,18 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value must never be {@code null}.
   ///@param disabled Whether screen capture is disabled or not.
   ///@throws SecurityException if {@code admin} is not a device or profile owner.
-  void setScreenCaptureDisabled(content_.ComponentName admin, bool disabled) {
-    final result__ =
-        _setScreenCaptureDisabled(reference, admin.reference, disabled ? 1 : 0);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setScreenCaptureDisabled(content_.ComponentName admin, bool disabled) =>
+      _setScreenCaptureDisabled(reference, admin.reference, disabled ? 1 : 0)
+          .check();
 
   static final _getScreenCaptureDisabled = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getScreenCaptureDisabled")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__getScreenCaptureDisabled")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean getScreenCaptureDisabled(android.content.ComponentName admin)
   ///
@@ -3763,19 +5079,18 @@ class DevicePolicyManager extends jni.JniObject {
   /// have disabled screen capture.
   ///
   /// This value may be {@code null}.
-  bool getScreenCaptureDisabled(content_.ComponentName admin) {
-    final result__ = _getScreenCaptureDisabled(reference, admin.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool getScreenCaptureDisabled(content_.ComponentName admin) =>
+      _getScreenCaptureDisabled(reference, admin.reference).boolean;
 
   static final _setAutoTimeRequired = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "android_app_admin_DevicePolicyManager_setAutoTimeRequired")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("DevicePolicyManager__setAutoTimeRequired")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setAutoTimeRequired(android.content.ComponentName admin, boolean required)
   ///
@@ -3790,34 +5105,29 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value must never be {@code null}.
   ///@param required Whether auto time is set required or not.
   ///@throws SecurityException if {@code admin} is not a device owner.
-  void setAutoTimeRequired(content_.ComponentName admin, bool required0) {
-    final result__ =
-        _setAutoTimeRequired(reference, admin.reference, required0 ? 1 : 0);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setAutoTimeRequired(content_.ComponentName admin, bool required0) =>
+      _setAutoTimeRequired(reference, admin.reference, required0 ? 1 : 0)
+          .check();
 
-  static final _getAutoTimeRequired =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_admin_DevicePolicyManager_getAutoTimeRequired")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getAutoTimeRequired = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "DevicePolicyManager__getAutoTimeRequired")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean getAutoTimeRequired()
   ///
   /// @return true if auto time is required.
-  bool getAutoTimeRequired() {
-    final result__ = _getAutoTimeRequired(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool getAutoTimeRequired() => _getAutoTimeRequired(reference).boolean;
 
   static final _setKeyguardDisabledFeatures = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_admin_DevicePolicyManager_setKeyguardDisabledFeatures")
+          "DevicePolicyManager__setKeyguardDisabledFeatures")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setKeyguardDisabledFeatures(android.content.ComponentName admin, int which)
   ///
@@ -3865,19 +5175,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///            \#KEYGUARD_DISABLE_IRIS.
   ///@throws SecurityException if {@code admin} is not an active administrator or does not user
   ///             DeviceAdminInfo\#USES_POLICY_DISABLE_KEYGUARD_FEATURES
-  void setKeyguardDisabledFeatures(content_.ComponentName admin, int which) {
-    final result__ =
-        _setKeyguardDisabledFeatures(reference, admin.reference, which);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setKeyguardDisabledFeatures(content_.ComponentName admin, int which) =>
+      _setKeyguardDisabledFeatures(reference, admin.reference, which).check();
 
   static final _getKeyguardDisabledFeatures = jniLookup<
               ffi.NativeFunction<
-                  ffi.Int32 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getKeyguardDisabledFeatures")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__getKeyguardDisabledFeatures")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getKeyguardDisabledFeatures(android.content.ComponentName admin)
   ///
@@ -3893,18 +5201,17 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value may be {@code null}.
   ///@return bitfield of flags. See \#setKeyguardDisabledFeatures(ComponentName, int)
   /// for a list.
-  int getKeyguardDisabledFeatures(content_.ComponentName admin) {
-    final result__ = _getKeyguardDisabledFeatures(reference, admin.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getKeyguardDisabledFeatures(content_.ComponentName admin) =>
+      _getKeyguardDisabledFeatures(reference, admin.reference).integer;
 
   static final _isDeviceOwnerApp = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_isDeviceOwnerApp")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__isDeviceOwnerApp")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isDeviceOwnerApp(java.lang.String packageName)
   ///
@@ -3919,19 +5226,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///@param packageName the package name of the app, to compare with the registered device owner
   /// app, if any.
   ///@return whether or not the package is registered as the device owner app.
-  bool isDeviceOwnerApp(jni.JniString packageName) {
-    final result__ = _isDeviceOwnerApp(reference, packageName.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isDeviceOwnerApp(jni.JniString packageName) =>
+      _isDeviceOwnerApp(reference, packageName.reference).boolean;
 
   static final _clearDeviceOwnerApp = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_clearDeviceOwnerApp")
+          "DevicePolicyManager__clearDeviceOwnerApp")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void clearDeviceOwnerApp(java.lang.String packageName)
   ///
@@ -3949,19 +5254,17 @@ class DevicePolicyManager extends jni.JniObject {
   /// will lose control of the device and its data after calling it. In order to protect any
   /// sensitive data that remains on the device, it is advised that the device owner factory resets
   /// the device instead of calling this method. See \#wipeData(int).
-  void clearDeviceOwnerApp(jni.JniString packageName) {
-    final result__ = _clearDeviceOwnerApp(reference, packageName.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void clearDeviceOwnerApp(jni.JniString packageName) =>
+      _clearDeviceOwnerApp(reference, packageName.reference).check();
 
   static final _clearProfileOwner = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_clearProfileOwner")
+          "DevicePolicyManager__clearProfileOwner")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void clearProfileOwner(android.content.ComponentName admin)
   ///
@@ -3979,19 +5282,16 @@ class DevicePolicyManager extends jni.JniObject {
   /// will lose control of the user and its data after calling it. In order to protect any
   /// sensitive data that remains on this user, it is advised that the profile owner deletes it
   /// instead of calling this method. See \#wipeData(int).
-  void clearProfileOwner(content_.ComponentName admin) {
-    final result__ = _clearProfileOwner(reference, admin.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void clearProfileOwner(content_.ComponentName admin) =>
+      _clearProfileOwner(reference, admin.reference).check();
 
   static final _setDeviceOwnerLockScreenInfo = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_setDeviceOwnerLockScreenInfo")
+          "DevicePolicyManager__setDeviceOwnerLockScreenInfo")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setDeviceOwnerLockScreenInfo(android.content.ComponentName admin, java.lang.CharSequence info)
@@ -4012,41 +5312,33 @@ class DevicePolicyManager extends jni.JniObject {
   ///@param info Device owner information which will be displayed instead of the user owner info.
   ///@throws SecurityException if {@code admin} is not a device owner.
   void setDeviceOwnerLockScreenInfo(
-      content_.ComponentName admin, jni.JniObject info) {
-    final result__ = _setDeviceOwnerLockScreenInfo(
-        reference, admin.reference, info.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, jni.JniObject info) =>
+      _setDeviceOwnerLockScreenInfo(reference, admin.reference, info.reference)
+          .check();
 
   static final _getDeviceOwnerLockScreenInfo = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getDeviceOwnerLockScreenInfo")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "DevicePolicyManager__getDeviceOwnerLockScreenInfo")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.CharSequence getDeviceOwnerLockScreenInfo()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// @return The device owner information. If it is not set returns {@code null}.
-  jni.JniObject getDeviceOwnerLockScreenInfo() {
-    final result__ =
-        jni.JniObject.fromRef(_getDeviceOwnerLockScreenInfo(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getDeviceOwnerLockScreenInfo() =>
+      jni.JniObject.fromRef(_getDeviceOwnerLockScreenInfo(reference).object);
 
   static final _setPackagesSuspended = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Uint8)>>(
-          "android_app_admin_DevicePolicyManager_setPackagesSuspended")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("DevicePolicyManager__setPackagesSuspended")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public java.lang.String[] setPackagesSuspended(android.content.ComponentName admin, java.lang.String[] packageNames, boolean suspended)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -4075,20 +5367,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///@see \#setDelegatedScopes
   ///@see \#DELEGATION_PACKAGE_ACCESS
   jni.JniObject setPackagesSuspended(content_.ComponentName admin,
-      jni.JniObject packageNames, bool suspended) {
-    final result__ = jni.JniObject.fromRef(_setPackagesSuspended(
-        reference, admin.reference, packageNames.reference, suspended ? 1 : 0));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniObject packageNames, bool suspended) =>
+      jni.JniObject.fromRef(_setPackagesSuspended(reference, admin.reference,
+              packageNames.reference, suspended ? 1 : 0)
+          .object);
 
   static final _isPackageSuspended = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_isPackageSuspended")
+          "DevicePolicyManager__isPackageSuspended")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isPackageSuspended(android.content.ComponentName admin, java.lang.String packageName)
@@ -4107,21 +5397,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///@see \#setDelegatedScopes
   ///@see \#DELEGATION_PACKAGE_ACCESS
   bool isPackageSuspended(
-      content_.ComponentName admin, jni.JniString packageName) {
-    final result__ = _isPackageSuspended(
-            reference, admin.reference, packageName.reference) !=
-        0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, jni.JniString packageName) =>
+      _isPackageSuspended(reference, admin.reference, packageName.reference)
+          .boolean;
 
   static final _setProfileEnabled = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_setProfileEnabled")
+          "DevicePolicyManager__setProfileEnabled")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setProfileEnabled(android.content.ComponentName admin)
   ///
@@ -4131,19 +5418,16 @@ class DevicePolicyManager extends jni.JniObject {
   ///@param admin Which DeviceAdminReceiver this request is associated with.
   /// This value must never be {@code null}.
   ///@throws SecurityException if {@code admin} is not a profile owner.
-  void setProfileEnabled(content_.ComponentName admin) {
-    final result__ = _setProfileEnabled(reference, admin.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setProfileEnabled(content_.ComponentName admin) =>
+      _setProfileEnabled(reference, admin.reference).check();
 
   static final _setProfileName = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_setProfileName")
+          "DevicePolicyManager__setProfileName")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setProfileName(android.content.ComponentName admin, java.lang.String profileName)
@@ -4157,19 +5441,19 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value must never be {@code null}.
   ///@param profileName The name of the profile.
   ///@throws SecurityException if {@code admin} is not a device or profile owner.
-  void setProfileName(content_.ComponentName admin, jni.JniString profileName) {
-    final result__ =
-        _setProfileName(reference, admin.reference, profileName.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setProfileName(
+          content_.ComponentName admin, jni.JniString profileName) =>
+      _setProfileName(reference, admin.reference, profileName.reference)
+          .check();
 
   static final _isProfileOwnerApp = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_isProfileOwnerApp")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__isProfileOwnerApp")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isProfileOwnerApp(java.lang.String packageName)
   ///
@@ -4178,22 +5462,19 @@ class DevicePolicyManager extends jni.JniObject {
   /// within the profile.
   ///@param packageName The package name of the app to compare with the registered profile owner.
   ///@return Whether or not the package is registered as the profile owner.
-  bool isProfileOwnerApp(jni.JniString packageName) {
-    final result__ = _isProfileOwnerApp(reference, packageName.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isProfileOwnerApp(jni.JniString packageName) =>
+      _isProfileOwnerApp(reference, packageName.reference).boolean;
 
   static final _addPersistentPreferredActivity = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_addPersistentPreferredActivity")
+          "DevicePolicyManager__addPersistentPreferredActivity")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void addPersistentPreferredActivity(android.content.ComponentName admin, android.content.IntentFilter filter, android.content.ComponentName activity)
@@ -4219,20 +5500,18 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value must never be {@code null}.
   ///@throws SecurityException if {@code admin} is not a device or profile owner.
   void addPersistentPreferredActivity(content_.ComponentName admin,
-      content_.IntentFilter filter, content_.ComponentName activity) {
-    final result__ = _addPersistentPreferredActivity(
-        reference, admin.reference, filter.reference, activity.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.IntentFilter filter, content_.ComponentName activity) =>
+      _addPersistentPreferredActivity(
+              reference, admin.reference, filter.reference, activity.reference)
+          .check();
 
   static final _clearPackagePersistentPreferredActivities = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_clearPackagePersistentPreferredActivities")
+          "DevicePolicyManager__clearPackagePersistentPreferredActivities")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void clearPackagePersistentPreferredActivities(android.content.ComponentName admin, java.lang.String packageName)
@@ -4247,20 +5526,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///@param packageName The name of the package for which preferences are removed.
   ///@throws SecurityException if {@code admin} is not a device or profile owner.
   void clearPackagePersistentPreferredActivities(
-      content_.ComponentName admin, jni.JniString packageName) {
-    final result__ = _clearPackagePersistentPreferredActivities(
-        reference, admin.reference, packageName.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, jni.JniString packageName) =>
+      _clearPackagePersistentPreferredActivities(
+              reference, admin.reference, packageName.reference)
+          .check();
 
   static final _setApplicationRestrictionsManagingPackage = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_setApplicationRestrictionsManagingPackage")
+          "DevicePolicyManager__setApplicationRestrictionsManagingPackage")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setApplicationRestrictionsManagingPackage(android.content.ComponentName admin, java.lang.String packageName)
@@ -4284,20 +5561,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///@deprecated From android.os.Build.VERSION_CODES\#O. Use \#setDelegatedScopes
   /// with the \#DELEGATION_APP_RESTRICTIONS scope instead.
   void setApplicationRestrictionsManagingPackage(
-      content_.ComponentName admin, jni.JniString packageName) {
-    final result__ = _setApplicationRestrictionsManagingPackage(
-        reference, admin.reference, packageName.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, jni.JniString packageName) =>
+      _setApplicationRestrictionsManagingPackage(
+              reference, admin.reference, packageName.reference)
+          .check();
 
   static final _getApplicationRestrictionsManagingPackage = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getApplicationRestrictionsManagingPackage")
+          "DevicePolicyManager__getApplicationRestrictionsManagingPackage")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getApplicationRestrictionsManagingPackage(android.content.ComponentName admin)
@@ -4314,17 +5589,16 @@ class DevicePolicyManager extends jni.JniObject {
   ///@deprecated From android.os.Build.VERSION_CODES\#O. Use \#getDelegatePackages
   /// with the \#DELEGATION_APP_RESTRICTIONS scope instead.
   jni.JniString getApplicationRestrictionsManagingPackage(
-      content_.ComponentName admin) {
-    final result__ = jni.JniString.fromRef(
-        _getApplicationRestrictionsManagingPackage(reference, admin.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin) =>
+      jni.JniString.fromRef(
+          _getApplicationRestrictionsManagingPackage(reference, admin.reference)
+              .object);
 
   static final _isCallerApplicationRestrictionsManagingPackage = jniLookup<
-              ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_isCallerApplicationRestrictionsManagingPackage")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "DevicePolicyManager__isCallerApplicationRestrictionsManagingPackage")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isCallerApplicationRestrictionsManagingPackage()
   ///
@@ -4336,23 +5610,19 @@ class DevicePolicyManager extends jni.JniObject {
   /// that method.
   ///@deprecated From android.os.Build.VERSION_CODES\#O. Use \#getDelegatedScopes
   /// instead.
-  bool isCallerApplicationRestrictionsManagingPackage() {
-    final result__ =
-        _isCallerApplicationRestrictionsManagingPackage(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isCallerApplicationRestrictionsManagingPackage() =>
+      _isCallerApplicationRestrictionsManagingPackage(reference).boolean;
 
   static final _setApplicationRestrictions = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_setApplicationRestrictions")
+          "DevicePolicyManager__setApplicationRestrictions")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setApplicationRestrictions(android.content.ComponentName admin, java.lang.String packageName, android.os.Bundle settings)
@@ -4395,23 +5665,21 @@ class DevicePolicyManager extends jni.JniObject {
   ///@see \#DELEGATION_APP_RESTRICTIONS
   ///@see UserManager\#KEY_RESTRICTIONS_PENDING
   void setApplicationRestrictions(content_.ComponentName admin,
-      jni.JniString packageName, os_.Bundle settings) {
-    final result__ = _setApplicationRestrictions(
-        reference, admin.reference, packageName.reference, settings.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniString packageName, os_.Bundle settings) =>
+      _setApplicationRestrictions(reference, admin.reference,
+              packageName.reference, settings.reference)
+          .check();
 
   static final _setTrustAgentConfiguration = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_setTrustAgentConfiguration")
+          "DevicePolicyManager__setTrustAgentConfiguration")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setTrustAgentConfiguration(android.content.ComponentName admin, android.content.ComponentName target, android.os.PersistableBundle configuration)
@@ -4447,21 +5715,19 @@ class DevicePolicyManager extends jni.JniObject {
   ///@throws SecurityException if {@code admin} is not an active administrator or does not use
   ///             DeviceAdminInfo\#USES_POLICY_DISABLE_KEYGUARD_FEATURES
   void setTrustAgentConfiguration(content_.ComponentName admin,
-      content_.ComponentName target, os_.PersistableBundle configuration) {
-    final result__ = _setTrustAgentConfiguration(
-        reference, admin.reference, target.reference, configuration.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName target, os_.PersistableBundle configuration) =>
+      _setTrustAgentConfiguration(reference, admin.reference, target.reference,
+              configuration.reference)
+          .check();
 
   static final _getTrustAgentConfiguration = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getTrustAgentConfiguration")
+          "DevicePolicyManager__getTrustAgentConfiguration")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<android.os.PersistableBundle> getTrustAgentConfiguration(android.content.ComponentName admin, android.content.ComponentName agent)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -4484,20 +5750,19 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value must never be {@code null}.
   ///@return configuration for the given trust agent.
   jni.JniObject getTrustAgentConfiguration(
-      content_.ComponentName admin, content_.ComponentName agent) {
-    final result__ = jni.JniObject.fromRef(_getTrustAgentConfiguration(
-        reference, admin.reference, agent.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, content_.ComponentName agent) =>
+      jni.JniObject.fromRef(_getTrustAgentConfiguration(
+              reference, admin.reference, agent.reference)
+          .object);
 
   static final _setCrossProfileCallerIdDisabled = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "android_app_admin_DevicePolicyManager_setCrossProfileCallerIdDisabled")
+          "DevicePolicyManager__setCrossProfileCallerIdDisabled")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setCrossProfileCallerIdDisabled(android.content.ComponentName admin, boolean disabled)
   ///
@@ -4511,19 +5776,19 @@ class DevicePolicyManager extends jni.JniObject {
   ///@param disabled If true caller-Id information in the managed profile is not displayed.
   ///@throws SecurityException if {@code admin} is not a profile owner.
   void setCrossProfileCallerIdDisabled(
-      content_.ComponentName admin, bool disabled) {
-    final result__ = _setCrossProfileCallerIdDisabled(
-        reference, admin.reference, disabled ? 1 : 0);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, bool disabled) =>
+      _setCrossProfileCallerIdDisabled(
+              reference, admin.reference, disabled ? 1 : 0)
+          .check();
 
   static final _getCrossProfileCallerIdDisabled = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getCrossProfileCallerIdDisabled")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__getCrossProfileCallerIdDisabled")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean getCrossProfileCallerIdDisabled(android.content.ComponentName admin)
   ///
@@ -4535,20 +5800,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///@param admin Which DeviceAdminReceiver this request is associated with.
   /// This value must never be {@code null}.
   ///@throws SecurityException if {@code admin} is not a profile owner.
-  bool getCrossProfileCallerIdDisabled(content_.ComponentName admin) {
-    final result__ =
-        _getCrossProfileCallerIdDisabled(reference, admin.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool getCrossProfileCallerIdDisabled(content_.ComponentName admin) =>
+      _getCrossProfileCallerIdDisabled(reference, admin.reference).boolean;
 
   static final _setCrossProfileContactsSearchDisabled = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "android_app_admin_DevicePolicyManager_setCrossProfileContactsSearchDisabled")
+          "DevicePolicyManager__setCrossProfileContactsSearchDisabled")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setCrossProfileContactsSearchDisabled(android.content.ComponentName admin, boolean disabled)
   ///
@@ -4562,19 +5824,19 @@ class DevicePolicyManager extends jni.JniObject {
   ///@param disabled If true contacts search in the managed profile is not displayed.
   ///@throws SecurityException if {@code admin} is not a profile owner.
   void setCrossProfileContactsSearchDisabled(
-      content_.ComponentName admin, bool disabled) {
-    final result__ = _setCrossProfileContactsSearchDisabled(
-        reference, admin.reference, disabled ? 1 : 0);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, bool disabled) =>
+      _setCrossProfileContactsSearchDisabled(
+              reference, admin.reference, disabled ? 1 : 0)
+          .check();
 
   static final _getCrossProfileContactsSearchDisabled = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getCrossProfileContactsSearchDisabled")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__getCrossProfileContactsSearchDisabled")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean getCrossProfileContactsSearchDisabled(android.content.ComponentName admin)
   ///
@@ -4586,20 +5848,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///@param admin Which DeviceAdminReceiver this request is associated with.
   /// This value must never be {@code null}.
   ///@throws SecurityException if {@code admin} is not a profile owner.
-  bool getCrossProfileContactsSearchDisabled(content_.ComponentName admin) {
-    final result__ =
-        _getCrossProfileContactsSearchDisabled(reference, admin.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool getCrossProfileContactsSearchDisabled(content_.ComponentName admin) =>
+      _getCrossProfileContactsSearchDisabled(reference, admin.reference)
+          .boolean;
 
   static final _setBluetoothContactSharingDisabled = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "android_app_admin_DevicePolicyManager_setBluetoothContactSharingDisabled")
+          "DevicePolicyManager__setBluetoothContactSharingDisabled")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setBluetoothContactSharingDisabled(android.content.ComponentName admin, boolean disabled)
   ///
@@ -4615,19 +5875,19 @@ class DevicePolicyManager extends jni.JniObject {
   ///@param disabled If true, bluetooth devices cannot access enterprise contacts.
   ///@throws SecurityException if {@code admin} is not a profile owner.
   void setBluetoothContactSharingDisabled(
-      content_.ComponentName admin, bool disabled) {
-    final result__ = _setBluetoothContactSharingDisabled(
-        reference, admin.reference, disabled ? 1 : 0);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, bool disabled) =>
+      _setBluetoothContactSharingDisabled(
+              reference, admin.reference, disabled ? 1 : 0)
+          .check();
 
   static final _getBluetoothContactSharingDisabled = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getBluetoothContactSharingDisabled")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__getBluetoothContactSharingDisabled")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean getBluetoothContactSharingDisabled(android.content.ComponentName admin)
   ///
@@ -4641,23 +5901,19 @@ class DevicePolicyManager extends jni.JniObject {
   ///@param admin Which DeviceAdminReceiver this request is associated with.
   /// This value must never be {@code null}.
   ///@throws SecurityException if {@code admin} is not a profile owner.
-  bool getBluetoothContactSharingDisabled(content_.ComponentName admin) {
-    final result__ =
-        _getBluetoothContactSharingDisabled(reference, admin.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool getBluetoothContactSharingDisabled(content_.ComponentName admin) =>
+      _getBluetoothContactSharingDisabled(reference, admin.reference).boolean;
 
   static final _addCrossProfileIntentFilter = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Int32)>>(
-          "android_app_admin_DevicePolicyManager_addCrossProfileIntentFilter")
+          "DevicePolicyManager__addCrossProfileIntentFilter")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void addCrossProfileIntentFilter(android.content.ComponentName admin, android.content.IntentFilter filter, int flags)
@@ -4672,21 +5928,20 @@ class DevicePolicyManager extends jni.JniObject {
   ///@param flags DevicePolicyManager\#FLAG_MANAGED_CAN_ACCESS_PARENT and
   ///            DevicePolicyManager\#FLAG_PARENT_CAN_ACCESS_MANAGED are supported.
   ///@throws SecurityException if {@code admin} is not a device or profile owner.
-  void addCrossProfileIntentFilter(
-      content_.ComponentName admin, content_.IntentFilter filter, int flags) {
-    final result__ = _addCrossProfileIntentFilter(
-        reference, admin.reference, filter.reference, flags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void addCrossProfileIntentFilter(content_.ComponentName admin,
+          content_.IntentFilter filter, int flags) =>
+      _addCrossProfileIntentFilter(
+              reference, admin.reference, filter.reference, flags)
+          .check();
 
   static final _clearCrossProfileIntentFilters = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_clearCrossProfileIntentFilters")
+          "DevicePolicyManager__clearCrossProfileIntentFilters")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void clearCrossProfileIntentFilters(android.content.ComponentName admin)
   ///
@@ -4703,20 +5958,16 @@ class DevicePolicyManager extends jni.JniObject {
   ///@param admin Which DeviceAdminReceiver this request is associated with.
   /// This value must never be {@code null}.
   ///@throws SecurityException if {@code admin} is not a profile owner.
-  void clearCrossProfileIntentFilters(content_.ComponentName admin) {
-    final result__ =
-        _clearCrossProfileIntentFilters(reference, admin.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void clearCrossProfileIntentFilters(content_.ComponentName admin) =>
+      _clearCrossProfileIntentFilters(reference, admin.reference).check();
 
   static final _setPermittedAccessibilityServices = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_setPermittedAccessibilityServices")
+          "DevicePolicyManager__setPermittedAccessibilityServices")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean setPermittedAccessibilityServices(android.content.ComponentName admin, java.util.List<java.lang.String> packageNames)
@@ -4740,21 +5991,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///         contain every enabled non-system accessibility service.
   ///@throws SecurityException if {@code admin} is not a device or profile owner.
   bool setPermittedAccessibilityServices(
-      content_.ComponentName admin, jni.JniObject packageNames) {
-    final result__ = _setPermittedAccessibilityServices(
-            reference, admin.reference, packageNames.reference) !=
-        0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, jni.JniObject packageNames) =>
+      _setPermittedAccessibilityServices(
+              reference, admin.reference, packageNames.reference)
+          .boolean;
 
   static final _getPermittedAccessibilityServices = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getPermittedAccessibilityServices")
+          "DevicePolicyManager__getPermittedAccessibilityServices")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<java.lang.String> getPermittedAccessibilityServices(android.content.ComponentName admin)
@@ -4770,20 +6018,18 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value may be {@code null}.
   ///@throws SecurityException if {@code admin} is not a device or profile owner.
   jni.JniObject getPermittedAccessibilityServices(
-      content_.ComponentName admin) {
-    final result__ = jni.JniObject.fromRef(
-        _getPermittedAccessibilityServices(reference, admin.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin) =>
+      jni.JniObject.fromRef(
+          _getPermittedAccessibilityServices(reference, admin.reference)
+              .object);
 
   static final _setPermittedInputMethods = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_setPermittedInputMethods")
+          "DevicePolicyManager__setPermittedInputMethods")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean setPermittedInputMethods(android.content.ComponentName admin, java.util.List<java.lang.String> packageNames)
@@ -4807,21 +6053,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///        contain every enabled non-system input method service.
   ///@throws SecurityException if {@code admin} is not a device or profile owner.
   bool setPermittedInputMethods(
-      content_.ComponentName admin, jni.JniObject packageNames) {
-    final result__ = _setPermittedInputMethods(
-            reference, admin.reference, packageNames.reference) !=
-        0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, jni.JniObject packageNames) =>
+      _setPermittedInputMethods(
+              reference, admin.reference, packageNames.reference)
+          .boolean;
 
   static final _getPermittedInputMethods = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getPermittedInputMethods")
+          "DevicePolicyManager__getPermittedInputMethods")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<java.lang.String> getPermittedInputMethods(android.content.ComponentName admin)
@@ -4836,20 +6079,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///@return List of input method package names.
   /// This value may be {@code null}.
   ///@throws SecurityException if {@code admin} is not a device or profile owner.
-  jni.JniObject getPermittedInputMethods(content_.ComponentName admin) {
-    final result__ = jni.JniObject.fromRef(
-        _getPermittedInputMethods(reference, admin.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getPermittedInputMethods(content_.ComponentName admin) =>
+      jni.JniObject.fromRef(
+          _getPermittedInputMethods(reference, admin.reference).object);
 
   static final _setPermittedCrossProfileNotificationListeners = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_setPermittedCrossProfileNotificationListeners")
+          "DevicePolicyManager__setPermittedCrossProfileNotificationListeners")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean setPermittedCrossProfileNotificationListeners(android.content.ComponentName admin, java.util.List<java.lang.String> packageList)
@@ -4878,21 +6118,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///@throws SecurityException if {@code admin} is not a profile owner.
   ///@see android.service.notification.NotificationListenerService
   bool setPermittedCrossProfileNotificationListeners(
-      content_.ComponentName admin, jni.JniObject packageList) {
-    final result__ = _setPermittedCrossProfileNotificationListeners(
-            reference, admin.reference, packageList.reference) !=
-        0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, jni.JniObject packageList) =>
+      _setPermittedCrossProfileNotificationListeners(
+              reference, admin.reference, packageList.reference)
+          .boolean;
 
   static final _getPermittedCrossProfileNotificationListeners = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getPermittedCrossProfileNotificationListeners")
+          "DevicePolicyManager__getPermittedCrossProfileNotificationListeners")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<java.lang.String> getPermittedCrossProfileNotificationListeners(android.content.ComponentName admin)
@@ -4906,21 +6143,18 @@ class DevicePolicyManager extends jni.JniObject {
   /// A {@code null} return value indicates that all notification listeners are allowed.
   ///@param admin This value must never be {@code null}.
   jni.JniObject getPermittedCrossProfileNotificationListeners(
-      content_.ComponentName admin) {
-    final result__ = jni.JniObject.fromRef(
-        _getPermittedCrossProfileNotificationListeners(
-            reference, admin.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin) =>
+      jni.JniObject.fromRef(_getPermittedCrossProfileNotificationListeners(
+              reference, admin.reference)
+          .object);
 
   static final _getKeepUninstalledPackages = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getKeepUninstalledPackages")
+          "DevicePolicyManager__getKeepUninstalledPackages")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<java.lang.String> getKeepUninstalledPackages(android.content.ComponentName admin)
@@ -4937,20 +6171,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///@return List of package names to keep cached.
   ///@see \#setDelegatedScopes
   ///@see \#DELEGATION_KEEP_UNINSTALLED_PACKAGES
-  jni.JniObject getKeepUninstalledPackages(content_.ComponentName admin) {
-    final result__ = jni.JniObject.fromRef(
-        _getKeepUninstalledPackages(reference, admin.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getKeepUninstalledPackages(content_.ComponentName admin) =>
+      jni.JniObject.fromRef(
+          _getKeepUninstalledPackages(reference, admin.reference).object);
 
   static final _setKeepUninstalledPackages = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_setKeepUninstalledPackages")
+          "DevicePolicyManager__setKeepUninstalledPackages")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setKeepUninstalledPackages(android.content.ComponentName admin, java.util.List<java.lang.String> packageNames)
@@ -4971,25 +6202,22 @@ class DevicePolicyManager extends jni.JniObject {
   ///@see \#setDelegatedScopes
   ///@see \#DELEGATION_KEEP_UNINSTALLED_PACKAGES
   void setKeepUninstalledPackages(
-      content_.ComponentName admin, jni.JniObject packageNames) {
-    final result__ = _setKeepUninstalledPackages(
-        reference, admin.reference, packageNames.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, jni.JniObject packageNames) =>
+      _setKeepUninstalledPackages(
+              reference, admin.reference, packageNames.reference)
+          .check();
 
   static final _createAndManageUser = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Int32)>>(
-          "android_app_admin_DevicePolicyManager_createAndManageUser")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("DevicePolicyManager__createAndManageUser")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>,
@@ -5038,29 +6266,28 @@ class DevicePolicyManager extends jni.JniObject {
   /// targeting android.os.Build.VERSION_CODES\#P and running on
   /// android.os.Build.VERSION_CODES\#P.
   os_.UserHandle createAndManageUser(
-      content_.ComponentName admin,
-      jni.JniString name,
-      content_.ComponentName profileOwner,
-      os_.PersistableBundle adminExtras,
-      int flags) {
-    final result__ = os_.UserHandle.fromRef(_createAndManageUser(
-        reference,
-        admin.reference,
-        name.reference,
-        profileOwner.reference,
-        adminExtras.reference,
-        flags));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin,
+          jni.JniString name,
+          content_.ComponentName profileOwner,
+          os_.PersistableBundle adminExtras,
+          int flags) =>
+      os_.UserHandle.fromRef(_createAndManageUser(
+              reference,
+              admin.reference,
+              name.reference,
+              profileOwner.reference,
+              adminExtras.reference,
+              flags)
+          .object);
 
   static final _removeUser = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_removeUser")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("DevicePolicyManager__removeUser")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean removeUser(android.content.ComponentName admin, android.os.UserHandle userHandle)
@@ -5073,20 +6300,17 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value must never be {@code null}.
   ///@return {@code true} if the user was removed, {@code false} otherwise.
   ///@throws SecurityException if {@code admin} is not a device owner.
-  bool removeUser(content_.ComponentName admin, os_.UserHandle userHandle) {
-    final result__ =
-        _removeUser(reference, admin.reference, userHandle.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool removeUser(content_.ComponentName admin, os_.UserHandle userHandle) =>
+      _removeUser(reference, admin.reference, userHandle.reference).boolean;
 
   static final _switchUser = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_switchUser")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("DevicePolicyManager__switchUser")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean switchUser(android.content.ComponentName admin, android.os.UserHandle userHandle)
@@ -5100,20 +6324,16 @@ class DevicePolicyManager extends jni.JniObject {
   ///@throws SecurityException if {@code admin} is not a device owner.
   ///@see Intent\#ACTION_USER_FOREGROUND
   ///@see \#getSecondaryUsers(ComponentName)
-  bool switchUser(content_.ComponentName admin, os_.UserHandle userHandle) {
-    final result__ =
-        _switchUser(reference, admin.reference, userHandle.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool switchUser(content_.ComponentName admin, os_.UserHandle userHandle) =>
+      _switchUser(reference, admin.reference, userHandle.reference).boolean;
 
   static final _startUserInBackground = jniLookup<
               ffi.NativeFunction<
-                  ffi.Int32 Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_startUserInBackground")
+          "DevicePolicyManager__startUserInBackground")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public int startUserInBackground(android.content.ComponentName admin, android.os.UserHandle userHandle)
@@ -5132,20 +6352,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///@throws SecurityException if {@code admin} is not a device owner.
   ///@see \#getSecondaryUsers(ComponentName)
   int startUserInBackground(
-      content_.ComponentName admin, os_.UserHandle userHandle) {
-    final result__ = _startUserInBackground(
-        reference, admin.reference, userHandle.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, os_.UserHandle userHandle) =>
+      _startUserInBackground(reference, admin.reference, userHandle.reference)
+          .integer;
 
   static final _stopUser = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_stopUser")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("DevicePolicyManager__stopUser")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public int stopUser(android.content.ComponentName admin, android.os.UserHandle userHandle)
@@ -5163,19 +6381,16 @@ class DevicePolicyManager extends jni.JniObject {
   /// Value is android.os.UserManager\#USER_OPERATION_SUCCESS, android.os.UserManager\#USER_OPERATION_ERROR_UNKNOWN, android.os.UserManager\#USER_OPERATION_ERROR_MANAGED_PROFILE, android.os.UserManager\#USER_OPERATION_ERROR_MAX_RUNNING_USERS, android.os.UserManager\#USER_OPERATION_ERROR_CURRENT_USER, android.os.UserManager\#USER_OPERATION_ERROR_LOW_STORAGE, or android.os.UserManager\#USER_OPERATION_ERROR_MAX_USERS
   ///@throws SecurityException if {@code admin} is not a device owner.
   ///@see \#getSecondaryUsers(ComponentName)
-  int stopUser(content_.ComponentName admin, os_.UserHandle userHandle) {
-    final result__ =
-        _stopUser(reference, admin.reference, userHandle.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int stopUser(content_.ComponentName admin, os_.UserHandle userHandle) =>
+      _stopUser(reference, admin.reference, userHandle.reference).integer;
 
   static final _logoutUser = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Int32 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_logoutUser")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("DevicePolicyManager__logoutUser")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int logoutUser(android.content.ComponentName admin)
   ///
@@ -5191,19 +6406,16 @@ class DevicePolicyManager extends jni.JniObject {
   /// Value is android.os.UserManager\#USER_OPERATION_SUCCESS, android.os.UserManager\#USER_OPERATION_ERROR_UNKNOWN, android.os.UserManager\#USER_OPERATION_ERROR_MANAGED_PROFILE, android.os.UserManager\#USER_OPERATION_ERROR_MAX_RUNNING_USERS, android.os.UserManager\#USER_OPERATION_ERROR_CURRENT_USER, android.os.UserManager\#USER_OPERATION_ERROR_LOW_STORAGE, or android.os.UserManager\#USER_OPERATION_ERROR_MAX_USERS
   ///@throws SecurityException if {@code admin} is not a profile owner affiliated with the device.
   ///@see \#getSecondaryUsers(ComponentName)
-  int logoutUser(content_.ComponentName admin) {
-    final result__ = _logoutUser(reference, admin.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int logoutUser(content_.ComponentName admin) =>
+      _logoutUser(reference, admin.reference).integer;
 
   static final _getSecondaryUsers = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getSecondaryUsers")
+          "DevicePolicyManager__getSecondaryUsers")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<android.os.UserHandle> getSecondaryUsers(android.content.ComponentName admin)
@@ -5221,19 +6433,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///@see \#switchUser(ComponentName, UserHandle)
   ///@see \#startUserInBackground(ComponentName, UserHandle)
   ///@see \#stopUser(ComponentName, UserHandle)
-  jni.JniObject getSecondaryUsers(content_.ComponentName admin) {
-    final result__ =
-        jni.JniObject.fromRef(_getSecondaryUsers(reference, admin.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getSecondaryUsers(content_.ComponentName admin) =>
+      jni.JniObject.fromRef(
+          _getSecondaryUsers(reference, admin.reference).object);
 
   static final _isEphemeralUser = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_isEphemeralUser")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__isEphemeralUser")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isEphemeralUser(android.content.ComponentName admin)
   ///
@@ -5241,20 +6452,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///@param admin Which DeviceAdminReceiver this request is associated with.
   /// This value must never be {@code null}.
   ///@return whether the profile owner is running in an ephemeral user.
-  bool isEphemeralUser(content_.ComponentName admin) {
-    final result__ = _isEphemeralUser(reference, admin.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isEphemeralUser(content_.ComponentName admin) =>
+      _isEphemeralUser(reference, admin.reference).boolean;
 
   static final _getApplicationRestrictions = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getApplicationRestrictions")
+          "DevicePolicyManager__getApplicationRestrictions")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle getApplicationRestrictions(android.content.ComponentName admin, java.lang.String packageName)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -5281,20 +6489,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///@see \#setDelegatedScopes
   ///@see \#DELEGATION_APP_RESTRICTIONS
   os_.Bundle getApplicationRestrictions(
-      content_.ComponentName admin, jni.JniString packageName) {
-    final result__ = os_.Bundle.fromRef(_getApplicationRestrictions(
-        reference, admin.reference, packageName.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, jni.JniString packageName) =>
+      os_.Bundle.fromRef(_getApplicationRestrictions(
+              reference, admin.reference, packageName.reference)
+          .object);
 
   static final _addUserRestriction = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_addUserRestriction")
+          "DevicePolicyManager__addUserRestriction")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void addUserRestriction(android.content.ComponentName admin, java.lang.String key)
@@ -5308,20 +6514,16 @@ class DevicePolicyManager extends jni.JniObject {
   ///@param key The key of the restriction. See the constants in android.os.UserManager
   ///            for the list of keys.
   ///@throws SecurityException if {@code admin} is not a device or profile owner.
-  void addUserRestriction(content_.ComponentName admin, jni.JniString key) {
-    final result__ =
-        _addUserRestriction(reference, admin.reference, key.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void addUserRestriction(content_.ComponentName admin, jni.JniString key) =>
+      _addUserRestriction(reference, admin.reference, key.reference).check();
 
   static final _clearUserRestriction = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_clearUserRestriction")
+          "DevicePolicyManager__clearUserRestriction")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void clearUserRestriction(android.content.ComponentName admin, java.lang.String key)
@@ -5335,20 +6537,16 @@ class DevicePolicyManager extends jni.JniObject {
   ///@param key The key of the restriction. See the constants in android.os.UserManager
   ///            for the list of keys.
   ///@throws SecurityException if {@code admin} is not a device or profile owner.
-  void clearUserRestriction(content_.ComponentName admin, jni.JniString key) {
-    final result__ =
-        _clearUserRestriction(reference, admin.reference, key.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void clearUserRestriction(content_.ComponentName admin, jni.JniString key) =>
+      _clearUserRestriction(reference, admin.reference, key.reference).check();
 
   static final _getUserRestrictions = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getUserRestrictions")
+          "DevicePolicyManager__getUserRestrictions")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.Bundle getUserRestrictions(android.content.ComponentName admin)
@@ -5364,20 +6562,17 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value must never be {@code null}.
   ///@throws SecurityException if {@code admin} is not a device or profile owner.
   ///@return This value will never be {@code null}.
-  os_.Bundle getUserRestrictions(content_.ComponentName admin) {
-    final result__ =
-        os_.Bundle.fromRef(_getUserRestrictions(reference, admin.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  os_.Bundle getUserRestrictions(content_.ComponentName admin) =>
+      os_.Bundle.fromRef(
+          _getUserRestrictions(reference, admin.reference).object);
 
   static final _createAdminSupportIntent = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_createAdminSupportIntent")
+          "DevicePolicyManager__createAdminSupportIntent")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.content.Intent createAdminSupportIntent(java.lang.String restriction)
@@ -5397,23 +6592,19 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value must never be {@code null}.
   ///@return Intent An intent to be used to start the dialog-activity if the restriction is
   ///            set by an admin, or null if the restriction does not exist or no admin set it.
-  content_.Intent createAdminSupportIntent(jni.JniString restriction) {
-    final result__ = content_.Intent.fromRef(
-        _createAdminSupportIntent(reference, restriction.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  content_.Intent createAdminSupportIntent(jni.JniString restriction) =>
+      content_.Intent.fromRef(
+          _createAdminSupportIntent(reference, restriction.reference).object);
 
   static final _setApplicationHidden = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Uint8)>>(
-          "android_app_admin_DevicePolicyManager_setApplicationHidden")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("DevicePolicyManager__setApplicationHidden")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public boolean setApplicationHidden(android.content.ComponentName admin, java.lang.String packageName, boolean hidden)
@@ -5432,22 +6623,19 @@ class DevicePolicyManager extends jni.JniObject {
   ///@throws SecurityException if {@code admin} is not a device or profile owner.
   ///@see \#setDelegatedScopes
   ///@see \#DELEGATION_PACKAGE_ACCESS
-  bool setApplicationHidden(
-      content_.ComponentName admin, jni.JniString packageName, bool hidden) {
-    final result__ = _setApplicationHidden(reference, admin.reference,
-            packageName.reference, hidden ? 1 : 0) !=
-        0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool setApplicationHidden(content_.ComponentName admin,
+          jni.JniString packageName, bool hidden) =>
+      _setApplicationHidden(
+              reference, admin.reference, packageName.reference, hidden ? 1 : 0)
+          .boolean;
 
   static final _isApplicationHidden = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_isApplicationHidden")
+          "DevicePolicyManager__isApplicationHidden")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isApplicationHidden(android.content.ComponentName admin, java.lang.String packageName)
@@ -5464,21 +6652,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///@see \#setDelegatedScopes
   ///@see \#DELEGATION_PACKAGE_ACCESS
   bool isApplicationHidden(
-      content_.ComponentName admin, jni.JniString packageName) {
-    final result__ = _isApplicationHidden(
-            reference, admin.reference, packageName.reference) !=
-        0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, jni.JniString packageName) =>
+      _isApplicationHidden(reference, admin.reference, packageName.reference)
+          .boolean;
 
   static final _enableSystemApp = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_enableSystemApp")
+          "DevicePolicyManager__enableSystemApp")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void enableSystemApp(android.content.ComponentName admin, java.lang.String packageName)
@@ -5494,20 +6678,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///@see \#setDelegatedScopes
   ///@see \#DELEGATION_PACKAGE_ACCESS
   void enableSystemApp(
-      content_.ComponentName admin, jni.JniString packageName) {
-    final result__ =
-        _enableSystemApp(reference, admin.reference, packageName.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, jni.JniString packageName) =>
+      _enableSystemApp(reference, admin.reference, packageName.reference)
+          .check();
 
   static final _enableSystemApp1 = jniLookup<
               ffi.NativeFunction<
-                  ffi.Int32 Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_enableSystemApp1")
+          "DevicePolicyManager__enableSystemApp1")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public int enableSystemApp(android.content.ComponentName admin, android.content.Intent intent)
@@ -5524,20 +6705,16 @@ class DevicePolicyManager extends jni.JniObject {
   ///@throws SecurityException if {@code admin} is not a device or profile owner.
   ///@see \#setDelegatedScopes
   ///@see \#DELEGATION_PACKAGE_ACCESS
-  int enableSystemApp1(content_.ComponentName admin, content_.Intent intent) {
-    final result__ =
-        _enableSystemApp1(reference, admin.reference, intent.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int enableSystemApp1(content_.ComponentName admin, content_.Intent intent) =>
+      _enableSystemApp1(reference, admin.reference, intent.reference).integer;
 
   static final _installExistingPackage = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_installExistingPackage")
+          "DevicePolicyManager__installExistingPackage")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean installExistingPackage(android.content.ComponentName admin, java.lang.String packageName)
@@ -5559,24 +6736,20 @@ class DevicePolicyManager extends jni.JniObject {
   ///@see \#isAffiliatedUser
   ///@see \#DELEGATION_PACKAGE_ACCESS
   bool installExistingPackage(
-      content_.ComponentName admin, jni.JniString packageName) {
-    final result__ = _installExistingPackage(
-            reference, admin.reference, packageName.reference) !=
-        0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, jni.JniString packageName) =>
+      _installExistingPackage(reference, admin.reference, packageName.reference)
+          .boolean;
 
   static final _setAccountManagementDisabled = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Uint8)>>(
-          "android_app_admin_DevicePolicyManager_setAccountManagementDisabled")
+          "DevicePolicyManager__setAccountManagementDisabled")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setAccountManagementDisabled(android.content.ComponentName admin, java.lang.String accountType, boolean disabled)
@@ -5599,19 +6772,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///@param disabled The boolean indicating that account management will be disabled (true) or
   ///            enabled (false).
   ///@throws SecurityException if {@code admin} is not a device or profile owner.
-  void setAccountManagementDisabled(
-      content_.ComponentName admin, jni.JniString accountType, bool disabled) {
-    final result__ = _setAccountManagementDisabled(
-        reference, admin.reference, accountType.reference, disabled ? 1 : 0);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setAccountManagementDisabled(content_.ComponentName admin,
+          jni.JniString accountType, bool disabled) =>
+      _setAccountManagementDisabled(reference, admin.reference,
+              accountType.reference, disabled ? 1 : 0)
+          .check();
 
   static final _getAccountTypesWithManagementDisabled = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getAccountTypesWithManagementDisabled")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "DevicePolicyManager__getAccountTypesWithManagementDisabled")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String[] getAccountTypesWithManagementDisabled()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -5624,20 +6795,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///
   /// This value may be {@code null}.
   ///@see \#setAccountManagementDisabled
-  jni.JniObject getAccountTypesWithManagementDisabled() {
-    final result__ = jni.JniObject.fromRef(
-        _getAccountTypesWithManagementDisabled(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getAccountTypesWithManagementDisabled() =>
+      jni.JniObject.fromRef(
+          _getAccountTypesWithManagementDisabled(reference).object);
 
   static final _setLockTaskPackages = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_setLockTaskPackages")
+          "DevicePolicyManager__setLockTaskPackages")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setLockTaskPackages(android.content.ComponentName admin, java.lang.String[] packages)
@@ -5663,20 +6831,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///@see DeviceAdminReceiver\#onLockTaskModeExiting(Context, Intent)
   ///@see UserManager\#DISALLOW_CREATE_WINDOWS
   void setLockTaskPackages(
-      content_.ComponentName admin, jni.JniObject packages) {
-    final result__ =
-        _setLockTaskPackages(reference, admin.reference, packages.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, jni.JniObject packages) =>
+      _setLockTaskPackages(reference, admin.reference, packages.reference)
+          .check();
 
   static final _getLockTaskPackages = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getLockTaskPackages")
+          "DevicePolicyManager__getLockTaskPackages")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String[] getLockTaskPackages(android.content.ComponentName admin)
@@ -5689,38 +6854,36 @@ class DevicePolicyManager extends jni.JniObject {
   ///@see \#setLockTaskPackages
   ///@param admin This value must never be {@code null}.
   ///@return This value will never be {@code null}.
-  jni.JniObject getLockTaskPackages(content_.ComponentName admin) {
-    final result__ =
-        jni.JniObject.fromRef(_getLockTaskPackages(reference, admin.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getLockTaskPackages(content_.ComponentName admin) =>
+      jni.JniObject.fromRef(
+          _getLockTaskPackages(reference, admin.reference).object);
 
   static final _isLockTaskPermitted = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_isLockTaskPermitted")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__isLockTaskPermitted")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isLockTaskPermitted(java.lang.String pkg)
   ///
   /// This function lets the caller know whether the given component is allowed to start the
   /// lock task mode.
   ///@param pkg The package to check
-  bool isLockTaskPermitted(jni.JniString pkg) {
-    final result__ = _isLockTaskPermitted(reference, pkg.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isLockTaskPermitted(jni.JniString pkg) =>
+      _isLockTaskPermitted(reference, pkg.reference).boolean;
 
   static final _setLockTaskFeatures = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_admin_DevicePolicyManager_setLockTaskFeatures")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("DevicePolicyManager__setLockTaskFeatures")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setLockTaskFeatures(android.content.ComponentName admin, int flags)
   ///
@@ -5742,18 +6905,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///@throws SecurityException if {@code admin} is not the device owner, the profile owner of an
   /// affiliated user or profile, or the profile owner when no device owner is set.
   ///@see \#isAffiliatedUser
-  void setLockTaskFeatures(content_.ComponentName admin, int flags) {
-    final result__ = _setLockTaskFeatures(reference, admin.reference, flags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setLockTaskFeatures(content_.ComponentName admin, int flags) =>
+      _setLockTaskFeatures(reference, admin.reference, flags).check();
 
   static final _getLockTaskFeatures = jniLookup<
               ffi.NativeFunction<
-                  ffi.Int32 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getLockTaskFeatures")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__getLockTaskFeatures")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getLockTaskFeatures(android.content.ComponentName admin)
   ///
@@ -5766,22 +6928,19 @@ class DevicePolicyManager extends jni.JniObject {
   /// affiliated user or profile, or the profile owner when no device owner is set.
   ///@see \#isAffiliatedUser
   ///@see \#setLockTaskFeatures
-  int getLockTaskFeatures(content_.ComponentName admin) {
-    final result__ = _getLockTaskFeatures(reference, admin.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getLockTaskFeatures(content_.ComponentName admin) =>
+      _getLockTaskFeatures(reference, admin.reference).integer;
 
   static final _setGlobalSetting = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_setGlobalSetting")
+          "DevicePolicyManager__setGlobalSetting")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setGlobalSetting(android.content.ComponentName admin, java.lang.String setting, java.lang.String value)
@@ -5823,23 +6982,21 @@ class DevicePolicyManager extends jni.JniObject {
   ///@param value The value to update the setting to.
   ///@throws SecurityException if {@code admin} is not a device owner.
   void setGlobalSetting(content_.ComponentName admin, jni.JniString setting,
-      jni.JniString value) {
-    final result__ = _setGlobalSetting(
-        reference, admin.reference, setting.reference, value.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniString value) =>
+      _setGlobalSetting(
+              reference, admin.reference, setting.reference, value.reference)
+          .check();
 
   static final _setSystemSetting = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_setSystemSetting")
+          "DevicePolicyManager__setSystemSetting")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setSystemSetting(android.content.ComponentName admin, java.lang.String setting, java.lang.String value)
@@ -5865,19 +7022,20 @@ class DevicePolicyManager extends jni.JniObject {
   ///@param value The value to update the setting to.
   ///@throws SecurityException if {@code admin} is not a device or profile owner.
   void setSystemSetting(content_.ComponentName admin, jni.JniString setting,
-      jni.JniString value) {
-    final result__ = _setSystemSetting(
-        reference, admin.reference, setting.reference, value.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniString value) =>
+      _setSystemSetting(
+              reference, admin.reference, setting.reference, value.reference)
+          .check();
 
   static final _setTime = jniLookup<
           ffi.NativeFunction<
-              ffi.Uint8 Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-                  ffi.Int64)>>("android_app_admin_DevicePolicyManager_setTime")
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int64)>>("DevicePolicyManager__setTime")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public boolean setTime(android.content.ComponentName admin, long millis)
   ///
@@ -5889,19 +7047,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///@param millis time in milliseconds since the Epoch
   ///@return {@code true} if set time succeeded, {@code false} otherwise.
   ///@throws SecurityException if {@code admin} is not a device owner.
-  bool setTime(content_.ComponentName admin, int millis) {
-    final result__ = _setTime(reference, admin.reference, millis) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool setTime(content_.ComponentName admin, int millis) =>
+      _setTime(reference, admin.reference, millis).boolean;
 
   static final _setTimeZone = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_setTimeZone")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("DevicePolicyManager__setTimeZone")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean setTimeZone(android.content.ComponentName admin, java.lang.String timeZone)
@@ -5916,23 +7072,19 @@ class DevicePolicyManager extends jni.JniObject {
   ///     java.util.TimeZone\#getAvailableIDs
   ///@return {@code true} if set timezone succeeded, {@code false} otherwise.
   ///@throws SecurityException if {@code admin} is not a device owner.
-  bool setTimeZone(content_.ComponentName admin, jni.JniString timeZone) {
-    final result__ =
-        _setTimeZone(reference, admin.reference, timeZone.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool setTimeZone(content_.ComponentName admin, jni.JniString timeZone) =>
+      _setTimeZone(reference, admin.reference, timeZone.reference).boolean;
 
   static final _setSecureSetting = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_setSecureSetting")
+          "DevicePolicyManager__setSecureSetting")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setSecureSetting(android.content.ComponentName admin, java.lang.String setting, java.lang.String value)
@@ -5966,20 +7118,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///@param value The value to update the setting to.
   ///@throws SecurityException if {@code admin} is not a device or profile owner.
   void setSecureSetting(content_.ComponentName admin, jni.JniString setting,
-      jni.JniString value) {
-    final result__ = _setSecureSetting(
-        reference, admin.reference, setting.reference, value.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniString value) =>
+      _setSecureSetting(
+              reference, admin.reference, setting.reference, value.reference)
+          .check();
 
   static final _setRestrictionsProvider = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_setRestrictionsProvider")
+          "DevicePolicyManager__setRestrictionsProvider")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setRestrictionsProvider(android.content.ComponentName admin, android.content.ComponentName provider)
@@ -5996,20 +7146,19 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value may be {@code null}.
   ///@throws SecurityException if {@code admin} is not a device or profile owner.
   void setRestrictionsProvider(
-      content_.ComponentName admin, content_.ComponentName provider) {
-    final result__ = _setRestrictionsProvider(
-        reference, admin.reference, provider.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, content_.ComponentName provider) =>
+      _setRestrictionsProvider(reference, admin.reference, provider.reference)
+          .check();
 
   static final _setMasterVolumeMuted = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "android_app_admin_DevicePolicyManager_setMasterVolumeMuted")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("DevicePolicyManager__setMasterVolumeMuted")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setMasterVolumeMuted(android.content.ComponentName admin, boolean on)
   ///
@@ -6019,19 +7168,17 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value must never be {@code null}.
   ///@param on {@code true} to mute master volume, {@code false} to turn mute off.
   ///@throws SecurityException if {@code admin} is not a device or profile owner.
-  void setMasterVolumeMuted(content_.ComponentName admin, bool on0) {
-    final result__ =
-        _setMasterVolumeMuted(reference, admin.reference, on0 ? 1 : 0);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setMasterVolumeMuted(content_.ComponentName admin, bool on0) =>
+      _setMasterVolumeMuted(reference, admin.reference, on0 ? 1 : 0).check();
 
   static final _isMasterVolumeMuted = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_isMasterVolumeMuted")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__isMasterVolumeMuted")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isMasterVolumeMuted(android.content.ComponentName admin)
   ///
@@ -6040,22 +7187,18 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value must never be {@code null}.
   ///@return {@code true} if master volume is muted, {@code false} if it's not.
   ///@throws SecurityException if {@code admin} is not a device or profile owner.
-  bool isMasterVolumeMuted(content_.ComponentName admin) {
-    final result__ = _isMasterVolumeMuted(reference, admin.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isMasterVolumeMuted(content_.ComponentName admin) =>
+      _isMasterVolumeMuted(reference, admin.reference).boolean;
 
   static final _setUninstallBlocked = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Uint8)>>(
-          "android_app_admin_DevicePolicyManager_setUninstallBlocked")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("DevicePolicyManager__setUninstallBlocked")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setUninstallBlocked(android.content.ComponentName admin, java.lang.String packageName, boolean uninstallBlocked)
@@ -6072,20 +7215,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///@see \#setDelegatedScopes
   ///@see \#DELEGATION_BLOCK_UNINSTALL
   void setUninstallBlocked(content_.ComponentName admin,
-      jni.JniString packageName, bool uninstallBlocked) {
-    final result__ = _setUninstallBlocked(reference, admin.reference,
-        packageName.reference, uninstallBlocked ? 1 : 0);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniString packageName, bool uninstallBlocked) =>
+      _setUninstallBlocked(reference, admin.reference, packageName.reference,
+              uninstallBlocked ? 1 : 0)
+          .check();
 
   static final _isUninstallBlocked = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_isUninstallBlocked")
+          "DevicePolicyManager__isUninstallBlocked")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isUninstallBlocked(android.content.ComponentName admin, java.lang.String packageName)
@@ -6104,21 +7245,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///@return true if uninstallation is blocked.
   ///@throws SecurityException if {@code admin} is not a device or profile owner.
   bool isUninstallBlocked(
-      content_.ComponentName admin, jni.JniString packageName) {
-    final result__ = _isUninstallBlocked(
-            reference, admin.reference, packageName.reference) !=
-        0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, jni.JniString packageName) =>
+      _isUninstallBlocked(reference, admin.reference, packageName.reference)
+          .boolean;
 
   static final _addCrossProfileWidgetProvider = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_addCrossProfileWidgetProvider")
+          "DevicePolicyManager__addCrossProfileWidgetProvider")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean addCrossProfileWidgetProvider(android.content.ComponentName admin, java.lang.String packageName)
@@ -6138,21 +7275,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///@see \#removeCrossProfileWidgetProvider(android.content.ComponentName, String)
   ///@see \#getCrossProfileWidgetProviders(android.content.ComponentName)
   bool addCrossProfileWidgetProvider(
-      content_.ComponentName admin, jni.JniString packageName) {
-    final result__ = _addCrossProfileWidgetProvider(
-            reference, admin.reference, packageName.reference) !=
-        0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, jni.JniString packageName) =>
+      _addCrossProfileWidgetProvider(
+              reference, admin.reference, packageName.reference)
+          .boolean;
 
   static final _removeCrossProfileWidgetProvider = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_removeCrossProfileWidgetProvider")
+          "DevicePolicyManager__removeCrossProfileWidgetProvider")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean removeCrossProfileWidgetProvider(android.content.ComponentName admin, java.lang.String packageName)
@@ -6171,21 +7305,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///@see \#addCrossProfileWidgetProvider(android.content.ComponentName, String)
   ///@see \#getCrossProfileWidgetProviders(android.content.ComponentName)
   bool removeCrossProfileWidgetProvider(
-      content_.ComponentName admin, jni.JniString packageName) {
-    final result__ = _removeCrossProfileWidgetProvider(
-            reference, admin.reference, packageName.reference) !=
-        0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, jni.JniString packageName) =>
+      _removeCrossProfileWidgetProvider(
+              reference, admin.reference, packageName.reference)
+          .boolean;
 
   static final _getCrossProfileWidgetProviders = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getCrossProfileWidgetProviders")
+          "DevicePolicyManager__getCrossProfileWidgetProviders")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<java.lang.String> getCrossProfileWidgetProviders(android.content.ComponentName admin)
@@ -6200,20 +7331,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///@see \#addCrossProfileWidgetProvider(android.content.ComponentName, String)
   ///@see \#removeCrossProfileWidgetProvider(android.content.ComponentName, String)
   ///@throws SecurityException if {@code admin} is not a profile owner.
-  jni.JniObject getCrossProfileWidgetProviders(content_.ComponentName admin) {
-    final result__ = jni.JniObject.fromRef(
-        _getCrossProfileWidgetProviders(reference, admin.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getCrossProfileWidgetProviders(content_.ComponentName admin) =>
+      jni.JniObject.fromRef(
+          _getCrossProfileWidgetProviders(reference, admin.reference).object);
 
   static final _setUserIcon = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_setUserIcon")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("DevicePolicyManager__setUserIcon")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setUserIcon(android.content.ComponentName admin, android.graphics.Bitmap icon)
@@ -6223,19 +7352,16 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value must never be {@code null}.
   ///@param icon the bitmap to set as the photo.
   ///@throws SecurityException if {@code admin} is not a device or profile owner.
-  void setUserIcon(content_.ComponentName admin, jni.JniObject icon) {
-    final result__ = _setUserIcon(reference, admin.reference, icon.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setUserIcon(content_.ComponentName admin, jni.JniObject icon) =>
+      _setUserIcon(reference, admin.reference, icon.reference).check();
 
   static final _setSystemUpdatePolicy = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_setSystemUpdatePolicy")
+          "DevicePolicyManager__setSystemUpdatePolicy")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setSystemUpdatePolicy(android.content.ComponentName admin, android.app.admin.SystemUpdatePolicy policy)
@@ -6265,38 +7391,33 @@ class DevicePolicyManager extends jni.JniObject {
   ///@see SystemUpdatePolicy
   ///@see SystemUpdatePolicy\#setFreezePeriods(List)
   void setSystemUpdatePolicy(
-      content_.ComponentName admin, SystemUpdatePolicy policy) {
-    final result__ =
-        _setSystemUpdatePolicy(reference, admin.reference, policy.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, SystemUpdatePolicy policy) =>
+      _setSystemUpdatePolicy(reference, admin.reference, policy.reference)
+          .check();
 
   static final _getSystemUpdatePolicy = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getSystemUpdatePolicy")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "DevicePolicyManager__getSystemUpdatePolicy")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.admin.SystemUpdatePolicy getSystemUpdatePolicy()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Retrieve a local system update policy set previously by \#setSystemUpdatePolicy.
   ///@return The current policy object, or {@code null} if no policy is set.
-  SystemUpdatePolicy getSystemUpdatePolicy() {
-    final result__ =
-        SystemUpdatePolicy.fromRef(_getSystemUpdatePolicy(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  SystemUpdatePolicy getSystemUpdatePolicy() =>
+      SystemUpdatePolicy.fromRef(_getSystemUpdatePolicy(reference).object);
 
   static final _setKeyguardDisabled = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "android_app_admin_DevicePolicyManager_setKeyguardDisabled")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("DevicePolicyManager__setKeyguardDisabled")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public boolean setKeyguardDisabled(android.content.ComponentName admin, boolean disabled)
   ///
@@ -6320,20 +7441,19 @@ class DevicePolicyManager extends jni.JniObject {
   /// secondary user that is affiliated with the device.
   ///@see \#isAffiliatedUser
   ///@see \#getSecondaryUsers
-  bool setKeyguardDisabled(content_.ComponentName admin, bool disabled) {
-    final result__ =
-        _setKeyguardDisabled(reference, admin.reference, disabled ? 1 : 0) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool setKeyguardDisabled(content_.ComponentName admin, bool disabled) =>
+      _setKeyguardDisabled(reference, admin.reference, disabled ? 1 : 0)
+          .boolean;
 
   static final _setStatusBarDisabled = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "android_app_admin_DevicePolicyManager_setStatusBarDisabled")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("DevicePolicyManager__setStatusBarDisabled")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public boolean setStatusBarDisabled(android.content.ComponentName admin, boolean disabled)
   ///
@@ -6354,21 +7474,17 @@ class DevicePolicyManager extends jni.JniObject {
   /// secondary user that is affiliated with the device.
   ///@see \#isAffiliatedUser
   ///@see \#getSecondaryUsers
-  bool setStatusBarDisabled(content_.ComponentName admin, bool disabled) {
-    final result__ =
-        _setStatusBarDisabled(reference, admin.reference, disabled ? 1 : 0) !=
-            0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool setStatusBarDisabled(content_.ComponentName admin, bool disabled) =>
+      _setStatusBarDisabled(reference, admin.reference, disabled ? 1 : 0)
+          .boolean;
 
   static final _getPendingSystemUpdate = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getPendingSystemUpdate")
+          "DevicePolicyManager__getPendingSystemUpdate")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.admin.SystemUpdateInfo getPendingSystemUpdate(android.content.ComponentName admin)
@@ -6380,20 +7496,19 @@ class DevicePolicyManager extends jni.JniObject {
   ///@return Information about a pending system update or {@code null} if no update pending.
   ///@throws SecurityException if {@code admin} is not a device or profile owner.
   ///@see DeviceAdminReceiver\#onSystemUpdatePending(Context, Intent, long)
-  SystemUpdateInfo getPendingSystemUpdate(content_.ComponentName admin) {
-    final result__ = SystemUpdateInfo.fromRef(
-        _getPendingSystemUpdate(reference, admin.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  SystemUpdateInfo getPendingSystemUpdate(content_.ComponentName admin) =>
+      SystemUpdateInfo.fromRef(
+          _getPendingSystemUpdate(reference, admin.reference).object);
 
   static final _setPermissionPolicy = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_admin_DevicePolicyManager_setPermissionPolicy")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("DevicePolicyManager__setPermissionPolicy")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setPermissionPolicy(android.content.ComponentName admin, int policy)
   ///
@@ -6416,18 +7531,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///@see \#setPermissionGrantState
   ///@see \#setDelegatedScopes
   ///@see \#DELEGATION_PERMISSION_GRANT
-  void setPermissionPolicy(content_.ComponentName admin, int policy) {
-    final result__ = _setPermissionPolicy(reference, admin.reference, policy);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setPermissionPolicy(content_.ComponentName admin, int policy) =>
+      _setPermissionPolicy(reference, admin.reference, policy).check();
 
   static final _getPermissionPolicy = jniLookup<
               ffi.NativeFunction<
-                  ffi.Int32 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getPermissionPolicy")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__getPermissionPolicy")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getPermissionPolicy(android.content.ComponentName admin)
   ///
@@ -6435,23 +7549,19 @@ class DevicePolicyManager extends jni.JniObject {
   /// default is \#PERMISSION_POLICY_PROMPT.
   ///@param admin Which profile or device owner this request is associated with.
   ///@return the current policy for future permission requests.
-  int getPermissionPolicy(content_.ComponentName admin) {
-    final result__ = _getPermissionPolicy(reference, admin.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getPermissionPolicy(content_.ComponentName admin) =>
+      _getPermissionPolicy(reference, admin.reference).integer;
 
   static final _setPermissionGrantState = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Int32)>>(
-          "android_app_admin_DevicePolicyManager_setPermissionGrantState")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("DevicePolicyManager__setPermissionGrantState")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public boolean setPermissionGrantState(android.content.ComponentName admin, java.lang.String packageName, java.lang.String permission, int grantState)
@@ -6487,25 +7597,25 @@ class DevicePolicyManager extends jni.JniObject {
   ///@see \#PERMISSION_GRANT_STATE_GRANTED
   ///@see \#setDelegatedScopes
   ///@see \#DELEGATION_PERMISSION_GRANT
-  bool setPermissionGrantState(content_.ComponentName admin,
-      jni.JniString packageName, jni.JniString permission, int grantState) {
-    final result__ = _setPermissionGrantState(reference, admin.reference,
-            packageName.reference, permission.reference, grantState) !=
-        0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool setPermissionGrantState(
+          content_.ComponentName admin,
+          jni.JniString packageName,
+          jni.JniString permission,
+          int grantState) =>
+      _setPermissionGrantState(reference, admin.reference,
+              packageName.reference, permission.reference, grantState)
+          .boolean;
 
   static final _getPermissionGrantState = jniLookup<
               ffi.NativeFunction<
-                  ffi.Int32 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getPermissionGrantState")
+          "DevicePolicyManager__getPermissionGrantState")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getPermissionGrantState(android.content.ComponentName admin, java.lang.String packageName, java.lang.String permission)
@@ -6533,19 +7643,19 @@ class DevicePolicyManager extends jni.JniObject {
   ///@see \#setDelegatedScopes
   ///@see \#DELEGATION_PERMISSION_GRANT
   int getPermissionGrantState(content_.ComponentName admin,
-      jni.JniString packageName, jni.JniString permission) {
-    final result__ = _getPermissionGrantState(reference, admin.reference,
-        packageName.reference, permission.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          jni.JniString packageName, jni.JniString permission) =>
+      _getPermissionGrantState(reference, admin.reference,
+              packageName.reference, permission.reference)
+          .integer;
 
   static final _isProvisioningAllowed = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_isProvisioningAllowed")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__isProvisioningAllowed")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isProvisioningAllowed(java.lang.String action)
   ///
@@ -6556,18 +7666,17 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value must never be {@code null}.
   ///@return whether provisioning a managed profile or device is possible.
   ///@throws IllegalArgumentException if the supplied action is not valid.
-  bool isProvisioningAllowed(jni.JniString action) {
-    final result__ = _isProvisioningAllowed(reference, action.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isProvisioningAllowed(jni.JniString action) =>
+      _isProvisioningAllowed(reference, action.reference).boolean;
 
   static final _isManagedProfile = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_isManagedProfile")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__isManagedProfile")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isManagedProfile(android.content.ComponentName admin)
   ///
@@ -6577,19 +7686,16 @@ class DevicePolicyManager extends jni.JniObject {
   ///@param admin Which profile owner this request is associated with.
   /// This value must never be {@code null}.
   ///@return if this user is a managed profile of another user.
-  bool isManagedProfile(content_.ComponentName admin) {
-    final result__ = _isManagedProfile(reference, admin.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isManagedProfile(content_.ComponentName admin) =>
+      _isManagedProfile(reference, admin.reference).boolean;
 
   static final _getWifiMacAddress = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getWifiMacAddress")
+          "DevicePolicyManager__getWifiMacAddress")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getWifiMacAddress(android.content.ComponentName admin)
@@ -6603,20 +7709,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///
   ///         The address will be in the {@code XX:XX:XX:XX:XX:XX} format.
   ///@throws SecurityException if {@code admin} is not a device owner.
-  jni.JniString getWifiMacAddress(content_.ComponentName admin) {
-    final result__ =
-        jni.JniString.fromRef(_getWifiMacAddress(reference, admin.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getWifiMacAddress(content_.ComponentName admin) =>
+      jni.JniString.fromRef(
+          _getWifiMacAddress(reference, admin.reference).object);
 
   static final _reboot = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_reboot")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("DevicePolicyManager__reboot")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void reboot(android.content.ComponentName admin)
   ///
@@ -6627,19 +7730,16 @@ class DevicePolicyManager extends jni.JniObject {
   ///@throws IllegalStateException if device has an ongoing call.
   ///@throws SecurityException if {@code admin} is not a device owner.
   ///@see TelephonyManager\#CALL_STATE_IDLE
-  void reboot(content_.ComponentName admin) {
-    final result__ = _reboot(reference, admin.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void reboot(content_.ComponentName admin) =>
+      _reboot(reference, admin.reference).check();
 
   static final _setShortSupportMessage = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_setShortSupportMessage")
+          "DevicePolicyManager__setShortSupportMessage")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setShortSupportMessage(android.content.ComponentName admin, java.lang.CharSequence message)
@@ -6661,20 +7761,17 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value may be {@code null}.
   ///@throws SecurityException if {@code admin} is not an active administrator.
   void setShortSupportMessage(
-      content_.ComponentName admin, jni.JniObject message) {
-    final result__ =
-        _setShortSupportMessage(reference, admin.reference, message.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, jni.JniObject message) =>
+      _setShortSupportMessage(reference, admin.reference, message.reference)
+          .check();
 
   static final _getShortSupportMessage = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getShortSupportMessage")
+          "DevicePolicyManager__getShortSupportMessage")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.CharSequence getShortSupportMessage(android.content.ComponentName admin)
@@ -6686,20 +7783,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///@return The message set by \#setShortSupportMessage(ComponentName, CharSequence) or
   ///         null if no message has been set.
   ///@throws SecurityException if {@code admin} is not an active administrator.
-  jni.JniObject getShortSupportMessage(content_.ComponentName admin) {
-    final result__ = jni.JniObject.fromRef(
-        _getShortSupportMessage(reference, admin.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getShortSupportMessage(content_.ComponentName admin) =>
+      jni.JniObject.fromRef(
+          _getShortSupportMessage(reference, admin.reference).object);
 
   static final _setLongSupportMessage = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_setLongSupportMessage")
+          "DevicePolicyManager__setLongSupportMessage")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setLongSupportMessage(android.content.ComponentName admin, java.lang.CharSequence message)
@@ -6718,20 +7812,17 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value may be {@code null}.
   ///@throws SecurityException if {@code admin} is not an active administrator.
   void setLongSupportMessage(
-      content_.ComponentName admin, jni.JniObject message) {
-    final result__ =
-        _setLongSupportMessage(reference, admin.reference, message.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, jni.JniObject message) =>
+      _setLongSupportMessage(reference, admin.reference, message.reference)
+          .check();
 
   static final _getLongSupportMessage = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getLongSupportMessage")
+          "DevicePolicyManager__getLongSupportMessage")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.CharSequence getLongSupportMessage(android.content.ComponentName admin)
@@ -6743,20 +7834,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///@return The message set by \#setLongSupportMessage(ComponentName, CharSequence) or
   ///         null if no message has been set.
   ///@throws SecurityException if {@code admin} is not an active administrator.
-  jni.JniObject getLongSupportMessage(content_.ComponentName admin) {
-    final result__ = jni.JniObject.fromRef(
-        _getLongSupportMessage(reference, admin.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getLongSupportMessage(content_.ComponentName admin) =>
+      jni.JniObject.fromRef(
+          _getLongSupportMessage(reference, admin.reference).object);
 
   static final _getParentProfileInstance = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getParentProfileInstance")
+          "DevicePolicyManager__getParentProfileInstance")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.app.admin.DevicePolicyManager getParentProfileInstance(android.content.ComponentName admin)
@@ -6808,20 +7896,19 @@ class DevicePolicyManager extends jni.JniObject {
   ///@return a new instance of DevicePolicyManager that acts on the parent profile.
   /// This value will never be {@code null}.
   ///@throws SecurityException if {@code admin} is not a profile owner.
-  DevicePolicyManager getParentProfileInstance(content_.ComponentName admin) {
-    final result__ = DevicePolicyManager.fromRef(
-        _getParentProfileInstance(reference, admin.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  DevicePolicyManager getParentProfileInstance(content_.ComponentName admin) =>
+      DevicePolicyManager.fromRef(
+          _getParentProfileInstance(reference, admin.reference).object);
 
   static final _setSecurityLoggingEnabled = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "android_app_admin_DevicePolicyManager_setSecurityLoggingEnabled")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("DevicePolicyManager__setSecurityLoggingEnabled")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setSecurityLoggingEnabled(android.content.ComponentName admin, boolean enabled)
   ///
@@ -6841,19 +7928,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///@throws SecurityException if {@code admin} is not a device owner.
   ///@see \#setAffiliationIds
   ///@see \#retrieveSecurityLogs
-  void setSecurityLoggingEnabled(content_.ComponentName admin, bool enabled) {
-    final result__ =
-        _setSecurityLoggingEnabled(reference, admin.reference, enabled ? 1 : 0);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setSecurityLoggingEnabled(content_.ComponentName admin, bool enabled) =>
+      _setSecurityLoggingEnabled(reference, admin.reference, enabled ? 1 : 0)
+          .check();
 
   static final _isSecurityLoggingEnabled = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_isSecurityLoggingEnabled")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__isSecurityLoggingEnabled")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isSecurityLoggingEnabled(android.content.ComponentName admin)
   ///
@@ -6865,19 +7951,16 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value may be {@code null}.
   ///@return {@code true} if security logging is enabled by device owner, {@code false} otherwise.
   ///@throws SecurityException if {@code admin} is not a device owner.
-  bool isSecurityLoggingEnabled(content_.ComponentName admin) {
-    final result__ = _isSecurityLoggingEnabled(reference, admin.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isSecurityLoggingEnabled(content_.ComponentName admin) =>
+      _isSecurityLoggingEnabled(reference, admin.reference).boolean;
 
   static final _retrieveSecurityLogs = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_retrieveSecurityLogs")
+          "DevicePolicyManager__retrieveSecurityLogs")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<android.app.admin.SecurityLog.SecurityEvent> retrieveSecurityLogs(android.content.ComponentName admin)
@@ -6899,21 +7982,18 @@ class DevicePolicyManager extends jni.JniObject {
   /// profile or secondary user that is not affiliated with the device.
   ///@see \#isAffiliatedUser
   ///@see DeviceAdminReceiver\#onSecurityLogsAvailable
-  jni.JniObject retrieveSecurityLogs(content_.ComponentName admin) {
-    final result__ = jni.JniObject.fromRef(
-        _retrieveSecurityLogs(reference, admin.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject retrieveSecurityLogs(content_.ComponentName admin) =>
+      jni.JniObject.fromRef(
+          _retrieveSecurityLogs(reference, admin.reference).object);
 
   static final _setMeteredDataDisabledPackages = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_setMeteredDataDisabledPackages")
+          "DevicePolicyManager__setMeteredDataDisabledPackages")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<java.lang.String> setMeteredDataDisabledPackages(android.content.ComponentName admin, java.util.List<java.lang.String> packageNames)
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -6927,20 +8007,18 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value will never be {@code null}.
   ///@throws SecurityException if {@code admin} is not a device or profile owner.
   jni.JniObject setMeteredDataDisabledPackages(
-      content_.ComponentName admin, jni.JniObject packageNames) {
-    final result__ = jni.JniObject.fromRef(_setMeteredDataDisabledPackages(
-        reference, admin.reference, packageNames.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, jni.JniObject packageNames) =>
+      jni.JniObject.fromRef(_setMeteredDataDisabledPackages(
+              reference, admin.reference, packageNames.reference)
+          .object);
 
   static final _getMeteredDataDisabledPackages = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getMeteredDataDisabledPackages")
+          "DevicePolicyManager__getMeteredDataDisabledPackages")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<java.lang.String> getMeteredDataDisabledPackages(android.content.ComponentName admin)
@@ -6953,20 +8031,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///@return the list of restricted package names.
   /// This value will never be {@code null}.
   ///@throws SecurityException if {@code admin} is not a device or profile owner.
-  jni.JniObject getMeteredDataDisabledPackages(content_.ComponentName admin) {
-    final result__ = jni.JniObject.fromRef(
-        _getMeteredDataDisabledPackages(reference, admin.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getMeteredDataDisabledPackages(content_.ComponentName admin) =>
+      jni.JniObject.fromRef(
+          _getMeteredDataDisabledPackages(reference, admin.reference).object);
 
   static final _retrievePreRebootSecurityLogs = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_retrievePreRebootSecurityLogs")
+          "DevicePolicyManager__retrievePreRebootSecurityLogs")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<android.app.admin.SecurityLog.SecurityEvent> retrievePreRebootSecurityLogs(android.content.ComponentName admin)
@@ -6989,20 +8064,19 @@ class DevicePolicyManager extends jni.JniObject {
   /// profile or secondary user that is not affiliated with the device.
   ///@see \#isAffiliatedUser
   ///@see \#retrieveSecurityLogs
-  jni.JniObject retrievePreRebootSecurityLogs(content_.ComponentName admin) {
-    final result__ = jni.JniObject.fromRef(
-        _retrievePreRebootSecurityLogs(reference, admin.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject retrievePreRebootSecurityLogs(content_.ComponentName admin) =>
+      jni.JniObject.fromRef(
+          _retrievePreRebootSecurityLogs(reference, admin.reference).object);
 
   static final _setOrganizationColor = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_admin_DevicePolicyManager_setOrganizationColor")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("DevicePolicyManager__setOrganizationColor")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setOrganizationColor(android.content.ComponentName admin, int color)
   ///
@@ -7016,18 +8090,17 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value must never be {@code null}.
   ///@param color The 24bit (0xRRGGBB) representation of the color to be used.
   ///@throws SecurityException if {@code admin} is not a profile owner.
-  void setOrganizationColor(content_.ComponentName admin, int color) {
-    final result__ = _setOrganizationColor(reference, admin.reference, color);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setOrganizationColor(content_.ComponentName admin, int color) =>
+      _setOrganizationColor(reference, admin.reference, color).check();
 
   static final _getOrganizationColor = jniLookup<
               ffi.NativeFunction<
-                  ffi.Int32 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getOrganizationColor")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__getOrganizationColor")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getOrganizationColor(android.content.ComponentName admin)
   ///
@@ -7037,19 +8110,16 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value must never be {@code null}.
   ///@return The 24bit (0xRRGGBB) representation of the color to be used.
   ///@throws SecurityException if {@code admin} is not a profile owner.
-  int getOrganizationColor(content_.ComponentName admin) {
-    final result__ = _getOrganizationColor(reference, admin.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getOrganizationColor(content_.ComponentName admin) =>
+      _getOrganizationColor(reference, admin.reference).integer;
 
   static final _setOrganizationName = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_setOrganizationName")
+          "DevicePolicyManager__setOrganizationName")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setOrganizationName(android.content.ComponentName admin, java.lang.CharSequence title)
@@ -7064,20 +8134,16 @@ class DevicePolicyManager extends jni.JniObject {
   ///@param title The organization name or {@code null} to clear a previously set name.
   /// This value may be {@code null}.
   ///@throws SecurityException if {@code admin} is not a device or profile owner.
-  void setOrganizationName(content_.ComponentName admin, jni.JniObject title) {
-    final result__ =
-        _setOrganizationName(reference, admin.reference, title.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setOrganizationName(content_.ComponentName admin, jni.JniObject title) =>
+      _setOrganizationName(reference, admin.reference, title.reference).check();
 
   static final _getOrganizationName = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getOrganizationName")
+          "DevicePolicyManager__getOrganizationName")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.CharSequence getOrganizationName(android.content.ComponentName admin)
@@ -7089,20 +8155,17 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value must never be {@code null}.
   ///@return The organization name or {@code null} if none is set.
   ///@throws SecurityException if {@code admin} is not a profile owner.
-  jni.JniObject getOrganizationName(content_.ComponentName admin) {
-    final result__ =
-        jni.JniObject.fromRef(_getOrganizationName(reference, admin.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getOrganizationName(content_.ComponentName admin) =>
+      jni.JniObject.fromRef(
+          _getOrganizationName(reference, admin.reference).object);
 
   static final _setAffiliationIds = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_setAffiliationIds")
+          "DevicePolicyManager__setAffiliationIds")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setAffiliationIds(android.content.ComponentName admin, java.util.Set<java.lang.String> ids)
@@ -7125,20 +8188,16 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value must never be {@code null}.
   ///@throws IllegalArgumentException if {@code ids} is null or contains an empty string.
   ///@see \#isAffiliatedUser
-  void setAffiliationIds(content_.ComponentName admin, jni.JniObject ids) {
-    final result__ =
-        _setAffiliationIds(reference, admin.reference, ids.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setAffiliationIds(content_.ComponentName admin, jni.JniObject ids) =>
+      _setAffiliationIds(reference, admin.reference, ids.reference).check();
 
   static final _getAffiliationIds = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getAffiliationIds")
+          "DevicePolicyManager__getAffiliationIds")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.Set<java.lang.String> getAffiliationIds(android.content.ComponentName admin)
@@ -7148,17 +8207,15 @@ class DevicePolicyManager extends jni.JniObject {
   /// empty set if none have been set.
   ///@param admin This value must never be {@code null}.
   ///@return This value will never be {@code null}.
-  jni.JniObject getAffiliationIds(content_.ComponentName admin) {
-    final result__ =
-        jni.JniObject.fromRef(_getAffiliationIds(reference, admin.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getAffiliationIds(content_.ComponentName admin) =>
+      jni.JniObject.fromRef(
+          _getAffiliationIds(reference, admin.reference).object);
 
-  static final _isAffiliatedUser =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_admin_DevicePolicyManager_isAffiliatedUser")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isAffiliatedUser = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "DevicePolicyManager__isAffiliatedUser")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isAffiliatedUser()
   ///
@@ -7168,19 +8225,17 @@ class DevicePolicyManager extends jni.JniObject {
   /// Any other user/profile is considered affiliated with the device if the set specified by its
   /// profile owner via \#setAffiliationIds intersects with the device owner's.
   ///@see \#setAffiliationIds
-  bool isAffiliatedUser() {
-    final result__ = _isAffiliatedUser(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isAffiliatedUser() => _isAffiliatedUser(reference).boolean;
 
   static final _setBackupServiceEnabled = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "android_app_admin_DevicePolicyManager_setBackupServiceEnabled")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("DevicePolicyManager__setBackupServiceEnabled")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setBackupServiceEnabled(android.content.ComponentName admin, boolean enabled)
   ///
@@ -7194,19 +8249,18 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value must never be {@code null}.
   ///@param enabled {@code true} to enable the backup service, {@code false} to disable it.
   ///@throws SecurityException if {@code admin} is not a device owner.
-  void setBackupServiceEnabled(content_.ComponentName admin, bool enabled) {
-    final result__ =
-        _setBackupServiceEnabled(reference, admin.reference, enabled ? 1 : 0);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setBackupServiceEnabled(content_.ComponentName admin, bool enabled) =>
+      _setBackupServiceEnabled(reference, admin.reference, enabled ? 1 : 0)
+          .check();
 
   static final _isBackupServiceEnabled = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_isBackupServiceEnabled")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__isBackupServiceEnabled")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isBackupServiceEnabled(android.content.ComponentName admin)
   ///
@@ -7216,19 +8270,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///@param admin This value must never be {@code null}.
   ///@return {@code true} if backup service is enabled, {@code false} otherwise.
   ///@see \#setBackupServiceEnabled
-  bool isBackupServiceEnabled(content_.ComponentName admin) {
-    final result__ = _isBackupServiceEnabled(reference, admin.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isBackupServiceEnabled(content_.ComponentName admin) =>
+      _isBackupServiceEnabled(reference, admin.reference).boolean;
 
   static final _setNetworkLoggingEnabled = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "android_app_admin_DevicePolicyManager_setNetworkLoggingEnabled")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("DevicePolicyManager__setNetworkLoggingEnabled")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setNetworkLoggingEnabled(android.content.ComponentName admin, boolean enabled)
   ///
@@ -7274,19 +8327,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///@throws SecurityException if {@code admin} is not a device owner.
   ///@see \#setAffiliationIds
   ///@see \#retrieveNetworkLogs
-  void setNetworkLoggingEnabled(content_.ComponentName admin, bool enabled) {
-    final result__ =
-        _setNetworkLoggingEnabled(reference, admin.reference, enabled ? 1 : 0);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setNetworkLoggingEnabled(content_.ComponentName admin, bool enabled) =>
+      _setNetworkLoggingEnabled(reference, admin.reference, enabled ? 1 : 0)
+          .check();
 
   static final _isNetworkLoggingEnabled = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_isNetworkLoggingEnabled")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__isNetworkLoggingEnabled")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isNetworkLoggingEnabled(android.content.ComponentName admin)
   ///
@@ -7297,19 +8349,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///@return {@code true} if network logging is enabled by device owner, {@code false} otherwise.
   ///@throws SecurityException if {@code admin} is not a device owner and caller has
   /// no MANAGE_USERS permission
-  bool isNetworkLoggingEnabled(content_.ComponentName admin) {
-    final result__ = _isNetworkLoggingEnabled(reference, admin.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isNetworkLoggingEnabled(content_.ComponentName admin) =>
+      _isNetworkLoggingEnabled(reference, admin.reference).boolean;
 
   static final _retrieveNetworkLogs = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int64)>>(
-          "android_app_admin_DevicePolicyManager_retrieveNetworkLogs")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int64)>>("DevicePolicyManager__retrieveNetworkLogs")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public java.util.List<android.app.admin.NetworkEvent> retrieveNetworkLogs(android.content.ComponentName admin, long batchToken)
@@ -7344,25 +8394,22 @@ class DevicePolicyManager extends jni.JniObject {
   ///@see \#setAffiliationIds
   ///@see DeviceAdminReceiver\#onNetworkLogsAvailable
   jni.JniObject retrieveNetworkLogs(
-      content_.ComponentName admin, int batchToken) {
-    final result__ = jni.JniObject.fromRef(
-        _retrieveNetworkLogs(reference, admin.reference, batchToken));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, int batchToken) =>
+      jni.JniObject.fromRef(
+          _retrieveNetworkLogs(reference, admin.reference, batchToken).object);
 
   static final _bindDeviceAdminServiceAsUser = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Int32,
                       ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_bindDeviceAdminServiceAsUser")
+          "DevicePolicyManager__bindDeviceAdminServiceAsUser")
       .asFunction<
-          int Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>,
@@ -7401,30 +8448,27 @@ class DevicePolicyManager extends jni.JniObject {
   ///@see Context\#bindService(Intent, ServiceConnection, int)
   ///@see \#getBindDeviceAdminTargetUsers(ComponentName)
   bool bindDeviceAdminServiceAsUser(
-      content_.ComponentName admin,
-      content_.Intent serviceIntent,
-      content_.ServiceConnection conn,
-      int flags,
-      os_.UserHandle targetUser) {
-    final result__ = _bindDeviceAdminServiceAsUser(
-            reference,
-            admin.reference,
-            serviceIntent.reference,
-            conn.reference,
-            flags,
-            targetUser.reference) !=
-        0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin,
+          content_.Intent serviceIntent,
+          content_.ServiceConnection conn,
+          int flags,
+          os_.UserHandle targetUser) =>
+      _bindDeviceAdminServiceAsUser(
+              reference,
+              admin.reference,
+              serviceIntent.reference,
+              conn.reference,
+              flags,
+              targetUser.reference)
+          .boolean;
 
   static final _getBindDeviceAdminTargetUsers = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getBindDeviceAdminTargetUsers")
+          "DevicePolicyManager__getBindDeviceAdminTargetUsers")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<android.os.UserHandle> getBindDeviceAdminTargetUsers(android.content.ComponentName admin)
@@ -7440,24 +8484,21 @@ class DevicePolicyManager extends jni.JniObject {
   /// </ul>
   ///@param admin This value must never be {@code null}.
   ///@return This value will never be {@code null}.
-  jni.JniObject getBindDeviceAdminTargetUsers(content_.ComponentName admin) {
-    final result__ = jni.JniObject.fromRef(
-        _getBindDeviceAdminTargetUsers(reference, admin.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getBindDeviceAdminTargetUsers(content_.ComponentName admin) =>
+      jni.JniObject.fromRef(
+          _getBindDeviceAdminTargetUsers(reference, admin.reference).object);
 
   static final _clearApplicationUserData = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_clearApplicationUserData")
+          "DevicePolicyManager__clearApplicationUserData")
       .asFunction<
-          void Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>,
@@ -7488,23 +8529,23 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value must never be {@code null}.
   ///@throws SecurityException if the caller is not the device owner/profile owner.
   void clearApplicationUserData(
-      content_.ComponentName admin,
-      jni.JniString packageName,
-      jni.JniObject executor,
-      DevicePolicyManager_OnClearApplicationUserDataListener listener) {
-    final result__ = _clearApplicationUserData(reference, admin.reference,
-        packageName.reference, executor.reference, listener.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin,
+          jni.JniString packageName,
+          jni.JniObject executor,
+          DevicePolicyManager_OnClearApplicationUserDataListener listener) =>
+      _clearApplicationUserData(reference, admin.reference,
+              packageName.reference, executor.reference, listener.reference)
+          .check();
 
   static final _setLogoutEnabled = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "android_app_admin_DevicePolicyManager_setLogoutEnabled")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("DevicePolicyManager__setLogoutEnabled")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setLogoutEnabled(android.content.ComponentName admin, boolean enabled)
   ///
@@ -7514,38 +8555,31 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value must never be {@code null}.
   ///@param enabled whether logout should be enabled or not.
   ///@throws SecurityException if {@code admin} is not a device owner.
-  void setLogoutEnabled(content_.ComponentName admin, bool enabled) {
-    final result__ =
-        _setLogoutEnabled(reference, admin.reference, enabled ? 1 : 0);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setLogoutEnabled(content_.ComponentName admin, bool enabled) =>
+      _setLogoutEnabled(reference, admin.reference, enabled ? 1 : 0).check();
 
-  static final _isLogoutEnabled =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_admin_DevicePolicyManager_isLogoutEnabled")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _isLogoutEnabled = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "DevicePolicyManager__isLogoutEnabled")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isLogoutEnabled()
   ///
   /// Returns whether logout is enabled by a device owner.
   ///@return {@code true} if logout is enabled by device owner, {@code false} otherwise.
-  bool isLogoutEnabled() {
-    final result__ = _isLogoutEnabled(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isLogoutEnabled() => _isLogoutEnabled(reference).boolean;
 
   static final _transferOwnership = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_transferOwnership")
+          "DevicePolicyManager__transferOwnership")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void transferOwnership(android.content.ComponentName admin, android.content.ComponentName target, android.os.PersistableBundle bundle)
@@ -7584,20 +8618,18 @@ class DevicePolicyManager extends jni.JniObject {
   ///@throws IllegalArgumentException if {@code admin} or {@code target} is {@code null}, they
   /// are components in the same package or {@code target} is not an active admin
   void transferOwnership(content_.ComponentName admin,
-      content_.ComponentName target, os_.PersistableBundle bundle) {
-    final result__ = _transferOwnership(
-        reference, admin.reference, target.reference, bundle.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName target, os_.PersistableBundle bundle) =>
+      _transferOwnership(
+              reference, admin.reference, target.reference, bundle.reference)
+          .check();
 
   static final _setStartUserSessionMessage = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_setStartUserSessionMessage")
+          "DevicePolicyManager__setStartUserSessionMessage")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setStartUserSessionMessage(android.content.ComponentName admin, java.lang.CharSequence startUserSessionMessage)
@@ -7616,21 +8648,19 @@ class DevicePolicyManager extends jni.JniObject {
   /// system default message.
   /// This value may be {@code null}.
   ///@throws SecurityException if {@code admin} is not a device owner.
-  void setStartUserSessionMessage(
-      content_.ComponentName admin, jni.JniObject startUserSessionMessage) {
-    final result__ = _setStartUserSessionMessage(
-        reference, admin.reference, startUserSessionMessage.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setStartUserSessionMessage(content_.ComponentName admin,
+          jni.JniObject startUserSessionMessage) =>
+      _setStartUserSessionMessage(
+              reference, admin.reference, startUserSessionMessage.reference)
+          .check();
 
   static final _setEndUserSessionMessage = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_setEndUserSessionMessage")
+          "DevicePolicyManager__setEndUserSessionMessage")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public void setEndUserSessionMessage(android.content.ComponentName admin, java.lang.CharSequence endUserSessionMessage)
@@ -7650,20 +8680,18 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value may be {@code null}.
   ///@throws SecurityException if {@code admin} is not a device owner.
   void setEndUserSessionMessage(
-      content_.ComponentName admin, jni.JniObject endUserSessionMessage) {
-    final result__ = _setEndUserSessionMessage(
-        reference, admin.reference, endUserSessionMessage.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, jni.JniObject endUserSessionMessage) =>
+      _setEndUserSessionMessage(
+              reference, admin.reference, endUserSessionMessage.reference)
+          .check();
 
   static final _getStartUserSessionMessage = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getStartUserSessionMessage")
+          "DevicePolicyManager__getStartUserSessionMessage")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.CharSequence getStartUserSessionMessage(android.content.ComponentName admin)
@@ -7673,20 +8701,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///@param admin which DeviceAdminReceiver this request is associated with.
   /// This value must never be {@code null}.
   ///@throws SecurityException if {@code admin} is not a device owner.
-  jni.JniObject getStartUserSessionMessage(content_.ComponentName admin) {
-    final result__ = jni.JniObject.fromRef(
-        _getStartUserSessionMessage(reference, admin.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getStartUserSessionMessage(content_.ComponentName admin) =>
+      jni.JniObject.fromRef(
+          _getStartUserSessionMessage(reference, admin.reference).object);
 
   static final _getEndUserSessionMessage = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getEndUserSessionMessage")
+          "DevicePolicyManager__getEndUserSessionMessage")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.CharSequence getEndUserSessionMessage(android.content.ComponentName admin)
@@ -7696,20 +8721,17 @@ class DevicePolicyManager extends jni.JniObject {
   ///@param admin which DeviceAdminReceiver this request is associated with.
   /// This value must never be {@code null}.
   ///@throws SecurityException if {@code admin} is not a device owner.
-  jni.JniObject getEndUserSessionMessage(content_.ComponentName admin) {
-    final result__ = jni.JniObject.fromRef(
-        _getEndUserSessionMessage(reference, admin.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getEndUserSessionMessage(content_.ComponentName admin) =>
+      jni.JniObject.fromRef(
+          _getEndUserSessionMessage(reference, admin.reference).object);
 
   static final _addOverrideApn = jniLookup<
               ffi.NativeFunction<
-                  ffi.Int32 Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_addOverrideApn")
+          "DevicePolicyManager__addOverrideApn")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
               ffi.Pointer<ffi.Void>)>();
 
   /// from: public int addOverrideApn(android.content.ComponentName admin, android.telephony.data.ApnSetting apnSetting)
@@ -7742,24 +8764,20 @@ class DevicePolicyManager extends jni.JniObject {
   ///         the database.
   ///@throws SecurityException if {@code admin} is not a device owner.
   ///@see \#setOverrideApnsEnabled(ComponentName, boolean)
-  int addOverrideApn(content_.ComponentName admin, jni.JniObject apnSetting) {
-    final result__ =
-        _addOverrideApn(reference, admin.reference, apnSetting.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int addOverrideApn(content_.ComponentName admin, jni.JniObject apnSetting) =>
+      _addOverrideApn(reference, admin.reference, apnSetting.reference).integer;
 
   static final _updateOverrideApn = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>,
                       ffi.Int32,
                       ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_updateOverrideApn")
+          "DevicePolicyManager__updateOverrideApn")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int,
-              ffi.Pointer<ffi.Void>)>();
+          jni.JniResult Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
+              int, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean updateOverrideApn(android.content.ComponentName admin, int apnId, android.telephony.data.ApnSetting apnSetting)
   ///
@@ -7780,21 +8798,20 @@ class DevicePolicyManager extends jni.JniObject {
   ///@throws SecurityException if {@code admin} is not a device owner.
   ///@see \#setOverrideApnsEnabled(ComponentName, boolean)
   bool updateOverrideApn(
-      content_.ComponentName admin, int apnId, jni.JniObject apnSetting) {
-    final result__ = _updateOverrideApn(
-            reference, admin.reference, apnId, apnSetting.reference) !=
-        0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+          content_.ComponentName admin, int apnId, jni.JniObject apnSetting) =>
+      _updateOverrideApn(
+              reference, admin.reference, apnId, apnSetting.reference)
+          .boolean;
 
   static final _removeOverrideApn = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_admin_DevicePolicyManager_removeOverrideApn")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("DevicePolicyManager__removeOverrideApn")
       .asFunction<
-          int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public boolean removeOverrideApn(android.content.ComponentName admin, int apnId)
   ///
@@ -7809,19 +8826,16 @@ class DevicePolicyManager extends jni.JniObject {
   ///         otherwise.
   ///@throws SecurityException if {@code admin} is not a device owner.
   ///@see \#setOverrideApnsEnabled(ComponentName, boolean)
-  bool removeOverrideApn(content_.ComponentName admin, int apnId) {
-    final result__ = _removeOverrideApn(reference, admin.reference, apnId) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool removeOverrideApn(content_.ComponentName admin, int apnId) =>
+      _removeOverrideApn(reference, admin.reference, apnId).boolean;
 
   static final _getOverrideApns = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getOverrideApns")
+          "DevicePolicyManager__getOverrideApns")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.util.List<android.telephony.data.ApnSetting> getOverrideApns(android.content.ComponentName admin)
@@ -7833,20 +8847,19 @@ class DevicePolicyManager extends jni.JniObject {
   ///@return A list of override APNs inserted by device owner.
   ///@throws SecurityException if {@code admin} is not a device owner.
   ///@see \#setOverrideApnsEnabled(ComponentName, boolean)
-  jni.JniObject getOverrideApns(content_.ComponentName admin) {
-    final result__ =
-        jni.JniObject.fromRef(_getOverrideApns(reference, admin.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getOverrideApns(content_.ComponentName admin) =>
+      jni.JniObject.fromRef(
+          _getOverrideApns(reference, admin.reference).object);
 
   static final _setOverrideApnsEnabled = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "android_app_admin_DevicePolicyManager_setOverrideApnsEnabled")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Uint8)>>("DevicePolicyManager__setOverrideApnsEnabled")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void setOverrideApnsEnabled(android.content.ComponentName admin, boolean enabled)
   ///
@@ -7858,19 +8871,18 @@ class DevicePolicyManager extends jni.JniObject {
   /// This value must never be {@code null}.
   ///@param enabled {@code true} if override APNs should be enabled, {@code false} otherwise
   ///@throws SecurityException if {@code admin} is not a device owner.
-  void setOverrideApnsEnabled(content_.ComponentName admin, bool enabled) {
-    final result__ =
-        _setOverrideApnsEnabled(reference, admin.reference, enabled ? 1 : 0);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void setOverrideApnsEnabled(content_.ComponentName admin, bool enabled) =>
+      _setOverrideApnsEnabled(reference, admin.reference, enabled ? 1 : 0)
+          .check();
 
   static final _isOverrideApnEnabled = jniLookup<
               ffi.NativeFunction<
-                  ffi.Uint8 Function(
+                  jni.JniResult Function(
                       ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_isOverrideApnEnabled")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          "DevicePolicyManager__isOverrideApnEnabled")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean isOverrideApnEnabled(android.content.ComponentName admin)
   ///
@@ -7880,17 +8892,14 @@ class DevicePolicyManager extends jni.JniObject {
   ///@return {@code true} if override APNs are currently enabled, {@code false} otherwise.
   ///@throws SecurityException if {@code admin} is not a device owner.
   ///@see \#setOverrideApnsEnabled(ComponentName, boolean)
-  bool isOverrideApnEnabled(content_.ComponentName admin) {
-    final result__ = _isOverrideApnEnabled(reference, admin.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool isOverrideApnEnabled(content_.ComponentName admin) =>
+      _isOverrideApnEnabled(reference, admin.reference).boolean;
 
   static final _getTransferOwnershipBundle = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DevicePolicyManager_getTransferOwnershipBundle")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "DevicePolicyManager__getTransferOwnershipBundle")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public android.os.PersistableBundle getTransferOwnershipBundle()
   /// The returned object must be deleted after use, by calling the `delete` method.
@@ -7909,12 +8918,9 @@ class DevicePolicyManager extends jni.JniObject {
   ///@see \#transferOwnership
   ///@see DeviceAdminReceiver\#onTransferOwnershipComplete(Context, PersistableBundle)
   ///@throws SecurityException if the caller is not a device or profile owner.
-  os_.PersistableBundle getTransferOwnershipBundle() {
-    final result__ =
-        os_.PersistableBundle.fromRef(_getTransferOwnershipBundle(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  os_.PersistableBundle getTransferOwnershipBundle() =>
+      os_.PersistableBundle.fromRef(
+          _getTransferOwnershipBundle(reference).object);
 }
 
 /// from: android.app.admin.DevicePolicyManager$OnClearApplicationUserDataListener
@@ -7929,11 +8935,12 @@ class DevicePolicyManager_OnClearApplicationUserDataListener
 
   static final _onApplicationUserDataCleared = jniLookup<
               ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
                       ffi.Pointer<ffi.Void>, ffi.Uint8)>>(
-          "android_app_admin_DevicePolicyManager__OnClearApplicationUserDataListener_onApplicationUserDataCleared")
+          "DevicePolicyManager_OnClearApplicationUserDataListener__onApplicationUserDataCleared")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public abstract void onApplicationUserDataCleared(java.lang.String packageName, boolean succeeded)
   ///
@@ -7941,2272 +8948,111 @@ class DevicePolicyManager_OnClearApplicationUserDataListener
   ///@param packageName The name of the package which had its user data cleared.
   ///@param succeeded Whether the clearing succeeded. Clearing fails for device administrator
   ///                  apps and protected system packages.
-  void onApplicationUserDataCleared(jni.JniString packageName, bool succeeded) {
-    final result__ = _onApplicationUserDataCleared(
-        reference, packageName.reference, succeeded ? 1 : 0);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void onApplicationUserDataCleared(
+          jni.JniString packageName, bool succeeded) =>
+      _onApplicationUserDataCleared(
+              reference, packageName.reference, succeeded ? 1 : 0)
+          .check();
 }
 
-/// from: android.app.admin.SystemUpdateInfo
+/// from: android.app.admin.DnsEvent
 ///
-/// A class containing information about a pending system update.
-class SystemUpdateInfo extends jni.JniObject {
-  SystemUpdateInfo.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  static final _get_CREATOR =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "get_android_app_admin_SystemUpdateInfo_CREATOR")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: static public final android.os.Parcelable.Creator<android.app.admin.SystemUpdateInfo> CREATOR
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  static os_.Parcelable_Creator get CREATOR =>
-      os_.Parcelable_Creator.fromRef(_get_CREATOR());
-
-  /// from: static public final int SECURITY_PATCH_STATE_FALSE
-  ///
-  /// Represents the system update is not a security patch.
-  static const SECURITY_PATCH_STATE_FALSE = 1;
-
-  /// from: static public final int SECURITY_PATCH_STATE_TRUE
-  ///
-  /// Represents the system update is a security patch.
-  static const SECURITY_PATCH_STATE_TRUE = 2;
-
-  /// from: static public final int SECURITY_PATCH_STATE_UNKNOWN
-  ///
-  /// Represents it is unknown whether the system update is a security patch.
-  static const SECURITY_PATCH_STATE_UNKNOWN = 0;
-
-  static final _ctor = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_SystemUpdateInfo_ctor")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: void <init>(android.os.Parcel in)
-  SystemUpdateInfo(os_.Parcel in0) : super.fromRef(_ctor(in0.reference)) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _getReceivedTime =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_admin_SystemUpdateInfo_getReceivedTime")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public long getReceivedTime()
-  ///
-  /// Gets time when the update was first available in milliseconds since midnight, January 1,
-  /// 1970 UTC.
-  ///@return Time in milliseconds as given by System\#currentTimeMillis()
-  int getReceivedTime() {
-    final result__ = _getReceivedTime(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getSecurityPatchState =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_admin_SystemUpdateInfo_getSecurityPatchState")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int getSecurityPatchState()
-  ///
-  /// Gets whether the update is a security patch.
-  ///@return \#SECURITY_PATCH_STATE_FALSE, \#SECURITY_PATCH_STATE_TRUE, or
-  ///         \#SECURITY_PATCH_STATE_UNKNOWN.
-  ///
-  /// Value is android.app.admin.SystemUpdateInfo\#SECURITY_PATCH_STATE_FALSE, android.app.admin.SystemUpdateInfo\#SECURITY_PATCH_STATE_TRUE, or android.app.admin.SystemUpdateInfo\#SECURITY_PATCH_STATE_UNKNOWN
-  int getSecurityPatchState() {
-    final result__ = _getSecurityPatchState(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _describeContents =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_admin_SystemUpdateInfo_describeContents")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int describeContents()
-  int describeContents() {
-    final result__ = _describeContents(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _writeToParcel = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_admin_SystemUpdateInfo_writeToParcel")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(os_.Parcel dest, int flags) {
-    final result__ = _writeToParcel(reference, dest.reference, flags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _toString1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_SystemUpdateInfo_toString1")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.lang.String toString()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniString toString1() {
-    final result__ = jni.JniString.fromRef(_toString1(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _equals1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_SystemUpdateInfo_equals1")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public boolean equals(java.lang.Object o)
-  bool equals1(jni.JniObject o) {
-    final result__ = _equals1(reference, o.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _hashCode1 =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_admin_SystemUpdateInfo_hashCode1")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int hashCode()
-  int hashCode1() {
-    final result__ = _hashCode1(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
-
-/// from: android.app.admin.ConnectEvent
+/// A class that represents a DNS lookup event initiated through the standard network stack.
 ///
-/// A class that represents a TCP connect event initiated through the standard network stack.
-///
-/// It contains information about the originating app as well as the remote TCP endpoint.
-///
-/// Support both IPv4 and IPv6 connections.
-class ConnectEvent extends NetworkEvent {
-  ConnectEvent.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+/// It contains information about the originating app as well as the DNS hostname and resolved
+/// IP addresses.
+class DnsEvent extends NetworkEvent {
+  DnsEvent.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   static final _get_CREATOR1 =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "get_android_app_admin_ConnectEvent_CREATOR1")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_DnsEvent__CREATOR1")
+          .asFunction<jni.JniResult Function()>();
 
-  /// from: static public final android.os.Parcelable.Creator<android.app.admin.ConnectEvent> CREATOR
+  /// from: static public final android.os.Parcelable.Creator<android.app.admin.DnsEvent> CREATOR
   /// The returned object must be deleted after use, by calling the `delete` method.
   static os_.Parcelable_Creator get CREATOR1 =>
-      os_.Parcelable_Creator.fromRef(_get_CREATOR1());
+      os_.Parcelable_Creator.fromRef(_get_CREATOR1().object);
 
   static final _ctor1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_ConnectEvent_ctor1")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>)>>("DnsEvent__ctor1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: void <init>(android.os.Parcel in)
-  ConnectEvent.ctor1(os_.Parcel in0) : super.fromRef(_ctor1(in0.reference)) {
-    jni.Jni.env.checkException();
-  }
+  DnsEvent.ctor1(os_.Parcel in0) : super.fromRef(_ctor1(in0.reference).object);
 
-  static final _getInetAddress = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_ConnectEvent_getInetAddress")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.net.InetAddress getInetAddress()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniObject getInetAddress() {
-    final result__ = jni.JniObject.fromRef(_getInetAddress(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getPort =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_admin_ConnectEvent_getPort")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int getPort()
-  int getPort() {
-    final result__ = _getPort(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _toString1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_ConnectEvent_toString1")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.lang.String toString()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniString toString1() {
-    final result__ = jni.JniString.fromRef(_toString1(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _describeContents =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_admin_ConnectEvent_describeContents")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int describeContents()
-  int describeContents() {
-    final result__ = _describeContents(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _writeToParcel = jniLookup<
+  static final _getHostname = jniLookup<
           ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_app_admin_ConnectEvent_writeToParcel")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("DnsEvent__getHostname")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
-  /// from: public void writeToParcel(android.os.Parcel out, int flags)
-  void writeToParcel(os_.Parcel out, int flags) {
-    final result__ = _writeToParcel(reference, out.reference, flags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
-
-/// from: android.app.admin.SystemUpdatePolicy
-///
-/// Determines when over-the-air system updates are installed on a device. Only a device policy
-/// controller (DPC) running in device owner mode can set an update policy for the device\u2014by calling
-/// the {@code DevicePolicyManager} method
-/// DevicePolicyManager\#setSystemUpdatePolicy setSystemUpdatePolicy(). An update
-/// policy affects the pending system update (if there is one) and any future updates for the device.
-///
-/// If a policy is set on a device, the system doesn't notify the user about updates.
-///
-/// <h3>Example</h3>
-///
-/// The example below shows how a DPC might set a maintenance window for system updates:
-///
-/// <pre><code>
-/// private final MAINTENANCE_WINDOW_START = 1380; // 11pm
-/// private final MAINTENANCE_WINDOW_END = 120; // 2am
-///
-/// // ...
-///
-/// // Create the system update policy
-/// SystemUpdatePolicy policy = SystemUpdatePolicy.createWindowedInstallPolicy(
-///     MAINTENANCE_WINDOW_START, MAINTENANCE_WINDOW_END);
-///
-/// // Get a DevicePolicyManager instance to set the policy on the device
-/// DevicePolicyManager dpm =
-///     (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
-/// ComponentName adminComponent = getComponentName(context);
-/// dpm.setSystemUpdatePolicy(adminComponent, policy);
-/// </code></pre>
-///
-/// <h3>Developer guide</h3>
-/// To learn more about managing system updates, read
-/// <a href="{@docRoot}/work/dpc/security.html\#control_remote_software_updates">Control remote
-/// software updates</a>.
-///@see DevicePolicyManager\#setSystemUpdatePolicy
-///@see DevicePolicyManager\#getSystemUpdatePolicy
-class SystemUpdatePolicy extends jni.JniObject {
-  SystemUpdatePolicy.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  static final _get_CREATOR =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "get_android_app_admin_SystemUpdatePolicy_CREATOR")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: static public final android.os.Parcelable.Creator<android.app.admin.SystemUpdatePolicy> CREATOR
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  static os_.Parcelable_Creator get CREATOR =>
-      os_.Parcelable_Creator.fromRef(_get_CREATOR());
-
-  /// from: static public final int TYPE_INSTALL_AUTOMATIC
-  ///
-  /// Installs system updates (without user interaction) as soon as they become available. Setting
-  /// this policy type immediately installs any pending updates that might be postponed or waiting
-  /// for a maintenance window.
-  static const TYPE_INSTALL_AUTOMATIC = 1;
-
-  /// from: static public final int TYPE_INSTALL_WINDOWED
-  ///
-  /// Installs system updates (without user interaction) during a daily maintenance window. Set the
-  /// start and end of the daily maintenance window, as minutes of the day, when creating a new
-  /// {@code TYPE_INSTALL_WINDOWED} policy. See
-  /// \#createWindowedInstallPolicy createWindowedInstallPolicy().
-  ///
-  /// No connectivity, not enough disk space, or a low battery are typical reasons Android might
-  /// not install a system update in the daily maintenance window. After 30 days trying to install
-  /// an update in the maintenance window (regardless of policy changes in this period), the system
-  /// prompts the device user to install the update.
-  static const TYPE_INSTALL_WINDOWED = 2;
-
-  /// from: static public final int TYPE_POSTPONE
-  ///
-  /// Postpones the installation of system updates for 30 days. After the 30-day period has ended,
-  /// the system prompts the device user to install the update.
-  ///
-  /// The system limits each update to one 30-day postponement. The period begins when the
-  /// system first postpones the update and setting new {@code TYPE_POSTPONE} policies won\u2019t extend
-  /// the period. If, after 30 days the update isn\u2019t installed (through policy changes), the system
-  /// prompts the user to install the update.
-  ///
-  /// <strong>Note</strong>: Device manufacturers or carriers might choose to exempt important
-  /// security updates from a postponement policy. Exempted updates notify the device user when
-  /// they become available.
-  static const TYPE_POSTPONE = 3;
-
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_app_admin_SystemUpdatePolicy_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: void <init>()
-  SystemUpdatePolicy() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _createAutomaticInstallPolicy = jniLookup<
-              ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-          "android_app_admin_SystemUpdatePolicy_createAutomaticInstallPolicy")
-      .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: static public android.app.admin.SystemUpdatePolicy createAutomaticInstallPolicy()
+  /// from: public java.lang.String getHostname()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
-  /// Create a policy object and set it to install update automatically as soon as one is
-  /// available.
-  ///@see \#TYPE_INSTALL_AUTOMATIC
-  static SystemUpdatePolicy createAutomaticInstallPolicy() {
-    final result__ =
-        SystemUpdatePolicy.fromRef(_createAutomaticInstallPolicy());
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  /// Returns the hostname that was looked up.
+  jni.JniString getHostname() =>
+      jni.JniString.fromRef(_getHostname(reference).object);
 
-  static final _createWindowedInstallPolicy = jniLookup<
+  static final _getInetAddresses = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("DnsEvent__getInetAddresses")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.util.List<java.net.InetAddress> getInetAddresses()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Returns (possibly a subset of) the IP addresses returned.
+  jni.JniObject getInetAddresses() =>
+      jni.JniObject.fromRef(_getInetAddresses(reference).object);
+
+  static final _getTotalResolvedAddressCount = jniLookup<
               ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Int32, ffi.Int32)>>(
-          "android_app_admin_SystemUpdatePolicy_createWindowedInstallPolicy")
-      .asFunction<ffi.Pointer<ffi.Void> Function(int, int)>();
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "DnsEvent__getTotalResolvedAddressCount")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
-  /// from: static public android.app.admin.SystemUpdatePolicy createWindowedInstallPolicy(int startTime, int endTime)
-  /// The returned object must be deleted after use, by calling the `delete` method.
+  /// from: public int getTotalResolvedAddressCount()
   ///
-  /// Create a policy object and set it to: new system update will only be installed automatically
-  /// when the system clock is inside a daily maintenance window. If the start and end times are
-  /// the same, the window is considered to include the <i>whole 24 hours</i>. That is, updates can
-  /// install at any time. If start time is later than end time, the window is considered spanning
-  /// midnight (i.e. the end time denotes a time on the next day). The maintenance window will last
-  /// for 30 days for any given update, after which the window will no longer be effective and
-  /// the pending update will be made available for manual installation as if no system update
-  /// policy were set on the device. See \#TYPE_INSTALL_WINDOWED for the details of this
-  /// policy's behavior.
-  ///@param startTime the start of the maintenance window, measured as the number of minutes from
-  ///            midnight in the device's local time. Must be in the range of [0, 1440).
-  ///@param endTime the end of the maintenance window, measured as the number of minutes from
-  ///            midnight in the device's local time. Must be in the range of [0, 1440).
-  ///@throws IllegalArgumentException If the {@code startTime} or {@code endTime} isn't in the
-  ///            accepted range.
-  ///@return The configured policy.
-  ///@see \#TYPE_INSTALL_WINDOWED
-  static SystemUpdatePolicy createWindowedInstallPolicy(
-      int startTime, int endTime) {
-    final result__ = SystemUpdatePolicy.fromRef(
-        _createWindowedInstallPolicy(startTime, endTime));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _createPostponeInstallPolicy = jniLookup<
-              ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-          "android_app_admin_SystemUpdatePolicy_createPostponeInstallPolicy")
-      .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: static public android.app.admin.SystemUpdatePolicy createPostponeInstallPolicy()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Create a policy object and set it to block installation for a maximum period of 30 days.
-  /// To learn more about this policy's behavior, see \#TYPE_POSTPONE.
-  ///
-  /// __Note: __ security updates (e.g. monthly security patches) will <i>not</i> be affected
-  /// by this policy.
-  ///@see \#TYPE_POSTPONE
-  static SystemUpdatePolicy createPostponeInstallPolicy() {
-    final result__ = SystemUpdatePolicy.fromRef(_createPostponeInstallPolicy());
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getPolicyType =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_admin_SystemUpdatePolicy_getPolicyType")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int getPolicyType()
-  ///
-  /// Returns the type of system update policy, or -1 if no policy has been set.
-  ///@return The policy type or -1 if the type isn't set.
-  ///
-  /// Value is android.app.admin.SystemUpdatePolicy\#TYPE_INSTALL_AUTOMATIC, android.app.admin.SystemUpdatePolicy\#TYPE_INSTALL_WINDOWED, or android.app.admin.SystemUpdatePolicy\#TYPE_POSTPONE
-  int getPolicyType() {
-    final result__ = _getPolicyType(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getInstallWindowStart =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_admin_SystemUpdatePolicy_getInstallWindowStart")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int getInstallWindowStart()
-  ///
-  /// Get the start of the maintenance window.
-  ///@return the start of the maintenance window measured as the number of minutes from midnight,
-  /// or -1 if the policy does not have a maintenance window.
-  int getInstallWindowStart() {
-    final result__ = _getInstallWindowStart(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getInstallWindowEnd =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_admin_SystemUpdatePolicy_getInstallWindowEnd")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int getInstallWindowEnd()
-  ///
-  /// Get the end of the maintenance window.
-  ///@return the end of the maintenance window measured as the number of minutes from midnight,
-  /// or -1 if the policy does not have a maintenance window.
-  int getInstallWindowEnd() {
-    final result__ = _getInstallWindowEnd(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _setFreezePeriods = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_SystemUpdatePolicy_setFreezePeriods")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.app.admin.SystemUpdatePolicy setFreezePeriods(java.util.List<android.app.admin.FreezePeriod> freezePeriods)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Configure a list of freeze periods on top of the current policy. When the device's clock is
-  /// within any of the freeze periods, all incoming system updates including security patches will
-  /// be blocked and cannot be installed. When the device is outside the freeze periods, the normal
-  /// policy behavior will apply.
-  ///
-  /// Each individual freeze period is allowed to be at most 90 days long, and adjacent freeze
-  /// periods need to be at least 60 days apart. Also, the list of freeze periods should not
-  /// contain duplicates or overlap with each other. If any of these conditions is not met, a
-  /// ValidationFailedException will be thrown.
-  ///
-  /// Handling of leap year: we ignore leap years in freeze period calculations, in particular,
-  /// <ul>
-  /// <li>When a freeze period is defined, February 29th is disregarded so even though a freeze
-  /// period can be specified to start or end on February 29th, it will be treated as if the period
-  /// started or ended on February 28th.</li>
-  /// <li>When applying freeze period behavior to the device, a system clock of February 29th is
-  /// treated as if it were February 28th</li>
-  /// <li>When calculating the number of days of a freeze period or separation between two freeze
-  /// periods, February 29th is also ignored and not counted as one day.</li>
-  /// </ul>
-  ///@param freezePeriods the list of freeze periods
-  ///@throws ValidationFailedException if the supplied freeze periods do not meet the
-  ///         requirement set above
-  ///@return this instance
-  SystemUpdatePolicy setFreezePeriods(jni.JniObject freezePeriods) {
-    final result__ = SystemUpdatePolicy.fromRef(
-        _setFreezePeriods(reference, freezePeriods.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getFreezePeriods = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_SystemUpdatePolicy_getFreezePeriods")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.util.List<android.app.admin.FreezePeriod> getFreezePeriods()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Returns the list of freeze periods previously set on this system update policy object.
-  ///@return the list of freeze periods, or an empty list if none was set.
-  jni.JniObject getFreezePeriods() {
-    final result__ = jni.JniObject.fromRef(_getFreezePeriods(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  /// Returns the number of IP addresses returned from the DNS lookup event. May be different from
+  /// the length of the list returned by \#getInetAddresses() if there were too many
+  /// addresses to log.
+  int getTotalResolvedAddressCount() =>
+      _getTotalResolvedAddressCount(reference).integer;
 
   static final _toString1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_SystemUpdatePolicy_toString1")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("DnsEvent__toString1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String toString()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniString toString1() {
-    final result__ = jni.JniString.fromRef(_toString1(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _describeContents =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_admin_SystemUpdatePolicy_describeContents")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int describeContents()
-  int describeContents() {
-    final result__ = _describeContents(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _writeToParcel = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_admin_SystemUpdatePolicy_writeToParcel")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(os_.Parcel dest, int flags) {
-    final result__ = _writeToParcel(reference, dest.reference, flags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
-
-/// from: android.app.admin.SystemUpdatePolicy$ValidationFailedException
-///
-/// An exception class that represents various validation errors thrown from
-/// SystemUpdatePolicy\#setFreezePeriods and
-/// DevicePolicyManager\#setSystemUpdatePolicy
-class SystemUpdatePolicy_ValidationFailedException extends jni.JniObject {
-  SystemUpdatePolicy_ValidationFailedException.fromRef(
-      ffi.Pointer<ffi.Void> ref)
-      : super.fromRef(ref);
-
-  static final _get_CREATOR = jniLookup<
-              ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-          "get_android_app_admin_SystemUpdatePolicy__ValidationFailedException_CREATOR")
-      .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: static public final android.os.Parcelable.Creator<android.app.admin.SystemUpdatePolicy.ValidationFailedException> CREATOR
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  static os_.Parcelable_Creator get CREATOR =>
-      os_.Parcelable_Creator.fromRef(_get_CREATOR());
-
-  /// from: static public final int ERROR_COMBINED_FREEZE_PERIOD_TOO_CLOSE
-  ///
-  /// The device has been in a freeze period and some new freeze period to be set is less
-  /// than 60 days from the end of the last freeze period the device went through.
-  static const ERROR_COMBINED_FREEZE_PERIOD_TOO_CLOSE = 6;
-
-  /// from: static public final int ERROR_COMBINED_FREEZE_PERIOD_TOO_LONG
-  ///
-  /// The device has been in a freeze period and when combining with the new freeze period
-  /// to be set, it will result in the total freeze period being longer than 90 days.
-  static const ERROR_COMBINED_FREEZE_PERIOD_TOO_LONG = 5;
-
-  /// from: static public final int ERROR_DUPLICATE_OR_OVERLAP
-  ///
-  /// The freeze periods contains duplicates, periods that overlap with each
-  /// other or periods whose start and end joins.
-  static const ERROR_DUPLICATE_OR_OVERLAP = 2;
-
-  /// from: static public final int ERROR_NEW_FREEZE_PERIOD_TOO_CLOSE
-  ///
-  /// There exists some freeze period which starts within 60 days of the preceding period's
-  /// end time.
-  static const ERROR_NEW_FREEZE_PERIOD_TOO_CLOSE = 4;
-
-  /// from: static public final int ERROR_NEW_FREEZE_PERIOD_TOO_LONG
-  ///
-  /// There exists at least one freeze period whose length exceeds 90 days.
-  static const ERROR_NEW_FREEZE_PERIOD_TOO_LONG = 3;
-
-  /// from: static public final int ERROR_UNKNOWN
-  ///
-  /// Validation failed with unknown error.
-  static const ERROR_UNKNOWN = 1;
-
-  static final _ctor = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Int32, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_SystemUpdatePolicy__ValidationFailedException_ctor")
-      .asFunction<ffi.Pointer<ffi.Void> Function(int, ffi.Pointer<ffi.Void>)>();
-
-  /// from: void <init>(int errorCode, java.lang.String message)
-  SystemUpdatePolicy_ValidationFailedException(
-      int errorCode, jni.JniString message)
-      : super.fromRef(_ctor(errorCode, message.reference)) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _getErrorCode = jniLookup<
-              ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_SystemUpdatePolicy__ValidationFailedException_getErrorCode")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int getErrorCode()
-  ///
-  /// Returns the type of validation error associated with this exception.
-  ///@return Value is android.app.admin.SystemUpdatePolicy.ValidationFailedException.ERROR_NONE, android.app.admin.SystemUpdatePolicy.ValidationFailedException\#ERROR_DUPLICATE_OR_OVERLAP, android.app.admin.SystemUpdatePolicy.ValidationFailedException\#ERROR_NEW_FREEZE_PERIOD_TOO_LONG, android.app.admin.SystemUpdatePolicy.ValidationFailedException\#ERROR_NEW_FREEZE_PERIOD_TOO_CLOSE, android.app.admin.SystemUpdatePolicy.ValidationFailedException\#ERROR_COMBINED_FREEZE_PERIOD_TOO_LONG, android.app.admin.SystemUpdatePolicy.ValidationFailedException\#ERROR_COMBINED_FREEZE_PERIOD_TOO_CLOSE, or android.app.admin.SystemUpdatePolicy.ValidationFailedException\#ERROR_UNKNOWN
-  int getErrorCode() {
-    final result__ = _getErrorCode(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString toString1() =>
+      jni.JniString.fromRef(_toString1(reference).object);
 
   static final _describeContents = jniLookup<
-              ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_SystemUpdatePolicy__ValidationFailedException_describeContents")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public int describeContents()
-  int describeContents() {
-    final result__ = _describeContents(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _writeToParcel = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_admin_SystemUpdatePolicy__ValidationFailedException_writeToParcel")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(os_.Parcel dest, int flags) {
-    final result__ = _writeToParcel(reference, dest.reference, flags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
-
-/// from: android.app.admin.DeviceAdminReceiver
-///
-/// Base class for implementing a device administration component.  This
-/// class provides a convenience for interpreting the raw intent actions
-/// that are sent by the system.
-///
-/// The callback methods, like the base
-/// BroadcastReceiver\#onReceive(Context, Intent) BroadcastReceiver.onReceive()
-/// method, happen on the main thread of the process.  Thus long running
-/// operations must be done on another thread.  Note that because a receiver
-/// is done once returning from its receive function, such long-running operations
-/// should probably be done in a Service.
-///
-/// When publishing your DeviceAdmin subclass as a receiver, it must
-/// handle \#ACTION_DEVICE_ADMIN_ENABLED and require the
-/// android.Manifest.permission\#BIND_DEVICE_ADMIN permission.  A typical
-/// manifest entry would look like:
-///
-///
-/// {@sample development/samples/ApiDemos/AndroidManifest.xml device_admin_declaration}
-///
-/// The meta-data referenced here provides addition information specific
-/// to the device administrator, as parsed by the DeviceAdminInfo class.
-/// A typical file would be:
-///
-///
-/// {@sample development/samples/ApiDemos/res/xml/device_admin_sample.xml meta_data}
-///
-/// <div class="special reference">
-/// <h3>Developer Guides</h3>
-/// For more information about device administration, read the
-/// <a href="{@docRoot}guide/topics/admin/device-admin.html">Device Administration</a>
-/// developer guide.
-///
-/// </div>
-class DeviceAdminReceiver extends content_.BroadcastReceiver {
-  DeviceAdminReceiver.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  /// from: static public final java.lang.String ACTION_DEVICE_ADMIN_DISABLED
-  ///
-  /// Action sent to a device administrator when the user has disabled
-  /// it.  Upon return, the application no longer has access to the
-  /// protected device policy manager APIs.  You will generally
-  /// handle this in DeviceAdminReceiver\#onDisabled(Context, Intent).  Note
-  /// that this action will be
-  /// sent the receiver regardless of whether it is explicitly listed in
-  /// its intent filter.
-  static const ACTION_DEVICE_ADMIN_DISABLED =
-      "android.app.action.DEVICE_ADMIN_DISABLED";
-
-  /// from: static public final java.lang.String ACTION_DEVICE_ADMIN_DISABLE_REQUESTED
-  ///
-  /// Action sent to a device administrator when the user has requested to
-  /// disable it, but before this has actually been done.  This gives you
-  /// a chance to supply a message to the user about the impact of
-  /// disabling your admin, by setting the extra field
-  /// \#EXTRA_DISABLE_WARNING in the result Intent.  If not set,
-  /// no warning will be displayed.  If set, the given text will be shown
-  /// to the user before they disable your admin.
-  static const ACTION_DEVICE_ADMIN_DISABLE_REQUESTED =
-      "android.app.action.DEVICE_ADMIN_DISABLE_REQUESTED";
-
-  /// from: static public final java.lang.String ACTION_DEVICE_ADMIN_ENABLED
-  ///
-  /// This is the primary action that a device administrator must implement to be
-  /// allowed to manage a device.  This will be set to the receiver
-  /// when the user enables it for administration.  You will generally
-  /// handle this in DeviceAdminReceiver\#onEnabled(Context, Intent).  To be
-  /// supported, the receiver must also require the
-  /// android.Manifest.permission\#BIND_DEVICE_ADMIN permission so
-  /// that other applications can not abuse it.
-  static const ACTION_DEVICE_ADMIN_ENABLED =
-      "android.app.action.DEVICE_ADMIN_ENABLED";
-
-  /// from: static public final java.lang.String ACTION_LOCK_TASK_ENTERING
-  ///
-  /// Action sent to a device administrator to notify that the device is entering
-  /// lock task mode.  The extra \#EXTRA_LOCK_TASK_PACKAGE
-  /// will describe the package using lock task mode.
-  ///
-  /// The calling device admin must be the device owner or profile
-  /// owner to receive this broadcast.
-  ///@see DevicePolicyManager\#isLockTaskPermitted(String)
-  static const ACTION_LOCK_TASK_ENTERING =
-      "android.app.action.LOCK_TASK_ENTERING";
-
-  /// from: static public final java.lang.String ACTION_LOCK_TASK_EXITING
-  ///
-  /// Action sent to a device administrator to notify that the device is exiting
-  /// lock task mode.
-  ///
-  /// The calling device admin must be the device owner or profile
-  /// owner to receive this broadcast.
-  ///@see DevicePolicyManager\#isLockTaskPermitted(String)
-  static const ACTION_LOCK_TASK_EXITING =
-      "android.app.action.LOCK_TASK_EXITING";
-
-  /// from: static public final java.lang.String ACTION_PASSWORD_CHANGED
-  ///
-  /// Action sent to a device administrator when the user has changed the password of their device
-  /// or profile challenge.  You can at this point check the characteristics
-  /// of the new password with DevicePolicyManager\#isActivePasswordSufficient() DevicePolicyManager.isActivePasswordSufficient().
-  /// You will generally
-  /// handle this in DeviceAdminReceiver\#onPasswordChanged(Context, Intent, UserHandle).
-  ///
-  /// The calling device admin must have requested
-  /// DeviceAdminInfo\#USES_POLICY_LIMIT_PASSWORD to receive
-  /// this broadcast.
-  static const ACTION_PASSWORD_CHANGED =
-      "android.app.action.ACTION_PASSWORD_CHANGED";
-
-  /// from: static public final java.lang.String ACTION_PASSWORD_EXPIRING
-  ///
-  /// Action periodically sent to a device administrator when the device or profile challenge
-  /// password is expiring.  You will generally
-  /// handle this in DeviceAdminReceiver\#onPasswordExpiring(Context, Intent, UserHandle).
-  ///
-  /// The calling device admin must have requested
-  /// DeviceAdminInfo\#USES_POLICY_EXPIRE_PASSWORD to receive
-  /// this broadcast.
-  static const ACTION_PASSWORD_EXPIRING =
-      "android.app.action.ACTION_PASSWORD_EXPIRING";
-
-  /// from: static public final java.lang.String ACTION_PASSWORD_FAILED
-  ///
-  /// Action sent to a device administrator when the user has entered an incorrect device
-  /// or profile challenge password.  You can at this point check the
-  /// number of failed password attempts there have been with
-  /// DevicePolicyManager\#getCurrentFailedPasswordAttempts DevicePolicyManager.getCurrentFailedPasswordAttempts().  You will generally
-  /// handle this in DeviceAdminReceiver\#onPasswordFailed(Context, Intent, UserHandle).
-  ///
-  /// The calling device admin must have requested
-  /// DeviceAdminInfo\#USES_POLICY_WATCH_LOGIN to receive
-  /// this broadcast.
-  static const ACTION_PASSWORD_FAILED =
-      "android.app.action.ACTION_PASSWORD_FAILED";
-
-  /// from: static public final java.lang.String ACTION_PASSWORD_SUCCEEDED
-  ///
-  /// Action sent to a device administrator when the user has successfully entered their device
-  /// or profile challenge password, after failing one or more times.  You will generally
-  /// handle this in DeviceAdminReceiver\#onPasswordSucceeded(Context, Intent, UserHandle).
-  ///
-  /// The calling device admin must have requested
-  /// DeviceAdminInfo\#USES_POLICY_WATCH_LOGIN to receive
-  /// this broadcast.
-  static const ACTION_PASSWORD_SUCCEEDED =
-      "android.app.action.ACTION_PASSWORD_SUCCEEDED";
-
-  /// from: static public final java.lang.String ACTION_PROFILE_PROVISIONING_COMPLETE
-  ///
-  /// Broadcast Action: This broadcast is sent to indicate that provisioning of a managed profile
-  /// or managed device has completed successfully.
-  ///
-  /// The broadcast is limited to the profile that will be managed by the application that
-  /// requested provisioning. In the device owner case the profile is the primary user.
-  /// The broadcast will also be limited to the DeviceAdminReceiver component
-  /// specified in the original intent or NFC bump that started the provisioning process
-  /// (see DevicePolicyManager\#ACTION_PROVISION_MANAGED_PROFILE DevicePolicyManager.ACTION_PROVISION_MANAGED_PROFILE).
-  ///
-  /// A device admin application which listens to this intent can find out if the device was
-  /// provisioned for the device owner or profile owner case by calling respectively
-  /// android.app.admin.DevicePolicyManager\#isDeviceOwnerApp and
-  /// android.app.admin.DevicePolicyManager\#isProfileOwnerApp. You will generally handle
-  /// this in DeviceAdminReceiver\#onProfileProvisioningComplete.
-  ///@see DevicePolicyManager\#ACTION_PROVISIONING_SUCCESSFUL
-  static const ACTION_PROFILE_PROVISIONING_COMPLETE =
-      "android.app.action.PROFILE_PROVISIONING_COMPLETE";
-
-  /// from: static public final int BUGREPORT_FAILURE_FAILED_COMPLETING
-  ///
-  /// Bugreport completion process failed.
-  ///
-  /// If this error code is received, the requesting of bugreport can be retried.
-  ///@see DevicePolicyManager\#requestBugreport
-  static const BUGREPORT_FAILURE_FAILED_COMPLETING = 0;
-
-  /// from: static public final int BUGREPORT_FAILURE_FILE_NO_LONGER_AVAILABLE
-  ///
-  /// Bugreport has been created, but is no longer available for collection.
-  ///
-  /// This error likely occurs because the user of the device hasn't consented to share
-  /// the bugreport for a long period after its creation.
-  ///
-  /// If this error code is received, the requesting of bugreport can be retried.
-  ///@see DevicePolicyManager\#requestBugreport
-  static const BUGREPORT_FAILURE_FILE_NO_LONGER_AVAILABLE = 1;
-
-  /// from: static public final java.lang.String DEVICE_ADMIN_META_DATA
-  ///
-  /// Name under which a DevicePolicy component publishes information
-  /// about itself.  This meta-data must reference an XML resource containing
-  /// a device-admin tag.
-  static const DEVICE_ADMIN_META_DATA = "android.app.device_admin";
-
-  /// from: static public final java.lang.String EXTRA_DISABLE_WARNING
-  ///
-  /// A CharSequence that can be shown to the user informing them of the
-  /// impact of disabling your admin.
-  ///@see \#ACTION_DEVICE_ADMIN_DISABLE_REQUESTED
-  static const EXTRA_DISABLE_WARNING = "android.app.extra.DISABLE_WARNING";
-
-  /// from: static public final java.lang.String EXTRA_LOCK_TASK_PACKAGE
-  ///
-  /// A string containing the name of the package entering lock task mode.
-  ///@see \#ACTION_LOCK_TASK_ENTERING
-  static const EXTRA_LOCK_TASK_PACKAGE = "android.app.extra.LOCK_TASK_PACKAGE";
-
-  /// from: static public final java.lang.String EXTRA_TRANSFER_OWNERSHIP_ADMIN_EXTRAS_BUNDLE
-  ///
-  /// A android.os.Parcelable extra of type android.os.PersistableBundle that
-  /// allows a mobile device management application to pass data to the management application
-  /// instance after owner transfer.
-  ///
-  /// If the transfer is successful, the new owner receives the data in
-  /// DeviceAdminReceiver\#onTransferOwnershipComplete(Context, PersistableBundle).
-  /// The bundle is not changed during the ownership transfer.
-  ///@see DevicePolicyManager\#transferOwnership(ComponentName, ComponentName, PersistableBundle)
-  static const EXTRA_TRANSFER_OWNERSHIP_ADMIN_EXTRAS_BUNDLE =
-      "android.app.extra.TRANSFER_OWNERSHIP_ADMIN_EXTRAS_BUNDLE";
-
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_app_admin_DeviceAdminReceiver_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: public void <init>()
-  DeviceAdminReceiver() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _getManager = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminReceiver_getManager")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.app.admin.DevicePolicyManager getManager(android.content.Context context)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Retrieve the DevicePolicyManager interface for this administrator to work
-  /// with the system.
-  DevicePolicyManager getManager(content_.Context context) {
-    final result__ =
-        DevicePolicyManager.fromRef(_getManager(reference, context.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getWho = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminReceiver_getWho")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.content.ComponentName getWho(android.content.Context context)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Retrieve the ComponentName describing who this device administrator is, for
-  /// use in DevicePolicyManager APIs that require the administrator to
-  /// identify itself.
-  content_.ComponentName getWho(content_.Context context) {
-    final result__ =
-        content_.ComponentName.fromRef(_getWho(reference, context.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onEnabled = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminReceiver_onEnabled")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void onEnabled(android.content.Context context, android.content.Intent intent)
-  ///
-  /// Called after the administrator is first enabled, as a result of
-  /// receiving \#ACTION_DEVICE_ADMIN_ENABLED.  At this point you
-  /// can use DevicePolicyManager to set your desired policies.
-  ///
-  ///  If the admin is activated by a device owner, then the intent
-  /// may contain private extras that are relevant to user setup.
-  /// {@see DevicePolicyManager\#createAndManageUser(ComponentName, String, ComponentName,
-  ///      PersistableBundle, int)}
-  ///@param context The running context as per \#onReceive.
-  ///@param intent The received intent as per \#onReceive.
-  void onEnabled(content_.Context context, content_.Intent intent) {
-    final result__ = _onEnabled(reference, context.reference, intent.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onDisableRequested = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminReceiver_onDisableRequested")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.lang.CharSequence onDisableRequested(android.content.Context context, android.content.Intent intent)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Called when the user has asked to disable the administrator, as a result of
-  /// receiving \#ACTION_DEVICE_ADMIN_DISABLE_REQUESTED, giving you
-  /// a chance to present a warning message to them.  The message is returned
-  /// as the result; if null is returned (the default implementation), no
-  /// message will be displayed.
-  ///@param context The running context as per \#onReceive.
-  ///@param intent The received intent as per \#onReceive.
-  ///@return Return the warning message to display to the user before
-  /// being disabled; if null is returned, no message is displayed.
-  jni.JniObject onDisableRequested(
-      content_.Context context, content_.Intent intent) {
-    final result__ = jni.JniObject.fromRef(
-        _onDisableRequested(reference, context.reference, intent.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onDisabled = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminReceiver_onDisabled")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void onDisabled(android.content.Context context, android.content.Intent intent)
-  ///
-  /// Called prior to the administrator being disabled, as a result of
-  /// receiving \#ACTION_DEVICE_ADMIN_DISABLED.  Upon return, you
-  /// can no longer use the protected parts of the DevicePolicyManager
-  /// API.
-  ///@param context The running context as per \#onReceive.
-  ///@param intent The received intent as per \#onReceive.
-  void onDisabled(content_.Context context, content_.Intent intent) {
-    final result__ =
-        _onDisabled(reference, context.reference, intent.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onPasswordChanged = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminReceiver_onPasswordChanged")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void onPasswordChanged(android.content.Context context, android.content.Intent intent)
-  ///
-  /// Called after the user has changed their device or profile challenge password, as a result of
-  /// receiving \#ACTION_PASSWORD_CHANGED.  At this point you
-  /// can use DevicePolicyManager\#getPasswordQuality(android.content.ComponentName)
-  /// to retrieve the active password characteristics.
-  ///@param context The running context as per \#onReceive.
-  ///@param intent The received intent as per \#onReceive.
-  ///@deprecated From android.os.Build.VERSION_CODES\#O, use
-  ///             \#onPasswordChanged(Context, Intent, UserHandle) instead.
-  void onPasswordChanged(content_.Context context, content_.Intent intent) {
-    final result__ =
-        _onPasswordChanged(reference, context.reference, intent.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onPasswordChanged1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminReceiver_onPasswordChanged1")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void onPasswordChanged(android.content.Context context, android.content.Intent intent, android.os.UserHandle user)
-  ///
-  /// Called after the user has changed their device or profile challenge password, as a result of
-  /// receiving \#ACTION_PASSWORD_CHANGED.  At this point you
-  /// can use DevicePolicyManager\#getPasswordQuality(android.content.ComponentName)
-  /// to retrieve the active password characteristics.
-  ///@param context The running context as per \#onReceive.
-  ///@param intent The received intent as per \#onReceive.
-  ///@param user The user or profile for whom the password changed. To see whether this
-  ///        user is the current profile or a parent user, check for equality with
-  ///        Process\#myUserHandle.
-  void onPasswordChanged1(
-      content_.Context context, content_.Intent intent, os_.UserHandle user) {
-    final result__ = _onPasswordChanged1(
-        reference, context.reference, intent.reference, user.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onPasswordFailed = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminReceiver_onPasswordFailed")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void onPasswordFailed(android.content.Context context, android.content.Intent intent)
-  ///
-  /// Called after the user has failed at entering their device or profile challenge password,
-  /// as a result of receiving \#ACTION_PASSWORD_FAILED.  At this point you can use
-  /// DevicePolicyManager\#getCurrentFailedPasswordAttempts() to retrieve the number of
-  /// failed password attempts.
-  ///@param context The running context as per \#onReceive.
-  ///@param intent The received intent as per \#onReceive.
-  ///@deprecated From android.os.Build.VERSION_CODES\#O, use
-  ///             \#onPasswordFailed(Context, Intent, UserHandle) instead.
-  void onPasswordFailed(content_.Context context, content_.Intent intent) {
-    final result__ =
-        _onPasswordFailed(reference, context.reference, intent.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onPasswordFailed1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminReceiver_onPasswordFailed1")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void onPasswordFailed(android.content.Context context, android.content.Intent intent, android.os.UserHandle user)
-  ///
-  /// Called after the user has failed at entering their device or profile challenge password,
-  /// as a result of receiving \#ACTION_PASSWORD_FAILED.  At this point you can use
-  /// DevicePolicyManager\#getCurrentFailedPasswordAttempts() to retrieve the number of
-  /// failed password attempts.
-  ///@param context The running context as per \#onReceive.
-  ///@param intent The received intent as per \#onReceive.
-  ///@param user The user or profile for whom the password check failed. To see whether this
-  ///        user is the current profile or a parent user, check for equality with
-  ///        Process\#myUserHandle.
-  void onPasswordFailed1(
-      content_.Context context, content_.Intent intent, os_.UserHandle user) {
-    final result__ = _onPasswordFailed1(
-        reference, context.reference, intent.reference, user.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onPasswordSucceeded = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminReceiver_onPasswordSucceeded")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void onPasswordSucceeded(android.content.Context context, android.content.Intent intent)
-  ///
-  /// Called after the user has succeeded at entering their device or profile challenge password,
-  /// as a result of receiving \#ACTION_PASSWORD_SUCCEEDED.  This will
-  /// only be received the first time they succeed after having previously
-  /// failed.
-  ///@param context The running context as per \#onReceive.
-  ///@param intent The received intent as per \#onReceive.
-  ///@deprecated From android.os.Build.VERSION_CODES\#O, use
-  ///             \#onPasswordSucceeded(Context, Intent, UserHandle) instead.
-  void onPasswordSucceeded(content_.Context context, content_.Intent intent) {
-    final result__ =
-        _onPasswordSucceeded(reference, context.reference, intent.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onPasswordSucceeded1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminReceiver_onPasswordSucceeded1")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void onPasswordSucceeded(android.content.Context context, android.content.Intent intent, android.os.UserHandle user)
-  ///
-  /// Called after the user has succeeded at entering their device or profile challenge password,
-  /// as a result of receiving \#ACTION_PASSWORD_SUCCEEDED.  This will
-  /// only be received the first time they succeed after having previously
-  /// failed.
-  ///@param context The running context as per \#onReceive.
-  ///@param intent The received intent as per \#onReceive.
-  ///@param user The user of profile for whom the password check succeeded.  To see whether this
-  ///        user is the current profile or a parent user, check for equality with
-  ///        Process\#myUserHandle.
-  void onPasswordSucceeded1(
-      content_.Context context, content_.Intent intent, os_.UserHandle user) {
-    final result__ = _onPasswordSucceeded1(
-        reference, context.reference, intent.reference, user.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onPasswordExpiring = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminReceiver_onPasswordExpiring")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void onPasswordExpiring(android.content.Context context, android.content.Intent intent)
-  ///
-  /// Called periodically when the device or profile challenge password is about to expire
-  /// or has expired.  It will typically be called at these times: on device boot, once per day
-  /// before the password expires, and at the time when the password expires.
-  ///
-  /// If the password is not updated by the user, this method will continue to be called
-  /// once per day until the password is changed or the device admin disables password expiration.
-  ///
-  /// The admin will typically post a notification requesting the user to change their password
-  /// in response to this call. The actual password expiration time can be obtained by calling
-  /// DevicePolicyManager\#getPasswordExpiration(ComponentName)
-  ///
-  /// The admin should be sure to take down any notifications it posted in response to this call
-  /// when it receives DeviceAdminReceiver\#onPasswordChanged(Context, Intent).
-  ///@param context The running context as per \#onReceive.
-  ///@param intent The received intent as per \#onReceive.
-  ///@deprecated From android.os.Build.VERSION_CODES\#O, use
-  ///             \#onPasswordExpiring(Context, Intent, UserHandle) instead.
-  void onPasswordExpiring(content_.Context context, content_.Intent intent) {
-    final result__ =
-        _onPasswordExpiring(reference, context.reference, intent.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onPasswordExpiring1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminReceiver_onPasswordExpiring1")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void onPasswordExpiring(android.content.Context context, android.content.Intent intent, android.os.UserHandle user)
-  ///
-  /// Called periodically when the device or profile challenge password is about to expire
-  /// or has expired.  It will typically be called at these times: on device boot, once per day
-  /// before the password expires, and at the time when the password expires.
-  ///
-  /// If the password is not updated by the user, this method will continue to be called
-  /// once per day until the password is changed or the device admin disables password expiration.
-  ///
-  /// The admin will typically post a notification requesting the user to change their password
-  /// in response to this call. The actual password expiration time can be obtained by calling
-  /// DevicePolicyManager\#getPasswordExpiration(ComponentName)
-  ///
-  /// The admin should be sure to take down any notifications it posted in response to this call
-  /// when it receives DeviceAdminReceiver\#onPasswordChanged(Context, Intent, UserHandle).
-  ///@param context The running context as per \#onReceive.
-  ///@param intent The received intent as per \#onReceive.
-  ///@param user The user or profile for whom the password is expiring. To see whether this
-  ///        user is the current profile or a parent user, check for equality with
-  ///        Process\#myUserHandle.
-  void onPasswordExpiring1(
-      content_.Context context, content_.Intent intent, os_.UserHandle user) {
-    final result__ = _onPasswordExpiring1(
-        reference, context.reference, intent.reference, user.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onProfileProvisioningComplete = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminReceiver_onProfileProvisioningComplete")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void onProfileProvisioningComplete(android.content.Context context, android.content.Intent intent)
-  ///
-  /// Called when provisioning of a managed profile or managed device has completed successfully.
-  ///
-  ///  As a prerequisite for the execution of this callback the DeviceAdminReceiver has
-  /// to declare an intent filter for \#ACTION_PROFILE_PROVISIONING_COMPLETE.
-  /// Its component must also be specified in the DevicePolicyManager\#EXTRA_DEVICE_ADMIN
-  /// of the DevicePolicyManager\#ACTION_PROVISION_MANAGED_PROFILE intent that started the
-  /// managed provisioning.
-  ///
-  /// When provisioning of a managed profile is complete, the managed profile is hidden until
-  /// the profile owner calls DevicePolicyManager\#setProfileEnabled(ComponentName admin).
-  /// Typically a profile owner will enable the profile when it has finished any additional setup
-  /// such as adding an account by using the AccountManager and calling APIs to bring the
-  /// profile into the desired state.
-  ///
-  ///  Note that provisioning completes without waiting for any server interactions, so the
-  /// profile owner needs to wait for data to be available if required (e.g. Android device IDs or
-  /// other data that is set as a result of server interactions).
-  ///
-  /// From version android.os.Build.VERSION_CODES\#O, when managed provisioning has
-  /// completed, along with this callback the activity intent
-  /// DevicePolicyManager\#ACTION_PROVISIONING_SUCCESSFUL will also be sent to the same
-  /// application.
-  ///@param context The running context as per \#onReceive.
-  ///@param intent The received intent as per \#onReceive.
-  void onProfileProvisioningComplete(
-      content_.Context context, content_.Intent intent) {
-    final result__ = _onProfileProvisioningComplete(
-        reference, context.reference, intent.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onReadyForUserInitialization = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminReceiver_onReadyForUserInitialization")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void onReadyForUserInitialization(android.content.Context context, android.content.Intent intent)
-  ///
-  /// Called during provisioning of a managed device to allow the device initializer to perform
-  /// user setup steps.
-  ///@param context The running context as per \#onReceive.
-  ///@param intent The received intent as per \#onReceive.
-  ///@deprecated Do not use
-  void onReadyForUserInitialization(
-      content_.Context context, content_.Intent intent) {
-    final result__ = _onReadyForUserInitialization(
-        reference, context.reference, intent.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onLockTaskModeEntering = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminReceiver_onLockTaskModeEntering")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void onLockTaskModeEntering(android.content.Context context, android.content.Intent intent, java.lang.String pkg)
-  ///
-  /// Called when a device is entering lock task mode.
-  ///@param context The running context as per \#onReceive.
-  ///@param intent The received intent as per \#onReceive.
-  ///@param pkg If entering, the authorized package using lock task mode, otherwise null.
-  void onLockTaskModeEntering(
-      content_.Context context, content_.Intent intent, jni.JniString pkg) {
-    final result__ = _onLockTaskModeEntering(
-        reference, context.reference, intent.reference, pkg.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onLockTaskModeExiting = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminReceiver_onLockTaskModeExiting")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void onLockTaskModeExiting(android.content.Context context, android.content.Intent intent)
-  ///
-  /// Called when a device is exiting lock task mode.
-  ///@param context The running context as per \#onReceive.
-  ///@param intent The received intent as per \#onReceive.
-  void onLockTaskModeExiting(content_.Context context, content_.Intent intent) {
-    final result__ =
-        _onLockTaskModeExiting(reference, context.reference, intent.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onChoosePrivateKeyAlias = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Int32,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminReceiver_onChoosePrivateKeyAlias")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>,
-              int,
-              ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.lang.String onChoosePrivateKeyAlias(android.content.Context context, android.content.Intent intent, int uid, android.net.Uri uri, java.lang.String alias)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Allows this receiver to select the alias for a private key and certificate pair for
-  /// authentication. If this method returns null, the default android.app.Activity will be
-  /// shown that lets the user pick a private key and certificate pair.
-  ///@param context The running context as per \#onReceive.
-  ///@param intent The received intent as per \#onReceive.
-  ///@param uid The uid asking for the private key and certificate pair.
-  ///@param uri The URI to authenticate, may be null.
-  ///@param alias The alias preselected by the client, or null.
-  ///@return The private key alias to return and grant access to.
-  ///@see KeyChain\#choosePrivateKeyAlias
-  jni.JniString onChoosePrivateKeyAlias(content_.Context context,
-      content_.Intent intent, int uid, jni.JniObject uri, jni.JniString alias) {
-    final result__ = jni.JniString.fromRef(_onChoosePrivateKeyAlias(
-        reference,
-        context.reference,
-        intent.reference,
-        uid,
-        uri.reference,
-        alias.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onSystemUpdatePending = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Int64)>>(
-          "android_app_admin_DeviceAdminReceiver_onSystemUpdatePending")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public void onSystemUpdatePending(android.content.Context context, android.content.Intent intent, long receivedTime)
-  ///
-  /// Called when the information about a pending system update is available.
-  ///
-  /// Allows the receiver to be notified when information about a pending system update is
-  /// available from the system update service. The same pending system update can trigger multiple
-  /// calls to this method, so it is necessary to examine the incoming parameters for details about
-  /// the update.
-  ///
-  /// This callback is only applicable to device owners and profile owners.
-  ///
-  /// To get further information about a pending system update (for example, whether or not the
-  /// update is a security patch), the device owner or profile owner can call
-  /// DevicePolicyManager\#getPendingSystemUpdate.
-  ///@param context The running context as per \#onReceive.
-  ///@param intent The received intent as per \#onReceive.
-  ///@param receivedTime The time as given by System\#currentTimeMillis() indicating when
-  ///        the current pending update was first available. -1 if no pending update is available.
-  ///@see DevicePolicyManager\#getPendingSystemUpdate
-  void onSystemUpdatePending(
-      content_.Context context, content_.Intent intent, int receivedTime) {
-    final result__ = _onSystemUpdatePending(
-        reference, context.reference, intent.reference, receivedTime);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onBugreportSharingDeclined = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminReceiver_onBugreportSharingDeclined")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void onBugreportSharingDeclined(android.content.Context context, android.content.Intent intent)
-  ///
-  /// Called when sharing a bugreport has been cancelled by the user of the device.
-  ///
-  /// This callback is only applicable to device owners.
-  ///@param context The running context as per \#onReceive.
-  ///@param intent The received intent as per \#onReceive.
-  ///@see DevicePolicyManager\#requestBugreport
-  void onBugreportSharingDeclined(
-      content_.Context context, content_.Intent intent) {
-    final result__ = _onBugreportSharingDeclined(
-        reference, context.reference, intent.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onBugreportShared = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminReceiver_onBugreportShared")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void onBugreportShared(android.content.Context context, android.content.Intent intent, java.lang.String bugreportHash)
-  ///
-  /// Called when the bugreport has been shared with the device administrator app.
-  ///
-  /// This callback is only applicable to device owners.
-  ///@param context The running context as per \#onReceive.
-  ///@param intent The received intent as per \#onReceive. Contains the URI of
-  /// the bugreport file (with MIME type "application/vnd.android.bugreport"), that can be accessed
-  /// by calling Intent\#getData()
-  ///@param bugreportHash SHA-256 hash of the bugreport file.
-  ///@see DevicePolicyManager\#requestBugreport
-  void onBugreportShared(content_.Context context, content_.Intent intent,
-      jni.JniString bugreportHash) {
-    final result__ = _onBugreportShared(reference, context.reference,
-        intent.reference, bugreportHash.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onBugreportFailed = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Int32)>>(
-          "android_app_admin_DeviceAdminReceiver_onBugreportFailed")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public void onBugreportFailed(android.content.Context context, android.content.Intent intent, int failureCode)
-  ///
-  /// Called when the bugreport collection flow has failed.
-  ///
-  /// This callback is only applicable to device owners.
-  ///@param context The running context as per \#onReceive.
-  ///@param intent The received intent as per \#onReceive.
-  ///@param failureCode int containing failure code. One of
-  /// \#BUGREPORT_FAILURE_FAILED_COMPLETING
-  /// or \#BUGREPORT_FAILURE_FILE_NO_LONGER_AVAILABLE
-  /// Value is android.app.admin.DeviceAdminReceiver\#BUGREPORT_FAILURE_FAILED_COMPLETING, or android.app.admin.DeviceAdminReceiver\#BUGREPORT_FAILURE_FILE_NO_LONGER_AVAILABLE
-  ///@see DevicePolicyManager\#requestBugreport
-  void onBugreportFailed(
-      content_.Context context, content_.Intent intent, int failureCode) {
-    final result__ = _onBugreportFailed(
-        reference, context.reference, intent.reference, failureCode);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onSecurityLogsAvailable = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminReceiver_onSecurityLogsAvailable")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void onSecurityLogsAvailable(android.content.Context context, android.content.Intent intent)
-  ///
-  /// Called when a new batch of security logs can be retrieved.
-  ///
-  /// If a secondary user or profile is created, this callback won't be received until all users
-  /// become affiliated again (even if security logging is enabled).
-  /// See DevicePolicyManager\#setAffiliationIds
-  ///
-  /// This callback will be re-triggered if the logs are not retrieved.
-  ///
-  /// This callback is only applicable to device owners.
-  ///@param context The running context as per \#onReceive.
-  ///@param intent The received intent as per \#onReceive.
-  ///@see DevicePolicyManager\#retrieveSecurityLogs(ComponentName)
-  void onSecurityLogsAvailable(
-      content_.Context context, content_.Intent intent) {
-    final result__ = _onSecurityLogsAvailable(
-        reference, context.reference, intent.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onNetworkLogsAvailable = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Int64,
-                      ffi.Int32)>>(
-          "android_app_admin_DeviceAdminReceiver_onNetworkLogsAvailable")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, int, int)>();
-
-  /// from: public void onNetworkLogsAvailable(android.content.Context context, android.content.Intent intent, long batchToken, int networkLogsCount)
-  ///
-  /// Called each time a new batch of network logs can be retrieved. This callback method will only
-  /// ever be called when network logging is enabled. The logs can only be retrieved while network
-  /// logging is enabled.
-  ///
-  /// If a secondary user or profile is created, this callback won't be received until all users
-  /// become affiliated again (even if network logging is enabled). It will also no longer be
-  /// possible to retrieve the network logs batch with the most recent {@code batchToken} provided
-  /// by this callback. See DevicePolicyManager\#setAffiliationIds.
-  ///
-  /// This callback is only applicable to device owners.
-  ///@param context The running context as per \#onReceive.
-  ///@param intent The received intent as per \#onReceive.
-  ///@param batchToken The token representing the current batch of network logs.
-  ///@param networkLogsCount The total count of events in the current batch of network logs.
-  ///@see DevicePolicyManager\#retrieveNetworkLogs
-  void onNetworkLogsAvailable(content_.Context context, content_.Intent intent,
-      int batchToken, int networkLogsCount) {
-    final result__ = _onNetworkLogsAvailable(reference, context.reference,
-        intent.reference, batchToken, networkLogsCount);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onUserAdded = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminReceiver_onUserAdded")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void onUserAdded(android.content.Context context, android.content.Intent intent, android.os.UserHandle newUser)
-  ///
-  /// Called when a user or profile is created.
-  ///
-  /// This callback is only applicable to device owners.
-  ///@param context The running context as per \#onReceive.
-  ///@param intent The received intent as per \#onReceive.
-  ///@param newUser The UserHandle of the user that has just been added.
-  ///
-  /// This value must never be {@code null}.
-  void onUserAdded(content_.Context context, content_.Intent intent,
-      os_.UserHandle newUser) {
-    final result__ = _onUserAdded(
-        reference, context.reference, intent.reference, newUser.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onUserRemoved = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminReceiver_onUserRemoved")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void onUserRemoved(android.content.Context context, android.content.Intent intent, android.os.UserHandle removedUser)
-  ///
-  /// Called when a user or profile is removed.
-  ///
-  /// This callback is only applicable to device owners.
-  ///@param context The running context as per \#onReceive.
-  ///@param intent The received intent as per \#onReceive.
-  ///@param removedUser The UserHandle of the user that has just been removed.
-  ///
-  /// This value must never be {@code null}.
-  void onUserRemoved(content_.Context context, content_.Intent intent,
-      os_.UserHandle removedUser) {
-    final result__ = _onUserRemoved(
-        reference, context.reference, intent.reference, removedUser.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onUserStarted = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminReceiver_onUserStarted")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void onUserStarted(android.content.Context context, android.content.Intent intent, android.os.UserHandle startedUser)
-  ///
-  /// Called when a user or profile is started.
-  ///
-  /// This callback is only applicable to device owners.
-  ///@param context The running context as per \#onReceive.
-  ///@param intent The received intent as per \#onReceive.
-  ///@param startedUser The UserHandle of the user that has just been started.
-  ///
-  /// This value must never be {@code null}.
-  void onUserStarted(content_.Context context, content_.Intent intent,
-      os_.UserHandle startedUser) {
-    final result__ = _onUserStarted(
-        reference, context.reference, intent.reference, startedUser.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onUserStopped = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminReceiver_onUserStopped")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void onUserStopped(android.content.Context context, android.content.Intent intent, android.os.UserHandle stoppedUser)
-  ///
-  /// Called when a user or profile is stopped.
-  ///
-  /// This callback is only applicable to device owners.
-  ///@param context The running context as per \#onReceive.
-  ///@param intent The received intent as per \#onReceive.
-  ///@param stoppedUser The UserHandle of the user that has just been stopped.
-  ///
-  /// This value must never be {@code null}.
-  void onUserStopped(content_.Context context, content_.Intent intent,
-      os_.UserHandle stoppedUser) {
-    final result__ = _onUserStopped(
-        reference, context.reference, intent.reference, stoppedUser.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onUserSwitched = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminReceiver_onUserSwitched")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void onUserSwitched(android.content.Context context, android.content.Intent intent, android.os.UserHandle switchedUser)
-  ///
-  /// Called when a user or profile is switched to.
-  ///
-  /// This callback is only applicable to device owners.
-  ///@param context The running context as per \#onReceive.
-  ///@param intent The received intent as per \#onReceive.
-  ///@param switchedUser The UserHandle of the user that has just been switched to.
-  ///
-  /// This value must never be {@code null}.
-  void onUserSwitched(content_.Context context, content_.Intent intent,
-      os_.UserHandle switchedUser) {
-    final result__ = _onUserSwitched(
-        reference, context.reference, intent.reference, switchedUser.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onTransferOwnershipComplete = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminReceiver_onTransferOwnershipComplete")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void onTransferOwnershipComplete(android.content.Context context, android.os.PersistableBundle bundle)
-  ///
-  /// Called on the newly assigned owner (either device owner or profile owner) when the ownership
-  /// transfer has completed successfully.
-  ///
-  ///  The {@code bundle} parameter allows the original owner to pass data
-  /// to the new one.
-  ///@param context the running context as per \#onReceive
-  /// This value must never be {@code null}.
-  ///@param bundle the data to be passed to the new owner
-  ///
-  /// This value may be {@code null}.
-  void onTransferOwnershipComplete(
-      content_.Context context, os_.PersistableBundle bundle) {
-    final result__ = _onTransferOwnershipComplete(
-        reference, context.reference, bundle.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onTransferAffiliatedProfileOwnershipComplete = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminReceiver_onTransferAffiliatedProfileOwnershipComplete")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void onTransferAffiliatedProfileOwnershipComplete(android.content.Context context, android.os.UserHandle user)
-  ///
-  /// Called on the device owner when the ownership of one of its affiliated profiles is
-  /// transferred.
-  ///
-  /// This can be used when transferring both device and profile ownership when using
-  /// work profile on a fully managed device. The process would look like this:
-  /// <ol>
-  /// <li>Transfer profile ownership</li>
-  /// <li>The device owner gets notified with this callback</li>
-  /// <li>Transfer device ownership</li>
-  /// <li>Both profile and device ownerships have been transferred</li>
-  /// </ol>
-  ///@param context the running context as per \#onReceive
-  ///@param user the UserHandle of the affiliated user
-  ///@see DevicePolicyManager\#transferOwnership(ComponentName, ComponentName, PersistableBundle)
-  void onTransferAffiliatedProfileOwnershipComplete(
-      content_.Context context, os_.UserHandle user) {
-    final result__ = _onTransferAffiliatedProfileOwnershipComplete(
-        reference, context.reference, user.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _onReceive = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminReceiver_onReceive")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void onReceive(android.content.Context context, android.content.Intent intent)
-  ///
-  /// Intercept standard device administrator broadcasts.  Implementations
-  /// should not override this method; it is better to implement the
-  /// convenience callbacks for each action.
-  void onReceive(content_.Context context, content_.Intent intent) {
-    final result__ = _onReceive(reference, context.reference, intent.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
-
-/// from: android.app.admin.DeviceAdminInfo
-///
-/// This class is used to specify meta information of a device administrator
-/// component.
-class DeviceAdminInfo extends jni.JniObject {
-  DeviceAdminInfo.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  static final _get_CREATOR =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "get_android_app_admin_DeviceAdminInfo_CREATOR")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: static public final android.os.Parcelable.Creator<android.app.admin.DeviceAdminInfo> CREATOR
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Used to make this class parcelable.
-  static os_.Parcelable_Creator get CREATOR =>
-      os_.Parcelable_Creator.fromRef(_get_CREATOR());
-
-  /// from: static public final int USES_ENCRYPTED_STORAGE
-  ///
-  /// A type of policy that this device admin can use: require encryption of stored data.
-  ///
-  /// To control this policy, the device admin must have a "encrypted-storage"
-  /// tag in the "uses-policies" section of its meta-data.
-  static const USES_ENCRYPTED_STORAGE = 7;
-
-  /// from: static public final int USES_POLICY_DISABLE_CAMERA
-  ///
-  /// A type of policy that this device admin can use: disables use of all device cameras.
-  ///
-  /// To control this policy, the device admin must have a "disable-camera"
-  /// tag in the "uses-policies" section of its meta-data.
-  ///
-  /// This policy is deprecated for use by a device admin.  In future releases, it will
-  /// only be possible for a device owner or profile owner to disable use of the camera.
-  static const USES_POLICY_DISABLE_CAMERA = 8;
-
-  /// from: static public final int USES_POLICY_DISABLE_KEYGUARD_FEATURES
-  ///
-  /// A type of policy that this device admin can use: disables use of keyguard features.
-  ///
-  /// To control this policy, the device admin must have a "disable-keyguard-features"
-  /// tag in the "uses-policies" section of its meta-data.
-  ///
-  /// This policy is deprecated for use by a device admin.  In future releases, it will
-  /// only be possible for a device owner or profile owner to disable use of keyguard
-  /// features.
-  static const USES_POLICY_DISABLE_KEYGUARD_FEATURES = 9;
-
-  /// from: static public final int USES_POLICY_EXPIRE_PASSWORD
-  ///
-  /// A type of policy that this device admin can use: force the user to
-  /// change their password after an administrator-defined time limit.
-  ///
-  /// To control this policy, the device admin must have an "expire-password"
-  /// tag in the "uses-policies" section of its meta-data.
-  ///
-  /// This policy is deprecated for use by a device admin.  In future releases, it will
-  /// only be possible for a device owner or profile owner to enforce password expiry.
-  static const USES_POLICY_EXPIRE_PASSWORD = 6;
-
-  /// from: static public final int USES_POLICY_FORCE_LOCK
-  ///
-  /// A type of policy that this device admin can use: able to force the device
-  /// to lock viaDevicePolicyManager\#lockNow or limit the
-  /// maximum lock timeout for the device via
-  /// DevicePolicyManager\#setMaximumTimeToLock.
-  ///
-  /// To control this policy, the device admin must have a "force-lock"
-  /// tag in the "uses-policies" section of its meta-data.
-  static const USES_POLICY_FORCE_LOCK = 3;
-
-  /// from: static public final int USES_POLICY_LIMIT_PASSWORD
-  ///
-  /// A type of policy that this device admin can use: limit the passwords
-  /// that the user can select, via DevicePolicyManager\#setPasswordQuality
-  /// and DevicePolicyManager\#setPasswordMinimumLength.
-  ///
-  /// To control this policy, the device admin must have a "limit-password"
-  /// tag in the "uses-policies" section of its meta-data.
-  ///
-  /// This policy is deprecated for use by a device admin.  In future releases, it will
-  /// only be possible for a device owner or profile owner to enforce constraints on user
-  /// passwords.
-  static const USES_POLICY_LIMIT_PASSWORD = 0;
-
-  /// from: static public final int USES_POLICY_RESET_PASSWORD
-  ///
-  /// A type of policy that this device admin can use: able to reset the
-  /// user's password via
-  /// DevicePolicyManager\#resetPassword.
-  ///
-  /// To control this policy, the device admin must have a "reset-password"
-  /// tag in the "uses-policies" section of its meta-data.
-  static const USES_POLICY_RESET_PASSWORD = 2;
-
-  /// from: static public final int USES_POLICY_WATCH_LOGIN
-  ///
-  /// A type of policy that this device admin can use: able to watch login
-  /// attempts from the user, via DeviceAdminReceiver\#ACTION_PASSWORD_FAILED,
-  /// DeviceAdminReceiver\#ACTION_PASSWORD_SUCCEEDED, and
-  /// DevicePolicyManager\#getCurrentFailedPasswordAttempts.
-  ///
-  /// To control this policy, the device admin must have a "watch-login"
-  /// tag in the "uses-policies" section of its meta-data.
-  static const USES_POLICY_WATCH_LOGIN = 1;
-
-  /// from: static public final int USES_POLICY_WIPE_DATA
-  ///
-  /// A type of policy that this device admin can use: able to factory
-  /// reset the device, erasing all of the user's data, via
-  /// DevicePolicyManager\#wipeData.
-  ///
-  /// To control this policy, the device admin must have a "wipe-data"
-  /// tag in the "uses-policies" section of its meta-data.
-  static const USES_POLICY_WIPE_DATA = 4;
-
-  static final _ctor = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminInfo_ctor")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void <init>(android.content.Context context, android.content.pm.ResolveInfo resolveInfo)
-  ///
-  /// Constructor.
-  ///@param context The Context in which we are parsing the device admin.
-  ///@param resolveInfo The ResolveInfo returned from the package manager about
-  /// this device admin's component.
-  DeviceAdminInfo(content_.Context context, pm_.ResolveInfo resolveInfo)
-      : super.fromRef(_ctor(context.reference, resolveInfo.reference)) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _getPackageName = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminInfo_getPackageName")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.lang.String getPackageName()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Return the .apk package that implements this device admin.
-  jni.JniString getPackageName() {
-    final result__ = jni.JniString.fromRef(_getPackageName(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getReceiverName = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminInfo_getReceiverName")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.lang.String getReceiverName()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Return the class name of the receiver component that implements
-  /// this device admin.
-  jni.JniString getReceiverName() {
-    final result__ = jni.JniString.fromRef(_getReceiverName(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getActivityInfo = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminInfo_getActivityInfo")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.content.pm.ActivityInfo getActivityInfo()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Return the raw information about the receiver implementing this
-  /// device admin.  Do not modify the returned object.
-  pm_.ActivityInfo getActivityInfo() {
-    final result__ = pm_.ActivityInfo.fromRef(_getActivityInfo(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getComponent = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminInfo_getComponent")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.content.ComponentName getComponent()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Return the component of the receiver that implements this device admin.
-  ///@return This value will never be {@code null}.
-  content_.ComponentName getComponent() {
-    final result__ = content_.ComponentName.fromRef(_getComponent(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _loadLabel = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminInfo_loadLabel")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.lang.CharSequence loadLabel(android.content.pm.PackageManager pm)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Load the user-displayed label for this device admin.
-  ///@param pm Supply a PackageManager used to load the device admin's
-  /// resources.
-  jni.JniObject loadLabel(pm_.PackageManager pm) {
-    final result__ = jni.JniObject.fromRef(_loadLabel(reference, pm.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _loadDescription = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminInfo_loadDescription")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.lang.CharSequence loadDescription(android.content.pm.PackageManager pm)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Load user-visible description associated with this device admin.
-  ///@param pm Supply a PackageManager used to load the device admin's
-  /// resources.
-  jni.JniObject loadDescription(pm_.PackageManager pm) {
-    final result__ =
-        jni.JniObject.fromRef(_loadDescription(reference, pm.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _loadIcon = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminInfo_loadIcon")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public android.graphics.drawable.Drawable loadIcon(android.content.pm.PackageManager pm)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Load the user-displayed icon for this device admin.
-  ///@param pm Supply a PackageManager used to load the device admin's
-  /// resources.
-  jni.JniObject loadIcon(pm_.PackageManager pm) {
-    final result__ = jni.JniObject.fromRef(_loadIcon(reference, pm.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _isVisible =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_admin_DeviceAdminInfo_isVisible")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public boolean isVisible()
-  ///
-  /// Returns whether this device admin would like to be visible to the
-  /// user, even when it is not enabled.
-  bool isVisible() {
-    final result__ = _isVisible(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _usesPolicy = jniLookup<
           ffi.NativeFunction<
-              ffi.Uint8 Function(ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_app_admin_DeviceAdminInfo_usesPolicy")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public boolean usesPolicy(int policyIdent)
-  ///
-  /// Return true if the device admin has requested that it be able to use
-  /// the given policy control.  The possible policy identifier inputs are:
-  /// \#USES_POLICY_LIMIT_PASSWORD, \#USES_POLICY_WATCH_LOGIN,
-  /// \#USES_POLICY_RESET_PASSWORD, \#USES_POLICY_FORCE_LOCK,
-  /// \#USES_POLICY_WIPE_DATA,
-  /// \#USES_POLICY_EXPIRE_PASSWORD, \#USES_ENCRYPTED_STORAGE,
-  /// \#USES_POLICY_DISABLE_CAMERA.
-  bool usesPolicy(int policyIdent) {
-    final result__ = _usesPolicy(reference, policyIdent) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _getTagForPolicy = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_admin_DeviceAdminInfo_getTagForPolicy")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public java.lang.String getTagForPolicy(int policyIdent)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  ///
-  /// Return the XML tag name for the given policy identifier.  Valid identifiers
-  /// are as per \#usesPolicy(int).  If the given identifier is not
-  /// known, null is returned.
-  jni.JniString getTagForPolicy(int policyIdent) {
-    final result__ =
-        jni.JniString.fromRef(_getTagForPolicy(reference, policyIdent));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _supportsTransferOwnership =
-      jniLookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_admin_DeviceAdminInfo_supportsTransferOwnership")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public boolean supportsTransferOwnership()
-  ///
-  /// Return true if this administrator can be a target in an ownership transfer.
-  bool supportsTransferOwnership() {
-    final result__ = _supportsTransferOwnership(reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _dump = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminInfo_dump")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-              ffi.Pointer<ffi.Void>)>();
-
-  /// from: public void dump(android.util.Printer pw, java.lang.String prefix)
-  void dump(jni.JniObject pw, jni.JniString prefix) {
-    final result__ = _dump(reference, pw.reference, prefix.reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _toString1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminInfo_toString1")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
-
-  /// from: public java.lang.String toString()
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniString toString1() {
-    final result__ = jni.JniString.fromRef(_toString1(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _writeToParcel = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_admin_DeviceAdminInfo_writeToParcel")
-      .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
-
-  /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  ///
-  /// Used to package this object into a Parcel.
-  ///@param dest The Parcel to be written.
-  ///@param flags The flags used for parceling.
-  void writeToParcel(os_.Parcel dest, int flags) {
-    final result__ = _writeToParcel(reference, dest.reference, flags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-
-  static final _describeContents =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_admin_DeviceAdminInfo_describeContents")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("DnsEvent__describeContents")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int describeContents()
-  int describeContents() {
-    final result__ = _describeContents(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int describeContents() => _describeContents(reference).integer;
+
+  static final _writeToParcel = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>, ffi.Int32)>>("DnsEvent__writeToParcel")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public void writeToParcel(android.os.Parcel out, int flags)
+  void writeToParcel(os_.Parcel out, int flags) =>
+      _writeToParcel(reference, out.reference, flags).check();
 }
 
 /// from: android.app.admin.FreezePeriod
@@ -10223,12 +9069,11 @@ class FreezePeriod extends jni.JniObject {
   FreezePeriod.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   static final _ctor = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_FreezePeriod_ctor")
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("FreezePeriod__ctor")
       .asFunction<
-          ffi.Pointer<ffi.Void> Function(
+          jni.JniResult Function(
               ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public void <init>(java.time.MonthDay start, java.time.MonthDay end)
@@ -10236,55 +9081,43 @@ class FreezePeriod extends jni.JniObject {
   /// Creates a freeze period by its start and end dates. If the end date is earlier than the start
   /// date, the freeze period is considered wrapping year-end.
   FreezePeriod(jni.JniObject start, jni.JniObject end)
-      : super.fromRef(_ctor(start.reference, end.reference)) {
-    jni.Jni.env.checkException();
-  }
+      : super.fromRef(_ctor(start.reference, end.reference).object);
 
   static final _getStart = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_FreezePeriod_getStart")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("FreezePeriod__getStart")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.time.MonthDay getStart()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Returns the start date (inclusive) of this freeze period.
-  jni.JniObject getStart() {
-    final result__ = jni.JniObject.fromRef(_getStart(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getStart() =>
+      jni.JniObject.fromRef(_getStart(reference).object);
 
   static final _getEnd = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_FreezePeriod_getEnd")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("FreezePeriod__getEnd")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.time.MonthDay getEnd()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Returns the end date (inclusive) of this freeze period.
-  jni.JniObject getEnd() {
-    final result__ = jni.JniObject.fromRef(_getEnd(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getEnd() => jni.JniObject.fromRef(_getEnd(reference).object);
 
   static final _toString1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_FreezePeriod_toString1")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("FreezePeriod__toString1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String toString()
   /// The returned object must be deleted after use, by calling the `delete` method.
-  jni.JniString toString1() {
-    final result__ = jni.JniString.fromRef(_toString1(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString toString1() =>
+      jni.JniString.fromRef(_toString1(reference).object);
 }
 
 /// from: android.app.admin.NetworkEvent
@@ -10294,156 +9127,84 @@ class NetworkEvent extends jni.JniObject {
   NetworkEvent.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
 
   static final _get_CREATOR =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "get_android_app_admin_NetworkEvent_CREATOR")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_NetworkEvent__CREATOR")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: static public final android.os.Parcelable.Creator<android.app.admin.NetworkEvent> CREATOR
   /// The returned object must be deleted after use, by calling the `delete` method.
   static os_.Parcelable_Creator get CREATOR =>
-      os_.Parcelable_Creator.fromRef(_get_CREATOR());
+      os_.Parcelable_Creator.fromRef(_get_CREATOR().object);
 
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_app_admin_NetworkEvent_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "NetworkEvent__ctor")
+      .asFunction<jni.JniResult Function()>();
 
   /// from: void <init>()
   ///
   /// @hide
-  NetworkEvent() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
+  NetworkEvent() : super.fromRef(_ctor().object);
 
   static final _getPackageName = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_NetworkEvent_getPackageName")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("NetworkEvent__getPackageName")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.String getPackageName()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Returns the package name of the UID that performed the query, as returned by
   /// PackageManager\#getNameForUid.
-  jni.JniString getPackageName() {
-    final result__ = jni.JniString.fromRef(_getPackageName(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniString getPackageName() =>
+      jni.JniString.fromRef(_getPackageName(reference).object);
 
-  static final _getTimestamp =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_admin_NetworkEvent_getTimestamp")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getTimestamp = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("NetworkEvent__getTimestamp")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getTimestamp()
   ///
   /// Returns the timestamp of the event being reported in milliseconds, the difference between
   /// the time the event was reported and midnight, January 1, 1970 UTC.
-  int getTimestamp() {
-    final result__ = _getTimestamp(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getTimestamp() => _getTimestamp(reference).long;
 
-  static final _getId =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_admin_NetworkEvent_getId")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getId = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("NetworkEvent__getId")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getId()
   ///
   /// Returns the id of the event, where the id monotonically increases for each event. The id
   /// is reset when the device reboots, and when network logging is enabled.
-  int getId() {
-    final result__ = _getId(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getId() => _getId(reference).long;
 
-  static final _describeContents =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_admin_NetworkEvent_describeContents")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _describeContents = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("NetworkEvent__describeContents")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int describeContents()
-  int describeContents() {
-    final result__ = _describeContents(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int describeContents() => _describeContents(reference).integer;
 
   static final _writeToParcel = jniLookup<
           ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>,
-                  ffi.Int32)>>("android_app_admin_NetworkEvent_writeToParcel")
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("NetworkEvent__writeToParcel")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public abstract void writeToParcel(android.os.Parcel out, int flags)
-  void writeToParcel(os_.Parcel out, int flags) {
-    final result__ = _writeToParcel(reference, out.reference, flags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
-}
-
-/// from: android.app.admin.DeviceAdminService
-///
-/// Base class for a service that device owner/profile owners can optionally have.
-///
-/// The system searches for it with an intent filter with the
-/// DevicePolicyManager\#ACTION_DEVICE_ADMIN_SERVICE action, and tries to keep a bound
-/// connection as long as the hosting user is running, so that the device/profile owner is always
-/// considered to be in the foreground.  This is useful to receive implicit broadcasts that
-/// can no longer be received by manifest receivers by apps targeting Android version
-/// android.os.Build.VERSION_CODES\#O.  Device/profile owners can use a runtime-registered
-/// broadcast receiver instead, and have a DeviceAdminService so that the process is always
-/// running.
-///
-/// Device/profile owners can use
-/// android.content.pm.PackageManager\#setComponentEnabledSetting(ComponentName, int, int)
-/// to disable/enable its own service.  For example, when a device/profile owner no longer needs
-/// to be in the foreground, it can (and should) disable its service.
-///
-/// The service must be protected with the permission
-/// android.Manifest.permission\#BIND_DEVICE_ADMIN.  Otherwise the system would ignore it.
-///
-/// When the owner process crashes, the service will be re-bound automatically after a
-/// back-off.
-///
-/// Note the process may still be killed if the system is under heavy memory pressure, in which
-/// case the process will be re-started later.
-class DeviceAdminService extends app_.Service {
-  DeviceAdminService.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
-
-  static final _ctor2 =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_app_admin_DeviceAdminService_ctor2")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
-
-  /// from: public void <init>()
-  DeviceAdminService.ctor2() : super.fromRef(_ctor2()) {
-    jni.Jni.env.checkException();
-  }
-
-  static final _onBind = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_DeviceAdminService_onBind")
-      .asFunction<
-          ffi.Pointer<ffi.Void> Function(
-              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
-
-  /// from: public final android.os.IBinder onBind(android.content.Intent intent)
-  /// The returned object must be deleted after use, by calling the `delete` method.
-  os_.IBinder onBind(content_.Intent intent) {
-    final result__ = os_.IBinder.fromRef(_onBind(reference, intent.reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void writeToParcel(os_.Parcel out, int flags) =>
+      _writeToParcel(reference, out.reference, flags).check();
 }
 
 /// from: android.app.admin.SecurityLog
@@ -10792,15 +9553,12 @@ class SecurityLog extends jni.JniObject {
   /// Indicates a failure to wipe device or user data. There is no extra payload in the log event.
   static const TAG_WIPE_FAILURE = 210023;
 
-  static final _ctor =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "android_app_admin_SecurityLog_ctor")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "SecurityLog__ctor")
+      .asFunction<jni.JniResult Function()>();
 
   /// from: public void <init>()
-  SecurityLog() : super.fromRef(_ctor()) {
-    jni.Jni.env.checkException();
-  }
+  SecurityLog() : super.fromRef(_ctor().object);
 }
 
 /// from: android.app.admin.SecurityLog$SecurityEvent
@@ -10811,159 +9569,636 @@ class SecurityLog_SecurityEvent extends jni.JniObject {
       : super.fromRef(ref);
 
   static final _get_CREATOR =
-      jniLookup<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>(
-              "get_android_app_admin_SecurityLog__SecurityEvent_CREATOR")
-          .asFunction<ffi.Pointer<ffi.Void> Function()>();
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_SecurityLog_SecurityEvent__CREATOR")
+          .asFunction<jni.JniResult Function()>();
 
   /// from: static public final android.os.Parcelable.Creator<android.app.admin.SecurityLog.SecurityEvent> CREATOR
   /// The returned object must be deleted after use, by calling the `delete` method.
   static os_.Parcelable_Creator get CREATOR =>
-      os_.Parcelable_Creator.fromRef(_get_CREATOR());
+      os_.Parcelable_Creator.fromRef(_get_CREATOR().object);
 
   static final _ctor = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_SecurityLog__SecurityEvent_ctor")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("SecurityLog_SecurityEvent__ctor")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: void <init>(byte[] data)
   ///
   /// Constructor used by native classes to generate SecurityEvent instances.
   ///@hide
   SecurityLog_SecurityEvent(jni.JniObject data)
-      : super.fromRef(_ctor(data.reference)) {
-    jni.Jni.env.checkException();
-  }
+      : super.fromRef(_ctor(data.reference).object);
 
-  static final _getTimeNanos =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_admin_SecurityLog__SecurityEvent_getTimeNanos")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getTimeNanos = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "SecurityLog_SecurityEvent__getTimeNanos")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getTimeNanos()
   ///
   /// Returns the timestamp in nano seconds when this event was logged.
-  int getTimeNanos() {
-    final result__ = _getTimeNanos(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getTimeNanos() => _getTimeNanos(reference).long;
 
-  static final _getTag =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_admin_SecurityLog__SecurityEvent_getTag")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getTag = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("SecurityLog_SecurityEvent__getTag")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getTag()
   ///
   /// Returns the tag of this log entry, which specifies entry's semantics.
   ///@return Value is android.app.admin.SecurityLog\#TAG_ADB_SHELL_INTERACTIVE, android.app.admin.SecurityLog\#TAG_ADB_SHELL_CMD, android.app.admin.SecurityLog\#TAG_SYNC_RECV_FILE, android.app.admin.SecurityLog\#TAG_SYNC_SEND_FILE, android.app.admin.SecurityLog\#TAG_APP_PROCESS_START, android.app.admin.SecurityLog\#TAG_KEYGUARD_DISMISSED, android.app.admin.SecurityLog\#TAG_KEYGUARD_DISMISS_AUTH_ATTEMPT, android.app.admin.SecurityLog\#TAG_KEYGUARD_SECURED, android.app.admin.SecurityLog\#TAG_OS_STARTUP, android.app.admin.SecurityLog\#TAG_OS_SHUTDOWN, android.app.admin.SecurityLog\#TAG_LOGGING_STARTED, android.app.admin.SecurityLog\#TAG_LOGGING_STOPPED, android.app.admin.SecurityLog\#TAG_MEDIA_MOUNT, android.app.admin.SecurityLog\#TAG_MEDIA_UNMOUNT, android.app.admin.SecurityLog\#TAG_LOG_BUFFER_SIZE_CRITICAL, android.app.admin.SecurityLog\#TAG_PASSWORD_EXPIRATION_SET, android.app.admin.SecurityLog\#TAG_PASSWORD_COMPLEXITY_SET, android.app.admin.SecurityLog\#TAG_PASSWORD_HISTORY_LENGTH_SET, android.app.admin.SecurityLog\#TAG_MAX_SCREEN_LOCK_TIMEOUT_SET, android.app.admin.SecurityLog\#TAG_MAX_PASSWORD_ATTEMPTS_SET, android.app.admin.SecurityLog\#TAG_KEYGUARD_DISABLED_FEATURES_SET, android.app.admin.SecurityLog\#TAG_REMOTE_LOCK, android.app.admin.SecurityLog\#TAG_USER_RESTRICTION_ADDED, android.app.admin.SecurityLog\#TAG_USER_RESTRICTION_REMOVED, android.app.admin.SecurityLog\#TAG_WIPE_FAILURE, android.app.admin.SecurityLog\#TAG_KEY_GENERATED, android.app.admin.SecurityLog\#TAG_KEY_IMPORT, android.app.admin.SecurityLog\#TAG_KEY_DESTRUCTION, android.app.admin.SecurityLog\#TAG_CERT_AUTHORITY_INSTALLED, android.app.admin.SecurityLog\#TAG_CERT_AUTHORITY_REMOVED, android.app.admin.SecurityLog\#TAG_CRYPTO_SELF_TEST_COMPLETED, android.app.admin.SecurityLog\#TAG_KEY_INTEGRITY_VIOLATION, or android.app.admin.SecurityLog\#TAG_CERT_VALIDATION_FAILURE
-  int getTag() {
-    final result__ = _getTag(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getTag() => _getTag(reference).integer;
 
   static final _getData = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_SecurityLog__SecurityEvent_getData")
-      .asFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("SecurityLog_SecurityEvent__getData")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public java.lang.Object getData()
   /// The returned object must be deleted after use, by calling the `delete` method.
   ///
   /// Returns the payload contained in this log entry or {@code null} if there is no payload.
-  jni.JniObject getData() {
-    final result__ = jni.JniObject.fromRef(_getData(reference));
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  jni.JniObject getData() => jni.JniObject.fromRef(_getData(reference).object);
 
-  static final _getId =
-      jniLookup<ffi.NativeFunction<ffi.Int64 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_admin_SecurityLog__SecurityEvent_getId")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getId = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("SecurityLog_SecurityEvent__getId")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public long getId()
   ///
   /// Returns the id of the event, where the id monotonically increases for each event. The id
   /// is reset when the device reboots, and when security logging is enabled.
-  int getId() {
-    final result__ = _getId(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getId() => _getId(reference).long;
 
-  static final _getLogLevel =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_admin_SecurityLog__SecurityEvent_getLogLevel")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _getLogLevel = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "SecurityLog_SecurityEvent__getLogLevel")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int getLogLevel()
   ///
   /// Returns severity level for the event.
   ///@return Value is android.app.admin.SecurityLog\#LEVEL_INFO, android.app.admin.SecurityLog\#LEVEL_WARNING, or android.app.admin.SecurityLog\#LEVEL_ERROR
-  int getLogLevel() {
-    final result__ = _getLogLevel(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int getLogLevel() => _getLogLevel(reference).integer;
 
-  static final _describeContents =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_admin_SecurityLog__SecurityEvent_describeContents")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _describeContents = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "SecurityLog_SecurityEvent__describeContents")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int describeContents()
-  int describeContents() {
-    final result__ = _describeContents(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int describeContents() => _describeContents(reference).integer;
 
   static final _writeToParcel = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<ffi.Void>,
-                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
-          "android_app_admin_SecurityLog__SecurityEvent_writeToParcel")
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("SecurityLog_SecurityEvent__writeToParcel")
       .asFunction<
-          void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
 
   /// from: public void writeToParcel(android.os.Parcel dest, int flags)
-  void writeToParcel(os_.Parcel dest, int flags) {
-    final result__ = _writeToParcel(reference, dest.reference, flags);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  void writeToParcel(os_.Parcel dest, int flags) =>
+      _writeToParcel(reference, dest.reference, flags).check();
 
   static final _equals1 = jniLookup<
-              ffi.NativeFunction<
-                  ffi.Uint8 Function(
-                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
-          "android_app_admin_SecurityLog__SecurityEvent_equals1")
-      .asFunction<int Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("SecurityLog_SecurityEvent__equals1")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
 
   /// from: public boolean equals(java.lang.Object o)
   ///
   /// @hide
-  bool equals1(jni.JniObject o) {
-    final result__ = _equals1(reference, o.reference) != 0;
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  bool equals1(jni.JniObject o) => _equals1(reference, o.reference).boolean;
 
-  static final _hashCode1 =
-      jniLookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Pointer<ffi.Void>)>>(
-              "android_app_admin_SecurityLog__SecurityEvent_hashCode1")
-          .asFunction<int Function(ffi.Pointer<ffi.Void>)>();
+  static final _hashCode1 = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "SecurityLog_SecurityEvent__hashCode1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
 
   /// from: public int hashCode()
   ///
   /// @hide
-  int hashCode1() {
-    final result__ = _hashCode1(reference);
-    jni.Jni.env.checkException();
-    return result__;
-  }
+  int hashCode1() => _hashCode1(reference).integer;
+}
+
+/// from: android.app.admin.SystemUpdateInfo
+///
+/// A class containing information about a pending system update.
+class SystemUpdateInfo extends jni.JniObject {
+  SystemUpdateInfo.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  static final _get_CREATOR =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_SystemUpdateInfo__CREATOR")
+          .asFunction<jni.JniResult Function()>();
+
+  /// from: static public final android.os.Parcelable.Creator<android.app.admin.SystemUpdateInfo> CREATOR
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  static os_.Parcelable_Creator get CREATOR =>
+      os_.Parcelable_Creator.fromRef(_get_CREATOR().object);
+
+  /// from: static public final int SECURITY_PATCH_STATE_FALSE
+  ///
+  /// Represents the system update is not a security patch.
+  static const SECURITY_PATCH_STATE_FALSE = 1;
+
+  /// from: static public final int SECURITY_PATCH_STATE_TRUE
+  ///
+  /// Represents the system update is a security patch.
+  static const SECURITY_PATCH_STATE_TRUE = 2;
+
+  /// from: static public final int SECURITY_PATCH_STATE_UNKNOWN
+  ///
+  /// Represents it is unknown whether the system update is a security patch.
+  static const SECURITY_PATCH_STATE_UNKNOWN = 0;
+
+  static final _ctor = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("SystemUpdateInfo__ctor")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: void <init>(android.os.Parcel in)
+  SystemUpdateInfo(os_.Parcel in0) : super.fromRef(_ctor(in0.reference).object);
+
+  static final _getReceivedTime = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("SystemUpdateInfo__getReceivedTime")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public long getReceivedTime()
+  ///
+  /// Gets time when the update was first available in milliseconds since midnight, January 1,
+  /// 1970 UTC.
+  ///@return Time in milliseconds as given by System\#currentTimeMillis()
+  int getReceivedTime() => _getReceivedTime(reference).long;
+
+  static final _getSecurityPatchState = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "SystemUpdateInfo__getSecurityPatchState")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int getSecurityPatchState()
+  ///
+  /// Gets whether the update is a security patch.
+  ///@return \#SECURITY_PATCH_STATE_FALSE, \#SECURITY_PATCH_STATE_TRUE, or
+  ///         \#SECURITY_PATCH_STATE_UNKNOWN.
+  ///
+  /// Value is android.app.admin.SystemUpdateInfo\#SECURITY_PATCH_STATE_FALSE, android.app.admin.SystemUpdateInfo\#SECURITY_PATCH_STATE_TRUE, or android.app.admin.SystemUpdateInfo\#SECURITY_PATCH_STATE_UNKNOWN
+  int getSecurityPatchState() => _getSecurityPatchState(reference).integer;
+
+  static final _describeContents = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("SystemUpdateInfo__describeContents")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int describeContents()
+  int describeContents() => _describeContents(reference).integer;
+
+  static final _writeToParcel = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("SystemUpdateInfo__writeToParcel")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public void writeToParcel(android.os.Parcel dest, int flags)
+  void writeToParcel(os_.Parcel dest, int flags) =>
+      _writeToParcel(reference, dest.reference, flags).check();
+
+  static final _toString1 = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("SystemUpdateInfo__toString1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.lang.String toString()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  jni.JniString toString1() =>
+      jni.JniString.fromRef(_toString1(reference).object);
+
+  static final _equals1 = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>)>>("SystemUpdateInfo__equals1")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public boolean equals(java.lang.Object o)
+  bool equals1(jni.JniObject o) => _equals1(reference, o.reference).boolean;
+
+  static final _hashCode1 = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("SystemUpdateInfo__hashCode1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int hashCode()
+  int hashCode1() => _hashCode1(reference).integer;
+}
+
+/// from: android.app.admin.SystemUpdatePolicy
+///
+/// Determines when over-the-air system updates are installed on a device. Only a device policy
+/// controller (DPC) running in device owner mode can set an update policy for the device\u2014by calling
+/// the {@code DevicePolicyManager} method
+/// DevicePolicyManager\#setSystemUpdatePolicy setSystemUpdatePolicy(). An update
+/// policy affects the pending system update (if there is one) and any future updates for the device.
+///
+/// If a policy is set on a device, the system doesn't notify the user about updates.
+///
+/// <h3>Example</h3>
+///
+/// The example below shows how a DPC might set a maintenance window for system updates:
+///
+/// <pre><code>
+/// private final MAINTENANCE_WINDOW_START = 1380; // 11pm
+/// private final MAINTENANCE_WINDOW_END = 120; // 2am
+///
+/// // ...
+///
+/// // Create the system update policy
+/// SystemUpdatePolicy policy = SystemUpdatePolicy.createWindowedInstallPolicy(
+///     MAINTENANCE_WINDOW_START, MAINTENANCE_WINDOW_END);
+///
+/// // Get a DevicePolicyManager instance to set the policy on the device
+/// DevicePolicyManager dpm =
+///     (DevicePolicyManager) context.getSystemService(Context.DEVICE_POLICY_SERVICE);
+/// ComponentName adminComponent = getComponentName(context);
+/// dpm.setSystemUpdatePolicy(adminComponent, policy);
+/// </code></pre>
+///
+/// <h3>Developer guide</h3>
+/// To learn more about managing system updates, read
+/// <a href="{@docRoot}/work/dpc/security.html\#control_remote_software_updates">Control remote
+/// software updates</a>.
+///@see DevicePolicyManager\#setSystemUpdatePolicy
+///@see DevicePolicyManager\#getSystemUpdatePolicy
+class SystemUpdatePolicy extends jni.JniObject {
+  SystemUpdatePolicy.fromRef(ffi.Pointer<ffi.Void> ref) : super.fromRef(ref);
+
+  static final _get_CREATOR =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_SystemUpdatePolicy__CREATOR")
+          .asFunction<jni.JniResult Function()>();
+
+  /// from: static public final android.os.Parcelable.Creator<android.app.admin.SystemUpdatePolicy> CREATOR
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  static os_.Parcelable_Creator get CREATOR =>
+      os_.Parcelable_Creator.fromRef(_get_CREATOR().object);
+
+  /// from: static public final int TYPE_INSTALL_AUTOMATIC
+  ///
+  /// Installs system updates (without user interaction) as soon as they become available. Setting
+  /// this policy type immediately installs any pending updates that might be postponed or waiting
+  /// for a maintenance window.
+  static const TYPE_INSTALL_AUTOMATIC = 1;
+
+  /// from: static public final int TYPE_INSTALL_WINDOWED
+  ///
+  /// Installs system updates (without user interaction) during a daily maintenance window. Set the
+  /// start and end of the daily maintenance window, as minutes of the day, when creating a new
+  /// {@code TYPE_INSTALL_WINDOWED} policy. See
+  /// \#createWindowedInstallPolicy createWindowedInstallPolicy().
+  ///
+  /// No connectivity, not enough disk space, or a low battery are typical reasons Android might
+  /// not install a system update in the daily maintenance window. After 30 days trying to install
+  /// an update in the maintenance window (regardless of policy changes in this period), the system
+  /// prompts the device user to install the update.
+  static const TYPE_INSTALL_WINDOWED = 2;
+
+  /// from: static public final int TYPE_POSTPONE
+  ///
+  /// Postpones the installation of system updates for 30 days. After the 30-day period has ended,
+  /// the system prompts the device user to install the update.
+  ///
+  /// The system limits each update to one 30-day postponement. The period begins when the
+  /// system first postpones the update and setting new {@code TYPE_POSTPONE} policies won\u2019t extend
+  /// the period. If, after 30 days the update isn\u2019t installed (through policy changes), the system
+  /// prompts the user to install the update.
+  ///
+  /// <strong>Note</strong>: Device manufacturers or carriers might choose to exempt important
+  /// security updates from a postponement policy. Exempted updates notify the device user when
+  /// they become available.
+  static const TYPE_POSTPONE = 3;
+
+  static final _ctor = jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+          "SystemUpdatePolicy__ctor")
+      .asFunction<jni.JniResult Function()>();
+
+  /// from: void <init>()
+  SystemUpdatePolicy() : super.fromRef(_ctor().object);
+
+  static final _createAutomaticInstallPolicy =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "SystemUpdatePolicy__createAutomaticInstallPolicy")
+          .asFunction<jni.JniResult Function()>();
+
+  /// from: static public android.app.admin.SystemUpdatePolicy createAutomaticInstallPolicy()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Create a policy object and set it to install update automatically as soon as one is
+  /// available.
+  ///@see \#TYPE_INSTALL_AUTOMATIC
+  static SystemUpdatePolicy createAutomaticInstallPolicy() =>
+      SystemUpdatePolicy.fromRef(_createAutomaticInstallPolicy().object);
+
+  static final _createWindowedInstallPolicy = jniLookup<
+              ffi.NativeFunction<jni.JniResult Function(ffi.Int32, ffi.Int32)>>(
+          "SystemUpdatePolicy__createWindowedInstallPolicy")
+      .asFunction<jni.JniResult Function(int, int)>();
+
+  /// from: static public android.app.admin.SystemUpdatePolicy createWindowedInstallPolicy(int startTime, int endTime)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Create a policy object and set it to: new system update will only be installed automatically
+  /// when the system clock is inside a daily maintenance window. If the start and end times are
+  /// the same, the window is considered to include the <i>whole 24 hours</i>. That is, updates can
+  /// install at any time. If start time is later than end time, the window is considered spanning
+  /// midnight (i.e. the end time denotes a time on the next day). The maintenance window will last
+  /// for 30 days for any given update, after which the window will no longer be effective and
+  /// the pending update will be made available for manual installation as if no system update
+  /// policy were set on the device. See \#TYPE_INSTALL_WINDOWED for the details of this
+  /// policy's behavior.
+  ///@param startTime the start of the maintenance window, measured as the number of minutes from
+  ///            midnight in the device's local time. Must be in the range of [0, 1440).
+  ///@param endTime the end of the maintenance window, measured as the number of minutes from
+  ///            midnight in the device's local time. Must be in the range of [0, 1440).
+  ///@throws IllegalArgumentException If the {@code startTime} or {@code endTime} isn't in the
+  ///            accepted range.
+  ///@return The configured policy.
+  ///@see \#TYPE_INSTALL_WINDOWED
+  static SystemUpdatePolicy createWindowedInstallPolicy(
+          int startTime, int endTime) =>
+      SystemUpdatePolicy.fromRef(
+          _createWindowedInstallPolicy(startTime, endTime).object);
+
+  static final _createPostponeInstallPolicy =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "SystemUpdatePolicy__createPostponeInstallPolicy")
+          .asFunction<jni.JniResult Function()>();
+
+  /// from: static public android.app.admin.SystemUpdatePolicy createPostponeInstallPolicy()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Create a policy object and set it to block installation for a maximum period of 30 days.
+  /// To learn more about this policy's behavior, see \#TYPE_POSTPONE.
+  ///
+  /// __Note: __ security updates (e.g. monthly security patches) will <i>not</i> be affected
+  /// by this policy.
+  ///@see \#TYPE_POSTPONE
+  static SystemUpdatePolicy createPostponeInstallPolicy() =>
+      SystemUpdatePolicy.fromRef(_createPostponeInstallPolicy().object);
+
+  static final _getPolicyType = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("SystemUpdatePolicy__getPolicyType")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int getPolicyType()
+  ///
+  /// Returns the type of system update policy, or -1 if no policy has been set.
+  ///@return The policy type or -1 if the type isn't set.
+  ///
+  /// Value is android.app.admin.SystemUpdatePolicy\#TYPE_INSTALL_AUTOMATIC, android.app.admin.SystemUpdatePolicy\#TYPE_INSTALL_WINDOWED, or android.app.admin.SystemUpdatePolicy\#TYPE_POSTPONE
+  int getPolicyType() => _getPolicyType(reference).integer;
+
+  static final _getInstallWindowStart = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "SystemUpdatePolicy__getInstallWindowStart")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int getInstallWindowStart()
+  ///
+  /// Get the start of the maintenance window.
+  ///@return the start of the maintenance window measured as the number of minutes from midnight,
+  /// or -1 if the policy does not have a maintenance window.
+  int getInstallWindowStart() => _getInstallWindowStart(reference).integer;
+
+  static final _getInstallWindowEnd = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "SystemUpdatePolicy__getInstallWindowEnd")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int getInstallWindowEnd()
+  ///
+  /// Get the end of the maintenance window.
+  ///@return the end of the maintenance window measured as the number of minutes from midnight,
+  /// or -1 if the policy does not have a maintenance window.
+  int getInstallWindowEnd() => _getInstallWindowEnd(reference).integer;
+
+  static final _setFreezePeriods = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(
+                      ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>>(
+          "SystemUpdatePolicy__setFreezePeriods")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>)>();
+
+  /// from: public android.app.admin.SystemUpdatePolicy setFreezePeriods(java.util.List<android.app.admin.FreezePeriod> freezePeriods)
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Configure a list of freeze periods on top of the current policy. When the device's clock is
+  /// within any of the freeze periods, all incoming system updates including security patches will
+  /// be blocked and cannot be installed. When the device is outside the freeze periods, the normal
+  /// policy behavior will apply.
+  ///
+  /// Each individual freeze period is allowed to be at most 90 days long, and adjacent freeze
+  /// periods need to be at least 60 days apart. Also, the list of freeze periods should not
+  /// contain duplicates or overlap with each other. If any of these conditions is not met, a
+  /// ValidationFailedException will be thrown.
+  ///
+  /// Handling of leap year: we ignore leap years in freeze period calculations, in particular,
+  /// <ul>
+  /// <li>When a freeze period is defined, February 29th is disregarded so even though a freeze
+  /// period can be specified to start or end on February 29th, it will be treated as if the period
+  /// started or ended on February 28th.</li>
+  /// <li>When applying freeze period behavior to the device, a system clock of February 29th is
+  /// treated as if it were February 28th</li>
+  /// <li>When calculating the number of days of a freeze period or separation between two freeze
+  /// periods, February 29th is also ignored and not counted as one day.</li>
+  /// </ul>
+  ///@param freezePeriods the list of freeze periods
+  ///@throws ValidationFailedException if the supplied freeze periods do not meet the
+  ///         requirement set above
+  ///@return this instance
+  SystemUpdatePolicy setFreezePeriods(jni.JniObject freezePeriods) =>
+      SystemUpdatePolicy.fromRef(
+          _setFreezePeriods(reference, freezePeriods.reference).object);
+
+  static final _getFreezePeriods = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "SystemUpdatePolicy__getFreezePeriods")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.util.List<android.app.admin.FreezePeriod> getFreezePeriods()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  ///
+  /// Returns the list of freeze periods previously set on this system update policy object.
+  ///@return the list of freeze periods, or an empty list if none was set.
+  jni.JniObject getFreezePeriods() =>
+      jni.JniObject.fromRef(_getFreezePeriods(reference).object);
+
+  static final _toString1 = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>)>>("SystemUpdatePolicy__toString1")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public java.lang.String toString()
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  jni.JniString toString1() =>
+      jni.JniString.fromRef(_toString1(reference).object);
+
+  static final _describeContents = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "SystemUpdatePolicy__describeContents")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int describeContents()
+  int describeContents() => _describeContents(reference).integer;
+
+  static final _writeToParcel = jniLookup<
+          ffi.NativeFunction<
+              jni.JniResult Function(
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Int32)>>("SystemUpdatePolicy__writeToParcel")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public void writeToParcel(android.os.Parcel dest, int flags)
+  void writeToParcel(os_.Parcel dest, int flags) =>
+      _writeToParcel(reference, dest.reference, flags).check();
+}
+
+/// from: android.app.admin.SystemUpdatePolicy$ValidationFailedException
+///
+/// An exception class that represents various validation errors thrown from
+/// SystemUpdatePolicy\#setFreezePeriods and
+/// DevicePolicyManager\#setSystemUpdatePolicy
+class SystemUpdatePolicy_ValidationFailedException extends jni.JniObject {
+  SystemUpdatePolicy_ValidationFailedException.fromRef(
+      ffi.Pointer<ffi.Void> ref)
+      : super.fromRef(ref);
+
+  static final _get_CREATOR =
+      jniLookup<ffi.NativeFunction<jni.JniResult Function()>>(
+              "get_SystemUpdatePolicy_ValidationFailedException__CREATOR")
+          .asFunction<jni.JniResult Function()>();
+
+  /// from: static public final android.os.Parcelable.Creator<android.app.admin.SystemUpdatePolicy.ValidationFailedException> CREATOR
+  /// The returned object must be deleted after use, by calling the `delete` method.
+  static os_.Parcelable_Creator get CREATOR =>
+      os_.Parcelable_Creator.fromRef(_get_CREATOR().object);
+
+  /// from: static public final int ERROR_COMBINED_FREEZE_PERIOD_TOO_CLOSE
+  ///
+  /// The device has been in a freeze period and some new freeze period to be set is less
+  /// than 60 days from the end of the last freeze period the device went through.
+  static const ERROR_COMBINED_FREEZE_PERIOD_TOO_CLOSE = 6;
+
+  /// from: static public final int ERROR_COMBINED_FREEZE_PERIOD_TOO_LONG
+  ///
+  /// The device has been in a freeze period and when combining with the new freeze period
+  /// to be set, it will result in the total freeze period being longer than 90 days.
+  static const ERROR_COMBINED_FREEZE_PERIOD_TOO_LONG = 5;
+
+  /// from: static public final int ERROR_DUPLICATE_OR_OVERLAP
+  ///
+  /// The freeze periods contains duplicates, periods that overlap with each
+  /// other or periods whose start and end joins.
+  static const ERROR_DUPLICATE_OR_OVERLAP = 2;
+
+  /// from: static public final int ERROR_NEW_FREEZE_PERIOD_TOO_CLOSE
+  ///
+  /// There exists some freeze period which starts within 60 days of the preceding period's
+  /// end time.
+  static const ERROR_NEW_FREEZE_PERIOD_TOO_CLOSE = 4;
+
+  /// from: static public final int ERROR_NEW_FREEZE_PERIOD_TOO_LONG
+  ///
+  /// There exists at least one freeze period whose length exceeds 90 days.
+  static const ERROR_NEW_FREEZE_PERIOD_TOO_LONG = 3;
+
+  /// from: static public final int ERROR_UNKNOWN
+  ///
+  /// Validation failed with unknown error.
+  static const ERROR_UNKNOWN = 1;
+
+  static final _ctor = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Int32, ffi.Pointer<ffi.Void>)>>(
+          "SystemUpdatePolicy_ValidationFailedException__ctor")
+      .asFunction<jni.JniResult Function(int, ffi.Pointer<ffi.Void>)>();
+
+  /// from: void <init>(int errorCode, java.lang.String message)
+  SystemUpdatePolicy_ValidationFailedException(
+      int errorCode, jni.JniString message)
+      : super.fromRef(_ctor(errorCode, message.reference).object);
+
+  static final _getErrorCode = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "SystemUpdatePolicy_ValidationFailedException__getErrorCode")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int getErrorCode()
+  ///
+  /// Returns the type of validation error associated with this exception.
+  ///@return Value is android.app.admin.SystemUpdatePolicy.ValidationFailedException.ERROR_NONE, android.app.admin.SystemUpdatePolicy.ValidationFailedException\#ERROR_DUPLICATE_OR_OVERLAP, android.app.admin.SystemUpdatePolicy.ValidationFailedException\#ERROR_NEW_FREEZE_PERIOD_TOO_LONG, android.app.admin.SystemUpdatePolicy.ValidationFailedException\#ERROR_NEW_FREEZE_PERIOD_TOO_CLOSE, android.app.admin.SystemUpdatePolicy.ValidationFailedException\#ERROR_COMBINED_FREEZE_PERIOD_TOO_LONG, android.app.admin.SystemUpdatePolicy.ValidationFailedException\#ERROR_COMBINED_FREEZE_PERIOD_TOO_CLOSE, or android.app.admin.SystemUpdatePolicy.ValidationFailedException\#ERROR_UNKNOWN
+  int getErrorCode() => _getErrorCode(reference).integer;
+
+  static final _describeContents = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>)>>(
+          "SystemUpdatePolicy_ValidationFailedException__describeContents")
+      .asFunction<jni.JniResult Function(ffi.Pointer<ffi.Void>)>();
+
+  /// from: public int describeContents()
+  int describeContents() => _describeContents(reference).integer;
+
+  static final _writeToParcel = jniLookup<
+              ffi.NativeFunction<
+                  jni.JniResult Function(ffi.Pointer<ffi.Void>,
+                      ffi.Pointer<ffi.Void>, ffi.Int32)>>(
+          "SystemUpdatePolicy_ValidationFailedException__writeToParcel")
+      .asFunction<
+          jni.JniResult Function(
+              ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Void>, int)>();
+
+  /// from: public void writeToParcel(android.os.Parcel dest, int flags)
+  void writeToParcel(os_.Parcel dest, int flags) =>
+      _writeToParcel(reference, dest.reference, flags).check();
 }

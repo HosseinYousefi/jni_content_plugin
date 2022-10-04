@@ -15,6 +15,7 @@ void main() {
   }
   final context = Context.fromRef(Jni.getCachedApplicationContext());
   final activity = app.Activity.fromRef(Jni.getCurrentActivity());
+
   final examples = [
     Example('package name', () => context.getPackageName().toDartString()),
     Example('intent', () => activity.getIntent().getAction().toDartString()),
@@ -35,6 +36,7 @@ void main() {
         () => context.getApplicationInfo().nativeLibraryDir.toDartString()),
     Example('system time', () => os.SystemClock.uptimeMillis()),
     Example('process id', () => os.Process.myPid()),
+    Example('throw exception', () => context.getString(-1),runInitially: false),
     Example('device code name', () => os.Build_VERSION.CODENAME.toDartString()),
   ];
   runApp(MyApp(examples));
