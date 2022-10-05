@@ -16,7 +16,7 @@ import "../os.dart" as os_;
 import "../content.dart" as content_;
 
 import "../app.dart" as app_;
-import "../../_init.dart" show jniLookup;
+import "../_init.dart" show jniLookup;
 
 /// from: android.app.job.JobInfo
 ///

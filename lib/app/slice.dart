@@ -18,7 +18,7 @@ import "../app.dart" as app_;
 import "../content.dart" as content_;
 
 import "../content/pm.dart" as pm_;
-import "../../_init.dart" show jniLookup;
+import "../_init.dart" show jniLookup;
 
 /// from: android.app.slice.Slice
 ///

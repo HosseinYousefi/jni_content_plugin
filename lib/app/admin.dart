@@ -18,7 +18,7 @@ import "../content.dart" as content_;
 import "../content/pm.dart" as pm_;
 
 import "../app.dart" as app_;
-import "../../_init.dart" show jniLookup;
+import "../_init.dart" show jniLookup;
 
 /// from: android.app.admin.ConnectEvent
 ///

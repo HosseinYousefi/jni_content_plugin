@@ -14,7 +14,7 @@ import "package:jni/jni.dart" as jni;
 import "content.dart" as content_;
 
 import "os/strictmode.dart" as strictmode_;
-import "../_init.dart" show jniLookup;
+import "_init.dart" show jniLookup;
 
 /// from: android.os.AsyncTask
 ///

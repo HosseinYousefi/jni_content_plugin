@@ -16,7 +16,7 @@ import "os.dart" as os_;
 import "content/res.dart" as res_;
 
 import "content/pm.dart" as pm_;
-import "../_init.dart" show jniLookup;
+import "_init.dart" show jniLookup;
 
 /// from: android.content.AbstractThreadedSyncAdapter
 ///

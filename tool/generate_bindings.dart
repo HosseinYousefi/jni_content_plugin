@@ -16,17 +16,19 @@ void main(List<String> args) async {
   final sources = args.map(Uri.directory).toList();
   await generateJniBindings(
     Config(
-        classPath: useAsm ? sources : [],
-        sourcePath: useAsm ? [] : sources,
-        classes: ['android.content', 'android.app', 'android.os'],
-        exclude: BindingExclusions(
-          methods: excludeAll<Method>([
-            ['android.app.AlertDialog', 'setButton2'],
-            ['android.app.AlertDialog', 'setButton3'],
-          ]),
-        ),
-        cRoot: Uri.directory('src/'),
-        dartRoot: Uri.directory('lib/'),
-        libraryName: 'content_plugin'),
+      classPath: useAsm ? sources : [],
+      sourcePath: useAsm ? [] : sources,
+      classes: ['android.content', 'android.app', 'android.os'],
+      exclude: BindingExclusions(
+        methods: excludeAll<Method>([
+          ['android.app.AlertDialog', 'setButton2'],
+          ['android.app.AlertDialog', 'setButton3'],
+        ]),
+      ),
+      cRoot: Uri.directory('src/'),
+      dartRoot: Uri.directory('lib/'),
+      libraryName: 'content_plugin',
+      rootPackage: 'android',
+    ),
   );
 }

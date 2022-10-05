@@ -16,7 +16,7 @@ import "../os.dart" as os_;
 import "../content.dart" as content_;
 
 import "res.dart" as res_;
-import "../../_init.dart" show jniLookup;
+import "../_init.dart" show jniLookup;
 
 /// from: android.content.pm.ActivityInfo
 ///

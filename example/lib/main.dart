@@ -5,9 +5,9 @@ import 'package:flutter/material.dart' hide Intent;
 import 'dart:io';
 
 import 'package:jni/jni.dart';
-import 'package:content_plugin/android/content.dart' show Intent, Context;
-import 'package:content_plugin/android/app.dart' as app;
-import 'package:content_plugin/android/os.dart' as os;
+import 'package:content_plugin/content.dart' show Intent, Context;
+import 'package:content_plugin/app.dart' as app;
+import 'package:content_plugin/os.dart' as os;
 
 void main() {
   if (!Platform.isAndroid) {

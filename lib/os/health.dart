@@ -12,7 +12,7 @@ import "package:jni/internal_helpers_for_jnigen.dart";
 import "package:jni/jni.dart" as jni;
 
 import "../os.dart" as os_;
-import "../../_init.dart" show jniLookup;
+import "../_init.dart" show jniLookup;
 
 /// from: android.os.health.HealthStats
 ///

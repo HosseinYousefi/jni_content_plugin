@@ -14,7 +14,7 @@ import "package:jni/jni.dart" as jni;
 import "../os.dart" as os_;
 
 import "../content.dart" as content_;
-import "../../_init.dart" show jniLookup;
+import "../_init.dart" show jniLookup;
 
 /// from: android.os.storage.OnObbStateChangeListener
 ///
