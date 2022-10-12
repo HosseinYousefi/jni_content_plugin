@@ -15,15 +15,17 @@ void main() {
   }
   final context = Context.fromRef(Jni.getCachedApplicationContext());
   final activity = app.Activity.fromRef(Jni.getCurrentActivity());
-
+  final sharedPref = context.getSharedPreferences(
+    JniString.fromString('FlutterSharedPreferences'),
+    Context.MODE_PRIVATE,
+  );
   final examples = [
     Example('package name', () => context.getPackageName().toDartString()),
     Example('intent', () => activity.getIntent().getAction().toDartString()),
     Example('share some text', () {
       final intent = Intent.ctor2(Intent.ACTION_SEND.jniString());
       intent.setType('text/plain'.jniString());
-      intent.putExtra8(Intent.EXTRA_TEXT.jniString(),
-          "dart jni".jniString());
+      intent.putExtra8(Intent.EXTRA_TEXT.jniString(), "dart jni".jniString());
       activity.startActivity(Intent.createChooser(
         intent,
         'choose an action'.jniString(),
@@ -35,8 +37,34 @@ void main() {
     Example('native library dir',
         () => context.getApplicationInfo().nativeLibraryDir.toDartString()),
     Example('system time', () => os.SystemClock.uptimeMillis()),
+    Example('system pref increment', () {
+      sharedPref
+          .edit()
+          .putInt(
+            'hello'.jniString(),
+            sharedPref.getInt('hello'.jniString(), 0) + 1,
+          )
+          .commit();
+      return sharedPref.getInt('hello'.jniString(), 0);
+    }),
+    Example(
+      'launch url',
+      () {
+        final launchIntent = Intent.ctor2(Intent.ACTION_VIEW.jniString());
+        final uri = Jni.invokeStaticMethod<JniObject>(
+          'android/net/Uri',
+          'parse',
+          '(Ljava/lang/String;)Landroid/net/Uri;',
+          ['https://google.com'.jniString()],
+        );
+        launchIntent.setData(uri);
+        activity.startActivity(launchIntent);
+      },
+      runInitially: false,
+    ),
     Example('process id', () => os.Process.myPid()),
-    Example('throw exception', () => context.getString(-1),runInitially: false),
+    Example('throw exception', () => context.getString(-1),
+        runInitially: false),
     Example('device code name', () => os.Build_VERSION.CODENAME.toDartString()),
   ];
   runApp(MyApp(examples));
